@@ -42,9 +42,27 @@ it.
 ## Your browser ##
 
 Here it is the as with the editors: There are many of them with great plugins out there for
-web development. Some
+web development. The mostly used browsers by Rails developer are:
+
+- [Firefox](http://www.mozilla.org/en-US/firefox/new/ "Firefox"): Has a tons of plugins, is free,
+  and with the magnificent [Firebug](http://getfirebug.com/ "Firebug") plugin, which let you inspect
+  HTML document, measure the loading time of certain parts
+- [Chrome](http://www.google.com/chrome "Chrome"): This browser is from Google (and I know many
+  complains about data privacy).  It feels very fast and is shipped with *inspect element*[^inspect]
+  to search the DOM[^dom]. It integrates the ability to debug JavaScript
+- [Opera](http://www.opera.com/ "Opera"): Never used it, and don't know why I should (instead you
+  tell my why and I will quote your words if they convince me)
+
+There are more outside this main domain, like [Safari by Apple](http://www.apple.com/safari/ "Safari
+by Apple"), [Lynx webbrowser](http://lynx.isc.org/ "Lynx webbrowser") (quite an experience to use
+just a plain text browser) and the well known [Internet
+Explorer](http://windows.microsoft.com/en-US/internet-explorer/downloads/ie "Internet Explorer").
+Got out, grab the thing you want, and then gets your hands dirty.
+
+[^inspect]: This is like a Firebug pendant of Firefox.
+[^dom]: stands for *Document Object Model* and is a tree-like representation of the HTML page.
 
 
 ## Your system ##
 
-tbd.
+"War... War never changes." this quote from my all-time favorite video game series [Fallout]( "Fallout")
