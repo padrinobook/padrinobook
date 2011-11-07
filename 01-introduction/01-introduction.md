@@ -24,7 +24,7 @@ for writing wireframes.
 Nowadays there are a bunch of IDEs out there: [RubyMine by JetBrains](http://www.jetbrains.com/ruby/
 "RubyMine") (commercial) [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana
 RadRails") (free).  Or you can switch to some text editors [Textmate](http://macromates.com/
-"Textmate") (commercial for Mac only), and [vim](http://www.vim.org/ "vim"), which just run on every
+"Textmate") (commercial for Mac only), and [Vim](http://www.vim.org/ "vim"), which just run on every
 server and under every terminal.
 
 They all have there strength and weak sides. You have to experiment with them and take what fits
@@ -35,8 +35,7 @@ you want to see which tool I use every day). In the end you have to decide what 
 The main goal is that you are comfortable with it because you will mostly spend a lot of time with
 it.
 
-
-<!-- ![Figure 1-2. Picture of Vim with NERDTree](images/01-introduction/editor.jpg) -->
+![Figure 1-2. Picture of Vim with NERDTree](images/01-introduction/editor.jpg)
 
 
 ## Your browser ##
@@ -65,4 +64,32 @@ Got out, grab the thing you want, and then gets your hands dirty.
 
 ## Your system ##
 
-"War... War never changes." this quote from my all-time favorite video game series [Fallout]( "Fallout")
+"War... War never changes." this quote from my all-time favorite video game series [Fallout](
+"Fallout") describes the battle of the different operating systems. I will briefly give you an
+overview what you can take
+
+- [Microsoft](http://www.microsoft.com/ "Microsoft"): This commercial operating system is installed
+  on a huge range of computers. Much software and games are available for this operation system.
+  Updates comes regularly, and everything is mostly intuitive. One big problem of Windows is it's
+  mouse affinity: There are shortcuts and handy tips available. It is good for development, but
+  lacks some comfort and design issues (you may not know, when you haven't worked with Linux).
+- [Unix/Linux](http://en.wikipedia.org/wiki/Linux "Unix/Linux"): Highly configurable, Linux is
+  shipped with a bunch of free software, and is Open Source. If you come from the Windows world,
+  your brain will be burn like hell because everything is other. The program calls are other, you
+  can install new software via *console*, the firewall is safe, and you can run most commands in the
+  terminal (no annying mouse clicks anymore if you avoid graphical work). It is great for
+  development because the great community are passionate about building software, and most software
+  is Open Source so you don't have to pay for it.
+- [Mac](http://www.apple.com/mac/ "Mac"): The core under it's has Unix, so you can reuse your Linux
+  knowledge. Many people say that products from Apple are very expensive. In the contrast they
+  provide you with an extreme stable, high configurable, and reliable system, which has some really
+  nice software for it. If you haven't paid for software in your life, some piece of software will
+  make you want to pay for it because. In mine eyes, Mac is the gap between Windows and Linux: It
+  can be changed in any any way you want (Linux) and has some really good software for it
+  (Microsoft). Development on this machine is extreme good, because it underlines the needs of
+  developers.
+
+There is a war between these three operation systems, and which you chose is a matter of taste. As
+you can see on this pictures, I'm using a Mac. I like and love (and yeah, I had to pay a lot of
+patience and learning to come to the point where I can say, that it was worth paying much money for
+the hardware).
