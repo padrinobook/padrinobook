@@ -94,3 +94,65 @@ There is a war between these three operation systems, and which you chose is a m
 you can see on this pictures, I'm using a Mac. I like and love (and yeah, I had to pay a lot of
 patience and learning to come to the point where I can say, that it was worth paying much money for
 the hardware).
+
+
+## Other tools ##
+
+This sections contains a list of several tools you need today for running the project.
+
+
+### Ruby ###
+
+Padrino is implemented in Ruby. It is flexible, rich, and make it possible for you to turn all the
+crazy ideas you have from books, conferences, and blogs into reality. Most ruby programmers (like
+[Dave Thomas (calld PragDave)](http://pragdave.pragprog.com/ "Dave Thomas"), or [Chad Fowler (the
+passionate programmer)]( "Chad Fowler (the passionate programmer)")). This book will not give you
+an introduction to ruby. I recommend the following list of books (for newbies and veterans):
+
+
+- [Programming ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming ruby")
+- [why's (poignant) Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby
+  "why's (poignant) Guide to Ruby") - written by the nebulous programmer [why the lucky
+  stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "why the lucky stiff") in a entertaining
+  and educational way.
+
+
+In this project I will explain you difficult language constructs in ruby - but don't assume that I
+will explain them in every way.
+
+
+### git - versioning your code ###
+
+git helps you to keep track of the changes in your code. You can switch between certain versions in
+your code, create branches to experiment with code, and easily manage your code in distributed teams
+
+Recommended books:
+
+- [Pro Git](http://progit.org/ "Pro Git") - this free online book explains you the basic internals
+  of git, and how the workflow can be like
+- [gitref](http://gitref.org/ "gitref") - page with the basic commands you have to use to be
+  productive when working with git
+
+Recommended tools:
+
+- [gitk](http://gitk.sourceforge.net/ "gitk") - gives you a tree-like overview of your git
+  repository (it works on every platform)
+- [gitx](http://gitx.frim.nl/ "gitx") - branching, merging, committing, you can even stage different
+  changes in your code with this tool. It looks like a diamond and checking in your code will make
+  you happy
+- [fugitive](https://github.com/tpope/vim-fugitive "fugitive") - git wrapper for Vim, very good for
+  command-line guys who don't want to leave the editor. Works good, if you are the only person
+  working on a project (like I doing writing this book)
+
+In this book I will explain the commands of *git* when they first occur, and repeat the commands
+every time I did during the development. Repeating is very important when learning something new.
+
+
+### heroku ###
+
+The [heroku cloud application platform](http://www.heroku.com/ "ruby gem") enables you to deploy
+your Rails application on the heroku platform. It manage the database creation, installation of the
+gems - difficult configurations tasks are handled by this platform. Heroku is so attractive that
+even the creator of ruby, [Yukihiro
+Matsumoto](http://blog.heroku.com/archives/2011/7/12/matz_joins_heroku/ "Yukihiroatsumoto"), works
+as *Chief Architect of Ruby* on this platform.

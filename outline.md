@@ -5,7 +5,8 @@
     - Tool set (git, Ruby, Padrino gem, test driven development)
   - Your Browser DONE
   - Your Operation System DONE
-  - Your first 'hello world' with Padrino
+  - Other tools (ruby, git, heroku) DONE
+  - Your first 'hello world' with Padrino (install gem, git, deployment) DONE
   - Short introduction to git
   - Conclusion
 - Getting started with the Warhammer Painting app
