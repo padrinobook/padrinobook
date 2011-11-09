@@ -4,7 +4,8 @@ Why another book about how to develop an application in Rails? But hold, this bo
 basic introduction how to develop a web application with [padrino](http://www.padrinorb.com/).
 Padrino is a "The Elgant Ruby Web Framework". Is is based on [Rails](http://rubyonrails.org/) and
 has some really nice features which makes it easier to create web application with less code and
-more fun than to with it's father Rails
+more fun than to with it's father Rails. To say it with words of the Padrino webpage: "Padrino is a
+full-stack ruby framework built upon [Sinatra](http://www.sinatrarb.com/ "Sinatra")".
 
 
 ## Planning the application ##
@@ -64,9 +65,9 @@ Got out, grab the thing you want, and then gets your hands dirty.
 
 ## Your system ##
 
-"War... War never changes." this quote from my all-time favorite video game series [Fallout](
-"Fallout") describes the battle of the different operating systems. I will briefly give you an
-overview what you can take
+"War... War never changes." this quote from my all-time favorite video game series
+[Fallout](http://en.wikipedia.org/wiki/Fallout_(video_game) "Fallout") describes the battle of the
+different operating systems. I will briefly give you an overview what you can take
 
 - [Microsoft](http://www.microsoft.com/ "Microsoft"): This commercial operating system is installed
   on a huge range of computers. Much software and games are available for this operation system.
