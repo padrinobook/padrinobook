@@ -1,10 +1,40 @@
-This is an free ebook written in markdown. It describes how I developed a application in padrino.
+This is an free ebook written in markdown. It describes how I developed an application in padrino.
 Feel free to fork this project and to correct my mistakes.
+
+
+## Current version ##
+
+I'm using [leanpup]( "leanpup") to generate the current status of this book. You can find the actual
+version [here](http://samples.leanpub.com/padrino-sample.pdf "here").
+
+If you are interested in building this book on you local machine, you have to clone this repository
+on your local machine
+
+    git clone git@github.com:matthias-guenther/padrino-book.git
+
+And then run the rake task:
+
+    rake pdf
+
+and you have the pdf version of your book.
 
 
 ## Contribute/Contact ##
 
-Feature request, bugs, questions, etc. can be send to <matthias.guenther@wikimatze.de>.
+Feature request, bugs, questions, etc. can be send to <matthias.guenther@wikimatze.de>. You can even
+fork this project, and as a *reward*, I will put you on the **"Special thanks"** section in this
+README and in the final version of the book.
+
+If you like my work, you can [let me know](http://leanpub.com/padrino "let me know") how much money
+you would spend for this book. And don't worry, this book will be free at anytime.
+
+
+## Special thanks ##
+
+Love you guys and women, you motivated me:
+
+- [@nesquena](http://twitter.com/#!/nesquena "@nesquena"): Your tweets are encouraging my to keep up
+  with this work and recommended this book for the community
 
 
 ## License ##
