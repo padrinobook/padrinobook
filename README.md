@@ -1,11 +1,11 @@
-This is an free ebook written in markdown. It describes how I developed an application in padrino.
+This is an free eBook written in markdown. It describes how I developed an application in padrino.
 Feel free to fork this project and to correct my mistakes.
 
 
 ## Current version ##
 
-I'm using [leanpup]( "leanpup") to generate the current status of this book. You can find the actual
-version [here](http://samples.leanpub.com/padrino-sample.pdf "here").
+I'm using [leanpub](http://leanpub.com/ "leanpub") to generate the current status of this book. You
+can find the actual version [here](http://samples.leanpub.com/padrino-sample.pdf "here").
 
 If you are interested in building this book on you local machine, you have to clone this repository
 on your local machine
