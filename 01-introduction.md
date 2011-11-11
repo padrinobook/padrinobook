@@ -156,3 +156,99 @@ gems - difficult configurations tasks are handled by this platform. Heroku is so
 even the creator of ruby, [Yukihiro
 Matsumoto](http://blog.heroku.com/archives/2011/7/12/matz_joins_heroku/ "Yukihiroatsumoto"), works
 as *Chief Architect of Ruby* on this platform.
+
+
+### Hello world ###
+
+You know this sections from several tutorials which makes you comfortable with your first program in
+a new programming language. Get your hands dirty and start coding. First of all we need to install
+them gem with:
+
+    $gem install padrino
+
+This will install all necessary dependencies and makes you ready to create your web applications.
+We will go through each part:
+
+- `padrino generate` - tells padrino to perform the generator with the specified options. The
+  generate options can be used to create other *components* for your application like a mailing
+  system or a nice admin panel to manage your database entries. A shortcut for generate is `g`
+- `project` - says padrino to generate a new application.
+- `hello-wolrd` - the name of the new application.
+
+
+The console output should looks like the following:
+
+      create
+      create  .gitignore
+      create  config.ru
+      create  config/apps.rb
+      create  config/boot.rb
+      create  public/favicon.ico
+      create  public/images
+      create  public/javascripts
+      create  public/stylesheets
+      create  tmp
+      create  .components
+      create  app
+      create  app/app.rb
+      create  app/controllers
+      create  app/helpers
+      create  app/views
+      create  app/views/layouts
+      create  Gemfile
+    skipping  orm component...
+    skipping  test component...
+    skipping  mock component...
+    skipping  script component...
+    applying  haml (renderer)...
+       apply  renderers/haml
+      insert  Gemfile
+    skipping  stylesheet component...
+    identical  .components
+
+Going in the application folder and starting the application:
+
+    $ cd hello-world
+    $ bundle install
+
+The command `bundle install` will install with the [bundler](http://gembundler.com/ "bundler") all
+the necessary gem dependencies for your project which are declared in your *GemFile*.
+
+Let's open the file *app/app.rb* (this is like the root controller) and write in the following:
+
+Now run:
+
+    $ padrino start
+
+and fire up your browser with the URL *http://localhost:3000*. Be happy with the following pictures:
+
+![Figure 1-3. Hello world in your browser](images/01-introduction/hello_world.jpg)
+
+You can say, you have build your first padrino application in less than five minutes.
+
+
+### Wait, there is more ###
+
+Navigating through the various parts of a project is essentials. Thus we will go through the basic
+file structure of the *hello-world* project:
+
+<!--
+    ├── Gemfile
+    ├── Gemfile.lock
+    ├── app
+    │   ├── app.rb
+    │   ├── controllers
+    │   ├── helpers
+    │   └── views
+    │       └── layouts
+    ├── config
+    │   ├── apps.rb
+    │   └── boot.rb
+    ├── config.ru
+    ├── public
+    │   ├── favicon.ico
+    │   ├── images
+    │   ├── javascripts
+    │   └── stylesheets
+    └── tmp
+-->

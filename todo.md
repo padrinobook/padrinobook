@@ -1,1 +1,2 @@
 - change the ppi for the images to 400 and test the mobile versions
+- add pictures of git tools
