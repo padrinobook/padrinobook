@@ -263,3 +263,37 @@ We will go through each part.
 - **public**: Place where you put global available files to be available for the public audience of
   your page like images folder, JavaScript files, or stylesheets
 - **tmp**: d'oh still don't know it
+
+
+## Git ##
+
+You will ask: "Why the hack should I use version control?", and I will say: "Why should you want to
+shot a bullet through your head by yourself?". This metaphor is harsh but express exactly what I
+think - without version control you are lost. Git helps to detect changes in your code base, to
+better collaborate with other people, and to get out of the pit when you break something badly. You
+can experiment in *branches* to create running code, or to build a prototype to test design and
+technical limitation.
+
+Except from Git, there are other version control system like [cvs](url "cvs"), [svn](url "svn"), or
+[mercurial]( "mercurial") - just to name a few. Git has many topics, and this book should not focus
+how to apply every command of it in this project - I will just explain the things which are
+important for this Rails projects. I highly recommend [Scott Schacons]( "Scott Schacons")
+book [Pro git]( "Pro git") book - it covers a lot of grass about git, and explaining its internals
+and fundamentals with beautiful images (like my images in this book created with omnigraffle).
+
+
+### Installation plus least configuration ###
+
+We want to get the least possible thing to be working. Follow the [instruction section](
+"instruction section") of the **Pro git** book on your local machine. After that you need to setup
+your email address (so that other can see who blames the last lines of code) and your user name:
+
+    $ git config --global user.name "wikimatze"
+    $ git config --global user.email "matthias.guenther@wikimatze.de"
+
+It is possible to define [git aliases]( "git aliases") for comment commands so that you have to hack
+less chars. But this is the first time you are using git, repeating commands is the best way to
+learn, and everyone has a different opinion what aliases should be used, I will not create further
+configurations.
+
+### Get started with 'git init' ###
