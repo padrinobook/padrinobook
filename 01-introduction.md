@@ -227,28 +227,39 @@ and fire up your browser with the URL *http://localhost:3000*. Be happy with the
 You can say, you have build your first padrino application in less than five minutes.
 
 
-### Wait, there is more ###
+### Wait, there is more - the file structure###
 
 Navigating through the various parts of a project is essentials. Thus we will go through the basic
 file structure of the *hello-world* project:
 
-<!--
-    ├── Gemfile
-    ├── Gemfile.lock
-    ├── app
-    │   ├── app.rb
-    │   ├── controllers
-    │   ├── helpers
-    │   └── views
-    │       └── layouts
-    ├── config
-    │   ├── apps.rb
-    │   └── boot.rb
-    ├── config.ru
-    ├── public
-    │   ├── favicon.ico
-    │   ├── images
-    │   ├── javascripts
-    │   └── stylesheets
-    └── tmp
--->
+    |-- Gemfile
+    |-- app
+    |   |-- app.rb
+    |   |-- controllers
+    |   |-- helpers
+    |   `-- views
+    |       `-- layouts
+    |-- config
+    |   |-- apps.rb
+    |   `-- boot.rb
+    |-- config.ru
+    |-- public
+    |   |-- favicon.ico
+    |   |-- images
+    |   |-- javascripts
+    |   `-- stylesheets
+    `-- tmp
+
+We will go through each part.
+
+- **Gemfile**: The place where you put all the necessary *gems* for your project.
+- **app**: Contains the "executable" files of your project with controllers, helpers, and views for
+  displaying the contents of your application.
+- **config**: General settings for the application, that means which hooks should be performed
+  before or after the application is loaded, setting the environment (e.g. production, development,
+  test), mounting other application within the existing application under different subdomains.
+- **config.ru**: If you want to start padrino from the console, this file tells to start the
+  application from the command line.
+- **public**: Place where you put global available files to be available for the public audience of
+  your page like images folder, JavaScript files, or stylesheets
+- **tmp**: d'oh still don't know it
