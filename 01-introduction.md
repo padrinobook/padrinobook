@@ -162,18 +162,22 @@ as *Chief Architect of Ruby* on this platform.
 
 You know this sections from several tutorials which makes you comfortable with your first program in
 a new programming language. Get your hands dirty and start coding. First of all we need to install
-them gem with:
+the gem with:
 
-    $gem install padrino
+    $ gem install padrino
 
 This will install all necessary dependencies and makes you ready to create your web applications.
+Now we will generate a fresh new padrino project:
+
+    $ padrino generate project hello-world
+
 We will go through each part:
 
 - `padrino generate` - tells padrino to perform the generator with the specified options. The
   generate options can be used to create other *components* for your application like a mailing
   system or a nice admin panel to manage your database entries. A shortcut for generate is `g`
 - `project` - says padrino to generate a new application.
-- `hello-wolrd` - the name of the new application.
+- `hello-wolrd` - the name of the new application and this is also the folder name.
 
 
 The console output should looks like the following:
@@ -206,7 +210,15 @@ The console output should looks like the following:
     skipping  stylesheet component...
     identical  .components
 
-Going in the application folder and starting the application:
+    =================================================================
+    brand_new is ready for development!
+    =================================================================
+    $ cd ./brand_new
+    $ bundle install
+    =================================================================
+
+The last line in the console output tells you the next steps you have to perform.  Going in the
+application folder and starting the application:
 
     $ cd hello-world
     $ bundle install
