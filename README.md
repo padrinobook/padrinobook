@@ -35,6 +35,8 @@ Love you guys and women, you motivated me:
 
 - [@nesquena](http://twitter.com/#!/nesquena "@nesquena"): Your tweets are encouraging my to keep up
   with this work and recommended this book for the community
+- [@WaYdotNET](http://twitter.com/#!/WaYdotNET "@WaYdotNET"): Make me aware of emacs and created
+  first pull-request for this project
 
 
 ## License ##
