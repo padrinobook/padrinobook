@@ -308,4 +308,76 @@ less chars. But this is the first time you are using git, repeating commands is 
 learn, and everyone has a different opinion what aliases should be used, I will not create further
 configurations.
 
+
 ### Get started with 'git init' ###
+
+Git can keep track of every file you have in a certain directory. Let's assume that you have a brand
+new padrino application in the directory *padrino\_brand\_new*. First you need to initialize git in
+the project folder:
+
+    $ cd ~/padrino_brand_new
+    $ git init
+    > Initialized empty Git repository in ~/padrino_brand_new/.git/
+
+Now that you started a new repository and it is time to add new files. If you type in `git status`
+you will see a list of all *untracked*, *modified*, or *changed* files in your
+folder. Again, git gives you a nice console output what you can do in the next steps:
+
+    # On branch master
+    #
+    # Initial commit
+    #
+    # Untracked files:
+    #   (use "git add <file>..." to include in what will be committed)
+    #
+    # .components
+    # .gitignore
+    # Gemfile
+    # app/
+    # config.ru
+    # config/
+    # public/
+    nothing added to commit but untracked files present (use "git add" to track)
+
+If you are new to git (and want to do the same work again and again), you have to type in *git add
+<filename* for each part of the files. But git is at least as smart as you are and has handy command
+to add all files simultaneously in each step:
+
+    $ git add .
+
+The '.' stays for the current directory and git then knows that it should track all files and
+components (which even stay in subdirectories) recursively. During this stadium, we have just
+*staged* the files and not committed them in the repository. Let's do it:
+
+    $ git commit -m "initial commit (padrino and git rocks)"
+
+The '-m' options tells git to take a message for the commit. I'm a big fan of [Tim Popes]( "Tim
+Popes") Vim plugins.  With the [fugitive]( "fugitive") he has written a fully integrated git into
+the Vim environment.  According to Popes philosophy, a commit message should not be longer than 80
+chars - anything that is longer is an indicator that you are writing to much, or have a to big
+commit with too much changes.
+
+
+### gitignore ###
+
+This file let's you specify which files should not be put under versions control. It is useful to
+add in this file the names of files/directories which changes automatically like log files. When you
+start your padrino application with `padrino start` it will start to track requests you can see in
+the console in the *log/* directory. You don't want to have this in your commit history, so you have
+to write in your *.gitignore* files
+
+    log/**/*
+
+This tells git to ignore all changes in all subdirectories of the *log* directory. You are lucky to
+work with padrino, and it will automatically a *.gitignore file* when you start a new project, with
+all entries you need:
+
+    .DS_Store
+    log/**/*
+    tmp/**/*
+    bin/*
+    vendor/gems/*
+    !vendor/gems/cache/
+    .sass-cache/*
+
+Just keep your mind on committing small changes for your project.
