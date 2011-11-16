@@ -25,7 +25,7 @@ for writing wireframes.
 Nowadays there are a bunch of IDEs out there: [RubyMine by JetBrains](http://www.jetbrains.com/ruby/
 "RubyMine") (commercial) [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana
 RadRails") (free).  Or you can switch to some text editors [Textmate](http://macromates.com/
-"Textmate") (commercial for Mac only), and [Vim](http://www.vim.org/ "vim"), which just run on every
+"Textmate") (commercial for Mac only), [Vim](http://www.vim.org/ "vim"), and [Emacs](http://www.gnu.org/s/emacs/), which just run on every
 server and under every terminal.
 
 They all have there strength and weak sides. You have to experiment with them and take what fits
