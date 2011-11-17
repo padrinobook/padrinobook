@@ -106,8 +106,9 @@ This sections contains a list of several tools you need today for running the pr
 Padrino is implemented in Ruby. It is flexible, rich, and make it possible for you to turn all the
 crazy ideas you have from books, conferences, and blogs into reality. Most ruby programmers (like
 [Dave Thomas (calld PragDave)](http://pragdave.pragprog.com/ "Dave Thomas"), or [Chad Fowler (the
-passionate programmer)]( "Chad Fowler (the passionate programmer)")). This book will not give you
-an introduction to ruby. I recommend the following list of books (for newbies and veterans):
+passionate programmer)](http://chadfowler.com/ "Chad Fowler (the passionate programmer)")). This
+book will not give you an introduction to ruby. I recommend the following list of books (for newbies
+and veterans):
 
 
 - [Programming ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming ruby")
@@ -121,7 +122,7 @@ In this project I will explain you difficult language constructs in ruby - but d
 will explain them in every way.
 
 
-### git - versioning your code ###
+### git - put your code under version control###
 
 git helps you to keep track of the changes in your code. You can switch between certain versions in
 your code, create branches to experiment with code, and easily manage your code in distributed teams
@@ -140,7 +141,7 @@ Recommended tools:
 - [gitx](http://gitx.frim.nl/ "gitx") - branching, merging, committing, you can even stage different
   changes in your code with this tool. It looks like a diamond and checking in your code will make
   you happy
-- [fugitive](https://github.com/tpope/vim-fugitive "fugitive") - git wrapper for Vim, very good for
+- [fugitive](https://github.com/tpope/vim-fugitive/ "fugitive") - git wrapper for Vim, very good for
   command-line guys who don't want to leave the editor. Works good, if you are the only person
   working on a project (like I doing writing this book)
 
@@ -286,27 +287,32 @@ better collaborate with other people, and to get out of the pit when you break s
 can experiment in *branches* to create running code, or to build a prototype to test design and
 technical limitation.
 
-Except from Git, there are other version control system like [cvs](url "cvs"), [svn](url "svn"), or
-[mercurial]( "mercurial") - just to name a few. Git has many topics, and this book should not focus
-how to apply every command of it in this project - I will just explain the things which are
-important for this Rails projects. I highly recommend [Scott Schacons]( "Scott Schacons")
-book [Pro git]( "Pro git") book - it covers a lot of grass about git, and explaining its internals
-and fundamentals with beautiful images (like my images in this book created with omnigraffle).
+Except from Git, there are other version control system like
+[cvs](http://en.wikipedia.org/wiki/Concurrent_Versions_System "cvs") (*concurrent version system*),
+[svn](http://en.wikipedia.org/wiki/Apache_Subversion "svn") (*subversion*), or
+[Mercurial](http://mercurial.selenic.com/ "Mercurial") - just to name a few. Git has many topics,
+and this book should not focus how to apply every command of it in this project - I will just
+explain the things which are important for this Rails projects. I highly recommend [Scott Chacon](
+http://scottchacon.com/ "Scott Chacons") book [Pro git](http://progit.org/book/ "Pro git") book - it
+covers a lot of grass about git, and explaining its internals and fundamentals with beautiful images
+(like my images in this book created with omnigraffle).
 
 
 ### Installation plus least configuration ###
 
-We want to get the least possible thing to be working. Follow the [instruction section](
-"instruction section") of the **Pro git** book on your local machine. After that you need to setup
-your email address (so that other can see who blames the last lines of code) and your user name:
+We want to get the least possible thing to be working. Follow the [installation
+section](http://progit.org/book/ch1-4.html "installation section") of the **Pro git** book to
+install git on your local machine.  local machine. After that you need to setup your email address
+(so that other can see who blames the last lines of code) and your user name:
 
     $ git config --global user.name "wikimatze"
     $ git config --global user.email "matthias.guenther@wikimatze.de"
 
-It is possible to define [git aliases]( "git aliases") for comment commands so that you have to hack
-less chars. But this is the first time you are using git, repeating commands is the best way to
-learn, and everyone has a different opinion what aliases should be used, I will not create further
-configurations.
+It is possible to define [git
+aliases](http://gitready.com/intermediate/2009/02/06/helpful-command-aliases.html "git aliases") for
+comment commands so that you have to hack less chars. But this is the first time you are using git,
+repeating commands is the best way to learn, and everyone has a different opinion what aliases
+should be used, I will not create further configurations.
 
 
 ### Get started with 'git init' ###
@@ -351,10 +357,11 @@ components (which even stay in subdirectories) recursively. During this stadium,
 
     $ git commit -m "initial commit (padrino and git rocks)"
 
-The '-m' options tells git to take a message for the commit. I'm a big fan of [Tim Popes]( "Tim
-Popes") Vim plugins.  With the [fugitive]( "fugitive") he has written a fully integrated git into
-the Vim environment.  According to Popes philosophy, a commit message should not be longer than 80
-chars - anything that is longer is an indicator that you are writing to much, or have a to big
+The '-m' options tells git to take a message for the commit. I'm a big fan of [Tim
+Popes](http://tpo.pe/ "Tim Popes") Vim plugins.  With the
+[fugitive](https://github.com/tpope/vim-fugitive "fugitive") he has written a fully integrated git
+into the Vim environment.  According to Popes philosophy, a commit message should not be longer than
+80 chars - anything that is longer is an indicator that you are writing to much, or have a to big
 commit with too much changes.
 
 
