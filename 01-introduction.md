@@ -1,7 +1,7 @@
 # Introduction #
 
 Why another book about how to develop an application in Rails? But hold, this book should give you a
-basic introduction how to develop a web application with [padrino](http://www.padrinorb.com/).
+basic introduction how to develop a web application with [Padrino](http://www.padrinorb.com/).
 Padrino is a "The Elgant Ruby Web Framework". Is is based on [Rails](http://rubyonrails.org/) and
 has some really nice features which makes it easier to create web application with less code and
 more fun than to with it's father Rails. To say it with words of the Padrino webpage: "Padrino is a
@@ -168,13 +168,13 @@ the gem with:
     $ gem install padrino
 
 This will install all necessary dependencies and makes you ready to create your web applications.
-Now we will generate a fresh new padrino project:
+Now we will generate a fresh new Padrino project:
 
     $ padrino generate project hello-world
 
 We will go through each part:
 
-- `padrino generate` - tells padrino to perform the generator with the specified options. The
+- `padrino generate` - tells Padrino to perform the generator with the specified options. The
   generate options can be used to create other *components* for your application like a mailing
   system or a nice admin panel to manage your database entries. A shortcut for generate is `g`
 - `project` - says padrino to generate a new application.
@@ -237,7 +237,7 @@ and fire up your browser with the URL *http://localhost:3000*. Be happy with the
 
 ![Figure 1-3. Hello world in your browser](images/01-introduction/hello_world.jpg)
 
-You can say, you have build your first padrino application in less than five minutes.
+You can say, you have build your first Padrino application in less than five minutes.
 
 
 ### Wait, there is more - the file structure###
@@ -271,7 +271,7 @@ We will go through each part.
 - **config**: General settings for the application, that means which hooks should be performed
   before or after the application is loaded, setting the environment (e.g. production, development,
   test), mounting other application within the existing application under different subdomains.
-- **config.ru**: If you want to start padrino from the console, this file tells to start the
+- **config.ru**: If you want to start Padrino from the console, this file tells to start the
   application from the command line.
 - **public**: Place where you put global available files to be available for the public audience of
   your page like images folder, JavaScript files, or stylesheets
@@ -318,7 +318,7 @@ should be used, I will not create further configurations.
 ### Get started with 'git init' ###
 
 Git can keep track of every file you have in a certain directory. Let's assume that you have a brand
-new padrino application in the directory *padrino\_brand\_new*. First you need to initialize git in
+new Padrino application in the directory *padrino\_brand\_new*. First you need to initialize git in
 the project folder:
 
     $ cd ~/padrino_brand_new
@@ -355,7 +355,7 @@ The '.' stays for the current directory and git then knows that it should track 
 components (which even stay in subdirectories) recursively. During this stadium, we have just
 *staged* the files and not committed them in the repository. Let's do it:
 
-    $ git commit -m "initial commit (padrino and git rocks)"
+    $ git commit -m "initial commit (Padrino and git rocks)"
 
 The '-m' options tells git to take a message for the commit. I'm a big fan of [Tim
 Popes](http://tpo.pe/ "Tim Popes") Vim plugins.  With the
@@ -369,14 +369,14 @@ commit with too much changes.
 
 This file let's you specify which files should not be put under versions control. It is useful to
 add in this file the names of files/directories which changes automatically like log files. When you
-start your padrino application with `padrino start` it will start to track requests you can see in
+start your Padrino application with `padrino start` it will start to track requests you can see in
 the console in the *log/* directory. You don't want to have this in your commit history, so you have
 to write in your *.gitignore* files
 
     log/**/*
 
 This tells git to ignore all changes in all subdirectories of the *log* directory. You are lucky to
-work with padrino, and it will automatically a *.gitignore file* when you start a new project, with
+work with Padrino, and it will automatically a *.gitignore file* when you start a new project, with
 all entries you need:
 
     .DS_Store
