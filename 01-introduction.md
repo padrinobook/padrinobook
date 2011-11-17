@@ -388,3 +388,9 @@ all entries you need:
     .sass-cache/*
 
 Just keep your mind on committing small changes for your project.
+
+
+## Conclusion ##
+
+We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools
+for the job, and get used to version control with git. Now it is time to jump into a real project!
