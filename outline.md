@@ -7,9 +7,10 @@
   - Your Operation System DONE
   - Other tools (ruby, git, heroku) DONE
   - Your first 'hello world' with Padrino (install gem, git, deployment) DONE
-  - Introduction to git
-  - Conclusion
-- Getting started with the Warhammer Painting app
+  - Introduction to git DONE
+      - Extra chapter how to post your code to bitbucket
+  - Conclusion DONE
+- Getting started with the "Job Board" app
   - Planning (Mockups, pictures)
   - User account (specify the points)
   - User Article (specify the little tasks)
