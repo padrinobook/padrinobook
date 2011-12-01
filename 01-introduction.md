@@ -25,8 +25,8 @@ for writing wireframes.
 Nowadays there are a bunch of IDEs out there: [RubyMine by JetBrains](http://www.jetbrains.com/ruby/
 "RubyMine") (commercial) [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana
 RadRails") (free).  Or you can switch to some text editors [Textmate](http://macromates.com/
-"Textmate") (commercial for Mac only), [Vim](http://www.vim.org/ "vim"), and [Emacs](http://www.gnu.org/s/emacs/), which just run on every
-server and under every terminal.
+"Textmate") (commercial for Mac only), [Vim](http://www.vim.org/ "vim"), and
+[Emacs](http://www.gnu.org/s/emacs/), which just run on every server and under every terminal.
 
 They all have there strength and weak sides. You have to experiment with them and take what fits
 your needs. Due to the fact that I will do a bunch of really great command-line, I prefer to use a
@@ -122,7 +122,7 @@ In this project I will explain you difficult language constructs in ruby - but d
 will explain them in every way.
 
 
-### git - put your code under version control###
+### git - put your code under version control ###
 
 git helps you to keep track of the changes in your code. You can switch between certain versions in
 your code, create branches to experiment with code, and easily manage your code in distributed teams

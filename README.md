@@ -1,4 +1,4 @@
-This is an free eBook written in markdown. It describes how I developed an application in padrino.
+This is an free eBook written in markdown. It describes how I developed an application in Padrino.
 Feel free to fork this project and to correct my mistakes.
 
 
@@ -16,7 +16,7 @@ And then run the rake task:
 
     rake pdf
 
-and you have the pdf version of your book.
+and you have a pdf version of this book.
 
 
 ## Contribute/Contact ##
