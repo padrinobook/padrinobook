@@ -54,3 +54,11 @@ to refresh your memory:
 - `git commit -m ` - check in your changes in the repository
 
 
+## Creation of a user ##
+
+There are many different ways how to develop a user for your system. In this way, we will go conform
+the standard of nearly each application. A user in our system will have an *unique* identification
+number **id** (useful for indexing and entry in our database), a **name** and an **email** each a
+type string.
+
+
