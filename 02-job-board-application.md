@@ -54,11 +54,28 @@ to refresh your memory:
 - `git commit -m ` - check in your changes in the repository
 
 
-## Creation of a user ##
+## Creation of a user data model ##
 
 There are many different ways how to develop a user for your system. In this way, we will go conform
 the standard of nearly each application. A user in our system will have an *unique* identification
 number **id** (useful for indexing and entry in our database), a **name** and an **email** each a
 type string.
 
+
+## Creation of a job offer data model ##
+
+I like the **K.I.S.S**[^KISS] principle, so we will keep up the easy design. A job offer consists of
+the following attributes:
+
+- title: the concrete
+- location: where the will be places
+- description: what is important
+- contact: an email address is sufficant - they should call you instead of vice versa
+- time-start: what is the earliest date when you can start
+- time-end: nothing lives forever - even a brittle job offer
+
+Under normal circumstances it would be nice to upload an image, but we will limit this opportunity
+to link to an existing image (most likely on flickr or some other image provider).
+
+[^KISS]: Is an acronym for *Keep it simple and stupid*.
 
