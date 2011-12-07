@@ -12,7 +12,7 @@ full-stack ruby framework built upon [Sinatra](http://www.sinatrarb.com/ "Sinatr
 
 On the following image you can image you can see the basic image of our application[^omnigraffle]:
 
-![Figure 1-1. Start page of the application](images/01-introduction/application_overview.jpg)
+![Figure 1-1. Start page of the application](images/01/application_overview.jpg)
 
 [^omnigraffle]: You can use a classical stencil and paper to create mockups. But my handwriting is
 so bad that I used [Omnigraffle](http://www.omnigroup.com/products/omnigraffle/ "Omnigraffle") with
@@ -36,7 +36,7 @@ you want to see which tool I use every day). In the end you have to decide what 
 The main goal is that you are comfortable with it because you will mostly spend a lot of time with
 it.
 
-![Figure 1-2. Picture of Vim with NERDTree](images/01-introduction/editor.jpg)
+![Figure 1-2. Picture of Vim with NERDTree](images/01/editor.jpg)
 
 
 ## Your browser ##
@@ -235,7 +235,7 @@ Now run:
 
 and fire up your browser with the URL *http://localhost:3000*. Be happy with the following pictures:
 
-![Figure 1-3. Hello world in your browser](images/01-introduction/hello_world.jpg)
+![Figure 1-3. Hello world in your browser](images/01/hello_world.jpg)
 
 You can say, you have build your first Padrino application in less than five minutes.
 

@@ -61,6 +61,8 @@ the standard of nearly each application. A user in our system will have an *uniq
 number **id** (useful for indexing and entry in our database), a **name** and an **email** each a
 type string.
 
+![Figure 2-1. user data model](images/02/user.jpg)
+
 
 ## Creation of a job offer data model ##
 
@@ -77,5 +79,6 @@ the following attributes:
 Under normal circumstances it would be nice to upload an image, but we will limit this opportunity
 to link to an existing image (most likely on flickr or some other image provider).
 
-[^KISS]: Is an acronym for *Keep it simple and stupid*.
+![Figure 2-2. job offer data model](images/02/job_offer.jpg)
 
+[^KISS]: Is an acronym for *Keep it simple and stupid*.
