@@ -17,43 +17,6 @@ work flow with many neat and small hints.  Sounds difficult in your ears? Well, 
 just start, and don't let your mind gets filled with fears and issues to hinder your daily progress.
 
 
-## A small start ##
-
-In a first attempt we will start with generating a new project with the normal `padrino` command
-(see section \ref{section 'Hello world'}):
-
-    $ cd ~/padrino_projects
-    $ padrino generate project job_app
-
-Next, we need to specify the used *gem* in the *Gemfile* with your favored text editor (cause I'm a
-big Vim fan boy `vim Gemfile`):
-
-    source :rubygems
-
-    gem 'padrino', '0.10.5'
-    gem 'sqlite'
-
-Let's include the gems for our project (later when *time has come*, we will add other gems) with
-bundler:
-
-    $ bundle install
-
-Recall from section (\ref{section 'git - put your code under version control'}) that we need to put
-our achievements under strong control:
-
-    $ cd ~/padrino_projects/job_app
-    $ git init
-    $ git add .
-    $ git commit -m 'first commit of a marvelous padrino application'
-
-Can you remember what the git commands are doing. If yes or no, just read the following explanation
-to refresh your memory:
-
-- `git init` - initialize a new git repository
-- `git add .` - add recursively all files to staging
-- `git commit -m ` - check in your changes in the repository
-
-
 ## Creation of a user data model ##
 
 There are many different ways how to develop a user for your system. In this way, we will go conform
@@ -82,3 +45,63 @@ to link to an existing image (most likely on flickr or some other image provider
 ![Figure 2-2. job offer data model](images/02/job_offer.jpg)
 
 [^KISS]: Is an acronym for *Keep it simple and stupid*.
+
+
+## Basic coding of the app ##
+
+After making some thoughts about the data models of our application it is time to put our dream into
+reality.
+
+In a first attempt we will start with generating a new project with the normal `padrino` command
+(see section \ref{section 'Hello world'}) but this time it has a bunch of new options:
+
+    $ cd ~/padrino_projects
+    $ padrino g project job_app -t rspec -a sqlite -e haml -c sass -s jquery
+
+Explanation of the new fields:
+
+- **g**: is shortcut for generate (who does not love shortcut to keep you save you keystrokes)
+- **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec")
+  testing framework (a later explanation about this will follow)
+- **-a sqlite**: specifying the orm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") -
+  easy to maintainer and easy to inspect because all entries are saved in a plain text file
+- **-e haml**: using [Haml](http://haml-lang.com/ "Haml")[^haml] markup as a *renderer* to describe HTML in
+  better and faster way
+- **-c sass**: using [Sass](http://sass-lang.com/ "Sass")[^sass] markup for describing the CSS[^css] of the
+  application
+- **-s jquery**: defining the script library we are using - for this app will be using the famous
+  [jQuery](http://jquery.com/ "jQuery") library (other possible libraries are )
+
+[^haml]: stands for ??? (couldn't find it out)
+[^css]: stands for *Cascading Style Sheets*
+[^orm]: stands for *object relational mapper*
+[^sass]: stands for *Syntactical Awesome Style Sheets*
+
+If this commands works, you have a nice green playground with all the Next, we need to specify the
+used *gem* in the *Gemfile* with your favored text editor (cause I'm a big Vim fan boy `vim
+Gemfile`):
+
+    source :rubygems
+
+    gem 'padrino', '0.10.5'
+    gem 'sqlite'
+
+Let's include the gems for our project (later when *time has come*, we will add other gems) with
+bundler:
+
+    $ bundle install
+
+Recall from section (\ref{section 'git - put your code under version control'}) that we need to put
+our achievements under strong control:
+
+    $ cd ~/padrino_projects/job_app
+    $ git init
+    $ git add .
+    $ git commit -m 'first commit of a marvelous padrino application'
+
+Can you remember what the git commands are doing. If yes or no, just read the following explanation
+to refresh your memory:
+
+- `git init` - initialize a new git repository
+- `git add .` - add recursively all files to staging
+- `git commit -m ` - check in your changes in the repository

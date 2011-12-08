@@ -11,15 +11,14 @@
       - Extra chapter how to post your code to bitbucket
   - Conclusion DONE
 - Getting started with the "Job Board" app
-  - Planning (Mockups, pictures)
-  - User account (specify the points)
-  - User Article (specify the little tasks)
-  - Conclusion
-- Basic layout stuff
+  - Planning (Mockups, pictures) DONE
+  - User account (specify the points) DONE
+  - User Article (specify the little tasks) DONE
+  - Basic coding of the app DONE
   - haml for displaying the view
-    - Short introduction about haml and how it does behave
+    - Short introduction about haml and how it works
     - Why not plain erb?
-  - Writing first tests
+  - Writing first tests with RSpec
   - Displaying the user profile
   - Conclusion
 - Fill the layout with life
