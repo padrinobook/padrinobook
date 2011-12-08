@@ -5,6 +5,7 @@
 - add pictures of git tools
 - investigate how to make references to other sections in markdown (see 02 section)
 - create class diagrams for modeling parts
+- shortcut haml - for what does it stands? (chapter 2)
 
 
 # Done #
