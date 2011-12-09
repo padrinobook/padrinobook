@@ -6,6 +6,7 @@
 - investigate how to make references to other sections in markdown (see 02 section)
 - create class diagrams for modeling parts
 - shortcut haml - for what does it stands? (chapter 2)
+- ask leanpub-guys how to make references to other sections in other files in markdown
 
 
 # Done #

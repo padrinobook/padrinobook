@@ -56,13 +56,14 @@ In a first attempt we will start with generating a new project with the normal `
 (see section \ref{section 'Hello world'}) but this time it has a bunch of new options:
 
     $ cd ~/padrino_projects
-    $ padrino g project job_app -t rspec -a sqlite -e haml -c sass -s jquery
+    $ padrino g project job_app -t rspec -d activerecord -a sqlite -e haml -c sass -s jquery
 
 Explanation of the new fields:
 
 - **g**: is shortcut for generate (who does not love shortcut to keep you save you keystrokes)
 - **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec")
   testing framework (a later explanation about this will follow)
+- **-d atciverecord**: using activerecord as the datamapper
 - **-a sqlite**: specifying the orm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") -
   easy to maintainer and easy to inspect because all entries are saved in a plain text file
 - **-e haml**: using [Haml](http://haml-lang.com/ "Haml")[^haml] markup as a *renderer* to describe HTML in
