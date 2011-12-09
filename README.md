@@ -19,6 +19,13 @@ And then run the rake task:
 and you have a pdf version of this book.
 
 
+## Repository of the job offer app ##
+
+In this book I'm developing the **job offer** application. You can checkout the
+[sources](https://github.com/matthias-guenther/job_app "sources") if you want to see the final
+result from this book.
+
+
 ## Contribute/Contact ##
 
 Feature request, bugs, questions, etc. can be send to <matthias.guenther@wikimatze.de>. You can even
