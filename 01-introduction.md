@@ -2,15 +2,15 @@
 
 Why another book about how to develop an application in Rails? But hold, this book should give you a
 basic introduction how to develop a web application with [Padrino](http://www.padrinorb.com/).
-Padrino is a "The Elgant Ruby Web Framework". Is is based on [Rails](http://rubyonrails.org/) and
+Padrino is "The Elgant Ruby Web Framework". It is based on [Rails](http://rubyonrails.org/) and
 has some really nice features which makes it easier to create web application with less code and
-more fun than to with it's father Rails. To say it with words of the Padrino webpage: "Padrino is a
+more fun than with its father Rails. To say it with words of the Padrino webpage: "Padrino is a
 full-stack ruby framework built upon [Sinatra](http://www.sinatrarb.com/ "Sinatra")".
 
 
 ## Planning the application ##
 
-On the following image you can image you can see the basic image of our application[^omnigraffle]:
+On the following image you can see the basic image of our application[^omnigraffle]:
 
 ![Figure 1-1. Start page of the application](images/01/application_overview.jpg)
 
@@ -28,8 +28,8 @@ RadRails") (free).  Or you can switch to some text editors [Textmate](http://mac
 "Textmate") (commercial for Mac only), [Vim](http://www.vim.org/ "vim"), and
 [Emacs](http://www.gnu.org/s/emacs/), which just run on every server and under every terminal.
 
-They all have there strength and weak sides. You have to experiment with them and take what fits
-your needs. Due to the fact that I will do a bunch of really great command-line, I prefer to use a
+They all have their strengths and weaknesses. You have to experiment with them and take what fits
+your needs. Due to the fact that I use the command line extensively, I prefer to use a
 "classical" **text editor** (see my [vim-settings repository on
 github](https://github.com/matthias-guenther/vim-settings "vim-settings repository on github") if
 you want to see which tool I use every day). In the end you have to decide what you want to take.
@@ -48,7 +48,7 @@ web development. The mostly used browsers by Rails developer are:
   and with the magnificent [Firebug](http://getfirebug.com/ "Firebug") plugin, which let you inspect
   HTML document, measure the loading time of certain parts
 - [Chrome](http://www.google.com/chrome "Chrome"): This browser is from Google (and I know many
-  complains about data privacy).  It feels very fast and is shipped with *inspect element*[^inspect]
+  complain about data privacy).  It feels very fast and is shipped with *inspect element*[^inspect]
   to search the DOM[^dom]. It integrates the ability to debug JavaScript
 - [Opera](http://www.opera.com/ "Opera"): Never used it, and don't know why I should (instead you
   tell my why and I will quote your words if they convince me)
@@ -57,7 +57,7 @@ There are more outside this main domain, like [Safari by Apple](http://www.apple
 by Apple"), [Lynx webbrowser](http://lynx.isc.org/ "Lynx webbrowser") (quite an experience to use
 just a plain text browser) and the well known [Internet
 Explorer](http://windows.microsoft.com/en-US/internet-explorer/downloads/ie "Internet Explorer").
-Got out, grab the thing you want, and then gets your hands dirty.
+Get out, grab the thing you want, and then gets your hands dirty.
 
 [^inspect]: This is like a Firebug pendant of Firefox.
 [^dom]: stands for *Document Object Model* and is a tree-like representation of the HTML page.
@@ -71,28 +71,28 @@ different operating systems. I will briefly give you an overview what you can ta
 
 - [Microsoft](http://www.microsoft.com/ "Microsoft"): This commercial operating system is installed
   on a huge range of computers. Much software and games are available for this operation system.
-  Updates comes regularly, and everything is mostly intuitive. One big problem of Windows is it's
+  Updates comes regularly, and everything is mostly intuitive. One big problem of Windows is its
   mouse affinity: There are shortcuts and handy tips available. It is good for development, but
   lacks some comfort and design issues (you may not know, when you haven't worked with Linux).
 - [Unix/Linux](http://en.wikipedia.org/wiki/Linux "Unix/Linux"): Highly configurable, Linux is
   shipped with a bunch of free software, and is Open Source. If you come from the Windows world,
-  your brain will be burn like hell because everything is other. The program calls are other, you
+  your brain will burn like hell because everything is different. The program calls are different, you
   can install new software via *console*, the firewall is safe, and you can run most commands in the
   terminal (no annying mouse clicks anymore if you avoid graphical work). It is great for
-  development because the great community are passionate about building software, and most software
+  development because the great community is passionate about building software, and most software
   is Open Source so you don't have to pay for it.
-- [Mac](http://www.apple.com/mac/ "Mac"): The core under it's has Unix, so you can reuse your Linux
+- [Mac](http://www.apple.com/mac/ "Mac"): The core under it is Unix, so you can reuse your Linux
   knowledge. Many people say that products from Apple are very expensive. In the contrast they
-  provide you with an extreme stable, high configurable, and reliable system, which has some really
+  provide you with an extremely stable, highly configurable, and reliable system, which has some really
   nice software for it. If you haven't paid for software in your life, some piece of software will
-  make you want to pay for it because. In mine eyes, Mac is the gap between Windows and Linux: It
+  make you want to pay for it because in my eyes, Mac is the gap between Windows and Linux. It
   can be changed in any any way you want (Linux) and has some really good software for it
   (Microsoft). Development on this machine is extreme good, because it underlines the needs of
   developers.
 
 There is a war between these three operation systems, and which you chose is a matter of taste. As
 you can see on this pictures, I'm using a Mac. I like and love (and yeah, I had to pay a lot of
-patience and learning to come to the point where I can say, that it was worth paying much money for
+patience and learning to come to the point where I can say, that it was worth paying that much money for
 the hardware).
 
 
@@ -103,7 +103,7 @@ This sections contains a list of several tools you need today for running the pr
 
 ### Ruby ###
 
-Padrino is implemented in Ruby. It is flexible, rich, and make it possible for you to turn all the
+Padrino is implemented in Ruby. It is flexible, rich, and makes it possible for you to turn all the
 crazy ideas you have from books, conferences, and blogs into reality. Most ruby programmers (like
 [Dave Thomas (calld PragDave)](http://pragdave.pragprog.com/ "Dave Thomas"), or [Chad Fowler (the
 passionate programmer)](http://chadfowler.com/ "Chad Fowler (the passionate programmer)")). This
@@ -118,19 +118,19 @@ and veterans):
   and educational way.
 
 
-In this project I will explain you difficult language constructs in ruby - but don't assume that I
+In this project I will explain difficult language constructs in ruby - but don't assume that I
 will explain them in every way.
 
 
 ### git - put your code under version control ###
 
-git helps you to keep track of the changes in your code. You can switch between certain versions in
-your code, create branches to experiment with code, and easily manage your code in distributed teams
+Git helps you to keep track of the changes in your code. You can switch between certain versions in
+your code, create branches to experiment with code, and easily manage your code in distributed teams.
 
 Recommended books:
 
-- [Pro Git](http://progit.org/ "Pro Git") - this free online book explains you the basic internals
-  of git, and how the workflow can be like
+- [Pro Git](http://progit.org/ "Pro Git") - this free online book explains the basic internals
+  of git, and what the workflow can be like
 - [gitref](http://gitref.org/ "gitref") - page with the basic commands you have to use to be
   productive when working with git
 
@@ -143,16 +143,16 @@ Recommended tools:
   you happy
 - [fugitive](https://github.com/tpope/vim-fugitive/ "fugitive") - git wrapper for Vim, very good for
   command-line guys who don't want to leave the editor. Works good, if you are the only person
-  working on a project (like I doing writing this book)
+  working on a project (like I'm doing writing this book)
 
 In this book I will explain the commands of *git* when they first occur, and repeat the commands
 every time I did during the development. Repeating is very important when learning something new.
 
 
-### heroku ###
+### Heroku ###
 
-The [heroku cloud application platform](http://www.heroku.com/ "ruby gem") enables you to deploy
-your Rails application on the heroku platform. It manage the database creation, installation of the
+The [Heroku cloud application platform](http://www.heroku.com/ "ruby gem") enables you to deploy
+your Rails application on the Heroku platform. It manage the database creation, installation of the
 gems - difficult configurations tasks are handled by this platform. Heroku is so attractive that
 even the creator of ruby, [Yukihiro
 Matsumoto](http://blog.heroku.com/archives/2011/7/12/matz_joins_heroku/ "Yukihiroatsumoto"), works
@@ -177,7 +177,7 @@ We will go through each part:
 - `padrino generate` - tells Padrino to perform the generator with the specified options. The
   generate options can be used to create other *components* for your application like a mailing
   system or a nice admin panel to manage your database entries. A shortcut for generate is `g`
-- `project` - says padrino to generate a new application.
+- `project` - tells padrino to generate a new application.
 - `hello-wolrd` - the name of the new application and this is also the folder name.
 
 
@@ -224,7 +224,7 @@ application folder and starting the application:
     $ cd hello-world
     $ bundle install
 
-The command `bundle install` will install with the [bundler](http://gembundler.com/ "bundler") all
+The command `bundle install` will install with [bundler](http://gembundler.com/ "bundler") all
 the necessary gem dependencies for your project which are declared in your *GemFile*.
 
 Let's open the file *app/app.rb* (this is like the root controller) and write in the following:
@@ -237,12 +237,12 @@ and fire up your browser with the URL *http://localhost:3000*. Be happy with the
 
 ![Figure 1-3. Hello world in your browser](images/01/hello_world.jpg)
 
-You can say, you have build your first Padrino application in less than five minutes.
+You can say, you have built your first Padrino application in less than five minutes.
 
 
 ### Wait, there is more - the file structure###
 
-Navigating through the various parts of a project is essentials. Thus we will go through the basic
+Navigating through the various parts of a project is essential. Thus we will go through the basic
 file structure of the *hello-world* project:
 
     |-- Gemfile
@@ -273,7 +273,7 @@ We will go through each part.
   test), mounting other application within the existing application under different subdomains.
 - **config.ru**: If you want to start Padrino from the console, this file tells to start the
   application from the command line.
-- **public**: Place where you put global available files to be available for the public audience of
+- **public**: Place where you put global files to be available for the public audience of
   your page like images folder, JavaScript files, or stylesheets
 - **tmp**: d'oh still don't know it
 
@@ -281,7 +281,7 @@ We will go through each part.
 ## Git ##
 
 You will ask: "Why the hack should I use version control?", and I will say: "Why should you want to
-shot a bullet through your head by yourself?". This metaphor is harsh but express exactly what I
+shoot a bullet through your head by yourself?". This metaphor is harsh but expresses exactly what I
 think - without version control you are lost. Git helps to detect changes in your code base, to
 better collaborate with other people, and to get out of the pit when you break something badly. You
 can experiment in *branches* to create running code, or to build a prototype to test design and
@@ -302,7 +302,7 @@ covers a lot of grass about git, and explaining its internals and fundamentals w
 
 We want to get the least possible thing to be working. Follow the [installation
 section](http://progit.org/book/ch1-4.html "installation section") of the **Pro git** book to
-install git on your local machine.  local machine. After that you need to setup your email address
+install git on your local machine. After that you need to setup your email address
 (so that other can see who blames the last lines of code) and your user name:
 
     $ git config --global user.name "wikimatze"
@@ -358,11 +358,11 @@ components (which even stay in subdirectories) recursively. During this stadium,
     $ git commit -m "initial commit (Padrino and git rocks)"
 
 The '-m' options tells git to take a message for the commit. I'm a big fan of [Tim
-Popes](http://tpo.pe/ "Tim Popes") Vim plugins.  With the
+Pope's](http://tpo.pe/ "Tim Popes") Vim plugins.  With the
 [fugitive](https://github.com/tpope/vim-fugitive "fugitive") he has written a fully integrated git
-into the Vim environment.  According to Popes philosophy, a commit message should not be longer than
-80 chars - anything that is longer is an indicator that you are writing to much, or have a to big
-commit with too much changes.
+into the Vim environment.  According to Pope's philosophy, a commit message should not be longer than
+80 chars - anything that is longer is an indicator that you are writing too much, or have too big of a
+commit with too many changes.
 
 
 ### gitignore ###
@@ -376,7 +376,7 @@ to write in your *.gitignore* files
     log/**/*
 
 This tells git to ignore all changes in all subdirectories of the *log* directory. You are lucky to
-work with Padrino, and it will automatically a *.gitignore file* when you start a new project, with
+work with Padrino, and it will automatically create a *.gitignore file* when you start a new project, with
 all entries you need:
 
     .DS_Store
@@ -393,4 +393,4 @@ Just keep your mind on committing small changes for your project.
 ## Conclusion ##
 
 We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools
-for the job, and get used to version control with git. Now it is time to jump into a real project!
+for the job, and used to version control with git. Now it is time to jump into a real project!
