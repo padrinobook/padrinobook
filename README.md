@@ -1,5 +1,5 @@
 This is an free eBook written in markdown. It describes how I developed an application in Padrino.
-Feel free to fork this project and to correct my mistakes.
+Feel free to fork this project and to correct my (silly grammar) mistakes.
 
 
 ## Current version ##
@@ -44,6 +44,8 @@ Love you guys and women, you motivated me:
   with this work and recommended this book for the community
 - [@WaYdotNET](http://twitter.com/#!/WaYdotNET "@WaYdotNET"): Make me aware of emacs and created
   first pull-request for this project
+- [@emachnic](http://twitter.com/#!/emachnic "@emachnic"): Improved the first chapter with useful
+  hints.
 
 
 ## License ##
