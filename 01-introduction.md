@@ -274,7 +274,7 @@ We will go through each part.
 - **config.ru**: If you want to start Padrino from the console, this file tells to start the
   application from the command line.
 - **public**: Place where you put global files to be available for the public audience of
-  your page like images folder, JavaScript files, or stylesheets
+  your page like images folder, JavaScript files, or style sheets
 - **tmp**: d'oh still don't know it
 
 
