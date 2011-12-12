@@ -142,3 +142,31 @@ about. So we will add a README.md to the project
 
 If you want to check how it has to be, just checkout the
 [sources](https://github.com/matthias-guenther/job_app "sources").
+
+
+## Creating the basic layout ##
+
+The first thing we will do, is to check out a new branch for this section. Let's fire up the console
+an create a new branch
+
+    $ git branch basic-layout
+    $ git checkout basic-layout
+
+With `git branch <name>` we create a new branch (in thins example one with the name *basic-layout*)
+and with `git checkout <name>` we switch to this branch and all changes we make will only be visible
+in this branch. To get an overview of all available branches type in `git branch`
+
+    $ git branch
+    * basic-layout
+      master
+
+Lets create a first version only with static content. The questions arise, where will be my
+*index.html* page? Because we are not working with controllers, the easiest thing is to put the
+*index.html* directly under the public folder in the project. And there you have your basic index
+page. Let's start padrino with and open the browsers
+
+
+Since we are done with the small feature, it is time to push our branch to the remote repository:
+
+    $ git push origin basic-layout
+
