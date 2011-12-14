@@ -10,6 +10,9 @@
 - add 'Special thank you page' in the book to thank all the guys who made this project possible
 - add @ManuelKiesling on the special thanks page for showing me leanpub and retweeting my posts
   about my daily progress, and many other hints in writing a book
+- additional links to explain the function of MVC (chapter 2)
+- add link for ruby blocks (chapter 2)
+- add footnote for ruby symbol (chapter 2)
 
 
 # Done #
