@@ -163,10 +163,130 @@ in this branch. To get an overview of all available branches type in `git branch
 Lets create a first version only with static content. The questions arise, where will be my
 *index.html* page? Because we are not working with controllers, the easiest thing is to put the
 *index.html* directly under the public folder in the project. And there you have your basic index
-page. Let's start padrino with and open the browsers
+page. Let's start Padrino with and open the browsers
 
 
 Since we are done with the small feature, it is time to push our branch to the remote repository:
 
     $ git push origin basic-layout
+
+This book has the intention to be up-to-date so we fill our index page with the latest
+[HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") constructs, we need to update the structure of
+our page:
+
+    <!DOCTYPE html>
+    <html lang="en-US">
+      <head>
+        <title>Startpage</title>
+      </head>
+      <body>
+        <p>Hello, Padrino</p>
+      </body>
+    </html>
+
+Explanation of the parts:
+
+- `<!DOCTYPE html>` -  the *document type* tells the browser which HTML version should be used for
+  rendering the content correctly
+- `head` - specifying meta information like title, description, and ; this is also the place to where
+  to add CSS and JavaScript files
+- `body` - section for displaying the main content of the page
+
+Due to this point this was the way websites were generated in the beginning: Plain, old but good
+page with static content. But today everything is dynamic like the arrival date of the
+[Deutsche Bahn](http://www.bahn.de/i/view/USA/en/index.shtml "Deutsche Bahn").
+
+Lets add some basic routes for displaying our home-, about-, and contact-page with the help of
+controllers.
+
+Padrino is a descendant form Rails, so it has a script to make controllers called **controller**.
+This commands take the name of the controller as a parameter.
+
+    $ padrino g controller
+
+The output of this command is:
+
+    create  app/controllers/page.rb
+    create  app/helpers/page_helper.rb
+    create  app/views/page
+     apply  tests/rspec
+    create  spec/app/controllers/page_controller_spec.rb
+
+If you have questions about the output above, please drop me a line - I think it is so clear that it
+don't need any explanation about it.
+
+Lets look at `app/controller/page.rb`:
+
+    JobApp.controllers :page do
+      # get :index, :map => "/foo/bar" do
+      #   session[:foo] = "bar"
+      #   render 'index'
+      # end
+
+      # get :sample, :map => "/sample/url", :provides => [:any, :js] do
+      #   case content_type
+      #     when :js then ...
+      #     else ...
+      # end
+
+      # get :foo, :with => :id do
+      #   "Maps to url '/foo/#{params[:id]}'"
+      # end
+
+      # get "/example" do
+      #   "Hello world!"
+      # end
+
+    end
+
+It's an empty file with a bunch of comments which gives you some example about how you can
+define own own routes. Lets define the home, about, and contact actions.
+
+    JobApp.controllers :page do
+      get :index, :map => '/page/index' do
+        render 'page/index'
+      end
+
+      get :about, :map => '/page/about' do
+        render 'page/about'
+      end
+
+      get :contact, :map => '/page/contact' do
+        render 'page/contact'
+      end
+
+    end
+
+
+As always, let me explain what these lines of code means:
+
+- `JobApp.controller :page` - define for our JobApp application the name space for the *page*
+  controller
+- `do ... end` - defines a block in ruby - please checkout LINK to learn more about
+  blocks in ruby. It is important to understand this feature because they are used in Padrino everywhere
+- `get :index, :map => '/page/index'` - the HTTP command *get* starts the declaration of the route
+  followed by the *index* action (in form of a ruby symbol FOOTNOTE), and is finally mapped under the
+  explicit URL */page/index*
+- `render 'page/index'` - define the route for the view/template which is rendered when the URL gets
+  the *get* request for the route - the views are placed under
+  *app/views/<controller-name>/<action-name>.<html|haml>*
+
+If you get lost in some ways what routes you have defined for your application just call `padrino
+rake routes` - this nice command crawls through your application after delicious routes and gives
+you a nice overview about **URL, REQUEST**, and **PATH** in your terminal:
+
+    $ padrino rake routes
+    => Executing Rake routes ...
+
+    Application: JobApp
+        URL                  REQUEST  PATH
+        (:page, :index)        GET    /page/index
+        (:page, :about)        GET    /page/about
+        (:page, :contact)      GET    /page/contact
+
+Finally let's track our changes and commit our changes to the repository on github
+
+    $ git add .
+    $ git commit -m 'add basic layout page for the app - only static ones'
+    $ git push
 
