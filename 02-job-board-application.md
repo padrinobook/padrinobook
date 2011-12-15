@@ -290,3 +290,69 @@ Finally let's track our changes and commit our changes to the repository on gith
     $ git commit -m 'add basic layout page for the app - only static ones'
     $ git push
 
+
+### Layout for our app ###
+
+Although we are now able to put content on our site, it would be nice to have some sort of basic
+styling on our web page. First we need to generate a basic template for all pages we want to create.
+Lets create *app/views/application.haml*
+
+    !!! Strict
+    %html
+      %head
+        %title
+          = "Job offer borad of Padrino"
+      %body
+        = yield
+
+Let me explain the parts of the Haml template:
+
+- `!!! Strict` - placeholder for the doc type
+- `%html` - will produce the opening (*<html>*) and closing tag (*</html>*). Other element within
+  this tag have to put in the next line with the indentation of two whitespace
+- `= "Job offer borad of Padrino"` - printing plain text into the view
+- `= yield` - is responsible for putting the content of each page (like *contact.haml* or
+  *about.haml*) into the layout
+
+The above part will be used to create the following html file
+
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html>
+      <head>
+        <title>
+          Job offer borad of Padrino
+        </title>
+      </head>
+      <body>
+        <p>
+          The main part of your homepage
+        </p>
+      </body>
+    </html>
+
+
+### Adding some CSS - twitter bootstrap ###
+
+The guys @Twitter were so friendly to put their used CSS framework **Twitter bootstrap** on a
+[public repository on github](https://github.com/twitter/bootstrap/ "repository on github"). Let's
+get the files (to speak more generally in the language of git, "Let's **clone** it"), put the CSS in
+our application, and delete the not used files of the bootstrap directory.
+
+    $ git clone https://github.com/twitter/bootstrap.git
+    $ cp bootstrap/bootstrap.css public/stylesheets/
+    $ rm -rf bootstrap
+
+Next we need to include the style sheet in our application. Edit *app/layouts/application.haml*:
+
+    !!! Strict
+    %html
+      %head
+        = stylesheet_link_tag 'bootstrap', :media => 'screen'
+        %title
+          = "Job offer borad of Padrino"
+      %body
+        = yield
+
+The tag looks after the *bootstrap.css* in you app *public/stylesheets* directory and will create a
+link to this style sheet.
+
