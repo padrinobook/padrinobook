@@ -334,25 +334,22 @@ The above part will be used to create the following html file
 ### Adding some CSS - twitter bootstrap ###
 
 The guys @Twitter were so friendly to put their used CSS framework **Twitter bootstrap** on a
-[public repository on github](https://github.com/twitter/bootstrap/ "repository on github"). Let's
-get the files (to speak more generally in the language of git, "Let's **clone** it"), put the CSS in
-our application, and delete the not used files of the bootstrap directory.
+[public repository on github](https://github.com/twitter/bootstrap/
+"repository on github"). Thank's to @achiu, we use padrino-recipes :
 
-    $ git clone https://github.com/twitter/bootstrap.git
-    $ cp bootstrap/bootstrap.css public/stylesheets/
-    $ rm -rf bootstrap
+    $ padrino g plugin bootstrap
 
 Next we need to include the style sheet in our application. Edit *app/layouts/application.haml*:
 
     !!! Strict
     %html
       %head
-        = stylesheet_link_tag 'bootstrap', :media => 'screen'
+        = stylesheet_link_tag 'bootstrap.min', :media => 'screen'
         %title
           = "Job offer borad of Padrino"
       %body
         = yield
 
-The tag looks after the *bootstrap.css* in you app *public/stylesheets* directory and will create a
+The tag looks after the *bootstrap.min.css* in you app *public/stylesheets* directory and will create a
 link to this style sheet.
 
