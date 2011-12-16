@@ -301,7 +301,7 @@ Lets create *app/views/application.haml*
     %html
       %head
         %title
-          = "Job offer borad of Padrino"
+          = "Job board Application"
       %body
         = yield
 
@@ -320,7 +320,7 @@ The above part will be used to create the following html file
     <html>
       <head>
         <title>
-          Job offer borad of Padrino
+          Job board Application
         </title>
       </head>
       <body>
@@ -334,8 +334,8 @@ The above part will be used to create the following html file
 ### Adding some CSS - twitter bootstrap ###
 
 The guys @Twitter were so friendly to put their used CSS framework **Twitter bootstrap** on a
-[public repository on github](https://github.com/twitter/bootstrap/
-"repository on github"). Thank's to @achiu, we use padrino-recipes :
+[public repository on github](https://github.com/twitter/bootstrap/ "repository on github"). Thank's
+to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use padrino-recipes :
 
     $ padrino g plugin bootstrap
 
@@ -346,10 +346,89 @@ Next we need to include the style sheet in our application. Edit *app/layouts/ap
       %head
         = stylesheet_link_tag 'bootstrap.min', :media => 'screen'
         %title
-          = "Job offer borad of Padrino"
+          = "Job board Application"
       %body
         = yield
 
-The tag looks after the *bootstrap.min.css* in you app *public/stylesheets* directory and will create a
-link to this style sheet.
+The *stylesheet_link_tag* looks after the *bootstrap.min.css* in you app *public/stylesheets*
+directory and will create a link to this style sheet.
 
+
+### Creating the navigation ###
+
+Next we want to create the top-navigation for our application. We need some own CSS to style the
+custom parts of our application without changing the twitter-bootstrap layout files. Let's create
+the *app/stylesheets/application.sass*
+
+    body
+      font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana, sans-serif
+      text-align: justify
+
+    nav ul
+      list-style: none
+      padding: 0
+      li
+        display: inline
+        margin: 0
+        padding-right: 25px
+        padding-left: 30px
+        clear: none
+        float: left
+        text-decoration: none
+        a
+          border-bottom: 0px
+        a:hover
+          color: blue
+          text-decoration: dotted
+
+    .site
+      max-width: 900px
+      min-height: 600px
+      padding: 20px
+      line-height: 1.8em
+
+    p
+      font-size: 95%
+
+    .clearer
+      clear: both
+
+[Sass](http://sass-lang.com/ "Sass") is the counterpart haml and lets you create compact CSS. Every
+time you made changes in the sass file, it automatically detect the changes and compile the Sass
+file to CSS - it helps you a lot to stay in the coding mode. Of course we have to add the
+application.css in our template as well as adding our horizontal navigation as a typical ul/li
+combination
+
+    !!! Strict
+    %html
+      %head
+        = stylesheet_link_tag 'bootstrap', :media => 'screen'
+        = stylesheet_link_tag 'application'
+        %title
+          = "Job offer board of Padrino"
+      %body
+        .container
+          %h1
+            Job Offer Board
+          %nav{:role => 'navigation'}
+            %ul
+              %li
+                = link_to 'Home', url_for(:page, :index)
+              %li
+                = link_to 'About', url_for(:page, :about)
+              %li
+                = link_to 'Contact', url_for(:page, :contact)
+              %li
+                = link_to 'Help', url_for(:page, :help)
+          .clearer
+          .site
+            = yield
+
+Explanation of the new parts
+- `%nav{:role => 'navigation'}` - will produce the html nav tag and takes the ruby hash `{:role =>
+  navigation}` as an additional parameter - the output in HTML is `<nav role='navigation'>`
+- `.clear` - . is a shortcut for a div-class with the name *clearer*
+- `link_to` - the first argument is the name of the link and second is the URLs
+- `url_for` - will create the link-tag - for example `url_for(:page, :contact)` is using **named
+  parameters** which were specified in our *page-controller*. The scheme for this is `<:controller>,
+  <:action>` - you can use these settings in your whole application to create clean and encapsulated URLs
