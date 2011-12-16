@@ -14,11 +14,12 @@
 
 
 ## Chapter 2 ##
-- additional links to explain the function of MVC (chapter 2)
-- add link for ruby blocks (chapter 2)
-- add footnote for ruby symbol (chapter 2)
-- investigate how to make references to other sections in markdown (see 02 section)
-- shortcut haml - for what does it stands? (chapter 2)
+- additional links to explain the function of MVC
+- add link for ruby blocks
+- add footnote for ruby symbol
+- investigate how to make references to other sections in markdown
+- shortcut haml - for what does it stands?
+- explain sass more in detail
 
 
 # Done #
