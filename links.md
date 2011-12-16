@@ -1,0 +1,3 @@
+- recipes in padrino: https://github.com/padrino/padrino-recipes
+- generators: http://www.padrinorb.com/guides/generators
+- controllers and routing: http://www.padrinorb.com/guides/controllers
