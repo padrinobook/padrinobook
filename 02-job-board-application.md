@@ -2,55 +2,42 @@
 
 There are more IT jobs out there than people are available. It would be great if we have the
 possibility to offer a platform where users can easily post new jobs offer (of course ruby and rails
-jobs) to get enough people for your company.
+jobs) to get enough people for your company. That's the piece of software we want to build. We will
+apply **K.I.S.S**[^KISS] principle, so we will keep maintain a very easy and extensible design.
 
-This is the outline scenario - it's a real world example, so when your chef ask you if you know how
-to create such piece of software raise your hand and say that you have some bleeding-edge technology
-which fits perfect for the job.
-
-The outline is easy, and as a developer you have implementation details with many good and cool
-features in your mind. But step back from the thoughts to get started with switching your fingertips
-on the keyboard. Clear your mind and take a piece of paper (or your favorite paint program) and
-outline a scheme of what you want to create. Make small steps, test your code, integrate your code
-often, and deploy your code. Don't worry, I will show you how you to create a healthy and motivating
-work flow with many neat and small hints.  Sounds difficult in your ears? Well, actually it is, but
-just start, and don't let your mind gets filled with fears and issues to hinder your daily progress.
-
-
-## Creation of a user data model ##
-
-There are many different ways how to develop a user for your system. In this way, we will go conform
-the standard of nearly each application. A user in our system will have an *unique* identification
-number **id** (useful for indexing and entry in our database), a **name** and an **email** each a
-type string.
-
-![Figure 2-1. user data model](images/02/user.jpg)
-
-
-## Creation of a job offer data model ##
-
-I like the **K.I.S.S**[^KISS] principle, so we will keep up the easy design. A job offer consists of
-the following attributes:
-
-- title: the concrete
-- location: where the will be places
-- description: what is important
-- contact: an email address is sufficant - they should call you instead of vice versa
-- time-start: what is the earliest date when you can start
-- time-end: nothing lives forever - even a brittle job offer
-
-Under normal circumstances it would be nice to upload an image, but we will limit this opportunity
-to link to an existing image (most likely on flickr or some other image provider).
-
-![Figure 2-2. job offer data model](images/02/job_offer.jpg)
+First, we will go the basic design of our application after we are going to implement our ideas with
+in the Padrino framework.
 
 [^KISS]: Is an acronym for *Keep it simple and stupid*.
 
 
-## Basic coding of the app ##
+## Creation of the models ##
 
-After making some thoughts about the data models of our application it is time to put our dream into
-reality.
+
+### User data model ###
+
+There are many different ways how to develop a user entity for your system. A user in our system
+will have an *unique* identification number **id** (useful for indexing and entry in our database),
+a **name** and an **email** each a type string.
+
+![Figure 2-1. user data model](images/02/user.jpg)
+
+
+### Job offer data model ###
+
+A job offer consists of the following attributes:
+
+- title: the concrete name of the job position
+- location: where the job is
+- description: what is important to know for the position
+- contact: an email address is sufficient
+- time-start: what is the earliest date when you can start
+- time-end: nothing lives forever - even a job offer
+
+![Figure 2-2. job offer data model](images/02/job_offer.jpg)
+
+
+## Basic crafting of the application ##
 
 In a first attempt we will start with generating a new project with the normal `padrino` command
 (see section \ref{section 'Hello world'}) but this time it has a bunch of new options:
@@ -65,7 +52,7 @@ Explanation of the new fields:
   testing framework (a later explanation about this will follow)
 - **-d atciverecord**: using activerecord as the datamapper
 - **-a sqlite**: specifying the orm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") -
-  easy to maintainer and easy to inspect because all entries are saved in a plain text file
+  is easy to install, easy to inspect because all, and doesn't consumes your processor power (CPU)
 - **-e haml**: using [Haml](http://haml-lang.com/ "Haml")[^haml] markup as a *renderer* to describe HTML in
   better and faster way
 - **-c sass**: using [Sass](http://sass-lang.com/ "Sass")[^sass] markup for describing the CSS[^css] of the
@@ -79,8 +66,7 @@ Explanation of the new fields:
 [^sass]: stands for *Syntactical Awesome Style Sheets*
 
 If this commands works, you have a nice green playground with all the Next, we need to specify the
-used *gem* in the *Gemfile* with your favored text editor (cause I'm a big Vim fan boy `vim
-Gemfile`):
+used *gem* in the *Gemfile* with your favored text editor `vim Gemfile`:
 
     source :rubygems
 
@@ -101,8 +87,7 @@ Gemfile`):
     # Padrino Stable Gem
     gem 'padrino', '0.10.5'
 
-We are using the last stable version of Padrino (during the release of this book it is version
-**0.10.5**). Let's include the gems for our project (later when *time has come*, we will add other
+Let's include the gems for our project (later when *time has come*, we will add other
 gems) with bundler[^bundler]:
 
     $ bundle install
@@ -132,9 +117,8 @@ platform. (TODO: installation explanation of github, maybe just a link)
 ![Figure 2-3. creating a new project on github](images/02/github.png)
 
 Instead of *matthias-guenther* you have to replace this phrase with your personal github account
-name.  That's it, now project is online and everyone can see it - even potential head-hunters which
-want to hire you. We want to give extra credit for reader so that they can see what this project is
-about. So we will add a README.md to the project
+name. Now your repository is on-line To write some documentation about what the whole project is
+about we will add a README.md to the project:
 
     $ git add README.md
     $ git commit -m 'add README'
@@ -144,7 +128,7 @@ If you want to check how it has to be, just checkout the
 [sources](https://github.com/matthias-guenther/job_app "sources").
 
 
-## Creating the basic layout ##
+### Basic layout - controller and routing ###
 
 The first thing we will do, is to check out a new branch for this section. Let's fire up the console
 an create a new branch
@@ -291,7 +275,7 @@ Finally let's track our changes and commit our changes to the repository on gith
     $ git push
 
 
-### Layout for our app ###
+### Basic Layout - haml ###
 
 Although we are now able to put content on our site, it would be nice to have some sort of basic
 styling on our web page. First we need to generate a basic template for all pages we want to create.
@@ -331,7 +315,7 @@ The above part will be used to create the following html file
     </html>
 
 
-### Adding some CSS - twitter bootstrap ###
+### Basic layout - twitter bootstrap ###
 
 The guys @Twitter were so friendly to put their used CSS framework **Twitter bootstrap** on a
 [public repository on github](https://github.com/twitter/bootstrap/ "repository on github"). Thank's
@@ -354,7 +338,7 @@ The *stylesheet_link_tag* looks after the *bootstrap.min.css* in you app *public
 directory and will create a link to this style sheet.
 
 
-### Creating the navigation ###
+### Navigation ###
 
 Next we want to create the top-navigation for our application. We need some own CSS to style the
 custom parts of our application without changing the twitter-bootstrap layout files. Let's create
@@ -402,7 +386,7 @@ combination
     !!! Strict
     %html
       %head
-        = stylesheet_link_tag 'bootstrap', :media => 'screen'
+        = stylesheet_link_tag 'bootstrap.min', :media => 'screen'
         = stylesheet_link_tag 'application'
         %title
           = "Job offer board of Padrino"
