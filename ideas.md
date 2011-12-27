@@ -6,5 +6,6 @@ or some other kind.
 
 ## Technical ##
 
-- create a vim-plugin that can display markdown headings in a extra windows and allow the user to
+- DONE create a vim-plugin that can display markdown headings in a extra windows and allow the user to
   got to the headline marks and the current window will go right to this place.
+  => tocdown - was the final product

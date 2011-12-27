@@ -11,6 +11,12 @@
 - add 'Special thank you page' in the book to thank all the guys who made this project possible
 - add @ManuelKiesling on the special thanks page for showing me leanpub and retweeting my posts
   about my daily progress, and many other hints in writing a book
+- box around images (maybe I can just draw a frame about the images in Omnigraffle)
+
+
+## Chapter 1 ##
+- add part to describe Firebox, Debugging Tools - maybe before or after the 'Browser' section
+- config.ru add link
 
 
 ## Chapter 2 ##
@@ -24,5 +30,16 @@
 
 # Done #
 
-nothing so far
+
+## Chapter 1 ##
+
+-
+-
+-
+
+## Chapter 2 ##
+
+-
+-
+-
 

@@ -186,7 +186,7 @@ controllers.
 Padrino is a descendant form Rails, so it has a script to make controllers called **controller**.
 This commands take the name of the controller as a parameter.
 
-    $ padrino g controller
+    $ padrino g controller page
 
 The output of this command is:
 
@@ -416,3 +416,117 @@ Explanation of the new parts
 - `url_for` - will create the link-tag - for example `url_for(:page, :contact)` is using **named
   parameters** which were specified in our *page-controller*. The scheme for this is `<:controller>,
   <:action>` - you can use these settings in your whole application to create clean and encapsulated URLs
+
+
+### Writing first tests ###
+
+Now it is time to begin with developping our code with tests. As mentioned in the introduction, we
+will *describing the behavior of code*[^bdd] with the framework [RSPec](http://rspec.info/ "RSPec").
+
+As we created the controller with `padrino g controller page` Padrino created spec file under
+*spec/app* for us automatically. So let's examine *spec/app/controller/page_controller_spec.rb*
+
+    require 'spec_helper'
+
+    describe "PageController" do
+      before do
+        get "/"
+      end
+
+      it "returns hello world" do
+        last_response.body.should == "Hello World"
+      end
+    end
+
+- `spec_helper` - is a file to load common used functions so that they can used in all other spec
+- `describe block` - this block describe the context for our tests.
+- `before do` - the content of this block will be called before the execution of each `it "..." do`
+- `it "..." do` - consists of the textual description of the test and write our expectation to our
+  application code
+
+Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb` and see the funny
+(and long) output in the terminal:
+
+    PageController
+      returns hello world (FAILED - 1)
+
+    Failures:
+
+      1) PageController returns hello world
+         Failure/Error: last_response.body.should == "Hello World"
+           expected: "Hello World"
+                got: "<!DOCTYPE html>\n<html>\n<head>\n  <style type=\"text/css\">\n  body { text-align:center;font-family:helvetica,arial;font-size:22px;\n    color:#888;margin:20px}\n  #c {margin:0 auto;width:500px;text-align:left}\n  </style>\n</head>\n<body>\n  <h2>Sinatra doesn&rsquo;t know this ditty.</h2>\n  <img src='http://example.org/__sinatra__/404.png'>\n  <div id=\"c\">\n    Try this:\n    <pre>get '/' do\n  \"Hello World\"\nend</pre>\n  </div>\n</body>\n</html>\n" (using ==)
+           Diff:
+           @@ -1,2 +1,21 @@
+           -Hello World
+           +<!DOCTYPE html>
+           +<html>
+           +<head>
+           +  <style type="text/css">
+           +  body { text-align:center;font-family:helvetica,arial;font-size:22px;
+           +    color:#888;margin:20px}
+           +  #c {margin:0 auto;width:500px;text-align:left}
+           +  </style>
+           +</head>
+           +<body>
+           +  <h2>Sinatra doesn&rsquo;t know this ditty.</h2>
+           +  <img src='http://example.org/__sinatra__/404.png'>
+           +  <div id="c">
+           +    Try this:
+           +    <pre>get '/' do
+           +  "Hello World"
+           +end</pre>
+           +  </div>
+           +</body>
+           +</html>
+         # ./spec/app/controllers/page_controller_spec.rb:9:in `block (2 levels) in <top (required)>'
+
+    Finished in 6.02 seconds
+    1 example, 1 failure
+
+    Failed examples:
+
+    rspec ./spec/app/controllers/page_controller_spec.rb:8 # PageController returns hello world
+
+Our tests get's the root index ouf our application (`get "/"`) and we expecting that the response
+from this request should be *Hello world* (`last_response.body.should == "Hello World"`). Because we
+changed the layout routes and the layout of our application, this test failed (it's **red**). Let's change the code
+of our spec to pass the test (make it **green**):
+
+    require 'spec_helper'
+
+    describe "PageController" do
+
+      describe "'GET' index" do
+        it "should be success" do
+          get  '/page/index'
+          last_response.status.should == 200
+        end
+      end
+
+    end
+
+Next we run our tests with `rspec spec/app/controllers/page_controller_spec.rb`:
+
+    PageController
+      'GET' index
+        should be success
+
+    Finished in 5.94 seconds
+    1 example, 0 failures
+
+[^bdd]: Which is called Behavior-Driven-Design and has nearly the same features as
+Test-Driven-Development (TDD)
+
+
+#### Red-Green Cylcle ####
+
+In behavior-driven development it is common to write first a failing test (so that you get a red
+color when running the test). Next we change our code base to make it pass (you get a green color
+when running the test). The scheme for this approach is test first, then the implementation. But
+this little shift in mind when working on production code helps you to think more about the problem
+and how to solve it.
+
+Once you have green code, you are in the position to refactor your code - remove duplication,
+enhance design without changing the behavior of our code.
+
