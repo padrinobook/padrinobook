@@ -1,4 +1,4 @@
-# Introduction #
+# Introduction
 
 Why another book about how to develop an application in Rails? But hold, this book should give you a
 basic introduction how to develop a web application with [Padrino](http://www.padrinorb.com/).
@@ -9,20 +9,20 @@ Rails. To say it with words of the Padrino webpage: "Padrino is a full-stack rub
 upon Sinatra".
 
 
-## Motivation ##
+## Motivation
 
 My motivation is to provide an up-to-date documentation of Padrino. It is exceptional to Rails,
 providing separate branches of your favorite HTML/CSS/SQL layers and many more. Each of the used
 techniques will be described when it will be used and repeated in whole parts of the book.
 
 
-## Basics and Tools ##
+## Basics and Tools
 
 In one sentence: I'm using **Vim** under **Mac OS X** in addition with **Git** for source code
 tracking and **heroku** for deploying an application.
 
 
-### Operation System ###
+### Operation System
 
 "War... War never changes." this quote from my all-time favorite video game series
 [Fallout](http://en.wikipedia.org/wiki/Fallout_(video_game) "Fallout") describes the battle of the
@@ -55,7 +55,7 @@ patience and learning to come to the point where I can say, that it was worth pa
 for the hardware).
 
 
-### Editor ###
+### Editor
 
 Nowadays there are a bunch of IDEs out there: [RubyMine by JetBrains](http://www.jetbrains.com/ruby/
 "RubyMine") (commercial) [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana
@@ -71,7 +71,7 @@ you want to see which tool I use every day). In the end you have to decide what 
 ![Figure 1-2. Picture of Vim with NERDTree](images/01/editor.jpg)
 
 
-### Browser ###
+### Browser
 
 Here it is the as with the editors: There are many of them with great plugins out there for
 web development. The mostly used browsers by Rails developer are:
@@ -95,14 +95,14 @@ Get out, grab the thing you want, and then gets your hands dirty.
 [^dom]: stands for *Document Object Model* and is a tree-like representation of the HTML page.
 
 
-### Additional tools ###
+### Additional tools
 
 This sections contains a list of tools that are optional. That means that you can survive without
 them but learning them can help you in various situations and makes it easier for you to react upon
 changes.
 
 
-#### Ruby ####
+#### Ruby
 
 For any non-Ruby people, I strongly advice you to check out one of these books and learn the basics
 of Ruby before continuing here.
@@ -118,7 +118,7 @@ In this project I will explain difficult language constructs in Ruby - but don't
 will explain them in every way.
 
 
-#### Git ####
+#### Git
 
 During software development it is important to keep track of your source code changes. That is what
 version control systems (VCSs) is all about.  Git helps you to keep track of the changes in your
@@ -158,7 +158,7 @@ In this book I will explain the commands of Git when they first occur, and repea
 every time I did during the development. Repeating is very important when learning something new.
 
 
-#### Heroku ####
+#### Heroku
 
 The [Heroku cloud application platform](http://www.heroku.com/ "ruby gem") enables you to deploy
 your Rails application on the Heroku platform. It manage the database creation, installation of the
@@ -168,7 +168,7 @@ Matsumoto](http://blog.heroku.com/archives/2011/7/12/matz_joins_heroku/ "Yukihir
 as *Chief Architect of Ruby* on this platform.
 
 
-## Hello world and Git ##
+## Hello world and Git
 
 On the following image you can see the basic image of our application[^omnigraffle]:
 
@@ -271,7 +271,7 @@ You can say, you have built your first Padrino application in less than five min
 hand on your shoulder and have a party dance.
 
 
-### Installing Git and configure it ###
+### Installing Git and configure it
 
 We want to get the least possible thing to be working. Follow the [installation
 section](http://progit.org/book/ch1-4.html "installation section") of the **Pro git** book to
@@ -288,7 +288,7 @@ repeating commands is the best way to learn, and everyone has a different opinio
 should be used, I will not create further configurations.
 
 
-### Initialize a Git repository ###
+### Initialize a Git repository
 
 Git can keep track of every file you have in a certain directory. Let's assume that you have a brand
 new Padrino application in the directory *padrino\_brand\_new*. First you need to initialize git in
@@ -339,7 +339,7 @@ into the Vim environment.  According to Pope's philosophy, a commit message shou
 commit with too many changes.
 
 
-### gitignore ###
+### gitignore
 
 This file let's you specify which files should not be added to the Git repository.  When you start
 your Padrino application with `padrino start` it will start to track requests you can see in the
@@ -363,7 +363,7 @@ all entries you need:
 Just keep your mind on committing small changes for your project.
 
 
-### Wait, there is more - the file structure ###
+### Wait, there is more - the file structure
 
 Navigating through the various parts of a project is essential. Thus we will go through the basic
 file structure of the *hello-world* project:
@@ -404,7 +404,8 @@ We will go through each part.
   *restart.txt* which reboots another Padrino application.
 
 
-## Conclusion ##
+## Conclusion
 
 We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools
 for the job, and used to version control with git. Now it is time to jump into a real project!
+
