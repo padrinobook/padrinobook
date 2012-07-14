@@ -1,4 +1,4 @@
-# Job Board Application #
+# Job Board Application
 
 There are more IT jobs out there than people are available. It would be great if we have the
 possibility to offer a platform where users can easily post new jobs offer (of course ruby and rails
@@ -11,10 +11,10 @@ in the Padrino framework.
 [^KISS]: Is an acronym for *Keep it simple and stupid*.
 
 
-## Creation of the models ##
+## Creation of the models
 
 
-### User data model ###
+### User data model
 
 There are many different ways how to develop a user entity for your system. A user in our system
 will have an *unique* identification number **id** (useful for indexing and entry in our database),
@@ -23,7 +23,7 @@ a **name** and an **email** each a type string.
 ![Figure 2-1. user data model](images/02/user.jpg)
 
 
-### Job offer data model ###
+### Job offer data model
 
 A job offer consists of the following attributes:
 
@@ -37,7 +37,7 @@ A job offer consists of the following attributes:
 ![Figure 2-2. job offer data model](images/02/job_offer.jpg)
 
 
-## Basic crafting of the application ##
+## Basic crafting of the application
 
 In a first attempt we will start with generating a new project with the normal `padrino` command
 (see section \ref{section 'Hello world'}) but this time it has a bunch of new options:
@@ -128,7 +128,7 @@ If you want to check how it has to be, just checkout the
 [sources](https://github.com/matthias-guenther/job_app "sources").
 
 
-### Basic layout - controller and routing ###
+### Basic layout - controller and routing
 
 The first thing we will do, is to check out a new branch for this section. Let's fire up the console
 an create a new branch
@@ -275,7 +275,7 @@ Finally let's track our changes and commit our changes to the repository on gith
     $ git push
 
 
-### Basic Layout - haml ###
+### Basic layout - haml
 
 Although we are now able to put content on our site, it would be nice to have some sort of basic
 styling on our web page. First we need to generate a basic template for all pages we want to create.
@@ -315,7 +315,7 @@ The above part will be used to create the following html file
     </html>
 
 
-### Basic layout - twitter bootstrap ###
+### Basic layout - twitter bootstrap
 
 The guys @Twitter were so friendly to put their used CSS framework **Twitter bootstrap** on a
 [public repository on github](https://github.com/twitter/bootstrap/ "repository on github"). Thank's
@@ -338,7 +338,7 @@ The *stylesheet_link_tag* looks after the *bootstrap.min.css* in you app *public
 directory and will create a link to this style sheet.
 
 
-### Navigation ###
+### Navigation
 
 Next we want to create the top-navigation for our application. We need some own CSS to style the
 custom parts of our application without changing the twitter-bootstrap layout files. Let's create
@@ -414,17 +414,18 @@ Explanation of the new parts
 - `.clear` - . is a shortcut for a div-class with the name *clearer*
 - `link_to` - the first argument is the name of the link and second is the URLs
 - `url_for` - will create the link-tag - for example `url_for(:page, :contact)` is using **named
-  parameters** which were specified in our *page-controller*. The scheme for this is `<:controller>,
-  <:action>` - you can use these settings in your whole application to create clean and encapsulated URLs
+  parameters** which were specified in our *page-controller*.
+  The scheme for this is `<:controller>, <:action>` - you can use
+  these settings in your whole application to create clean and encapsulated URLs
 
 
-### Writing first tests ###
+### Writing first tests
 
 Now it is time to begin with developping our code with tests. As mentioned in the introduction, we
-will *describing the behavior of code*[^bdd] with the framework [RSPec](http://rspec.info/ "RSPec").
+will *describing the behavior of code*[^bdd] with the framework [RSpec](http://rspec.info/ "RSpec").
 
 As we created the controller with `padrino g controller page` Padrino created spec file under
-*spec/app* for us automatically. So let's examine *spec/app/controller/page_controller_spec.rb*
+*spec/app* for us automatically. So let's examine *spec/app/controller/page_controller_spec.rb*:
 
     require 'spec_helper'
 
@@ -455,7 +456,7 @@ Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb
       1) PageController returns hello world
          Failure/Error: last_response.body.should == "Hello World"
            expected: "Hello World"
-                got: "<!DOCTYPE html>\n<html>\n<head>\n  <style type=\"text/css\">\n  body { text-align:center;font-family:helvetica,arial;font-size:22px;\n    color:#888;margin:20px}\n  #c {margin:0 auto;width:500px;text-align:left}\n  </style>\n</head>\n<body>\n  <h2>Sinatra doesn&rsquo;t know this ditty.</h2>\n  <img src='http://example.org/__sinatra__/404.png'>\n  <div id=\"c\">\n    Try this:\n    <pre>get '/' do\n  \"Hello World\"\nend</pre>\n  </div>\n</body>\n</html>\n" (using ==)
+                got: "<!DOCTYPE html>\n<html>\n<head>\n  <style type=\"text/css\">\n  body { text-align:center;font-family:helvetica,arial;font-size:22px;\n    color:#888;margin:20px}\n  #c {margin:0 auto;width:500px;text-align:left}\n  </style>\n</head>\n<body>\n  <h2>Sinatra doesn&rsquo;t know this ditty.</h2>\n  <div id=\"c\">\n    Try this:\n    <pre>get '/' do\n  \"Hello World\"\nend</pre>\n  </div>\n</body>\n</html>\n" (using ==)
            Diff:
            @@ -1,2 +1,21 @@
            -Hello World
@@ -470,7 +471,6 @@ Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb
            +</head>
            +<body>
            +  <h2>Sinatra doesn&rsquo;t know this ditty.</h2>
-           +  <img src='http://example.org/__sinatra__/404.png'>
            +  <div id="c">
            +    Try this:
            +    <pre>get '/' do
@@ -488,10 +488,10 @@ Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb
 
     rspec ./spec/app/controllers/page_controller_spec.rb:8 # PageController returns hello world
 
-Our tests get's the root index ouf our application (`get "/"`) and we expecting that the response
+Our tests get's the root index out our application (`get "/"`) and we expecting that the response
 from this request should be *Hello world* (`last_response.body.should == "Hello World"`). Because we
-changed the layout routes and the layout of our application, this test failed (it's **red**). Let's change the code
-of our spec to pass the test (make it **green**):
+changed the layout routes and the layout of our application, this test failed (it's **red**). Let's
+change the code of our spec to pass the test (make it **green**):
 
     require 'spec_helper'
 
@@ -513,20 +513,19 @@ Next we run our tests with `rspec spec/app/controllers/page_controller_spec.rb`:
         should be success
 
     Finished in 5.94 seconds
-    1 example, 0 failures
+   1 example, 0 failures
 
-[^bdd]: Which is called Behavior-Driven-Design and has nearly the same features as
-Test-Driven-Development (TDD)
+[^bdd]: Which is called Behavior-driven Development and has nearly the same features as
+Test-driven development (TDD)
 
 
-#### Red-Green Cylcle ####
+#### Red-Green Cycle
 
-In behavior-driven development it is common to write first a failing test (so that you get a red
-color when running the test). Next we change our code base to make it pass (you get a green color
-when running the test). The scheme for this approach is test first, then the implementation. But
-this little shift in mind when working on production code helps you to think more about the problem
-and how to solve it.
+In Behavior-driven (as well as in Test-driven) development it is common to write first a failing
+test (so that you get a **red** color when running the test). Next we change our code base to make it
+pass (you get a **green** when running the test). The scheme for this approach is test first, then the
+implementation. But this little shift in mind when working on production code helps you to think
+more about the problem and how to solve it.
 
 Once you have green code, you are in the position to refactor your code - remove duplication,
-enhance design without changing the behavior of our code.
-
+enhance design without changing the behavior of our code, or try it new things in architecture.
