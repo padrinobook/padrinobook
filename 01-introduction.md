@@ -18,7 +18,7 @@ techniques will be described when it will be used and repeated in whole parts of
 
 ## Basics and Tools
 
-In one sentence: I'm using **Vim** under **Mac OS X** in addition with **Git** for source code
+In one sentence: I'm using **Vim** on **Mac OS X** along with **Git** for source code
 tracking and **heroku** for deploying an application.
 
 
