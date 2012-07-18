@@ -57,11 +57,13 @@ you can see in these pictures, I'm using a Mac.
 
 ### Editor
 
-Nowadays there are a bunch of IDEs out there: [RubyMine by JetBrains](http://www.jetbrains.com/ruby/
-"RubyMine") (commercial) [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana
-RadRails") (free).  Or you can switch to some text editors [Textmate](http://macromates.com/
-"Textmate") (commercial for Mac only), [Vim](http://www.vim.org/ "vim"), and
-[Emacs](http://www.gnu.org/s/emacs/), which just run on every server and under every terminal.
+Nowadays there are a bunch of Integrated Development Environments (IDEs) out there: 
+- [RubyMine by JetBrains](http://www.jetbrains.com/ruby/ "RubyMine") (commercial)
+- [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") (free)
+Or you can switch to a plain text editor which is a popular choice with Ruby developers
+- [Textmate](http://macromates.com/ "Textmate") (commercial for Mac only)
+- [Vim](http://www.vim.org/ "vim") (free - open source)
+- [Emacs](http://www.gnu.org/s/emacs/) (free - open source).
 
 All tools have their strengths and weaknesses - find your most passionate piece of software or write
 even something by yourself. The main goal is that you are comfortable with it because you will
