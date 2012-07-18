@@ -70,7 +70,7 @@ All tools have their strengths and weaknesses - find software that works best fo
 even something by yourself. The main goal is that you are comfortable with it because you will
 mostly spend a lot of time with it.  Due to the fact that I use the command line extensively, I
 prefer to use a "classical" **text editor** (see my [vim-settings repository on github](https://github.com/matthias-guenther/vim-settings "vim-settings repository on github") if
-you want to see which tool I use every day). In the end you have to decide what you want to take.
+you want to see which tool I use every day). You can cherry pick which settings work for you.
 ![Figure 1-2. Picture of Vim with NERDTree](images/01/editor.jpg)
 
 
@@ -117,8 +117,8 @@ of Ruby before continuing here.
   and educational way.
 
 
-In this project I will explain difficult language constructs in Ruby - but don't assume that I
-will explain them in every way.
+In this book I will be assuming some Ruby knowledge and will not be explaining every last detail, I
+will however explain Padrino specific coding techniques.
 
 
 #### Git
