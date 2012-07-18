@@ -181,7 +181,7 @@ extensions by [konigi](http://konigi.com/tools/omnigraffle-wireframe-stencils "k
 wireframes.
 
 
-You know this sections from several tutorials which makes you comfortable with your first program in
+You know this section from several tutorials which makes you comfortable with your first program in
 a new programming language. Get your hands dirty and start coding. First of all we need to install
 the gem with:
 
@@ -248,7 +248,7 @@ application folder and starting the application:
     $ bundle install
 
 The command `bundle install` will install with [bundler](http://gembundler.com/ "bundler") all
-the necessary gem dependencies for your project which are declared in your *GemFile*.
+the necessary gem dependencies for your project which are declared in your *Gemfile*.
 
 Let's open the file *app/app.rb* (this is like the root controller) and write in the following:
 
@@ -268,8 +268,7 @@ and fire up your browser with the URL *http://localhost:3000*. Be happy with the
 
 ![Figure 1-3. Hello world in your browser](images/01/hello_world.jpg)
 
-You can say, you have built your first Padrino application in less than five minutes. Time to put a
-hand on your shoulder and have a party dance.
+You can now say you have built your first Padrino application in less than five minutes.
 
 
 ### Installing Git and configure it
@@ -408,5 +407,5 @@ We will go through each part.
 ## Conclusion
 
 We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools
-for the job, and used to version control with git. Now it is time to jump into a real project!
+for the job, and used version control with Git. Now it is time to jump into a real project!
 
