@@ -12,14 +12,15 @@ is a full-stack ruby framework built upon Sinatra".
 
 ## Motivation
 
-My motivation is to provide up-to-date documentation for Padrino. It is exceptional to Rails,
-providing separate branches of your favorite HTML/CSS/SQL layers and many more.
+My motivation is to provide up-to-date documentation for Padrino.  Although Padrino borrows many ideas
+and techniques from it's big brother Rails it aims to be more modular and allows you to interchange
+various components with considerable ease.
 
 
 ## Basics and Tools
 
 In one sentence: I'm using **Vim** on **Mac OS X** along with **Git** for source code
-tracking and **heroku** for deploying an application.
+version control and **Heroku** for deploying / hosting an application.
 
 
 ### Operation System
