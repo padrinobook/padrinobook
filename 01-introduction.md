@@ -26,8 +26,9 @@ version control and **Heroku** for deploying / hosting an application.
 ### Operating System
 
 "War... War never changes." this quote from my all-time favorite video game series
-[Fallout](http://en.wikipedia.org/wiki/Fallout_(video_game) "Fallout") describes the battle of the
-different operating systems. I will briefly give you an overview what you can take:
+[Fallout](http://en.wikipedia.org/wiki/Fallout_(video_game) "Fallout") appropriately describes the battle
+of the different operating systems and their users. I will briefly give you an overview of the three most
+popular operating systems in common usage:
 
 - [Windows](http://windows.microsoft.com/ "Windows"): This commercial operating system is installed
   on a huge range of computers. Much software and games are available for this operation system.
