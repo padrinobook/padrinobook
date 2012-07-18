@@ -62,6 +62,7 @@ Nowadays there are a bunch of Integrated Development Environments (IDEs) out the
 - [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") (free)
 Or you can switch to a plain text editor which is a popular choice with Ruby developers
 - [Textmate](http://macromates.com/ "Textmate") (commercial for Mac only)
+- [Gedit](http://projects.gnome.org/gedit/ "Gedit") (free - open source)
 - [Vim](http://www.vim.org/ "vim") (free - open source)
 - [Emacs](http://www.gnu.org/s/emacs/) (free - open source).
 
