@@ -158,7 +158,7 @@ There are other VCSs out there like:
 - [Mercurial](http://mercurial.selenic.com/ "Mercurial")
 
 In this book I will explain the commands of Git when they first occur, and repeat the commands
-every time I did during the development. Repeating is very important when learning something new.
+that I did during development. Repetition is very important when learning something new.
 
 
 #### Heroku
