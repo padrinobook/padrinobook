@@ -31,10 +31,10 @@ of the different operating systems and their users. I will briefly give you an o
 popular operating systems in common usage:
 
 - [Windows](http://windows.microsoft.com/ "Windows"): This commercial operating system is installed
-  on a huge range of computers. Much software and games are available for this operation system.
-  Updates comes regularly, and everything is mostly intuitive. One big problem of Windows is its
-  mouse affinity: There are shortcuts and handy tips available. It is good for development, but
-  lacks some comfort and design issues (you may not know, when you haven't worked with Linux).
+  by default on a huge range of computers. A wide range of software and games are available for Windows.  
+  Updates come regularly, and everything is mostly intuitive. One big problem of Windows
+  is it's mouse affinity, there are however shortcuts and handy tips available. It is good for development,
+  but lacks some comfort and design issues (you may not know, when you haven't worked with Linux).
 - [Unix/Linux](http://en.wikipedia.org/wiki/Linux "Unix/Linux"): Highly configurable, and has many
   Open Source Tools. If you come from the Windows world, your brain will burn like hell because
   everything is different. The program calls are different, you can install new software via
@@ -51,10 +51,8 @@ popular operating systems in common usage:
   (Microsoft). Development on this machine is extreme good, because it underlines the needs of
   developers.
 
-There is a war between these three operation systems, and which you chose is a matter of taste. As
-you can see on this pictures, I'm using a Mac. I like and love (and yeah, I had to pay a lot of
-patience and learning to come to the point where I can say, that it was worth paying that much money
-for the hardware).
+There is a war between these three operating systems, and which one you choose is a matter of taste. As
+you can see in these pictures, I'm using a Mac.
 
 
 ### Editor
