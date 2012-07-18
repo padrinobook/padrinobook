@@ -164,11 +164,9 @@ that I did during development. Repetition is very important when learning someth
 #### Heroku
 
 The [Heroku cloud application platform](http://www.heroku.com/ "ruby gem") enables you to deploy
-your Rails application on the Heroku platform. It manage the database creation, installation of the
-gems - difficult configurations tasks are handled by this platform. Heroku is so attractive that
-even the creator of ruby, [Yukihiro
-Matsumoto](http://blog.heroku.com/archives/2011/7/12/matz_joins_heroku/ "Yukihiroatsumoto"), works
-as *Chief Architect of Ruby* on this platform.
+your Padrino / Ruby application on the Heroku platform. It manage the database creation, installation
+of the gems - difficult configurations tasks are handled by this platform. Heroku is so attractive that
+even the creator of Ruby, [Yukihiro Matsumoto](http://blog.heroku.com/archives/2011/7/12/matz_joins_heroku/ "Yukihiroatsumoto"), works as *Chief Architect of Ruby* on this platform.
 
 
 ## Hello world and Git
