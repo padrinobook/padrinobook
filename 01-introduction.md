@@ -1,13 +1,13 @@
 # Introduction
 
-Why another book about how to develop an application in Rails? But hold, this book should give you a
+Why another book about how to develop an application in Rails? But wait, this book should give you a
 basic introduction how to develop a web application with [Padrino](http://www.padrinorb.com/).
 Padrino is "The Elegant Ruby Web Framework". Padrino is based upon [Sinatra](http://www.sinatrarb.com/
-"Sinatra"), which is a simple a Domain Specific Language (DSL) for
-quickly creating , and has some really nice features
-which makes it easier to create web applications with less code and more fun than with its father
-Rails. To say it with words of the Padrino webpage: "Padrino is a full-stack ruby framework built
-upon Sinatra".
+"Sinatra"), which is a simple a Domain Specific Language (DSL) for quickly creating web-applications
+in Ruby. When writing Sinatra applications many developers miss some of the extra conveniences that
+Rails offers, this is where Padrino comes in as it provides many of these whilst still staying true to
+Sinatra's ethos of being simple and lightweight. To say it with words of the Padrino webpage: "Padrino
+is a full-stack ruby framework built upon Sinatra".
 
 
 ## Motivation
