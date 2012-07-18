@@ -13,8 +13,7 @@ is a full-stack ruby framework built upon Sinatra".
 ## Motivation
 
 My motivation is to provide up-to-date documentation for Padrino. It is exceptional to Rails,
-providing separate branches of your favorite HTML/CSS/SQL layers and many more. Each of the used
-techniques will be described when it will be used and repeated in whole parts of the book.
+providing separate branches of your favorite HTML/CSS/SQL layers and many more.
 
 
 ## Basics and Tools
