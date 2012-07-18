@@ -66,7 +66,7 @@ Or you can switch to a plain text editor which is a popular choice with Ruby dev
 - [Vim](http://www.vim.org/ "vim") (free - open source)
 - [Emacs](http://www.gnu.org/s/emacs/) (free - open source).
 
-All tools have their strengths and weaknesses - find your most passionate piece of software or write
+All tools have their strengths and weaknesses - find software that works best for you or write
 even something by yourself. The main goal is that you are comfortable with it because you will
 mostly spend a lot of time with it.  Due to the fact that I use the command line extensively, I
 prefer to use a "classical" **text editor** (see my [vim-settings repository on github](https://github.com/matthias-guenther/vim-settings "vim-settings repository on github") if
