@@ -23,7 +23,7 @@ In one sentence: I'm using **Vim** on **Mac OS X** along with **Git** for source
 version control and **Heroku** for deploying / hosting an application.
 
 
-### Operation System
+### Operating System
 
 "War... War never changes." this quote from my all-time favorite video game series
 [Fallout](http://en.wikipedia.org/wiki/Fallout_(video_game) "Fallout") describes the battle of the
