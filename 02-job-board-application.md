@@ -55,7 +55,7 @@ Explanation of the new fields:
 - **-s jquery**: defining the script library we are using - for this app will be using the famous
   [jQuery](http://jquery.com/ "jQuery") library (other possible libraries are )
 
-[^haml]: stands for ??? (couldn't find it out)
+[^haml]: stands for *HTML Abstraction Markup Language*
 [^css]: stands for *Cascading Style Sheets*
 [^orm]: stands for *object relational mapper*
 [^sass]: stands for *Syntactical Awesome Style Sheets*
