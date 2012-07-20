@@ -57,7 +57,7 @@ Explanation of the new fields:
 
 [^haml]: stands for *HTML Abstraction Markup Language*
 [^css]: stands for *Cascading Style Sheets*
-[^orm]: stands for *object relational mapper*
+[^orm]: stands for *Object Relational Mapper*
 [^sass]: stands for *Syntactical Awesome Style Sheets*
 
 If this commands works, you have a nice green playground with all the Next, we need to specify the used *gem* in the *Gemfile*
