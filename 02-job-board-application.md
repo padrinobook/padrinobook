@@ -47,7 +47,7 @@ Explanation of the new fields:
 - **g**: is shortcut for generate (who does not love shortcut to keep you save you keystrokes)
 - **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework (a later
   explanation about this will follow)
-- **-d atciverecord**: using activerecord as the datamapper
+- **-d activerecord**: using activerecord as the datamapper
 - **-a sqlite**: specifying the orm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - is easy to install, easy
   to inspect because all, and doesn't consumes your processor power (CPU)
 - **-e haml**: using [Haml](http://haml-lang.com/ "Haml")[^haml] markup as a *renderer* to describe HTML in better and faster way
