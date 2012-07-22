@@ -43,16 +43,14 @@ world'}) but this time it has a bunch of new options:
 
 Explanation of the new fields:
 
-- **g**: is shortcut for generate (who does not love shortcut to keep you save you keystrokes)
-- **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework (a later
-  explanation about this will follow)
-- **-d activerecord**: using activerecord as the datamapper
-- **-a sqlite**: specifying the orm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - is easy to install, easy
-  to inspect because all, and doesn't consumes your processor power (CPU)
-- **-e haml**: using [Haml](http://haml-lang.com/ "Haml")[^haml] markup as a *renderer* to describe HTML in better and faster way
-- **-c sass**: using [Sass](http://sass-lang.com/ "Sass")[^sass] markup for describing the CSS[^css] of the application
-- **-s jquery**: defining the script library we are using - for this app will be using the famous
-  [jQuery](http://jquery.com/ "jQuery") library (other possible libraries are )
+- **g**: is shortcut for generate (who doesn't love shortcuts to save your fingers from RSI)
+- **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework (an explanation about this will follow later)
+- **-d activerecord**: using activerecord as the orm[^orm]
+- **-a sqlite**: specifying the orm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - easiest database to install / configure and is ideal for beginning development plus it doesn't consume much system resources on you development machine
+- **-e haml**: using [Haml](http://haml-lang.com/ "Haml")[^haml] markup as a *renderer* to describe HTML in cleaner and faster way
+- **-c sass**: using [Sass](http://sass-lang.com/ "Sass")[^sass] for describing the CSS[^css] of the application, Sass offers numerous benefits over plain old CSS
+- **-s jquery**: defining the Javascript library we are using - for this app will be using the ubiquitous
+  [jQuery](http://jquery.com/ "jQuery") library
 
 [^haml]: stands for *HTML Abstraction Markup Language*
 [^css]: stands for *Cascading Style Sheets*
