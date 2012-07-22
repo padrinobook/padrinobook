@@ -223,14 +223,20 @@ The console output should looks like the following:
     $ bundle install
     =================================================================
 
-The last line in the console output tells you the next steps you have to perform.  Going in the application folder and starting
-the application:
+The last line in the console output tells you the next steps you have to perform. Before we are going to start our application
+we need some sort of package managing for Ruby.
+
+Ruby has a nice gem manager called [bundler](http://gembundler.com/ "bundler") which installs all necessary gems in specific
+versions you would like to have in your project. The [Gemfile](http://gembundler.com/gemfile.html) declares the gems that you want
+to install. Bundle takes the content of the Gemfile and will install everything. To install bundler perform the following
+command
+
+    $ gem install bundler
+
+Now we have everything to start our application:
 
     $ cd hello-world
     $ bundle install
-
-The command `bundle install` will install with [bundler](http://gembundler.com/ "bundler") all the necessary gem dependencies for
-your project which are declared in your *Gemfile*.
 
 Let's open the file *app/app.rb* (this is like the root controller) and write in the following:
 
