@@ -57,8 +57,11 @@ Explanation of the new fields:
 [^orm]: stands for *Object Relational Mapper*
 [^sass]: stands for *Syntactically Awesome Style Sheets*
 
-If this commands works, you have a nice green playground with all the Next, we need to specify the used *gem* in the *Gemfile*
-with your favored text editor `vim Gemfile`:
+If this commands works, you should have a nice green success message.
+Now let us take a look at what *gems* have been specified in the
+automatically generated *Gemfile* by navigating into the `job_app` project
+directory and opening the Gemfile with your favourite text editor.  You
+shoulde see the following within the *Gemfile*:
 
     source :rubygems
 
@@ -79,11 +82,11 @@ with your favored text editor `vim Gemfile`:
     # Padrino Stable Gem
     gem 'padrino', '0.10.5'
 
-Let's include the gems for our project (later when *time has come*, we will add other gems) with bundler[^bundler]:
+Let's include the gems for our project (later when *the time comes*, we will add other gems) with bundler[^bundler], for now though we'll grab the current gems by running at the command line:
 
     $ bundle install
 
-[^bundler]: recall that bundler is service to install all the required gems for a certain project
+[^bundler]: recall that bundler is a service to install all the required gems for a certain project.
 
 Recall from section (\ref{section 'git - put your code under version control'}) that we need to put our achievements under version control:
 
@@ -106,7 +109,7 @@ explanation of github, maybe just a link)
 ![Figure 2-3. creating a new project on github](images/02/github.png)
 
 Instead of *matthias-guenther* you have to replace this phrase with your personal github account name. Now your repository is
-on-line To write some documentation about what the whole project is about we will add a README.md to the project:
+online To write some documentation about what the whole project is about we will add a README.md to the project:
 
     $ git add README.md
     $ git commit -m 'add README'
