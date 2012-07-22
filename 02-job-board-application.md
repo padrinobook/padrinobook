@@ -1,10 +1,9 @@
 # Job Board Application
 
-There are more IT jobs out there than people are available. It would be great if we have the possibility to offer a platform where
-users can easily post new jobs offer (of course ruby and rails jobs) to get enough people for your company. That's the piece of
-software we want to build. We will apply **K.I.S.S**[^KISS] principle, so we will keep maintain a very easy and extensible design.
+There are more IT jobs out there than there are skilled people available. It would be great if we could have the possibility to offer a platform where
+users can easily post new jobs vacancies to recruit people for their company. This example job vacancy board is the software we will be building with Padrino. We will apply **K.I.S.S**[^KISS] principle, so we will keep maintain a very easy and extensible design.
 
-First, we will go the basic design of our application after we are going to implement our ideas with in the Padrino framework.
+First, we will take a look at the basic design of our application, afterwards we are going to implement our ideas using the Padrino framework.
 
 [^KISS]: Is an acronym for *Keep it simple and stupid*.
 
