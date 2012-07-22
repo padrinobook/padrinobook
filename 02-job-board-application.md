@@ -14,7 +14,7 @@ First, we will take a look at the basic design of our application, afterwards we
 ### User data model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
-identification number **id** (useful for indexing and entry in our database), a **name** and an **email** each a type string.
+identification number **id** which is an integer (also useful for indexing our database), a **name** and an **email** both of which are strings.
 
 ![Figure 2-1. user data model](images/02/user.jpg)
 
