@@ -50,16 +50,20 @@ pictures, I'm using a Mac.
 ### Editor
 
 Nowadays there are a bunch of Integrated Development Environments (IDEs) out there:
-- [RubyMine by JetBrains](http://www.jetbrains.com/ruby/ "RubyMine") (commercial)
-- [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") (free) Or you can switch to a plain text editor
-  which is a popular choice with Ruby developers
-- [Textmate](http://macromates.com/ "Textmate") (commercial for Mac only)
-- [Gedit](http://projects.gnome.org/gedit/ "Gedit") (free - open source)
-- [Vim](http://www.vim.org/ "vim") (free - open source)
-- [Emacs](http://www.gnu.org/s/emacs/) (free - open source).
+
+- [RubyMine by JetBrains](http://www.jetbrains.com/ruby/ "RubyMine") - commercial, available for all platforms
+- [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") - free, available for all platforms
+
+Besides, you can also use plain text editors which is a popular choice among Ruby developers
+
+- [Notepad++](http://notepad-plus-plus.org/ "Notepad ++") - free, available only for Windows
+- [Textmate](http://macromates.com/ "Textmate") - commercial, available only for Mac
+- [Gedit](http://projects.gnome.org/gedit/ "Gedit") - free, available for Linux
+- [Vim](http://www.vim.org/ "vim") - free, available for all platform
+- [Emacs](http://www.gnu.org/s/emacs/) - free, available for all platforms
 
 All tools have their strengths and weaknesses - find software that works best for you or write even something by yourself. The
-main goal is that you are comfortable with it because you will mostly spend a lot of time with it.  Due to the fact that I use the
+main goal is that you are comfortable with it because you will mostly spend a lot of time with it. Due to the fact that I use the
 command line extensively, I prefer to use a "classical" **text editor** (see my
 [vim-settings repository on github](https://github.com/matthias-guenther/vim-settings "vim-settings repository on github") if you
 want to see which tool I use every day). You can cherry pick which settings work for you.
