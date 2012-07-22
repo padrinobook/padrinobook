@@ -19,18 +19,18 @@ identification number **id** which is an integer (also useful for indexing our d
 ![Figure 2-1. user data model](images/02/user.jpg)
 
 
-### Job offer data model
+### Job vacancy data model
 
-A job offer consists of the following attributes:
+A job vacancy consists of the following attributes:
 
 - title: the concrete name of the job position
 - location: where the job is
-- description: what is important to know for the position
+- description: important details about the position
 - contact: an email address is sufficient
 - time-start: what is the earliest date when you can start
-- time-end: nothing lives forever - even a job offer
+- time-end: nothing lives forever - even a job vacancy
 
-![Figure 2-2. job offer data model](images/02/job_offer.jpg)
+![Figure 2-2. job vacancy data model](images/02/job_vacancy.jpg)
 
 
 ## Basic crafting of the application
