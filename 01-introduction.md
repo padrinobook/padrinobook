@@ -266,8 +266,6 @@ On the following image you can see the basic image of our application[^omnigraff
 [Omnigraffle](http://www.omnigroup.com/products/omnigraffle/ "Omnigraffle") with the stencil extensions by
 [konigi](http://konigi.com/tools/omnigraffle-wireframe-stencils "konigi") for writing wireframes.
 
-Before we ...
-
 You know this section from several tutorials which makes you comfortable with your first program in a new programming language.
 Get your hands dirty and start coding. First of all we need to install the gem with:
 
