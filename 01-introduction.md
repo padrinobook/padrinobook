@@ -107,7 +107,6 @@ For any non-Ruby people, I strongly advice you to check out one of these books a
   - written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "why the lucky
     stiff") in a entertaining and educational way.
 
-
 In this book I will be assuming some Ruby knowledge and will not be explaining every last detail, I will however explain Padrino
 specific coding techniques.
 
@@ -154,6 +153,109 @@ this platform. Heroku is so attractive that even the creator of Ruby,
 of Ruby* on this platform.
 
 
+## Installing the necessary tools
+If you are an advanced user, you can skip these section and jump straight forward to the "Hello World" section.
+
+
+### Installing ruby
+
+Instead of using the build in package for ruby, we will use [rben](https://github.com/sstephenson/rbenv/) which lets you switch
+between multiple version of ruby.
+
+First, we need to clone rbenv:
+
+    $ cd $HOME
+    $ git clone git://github.com/sstephenson/rbenv.git .rbenv
+
+Now we add the recently installed `.rbenv` directory in the `bin` path (if you are on Mac, you have to replace `.bashrc` with
+`.bash_profile` in all of the following commands):
+
+    $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+
+To enable auto completion for `rbenv` commands, we need to perform the following command:
+
+    $ echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+
+Next, we need to restart our shell to enable the last changes:
+
+    $ exec $SHELL
+
+Now the we have to ways to install ruby versions: The easy one with a plugin and the difficult one where we have to compile ruby
+on our own.
+
+
+#### ruby-build
+
+Because we don't want to download and compile different ruby versions on our own, we will use
+[ruby-build](https://github.com/sstephenson/ruby-build "ruby-build") plugin for rbenv:
+
+    $ mkdir ~/.rbenv/plugins
+    $ cd ~/.rbenv/plugins
+    $ git clone git://github.com/sstephenson/ruby-build.git
+
+
+If you now run `rbenv install` you can see all the different ruby version you can install and use for different ruby projects. We
+are going to install `ruby 1.9.2-p290`:
+
+    $ rbenv install 1.9.2-p290
+
+This command will take a couple of minutes (why you will ask, you have perform the steps of the next chapter ), so its best to
+grab a Raider, which is now know as [twix](http://en.wikipedia.org/wiki/Twix "Twix"). After everything runs fine, you have to run
+`rbenv rehash` to rebuild the internal rbenv libraries. The last step is to made ruby 1.9.2-p290 available on your whole machine:
+
+    $ rbenv global 1.9.2-p290
+
+And check the selection of the correct ruby version with `ruby -v`. The output should look like:
+
+    $ * 1.9.2-p320 (set by /home/.rbenv/versions)
+
+Now you are a "rookie" [Ruby Rouge](http://rubyrogues.com/).
+
+
+#### Compiling Ruby on your own
+
+Before we start make that you have installed the following packages: `make, g++, wget` and `unzip`.
+
+First, you need to get the ruby version (you can find others versions [here](http://ftp.ruby-lang.org/pub/ruby/)):
+
+    $ cd ~/.rbenv/versions
+    $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.2-p320.zip
+
+Under `.rbenv/versions` you will find all the different installed ruby versions. Next it:
+
+    $ unzip ruby-1.9.2-p320.zip
+
+Configure the compilation and perform the installation:
+
+    $ cd ~/.rbenv/versions
+    $ ./configure --prefix=$HOME/.rbenv/versions/ruby-1.9.2.p320
+    $ make
+    $ make install
+
+The good is, that you how the whole configuration works, what compiles what not. The bad site is, if you get
+
+    $ ruby -v
+    Segmentation fault
+
+you hardly know whats going on. So my pragmatic advice is, use the first method.
+
+If you get this working, you are a "real" [Ruby Rouge](http://rubyrogues.com/).
+
+### Installing Git and configure it
+
+We want to get the least possible thing to be working. Follow the
+[installation section](http://git-scm.com/book/en/Getting-Started-Installing-Git "installation section") of the **Pro git** book
+to install git on your local machine. After that you need to setup your user name and email address (so that other can see who
+blames the last lines of code):
+
+    $ git config --global user.name "Matthias Guenther"
+    $ git config --global user.email "matthias.guenther@wikimatze.de"
+
+It is possible to define [git aliases](http://gitready.com/intermediate/2009/02/06/helpful-command-aliases.html "git aliases") for
+comment commands so that you have to hack less chars. But this is the first time you are using git, repeating commands is the best
+way to learn, and everyone has a different opinion what aliases should be used, I will not create further configurations.
+
+
 ## Hello world and Git
 
 On the following image you can see the basic image of our application[^omnigraffle]:
@@ -164,6 +266,7 @@ On the following image you can see the basic image of our application[^omnigraff
 [Omnigraffle](http://www.omnigroup.com/products/omnigraffle/ "Omnigraffle") with the stencil extensions by
 [konigi](http://konigi.com/tools/omnigraffle-wireframe-stencils "konigi") for writing wireframes.
 
+Before we ...
 
 You know this section from several tutorials which makes you comfortable with your first program in a new programming language.
 Get your hands dirty and start coding. First of all we need to install the gem with:
@@ -257,20 +360,6 @@ and fire up your browser with the URL *http://localhost:3000*. Be happy with the
 ![Figure 1-3. Hello world in your browser](images/01/hello_world.jpg)
 
 You can now say you have built your first Padrino application in less than five minutes.
-
-
-### Installing Git and configure it
-
-We want to get the least possible thing to be working. Follow the [installation section](http://progit.org/book/ch1-4.html
-"installation section") of the **Pro git** book to install git on your local machine. After that you need to setup your user name
-and email address (so that other can see who blames the last lines of code):
-
-    $ git config --global user.name "wikimatze"
-    $ git config --global user.email "matthias.guenther@wikimatze.de"
-
-It is possible to define [git aliases](http://gitready.com/intermediate/2009/02/06/helpful-command-aliases.html "git aliases") for
-comment commands so that you have to hack less chars. But this is the first time you are using git, repeating commands is the best
-way to learn, and everyone has a different opinion what aliases should be used, I will not create further configurations.
 
 
 ### Initialize a Git repository
