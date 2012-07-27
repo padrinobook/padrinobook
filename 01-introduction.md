@@ -61,6 +61,7 @@ Besides, you can also use plain text editors which is a popular choice among Rub
 - [Gedit](http://projects.gnome.org/gedit/ "Gedit") - free, available for Linux
 - [Vim](http://www.vim.org/ "vim") - free, available for all platform
 - [Emacs](http://www.gnu.org/s/emacs/) - free, available for all platforms
+- [SublimeText](http://www.sublimetext.com) - commercial, available for all platform
 
 All tools have their strengths and weaknesses - find software that works best for you or write even something by yourself. The
 main goal is that you are comfortable with it because you will mostly spend a lot of time with it. Due to the fact that I use the
@@ -473,4 +474,3 @@ We will go through each part.
 
 We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools for the job, and used version
 control with Git. Now it is time to jump into a real project!
-
