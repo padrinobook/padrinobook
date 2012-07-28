@@ -123,14 +123,6 @@ into this topic, you can consult the following book and only references:
   be like. Learn the fundamentals and internals of git with the help of beautiful images.
 - [gitref](http://gitref.org/ "gitref") - page with the basic commands you have to use to be productive when working with Git.
 
-Recommended git GUIs for displaying your repository and complete git-wrapper for Vim:
-
-- [gitk](http://gitk.sourceforge.net/ "gitk") - gives you a tree-like overview of your git repository (it works on every platform)
-- [gitx](http://gitx.frim.nl/ "gitx") - branching, merging, committing, you can even stage different changes in your code with
-  this tool. It looks like a diamond and checking in your code will make you happy
-- [fugitive](https://github.com/tpope/vim-fugitive/ "fugitive") - git wrapper for Vim, very good for command-line guys who don't
-  want to leave the editor. Works good, if you are the only person working on a project (like I'm doing writing this book)
-
 **Remember**: Without version control you are lost. Git helps to detect changes in your code base, to better collaborate with
 other people, and to get out of the pit when you break something badly. You can experiment in *branches* to create running code,
 or to build a prototype to test design and technical limitation.
