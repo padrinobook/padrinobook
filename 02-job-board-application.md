@@ -186,7 +186,7 @@ the server to bring you back to the command prompt by pressing `ctrl+c`.
 You may have though it a little odd that we had to manually use index.html in the url when viewing our start page, this is
 because our app currently has now idea about routing.  Lets add some basic routes for displaying our home-, about-, and contact-page with the help of controllers.
 
-Padrino is a descendant form Rails, so it has a script to make controllers called **controller**.  This commands take the name of
+Since Padrino is heavily influenced by Rails it has a script to help us make controllers called **controller**.  This commands take the name of
 the controller as a parameter.
 
     $ padrino g controller page
