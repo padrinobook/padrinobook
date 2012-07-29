@@ -16,77 +16,29 @@ brother Rails it aims to be more modular and allows you to interchange various c
 
 ## Basics and Tools
 
-In one sentence: I'm using **Vim** on **Mac OS X** along with **Git** for source code version control and **Heroku** for deploying
-/ hosting an application.
+I won't tell you which operation system you should use - there is an interesting discussion on
+[hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I leave it free for the reader of this book which to use -
+basically your are reading this book to learn Padrino.
 
-
-### Operating System
-
-"War... War never changes." this quote from my all-time favorite video game series
-[Fallout](http://en.wikipedia.org/wiki/Fallout_(video_game) "Fallout") appropriately describes the battle of the different
-operating systems and their users. I will briefly give you an overview of the three most popular operating systems in common
-usage:
-
-- [Windows](http://windows.microsoft.com/ "Windows"): This commercial operating system is installed by default on a huge range of
-  computers. A wide range of software and games are available for Windows. Updates come regularly, and everything is mostly
-  intuitive. One big problem of Windows is it's mouse affinity, there are however shortcuts and handy tips available. It is good
-  for development, but lacks some comfort and design issues (you may not know, when you haven't worked with Linux).
-- [Unix/Linux](http://en.wikipedia.org/wiki/Linux "Unix/Linux"): Highly configurable, and has many Open Source Tools. If you come
-  from the Windows world, your brain will burn like hell because everything is different. The program calls are different, you can
-  install new software via *console*, the firewall is safe, and you can run most commands in the terminal (no annoying mouse
-  clicks anymore if you avoid graphical work). It is great for development because the great community is passionate about
-  building software, and most software is Open Source so you don't have to pay for it.
-- [Mac OS X](http://www.apple.com/macosx/ "Mac OS X"): The core under it is Unix, so you can reuse your Linux knowledge. Many
-  people say that products from Apple are very expensive. In the contrast they provide you with an extremely stable, highly
-  configurable, and reliable system, which has some really nice software for it. If you haven't paid for software in your life,
-  some piece of software will make you want to pay for it because in my eyes, Mac is the gap between Windows and Linux. It can be
-  changed in any any way you want (Linux) and has some really good software for it (Microsoft). Development on this machine is
-  extreme good, because it underlines the needs of developers.
-
-There is a war between these three operating systems, and which one you choose is a matter of taste. As you can see in these
-pictures, I'm using a Mac.
-
-
-### Editor
+I assume that you already have your favorite browser - in the end you you just need to call a certain URL in your browser to see
+the your Padrino app running.
 
 Nowadays there are a bunch of Integrated Development Environments (IDEs) out there:
-- [RubyMine by JetBrains](http://www.jetbrains.com/ruby/ "RubyMine") (commercial)
-- [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") (free) Or you can switch to a plain text editor
-  which is a popular choice with Ruby developers
-- [Textmate](http://macromates.com/ "Textmate") (commercial for Mac only)
-- [Gedit](http://projects.gnome.org/gedit/ "Gedit") (free - open source)
-- [Vim](http://www.vim.org/ "vim") (free - open source)
-- [Emacs](http://www.gnu.org/s/emacs/) (free - open source).
+
+- [RubyMine by JetBrains](http://www.jetbrains.com/ruby/ "RubyMine") - commercial, available for all platforms
+- [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") - free, available for all platforms
+
+Besides, you can also use plain text editors which is a popular choice among Ruby developers
+
+- [Notepad++](http://notepad-plus-plus.org/ "Notepad ++") - free, available only for Windows
+- [Textmate](http://macromates.com/ "Textmate") - commercial, available only for Mac
+- [Gedit](http://projects.gnome.org/gedit/ "Gedit") - free, available for Linux
+- [Vim](http://www.vim.org/ "vim") - free, available for all platform
+- [Emacs](http://www.gnu.org/s/emacs/ "emacs") - free, available for all platforms
+- [SublimeText](http://www.sublimetext.com "SublimeText") - commercial, available for all platform
 
 All tools have their strengths and weaknesses - find software that works best for you or write even something by yourself. The
-main goal is that you are comfortable with it because you will mostly spend a lot of time with it.  Due to the fact that I use the
-command line extensively, I prefer to use a "classical" **text editor** (see my
-[vim-settings repository on github](https://github.com/matthias-guenther/vim-settings "vim-settings repository on github") if you
-want to see which tool I use every day). You can cherry pick which settings work for you.
-![Figure 1-2. Picture of Vim with NERDTree](images/01/editor.jpg)
-
-
-### Browser
-
-Here it is the as with the editors: There are many of them with great plugins out there for web development.The mostly used
-browsers by Rails developer are:
-
-- [Firefox](http://www.mozilla.org/en-US/firefox/new/ "Firefox"): Has a tons of plugins, is free, and with the magnificent
-  [Firebug](http://getfirebug.com/ "Firebug") plugin, which let you inspect HTML document, measure the loading time of certain
-  parts
-- [Chrome](http://www.google.com/chrome "Chrome"): This browser is from Google It feels very fast and is shipped with *inspect
-  element*[^inspect] to search the DOM[^dom]. It integrates the ability to debug JavaScript
-- [Opera](http://www.opera.com/ "Opera"): Never used it, and don't know why I should (instead you tell my why and I will quote
-  your words if they convince me)
-
-There are more outside this main domain, like [Safari by Apple](http://www.apple.com/safari/ "Safari by Apple"),
-[Lynx webbrowser](http://lynx.isc.org/ "Lynx webbrowser") (quite an experience to use just a plain text browser) and the well known
-[Internet Explorer](http://windows.microsoft.com/en-US/internet-explorer/downloads/ie "Internet Explorer").  Get out, grab the
-thing you want, and then gets your hands dirty.
-
-[^inspect]: This is like a Firebug pendant of Firefox.
-[^dom]: stands for *Document Object Model* and is a tree-like representation of the HTML page.
-
+main goal is that you are comfortable with it because you will mostly spend a lot of time with it.
 
 ### Additional tools
 
@@ -103,12 +55,11 @@ For any non-Ruby people, I strongly advice you to check out one of these books a
   - written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "why the lucky
     stiff") in a entertaining and educational way.
 
-
 In this book I will be assuming some Ruby knowledge and will not be explaining every last detail, I will however explain Padrino
 specific coding techniques.
 
 
-#### Git
+#### Version controlling with Git
 
 During software development it is important to keep track of your source code changes. That is what version control systems (VCSs)
 is all about.  Git helps you to keep track of the changes in your code. You can switch between certain versions in your code,
@@ -118,14 +69,6 @@ into this topic, you can consult the following book and only references:
 - [Pro Git](http://progit.org/ "Pro Git") - this free online book explains the basic internals of git, and what the workflow can
   be like. Learn the fundamentals and internals of git with the help of beautiful images.
 - [gitref](http://gitref.org/ "gitref") - page with the basic commands you have to use to be productive when working with Git.
-
-Recommended git GUIs for displaying your repository and complete git-wrapper for Vim:
-
-- [gitk](http://gitk.sourceforge.net/ "gitk") - gives you a tree-like overview of your git repository (it works on every platform)
-- [gitx](http://gitx.frim.nl/ "gitx") - branching, merging, committing, you can even stage different changes in your code with
-  this tool. It looks like a diamond and checking in your code will make you happy
-- [fugitive](https://github.com/tpope/vim-fugitive/ "fugitive") - git wrapper for Vim, very good for command-line guys who don't
-  want to leave the editor. Works good, if you are the only person working on a project (like I'm doing writing this book)
 
 **Remember**: Without version control you are lost. Git helps to detect changes in your code base, to better collaborate with
 other people, and to get out of the pit when you break something badly. You can experiment in *branches* to create running code,
@@ -137,9 +80,7 @@ There are other VCSs out there like:
 - [svn](http://en.wikipedia.org/wiki/Apache_Subversion "svn") (*subversion*), or
 - [Mercurial](http://mercurial.selenic.com/ "Mercurial")
 
-In this book I will explain the commands of Git when they first occur, and repeat the commands that I did during development.
-Repetition is very important when learning something new.
-
+Feel free to track the progress of your application with several small commits and branches.
 
 #### Heroku
 
@@ -150,7 +91,95 @@ this platform. Heroku is so attractive that even the creator of Ruby,
 of Ruby* on this platform.
 
 
-## Hello world and Git
+## Installing the necessary tools
+If you are an advanced user, you can skip these section and jump straight forward to the "Hello World" section.
+
+
+### Installing ruby
+
+Instead of using the build in package for ruby, we will use [rben](https://github.com/sstephenson/rbenv/) which lets you switch
+between multiple version of ruby.
+
+First, we need to clone rbenv:
+
+    $ cd $HOME
+    $ git clone git://github.com/sstephenson/rbenv.git .rbenv
+
+Now we add the recently installed `.rbenv` directory in the `bin` path (if you are on Mac, you have to replace `.bashrc` with
+`.bash_profile` in all of the following commands):
+
+    $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+
+To enable auto completion for `rbenv` commands, we need to perform the following command:
+
+    $ echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+
+Next, we need to restart our shell to enable the last changes:
+
+    $ exec $SHELL
+
+Now the we have to ways to install ruby versions: The easy one with a plugin and the difficult one where we have to compile ruby
+on our own.
+
+
+#### ruby-build
+
+Because we don't want to download and compile different ruby versions on our own, we will use
+[ruby-build](https://github.com/sstephenson/ruby-build "ruby-build") plugin for rbenv:
+
+    $ mkdir ~/.rbenv/plugins
+    $ cd ~/.rbenv/plugins
+    $ git clone git://github.com/sstephenson/ruby-build.git
+
+
+If you now run `rbenv install` you can see all the different ruby version you can install and use for different ruby projects. We
+are going to install `ruby 1.9.2-p290`:
+
+    $ rbenv install 1.9.2-p290
+
+This command will take a couple of minutes (why you will ask, you have perform the steps of the next chapter ), so its best to
+grab a Raider, which is now know as [twix](http://en.wikipedia.org/wiki/Twix "Twix"). After everything runs fine, you have to run
+`rbenv rehash` to rebuild the internal rbenv libraries. The last step is to made ruby 1.9.2-p290 available on your whole machine:
+
+    $ rbenv global 1.9.2-p290
+
+And check the selection of the correct ruby version with `ruby -v`. The output should look like:
+
+    $ * 1.9.2-p320 (set by /home/.rbenv/versions)
+
+Now you are a "rookie" [Ruby Rouge](http://rubyrogues.com/).
+
+
+#### Compiling Ruby on your own
+
+Before we start make that you have installed the following packages: `make, g++, wget` and `unzip`.
+
+First, you need to get the ruby version (you can find others versions [here](http://ftp.ruby-lang.org/pub/ruby/)):
+
+    $ cd ~/.rbenv/versions
+    $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.2-p320.zip
+
+Under `.rbenv/versions` you will find all the different installed ruby versions. Next it:
+
+    $ unzip ruby-1.9.2-p320.zip
+
+Configure the compilation and perform the installation:
+
+    $ cd ~/.rbenv/versions
+    $ ./configure --prefix=$HOME/.rbenv/versions/ruby-1.9.2.p320
+    $ make
+    $ make install
+
+The good is, that you how the whole configuration works, what compiles what not. The bad site is, if you get
+
+    $ ruby -v
+    Segmentation fault
+
+you hardly know whats going on. So my pragmatic advice is, use the first method.
+
+If you get this working, you are a "real" [Ruby Rouge](http://rubyrogues.com/).
+
+## Hello world
 
 On the following image you can see the basic image of our application[^omnigraffle]:
 
@@ -159,7 +188,6 @@ On the following image you can see the basic image of our application[^omnigraff
 [^omnigraffle]: You can use a classical stencil and paper to create mockups. I'm using
 [Omnigraffle](http://www.omnigroup.com/products/omnigraffle/ "Omnigraffle") with the stencil extensions by
 [konigi](http://konigi.com/tools/omnigraffle-wireframe-stencils "konigi") for writing wireframes.
-
 
 You know this section from several tutorials which makes you comfortable with your first program in a new programming language.
 Get your hands dirty and start coding. First of all we need to install the gem with:
@@ -219,14 +247,20 @@ The console output should looks like the following:
     $ bundle install
     =================================================================
 
-The last line in the console output tells you the next steps you have to perform.  Going in the application folder and starting
-the application:
+The last line in the console output tells you the next steps you have to perform. Before we are going to start our application
+we need some sort of package managing for Ruby.
+
+Ruby has a nice gem manager called [bundler](http://gembundler.com/ "bundler") which installs all necessary gems in specific
+versions you would like to have in your project. The [Gemfile](http://gembundler.com/gemfile.html) declares the gems that you want
+to install. Bundle takes the content of the Gemfile and will install everything. To install bundler perform the following
+command
+
+    $ gem install bundler
+
+Now we have everything to start our application:
 
     $ cd hello-world
     $ bundle install
-
-The command `bundle install` will install with [bundler](http://gembundler.com/ "bundler") all the necessary gem dependencies for
-your project which are declared in your *Gemfile*.
 
 Let's open the file *app/app.rb* (this is like the root controller) and write in the following:
 
@@ -247,90 +281,6 @@ and fire up your browser with the URL *http://localhost:3000*. Be happy with the
 ![Figure 1-3. Hello world in your browser](images/01/hello_world.jpg)
 
 You can now say you have built your first Padrino application in less than five minutes.
-
-
-### Installing Git and configure it
-
-We want to get the least possible thing to be working. Follow the [installation section](http://progit.org/book/ch1-4.html
-"installation section") of the **Pro git** book to install git on your local machine. After that you need to setup your user name
-and email address (so that other can see who blames the last lines of code):
-
-    $ git config --global user.name "wikimatze"
-    $ git config --global user.email "matthias.guenther@wikimatze.de"
-
-It is possible to define [git aliases](http://gitready.com/intermediate/2009/02/06/helpful-command-aliases.html "git aliases") for
-comment commands so that you have to hack less chars. But this is the first time you are using git, repeating commands is the best
-way to learn, and everyone has a different opinion what aliases should be used, I will not create further configurations.
-
-
-### Initialize a Git repository
-
-Git can keep track of every file you have in a certain directory. Let's assume that you have a brand new Padrino application in
-the directory *padrino\_brand\_new*. First you need to initialize git in the project folder:
-
-    $ cd ~/hello-world
-    $ git init
-    > Initialized empty Git repository in ~/padrino_brand_new/.git/
-
-Now that you started a new repository and it is time to add new files. If you type in `git status` you will see a list of all
-*untracked*, *modified*, or *changed* files in your folder. Again, git gives you a nice console output what you can do in the next
-steps:
-
-    # On branch master
-    #
-    # Initial commit
-    #
-    # Untracked files:
-    #   (use "git add <file>..." to include in what will be committed)
-    #
-    # .components
-    # .gitignore
-    # Gemfile
-    # app/
-    # config.ru
-    # config/
-    # public/
-    nothing added to commit but untracked files present (use "git add" to track)
-
-If you are new to git (and want to do the same work again and again), you have to type in *git add <filename* for each part of the
-files. But git is as smart to provides you with a handy command to add all files simultaneously recursively:
-
-    $ git add .
-
-The '.' stays for the current directory and git then knows that it should track all files and components (which even stay in
-subdirectories) recursively. During this phase, we have just *staged* the files and not committed them in the repository. Let's do
-it:
-
-    $ git commit -m "initial commit (Padrino and Git rocks)"
-
-The '-m' options tells git to take a message for the commit[^tpope]
-
-[^tpope]: I'm a big fan of [Tim Pope's](http://tpo.pe/ "Tim Popes") Vim plugins.  With the
-[fugitive](https://github.com/tpope/vim-fugitive "fugitive") he has written a fully integrated git into the Vim environment.
-According to Pope's philosophy, a commit message should not be longer than 80 chars - anything that is longer is an indicator that
-you are writing too much, or have too big of a commit with too many changes.
-
-
-### gitignore
-
-This file let's you specify which files should not be added to the Git repository.  When you start your Padrino application with
-`padrino start` it will start to track requests you can see in the console in the *log/* directory. You don't want to have this in
-your commit history, so you have to write in your *.gitignore* files
-
-    log/**/*
-
-This tells git to ignore all changes in all subdirectories of the *log* directory. You are lucky to work with Padrino, and it will
-automatically add a *.gitignore file* when you start a new project, with all entries you need:
-
-    .DS_Store
-    log/**/*
-    tmp/**/*
-    bin/*
-    vendor/gems/*
-    !vendor/gems/cache/
-    .sass-cache/*
-
-Just keep your mind on committing small changes for your project.
 
 
 ### Wait, there is more - the file structure
