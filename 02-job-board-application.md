@@ -139,17 +139,12 @@ type in `git branch -a`
     * basic-layout
       master
 
-Lets create a first version only with static content. The questions arise, where will be my *index.html* page? Because we are not
-working with controllers, the easiest thing is to put the *index.html* directly under the public folder in the project. And there
-you have your basic index page. Let's start Padrino with and open the browsers
+Lets create our first version with static content only. We are presented early with a question; where will be my *index.html* page? Because we are not
+working with controllers, the easiest thing is to put the *index.html* directly under the public folder in the project. 
 
-
-Since we are done with the small feature, it is time to push our branch to the remote repository:
-
-    $ git push origin basic-layout
 
 This book has the intention to be up-to-date so we fill our index page with the latest
-[HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") constructs, we need to update the structure of our page:
+[HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") standards, add the following into your index.html file:
 
     <!DOCTYPE html>
     <html lang="en-US">
@@ -170,6 +165,10 @@ Explanation of the parts:
 Due to this point this was the way websites were generated in the beginning: Plain, old but good page with static content. But
 today everything is dynamic like the arrival date of the [Deutsche Bahn](http://www.bahn.de/i/view/USA/en/index.shtml "Deutsche
 Bahn").
+
+Since we are done with the small feature, it is time to push our branch to the remote repository:
+
+    $ git push origin basic-layout
 
 Lets add some basic routes for displaying our home-, about-, and contact-page with the help of controllers.
 
