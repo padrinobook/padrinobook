@@ -2,7 +2,7 @@ This is an free eBook written in markdown. It describes how I developed an appli
 Feel free to fork this project and to correct my (silly grammar) mistakes.
 
 
-## Current version ##
+## Current version
 
 I'm using [leanpub](http://leanpub.com/ "leanpub") to generate the current status of this book. You
 can find the actual version [here](http://samples.leanpub.com/padrino-sample.pdf "here").
@@ -16,17 +16,18 @@ And then run the rake task:
 
     rake pdf
 
-and you have a pdf version of this book.
+and you have the generated PDF version of this book on your local machine. You need to install
+[Pandoc](http://johnmacfarlane.net/pandoc/ "Pandoc") to run this command.
 
 
-## Repository of the job offer app ##
+## Repository of the job offer app
 
 In this book I'm developing the **job offer** application. You can checkout the
 [sources](https://github.com/matthias-guenther/job_app "sources") if you want to see the final
 result from this book.
 
 
-## Contribute/Contact ##
+## Contribute/Contact
 
 Feature request, bugs, questions, etc. can be send to <matthias.guenther@wikimatze.de>. You can even
 fork this project, and as a *reward*, I will put you on the **"Special thanks"** section in this
@@ -36,7 +37,7 @@ If you like my work, you can [let me know](http://leanpub.com/padrino "let me kn
 you would spend for this book. And don't worry, this book will be free at anytime.
 
 
-## Special thanks ##
+## Special thanks
 
 Love you guys and women, you motivated me:
 
@@ -48,7 +49,7 @@ Love you guys and women, you motivated me:
   hints.
 
 
-## License ##
+## License
 
 This software is licensed under the [MIT license][mit].
 
