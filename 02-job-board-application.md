@@ -124,7 +124,9 @@ If you want to see how the project should be looking on Github, just checkout th
 
 ### Basic layout - controller and routing
 
-The first thing we will do, is to check out a new branch for this section. Let's fire up the console an create a new branch
+The first thing we will do, is to check out a new branch for this section. Let's fire up the console and create a new branch.
+Creating a new branch is not a necessity but it is considered good practice when implementing new features or fixing bugs and
+it makes it easier for you if things go wrong.
 
     $ git branch basic-layout
     $ git checkout basic-layout
