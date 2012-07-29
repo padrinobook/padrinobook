@@ -164,9 +164,20 @@ Explanation of the parts:
 
 This used to be the way websites were created in the beginning of the web - plain old static content, today things are a
 little more dynamic so our static app won't last long.
- 
-Since we are done with the small feature, it is time to push our branch to the remote repository:
 
+We can take a look at our new page by firing up Padrino by running the followin at the command line:
+
+    $ padrino start
+
+You should see a message telling you that Padrino has taken the stage, you should now be able to view the feshly created index
+page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html) in your favourite browser.
+ 
+Since we are done with the small feature, it is time to push our branch to the remote repository on Github but first of all we
+need to commit our changes.  The following commands will add the index.html page to the staging area the commit the changes,
+finally we push the code up to Github.
+
+    $ git add public/index.html
+    $ git commit -m "Adding initial index page."
     $ git push origin basic-layout
 
 Lets add some basic routes for displaying our home-, about-, and contact-page with the help of controllers.
