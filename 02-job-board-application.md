@@ -180,6 +180,9 @@ finally we push the code up to Github.
     $ git commit -m "Adding initial index page."
     $ git push origin basic-layout
 
+If you cannot run the Git commands above because the Padrino server is still running either open another terminal or stop
+the server to bring you back to the command prompt by pressing `ctrl+c`.
+
 Lets add some basic routes for displaying our home-, about-, and contact-page with the help of controllers.
 
 Padrino is a descendant form Rails, so it has a script to make controllers called **controller**.  This commands take the name of
