@@ -149,7 +149,7 @@ This book has the intention to be up-to-date so we fill our index page with the 
     <!DOCTYPE html>
     <html lang="en-US">
       <head>
-        <title>Startpage</title>
+        <title>Start Page</title>
       </head>
       <body>
         <p>Hello, Padrino</p>
@@ -162,10 +162,9 @@ Explanation of the parts:
 - `head` - specifying meta information like title, description, and ; this is also the place to where to add CSS and JavaScript files
 - `body` - section for displaying the main content of the page
 
-Due to this point this was the way websites were generated in the beginning: Plain, old but good page with static content. But
-today everything is dynamic like the arrival date of the [Deutsche Bahn](http://www.bahn.de/i/view/USA/en/index.shtml "Deutsche
-Bahn").
-
+This used to be the way websites were created in the beginning of the web - plain old static content, today things are a
+little more dynamic so our static app won't last long.
+ 
 Since we are done with the small feature, it is time to push our branch to the remote repository:
 
     $ git push origin basic-layout
