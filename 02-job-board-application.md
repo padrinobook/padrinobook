@@ -23,7 +23,7 @@ identification number **id** which is an integer (also useful for indexing our d
 
 A job vacancy consists of the following attributes:
 
-- title: the concrete name of the job position
+- title: the name of the job position
 - location: where the job is
 - description: important details about the position
 - contact: an email address is sufficient
@@ -35,7 +35,7 @@ A job vacancy consists of the following attributes:
 
 ## Basic crafting of the application
 
-In a first attempt we will start with generating a new project with the normal `padrino` command (see section \ref{section 'Hello
+In our first attempt we will start with generating a new project with the canonical `padrino` command (see section \ref{section 'Hello
 world'}) but this time it has a bunch of new options:
 
     $ cd ~/padrino_projects
@@ -82,7 +82,7 @@ shoulde see the following within the *Gemfile*:
     # Padrino Stable Gem
     gem 'padrino', '0.10.5'
 
-Let's include the gems for our project (later when *the time comes*, we will add other gems) with bundler[^bundler], for now though we'll grab the current gems by running at the command line:
+Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using with Bundler[^bundler] by running at the command line:
 
     $ bundle install
 
@@ -94,13 +94,14 @@ Recall from section (\ref{section 'git - put your code under version control'}) 
     $ git add .
     $ git commit -m 'first commit of a marvelous padrino application'
 
-Can you remember what the git commands are doing. If yes or no, just read the following explanation to refresh your memory:
+Can you remember what the git commands are doing? The following explanation will refresh your memory if you have forgot, don't
+worry it'll become second nature to you in due course:
 
 - `git init` - initialize a new git repository
 - `git add .` - add recursively all files to staging
 - `git commit -m ` - check in your changes in the repository
 
-Because we are hosting our application on [github]( "github") we need to push the project on the platform. (TODO: installation
+Because we are hosting our application on [github]( "github") we need to push the project onto the platform. (TODO: installation
 explanation of github, maybe just a link)
 
     $ git remote add origin git@github.com:matthias-guenther/job_off_app.git
@@ -109,13 +110,15 @@ explanation of github, maybe just a link)
 ![Figure 2-3. creating a new project on github](images/02/github.png)
 
 Instead of *matthias-guenther* you have to replace this phrase with your personal github account name. Now your repository is
-online To write some documentation about what the whole project is about we will add a README.md to the project:
+online. To write some documentation about what the whole project is about we should add a README.md to the project:
 
     $ git add README.md
     $ git commit -m 'add README'
     $ git push
 
-If you want to check how it has to be, just checkout the
+The md extension means this is in Markdown format you can however use many other formats.
+
+If you want to see how the project should be looking on Github, just checkout the
 [sources](https://github.com/matthias-guenther/job_app "sources").
 
 
