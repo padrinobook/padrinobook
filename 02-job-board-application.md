@@ -126,7 +126,7 @@ The first thing we will do, is to check out a new branch for this section. Let's
     $ git branch basic-layout
     $ git checkout basic-layout
 
-With `git branch <name>` we create a new branch (in thins example one with the name *basic-layout*) and with `git checkout <name>`
+With `git branch <name>` we create a new branch (in this example one with the name *basic-layout*) and with `git checkout <name>`
 we switch to this branch and all changes we make will only be visible in this branch. To get an overview of all available branches
 type in `git branch`
 
