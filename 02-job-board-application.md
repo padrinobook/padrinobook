@@ -133,9 +133,9 @@ it makes it easier for you if things go wrong.
 
 With `git branch <name>` we create a new branch (in this example one with the name *basic-layout*) and with `git checkout <name>`
 we switch to this branch and all changes we make will only be visible in this branch. To get an overview of all available branches
-type in `git branch`
+type in `git branch -a`
 
-    $ git branch
+    $ git branch -a
     * basic-layout
       master
 
