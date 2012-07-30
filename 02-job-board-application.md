@@ -325,12 +325,12 @@ it as an open source project, it is available from Github at:
 
 Next we need to include the style sheet in our application. Edit *app/layouts/application.haml*:
 
-    !!! Strict
+    !!! 5
     %html
       %head
         = stylesheet_link_tag 'bootstrap.min', :media => 'screen'
         %title
-          = "Job board Application"
+          = "Job Board Application"
       %body
         = yield
 
