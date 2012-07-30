@@ -334,8 +334,8 @@ Next we need to include the style sheet in our application. Edit *app/layouts/ap
       %body
         = yield
 
-The *stylesheet_link_tag* looks after the *bootstrap.min.css* in you app *public/stylesheets* directory and will create a link to
-this style sheet.
+The *stylesheet_link_tag* points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will create a link to
+this stylesheet.
 
 
 ### Navigation
