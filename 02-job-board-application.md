@@ -275,40 +275,40 @@ Finally let's track our changes and commit our changes to the repository on gith
     $ git push
 
 
-### Basic layout - haml
+### Basic layout - Haml
 
-Although we are now able to put content on our site, it would be nice to have some sort of basic styling on our web page. First we
+Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling on our web page. First we
 need to generate a basic template for all pages we want to create.  Lets create *app/views/application.haml*
 
-    !!! Strict
+    !!! 5
     %html
       %head
         %title
-          = "Job board Application"
+          = "Job Board Application"
       %body
         = yield
 
 Let me explain the parts of the Haml template:
 
-- `!!! Strict` - placeholder for the doc type
+- `!!! 5` - placeholder for the doctype
 - `%html` - will produce the opening (*<html>*) and closing tag (*</html>*). Other element within this tag have to put in the next
-  line with the indentation of two whitespace
-- `= "Job offer borad of Padrino"` - printing plain text into the view
+  line with the indentation of two spaces
+- `= "Job Board Application"` - printing plain text into the view
 - `= yield` - is responsible for putting the content of each page (like *contact.haml* or
   *about.haml*) into the layout
 
 The above part will be used to create the following html file
 
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <!DOCTYPE html>
     <html>
       <head>
         <title>
-          Job board Application
+          Job Board Application
         </title>
       </head>
       <body>
         <p>
-          The main part of your homepage
+          The main part of your home page
         </p>
       </body>
     </html>
