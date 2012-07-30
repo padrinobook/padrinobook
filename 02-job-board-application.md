@@ -340,7 +340,7 @@ this stylesheet.
 
 ### Navigation
 
-Next we want to create the top-navigation for our application. We need some own CSS to style the custom parts of our application
+Next we want to create the top-navigation for our application. We need some of our own CSS to style the custom parts of our application
 without changing the twitter-bootstrap layout files. Let's create the *app/stylesheets/application.sass*
 
     body
@@ -376,18 +376,18 @@ without changing the twitter-bootstrap layout files. Let's create the *app/style
     .clearer
       clear: both
 
-[Sass](http://sass-lang.com/ "Sass") is the counterpart haml and lets you create compact CSS. Every time you made changes in the
-sass file, it automatically detect the changes and compile the Sass file to CSS - it helps you a lot to stay in the coding mode.
+[Sass](http://sass-lang.com/ "Sass") is the CSS counterpart to Haml although the two projects were recently split apart into seperate gems.  Sass eases the creation of CSS by letting you use a cleaner syntax and also allows you to use variables and reusable mixins. Every time you make changes in the
+Sass file, it automatically detects the changes and compiles the Sass file to CSS.
 Of course we have to add the application.css in our template as well as adding our horizontal navigation as a typical ul/li
 combination
 
-    !!! Strict
+    !!! 5
     %html
       %head
         = stylesheet_link_tag 'bootstrap.min', :media => 'screen'
         = stylesheet_link_tag 'application'
         %title
-          = "Job offer board of Padrino"
+          = "Job Board Application"
       %body
         .container
           %h1
@@ -402,14 +402,14 @@ combination
                 = link_to 'Contact', url_for(:page, :contact)
               %li
                 = link_to 'Help', url_for(:page, :help)
-          .clearer
+          .clear
           .site
             = yield
 
 Explanation of the new parts
-- `%nav{:role => 'navigation'}` - will produce the html nav tag and takes the ruby hash `{:role => navigation}` as an additional
+- `%nav{:role => 'navigation'}` - will produce the html nav tag and takes the Ruby hash `{:role => navigation}` as an additional
   parameter - the output in HTML is `<nav role='navigation'>`
-- `.clear` - . is a shortcut for a div-class with the name *clearer*
+- `.clear` - is a shortcut for a div with a class named *clear* `<div class='clear'></div>'
 - `link_to` - the first argument is the name of the link and second is the URLs
 - `url_for` - will create the link-tag - for example `url_for(:page, :contact)` is using **named parameters** which were specified
   in our *page-controller*.  The scheme for this is `<:controller>, <:action>` - you can use these settings in your whole
@@ -418,10 +418,10 @@ Explanation of the new parts
 
 ### Writing first tests
 
-Now it is time to begin with developping our code with tests. As mentioned in the introduction, we will *describing the behavior
-of code*[^bdd] with the framework [RSpec](http://rspec.info/ "RSpec").
+Now it is time to begin developing our code with tests. As mentioned in the introduction, we will *describing the behavior
+of code*[^bdd] with the testing framework [RSpec](http://rspec.info/ "RSpec").
 
-As we created the controller with `padrino g controller page` Padrino created spec file under *spec/app* for us automatically. So
+As we created the controller with `padrino g controller page` Padrino created a spec file under *spec/app* for us automatically. So
 let's examine *spec/app/controller/page_controller_spec.rb*:
 
     require 'spec_helper'
@@ -436,12 +436,12 @@ let's examine *spec/app/controller/page_controller_spec.rb*:
       end
     end
 
-- `spec_helper` - is a file to load common used functions so that they can used in all other spec
-- `describe block` - this block describe the context for our tests.
+- `spec_helper` - is a file to load commonly used functions so that they can reused in other specs
+- `describe block` - this block describes the context for our tests
 - `before do` - the content of this block will be called before the execution of each `it "..." do`
-- `it "..." do` - consists of the textual description of the test and write our expectation to our application code
+- `it "..." do` - consists of the textual description of the test and writes our expectation to our application code
 
-Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb` and see the funny (and long) output in the terminal:
+Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb` and see the daunting (and long) output in the terminal:
 
     PageController
       returns hello world (FAILED - 1)
@@ -483,8 +483,8 @@ Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb
 
     rspec ./spec/app/controllers/page_controller_spec.rb:8 # PageController returns hello world
 
-Our tests get's the root index out our application (`get "/"`) and we expecting that the response from this request should be
-*Hello world* (`last_response.body.should == "Hello World"`). Because we changed the layout routes and the layout of our
+Our tests gets the root index out our application (`get "/"`) and we expect that the response from this request should be
+*Hello world* (`last_response.body.should == "Hello World"`). Because we changed the routes and the layout of our
 application, this test failed (it's **red**). Let's change the code of our spec to pass the test (make it **green**):
 
     require 'spec_helper'
@@ -500,7 +500,7 @@ application, this test failed (it's **red**). Let's change the code of our spec 
 
     end
 
-Next we run our tests with `rspec spec/app/controllers/page_controller_spec.rb`:
+Next we run our tests again with `rspec spec/app/controllers/page_controller_spec.rb`:
 
     PageController
       'GET' index
@@ -509,12 +509,12 @@ Next we run our tests with `rspec spec/app/controllers/page_controller_spec.rb`:
     Finished in 5.94 seconds
    1 example, 0 failures
 
-[^bdd]: Which is called Behavior-driven Development and has nearly the same features as Test-driven development (TDD)
+[^bdd]: Which is called Behavior Driven Development and has nearly the same features as Test Driven Development (TDD)
 
 
 #### Red-Green Cycle
 
-In Behavior-driven (as well as in Test-driven) development it is common to write first a failing test (so that you get a **red**
+In Behavior Driven (as well as in Test Driven) Development it is common to write first a failing test (so that you get a **red**
 color when running the test). Next we change our code base to make it pass (you get a **green** when running the test). The scheme
 for this approach is test first, then the implementation. But this little shift in mind when working on production code helps you
 to think more about the problem and how to solve it.
