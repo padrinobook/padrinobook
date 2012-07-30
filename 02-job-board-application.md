@@ -40,15 +40,15 @@ In a first attempt we will start with generating a new project with the normal `
 world'}) but this time it has a bunch of new options:
 
     $ cd ~/padrino_projects
-    $ padrino g project job_app -t rspec -d activerecord -a sqlite -e haml -c sass -s jquery
+    $ padrino generate project job_app -t rspec -d activerecord -a sqlite -e haml -c sass -s jquery
 
 Explanation of the new fields:
 
-- **g**: is shortcut for generate (who does not love shortcut to keep you save you keystrokes)
+- **generate**: is shortcut for generate a new `project`
 - **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework (a later
   explanation about this will follow)
-- **-d atciverecord**: using activerecord as the datamapper
-- **-a sqlite**: specifying the orm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - is easy to install, easy
+- **-d atciverecord**: using activerecord as the datamapper SQLite
+- **-a sqlite**: specifying the ORM[^orm] database adapter is [SQLite](http://www.sqlite.org/ "SQLite") - is easy to install, easy
   to inspect because all, and doesn't consumes your processor power (CPU)
 - **-e haml**: using [Haml](http://haml-lang.com/ "Haml")[^haml] markup as a *renderer* to describe HTML in better and faster way
 - **-c sass**: using [Sass](http://sass-lang.com/ "Sass")[^sass] markup for describing the CSS[^css] of the application
@@ -59,6 +59,52 @@ Explanation of the new fields:
 [^css]: stands for *Cascading Style Sheets*
 [^orm]: stands for *object relational mapper*
 [^sass]: stands for *Syntactical Awesome Style Sheets*
+
+Beside the `project` option for generating new Padrino apps, the following table:
+
+<table>
+  <tr>
+    <th>Option</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>project</td>
+    <td>Generates a completely new app from the scratch</td>
+  </tr>
+  <tr>
+    <td>app</td>
+    <td>You can define other apps to be mounted in your main app.</td>
+  </tr>
+  <tr>
+    <td>mailer</td>
+    <td>Creating new mailers within your app</td>
+  </tr>
+  <tr>
+    <td>controller</td>
+    <td>A controller is between your views and models - it makes the model data available for displaying that data to the user.</td>
+  </tr>
+  <tr>
+    <td>model</td>
+    <td>Models are all about data. They help you to describe the abstractions of your data.</td>
+  </tr>
+  <tr>
+    <td>migration</td>
+    <td>Migration make it easy for changing the database schema.</td>
+  </tr>
+  <tr>
+    <td>plugin</td>
+    <td>Creating new Padrino projects based on a template file - it's like a list of commands which create your new app</td>
+  </tr>
+  <tr>
+    <td>admin</td>
+    <td>A very nice built-in-admin dashboard</td>
+  </tr>
+  <tr>
+    <td>admin_page</td>
+    <td>Have to figure this out ...</td>
+  </tr>
+</table>
+
 
 If this commands works, you have a nice green playground with all the Next, we need to specify the used *gem* in the *Gemfile*
 with your favored text editor `vim Gemfile`:
@@ -502,4 +548,5 @@ to think more about the problem and how to solve it.
 
 Once you have green code, you are in the position to refactor your code - remove duplication, enhance design without changing the
 behavior of our code, or try it new things in architecture.
+
 
