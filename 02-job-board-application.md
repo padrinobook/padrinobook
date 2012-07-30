@@ -514,11 +514,11 @@ Next we run our tests again with `rspec spec/app/controllers/page_controller_spe
 
 #### Red-Green Cycle
 
-In Behavior Driven (as well as in Test Driven) Development it is common to write first a failing test (so that you get a **red**
-color when running the test). Next we change our code base to make it pass (you get a **green** when running the test). The scheme
-for this approach is test first, then the implementation. But this little shift in mind when working on production code helps you
+In Behavior Driven (as well as in Test Driven) Development it is important to write a failing test (so that you get a **red**
+color when running the test) first so that you know you really are testing something meaningful. Next we change our code base to make it pass (you get a **green** when running the test). The scheme
+for this approach is test first, then the implementation. But this little shift in mind set when working on production code helps you
 to think more about the problem and how to solve it.
 
-Once you have green code, you are in the position to refactor your code - remove duplication, enhance design without changing the
-behavior of our code, or try it new things in architecture.
+Once you have green code, you are in the position to refactor your code where you can remove duplication and enhance design without changing the
+behavior of our code.
 
