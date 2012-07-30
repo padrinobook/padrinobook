@@ -199,10 +199,10 @@ The output of this command is:
      apply  tests/rspec
     create  spec/app/controllers/page_controller_spec.rb
 
-If you have questions about the output above, please drop me a line - I think it is so clear that it don't need any explanation
+If you have questions about the output above, please drop me a line - I think it is so clear that it doesn't need any explanation
 about it.
 
-Lets look at `app/controller/page.rb`:
+Lets take a look at what the script generated for us `app/controller/page.rb`:
 
     JobApp.controllers :page do
       # get :index, :map => "/foo/bar" do
@@ -249,14 +249,14 @@ As always, let me explain what these lines of code means:
 
 - `JobApp.controller :page` - define for our JobApp application the name space for the *page* controller
 - `do ... end` - defines a block in ruby - please checkout LINK to learn more about blocks in ruby. It is important to understand
-  this feature because they are used in Padrino everywhere
+  this syntax because they are used in Padrino everywhere
 - `get :index, :map => '/page/index'` - the HTTP command *get* starts the declaration of the route followed by the *index* action
-  (in form of a ruby symbol FOOTNOTE), and is finally mapped under the explicit URL */page/index*
+  (in the form of a Ruby symbol FOOTNOTE), and is finally mapped under the explicit URL */page/index*
 - `render 'page/index'` - define the route for the view/template which is rendered when the URL gets the *get* request for the
   route - the views are placed under *app/views/<controller-name>/<action-name>.<html|haml>*
 
-If you get lost in some ways what routes you have defined for your application just call `padrino rake routes` - this nice command
-crawls through your application after delicious routes and gives you a nice overview about **URL, REQUEST**, and **PATH** in your
+If you get confused about what routes you have defined for your application just call `padrino rake routes` - this nice command
+hunts through your application looking for delicious routes and gives you a nice overview about **URL, REQUEST**, and **PATH** in your
 terminal:
 
     $ padrino rake routes
@@ -271,7 +271,7 @@ terminal:
 Finally let's track our changes and commit our changes to the repository on github
 
     $ git add .
-    $ git commit -m 'add basic layout page for the app - only static ones'
+    $ git commit -m 'creating basic routes.'
     $ git push
 
 
