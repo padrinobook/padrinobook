@@ -314,10 +314,11 @@ The above part will be used to create the following html file
     </html>
 
 
-### Basic layout - twitter bootstrap
+### Basic layout - Twitter Bootstrap
 
-The guys @Twitter were so friendly to put their used CSS framework **Twitter bootstrap** on a
-[public repository on github](https://github.com/twitter/bootstrap/ "repository on github"). Thank's to
+The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use by licensing
+it as an open source project, it is available from Github at:
+[public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github"). Thank's to
 [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use padrino-recipes :
 
     $ padrino g plugin bootstrap
