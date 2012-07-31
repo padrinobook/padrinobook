@@ -57,6 +57,17 @@ Explanation of the new fields:
 [^orm]: stands for *Object Relational Mapper*
 [^sass]: stands for *Syntactically Awesome Style Sheets*
 
+You can use a vast array of other options when generating your new Padrino app, this table shows the currently available options:
+
+Component     Default     Aliases     Options
+---------     -------     -------     ------------------------------------------------------------------------------
+orm           none        -d          mongoid, activerecord, datamapper, couchrest, mongomatic, ohm, ripple, sequel
+test          none        -t          bacon, shoulda, cucumber, testspec, riot, rspec, minitest
+script        none        -s          prototype, rightjs, jquery, mootools, extcore, dojo
+renderer      haml        -e          erb, haml, slim, liquid
+stylesheet    none        -c          sass, less, scss, compass
+mock          none        -m          rr, mocha
+
 Besides the `project` option for generating new Padrino apps, the following table illustrates the other generators available:
 
 <table>
