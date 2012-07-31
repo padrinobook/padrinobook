@@ -57,11 +57,54 @@ Explanation of the new fields:
 [^orm]: stands for *Object Relational Mapper*
 [^sass]: stands for *Syntactically Awesome Style Sheets*
 
-If this commands works, you should have a nice green success message.
-Now let us take a look at what *gems* have been specified in the
-automatically generated *Gemfile* by navigating into the `job_app` project
-directory and opening the Gemfile with your favourite text editor.  You
-shoulde see the following within the *Gemfile*:
+Beside the `project` option for generating new Padrino apps, the following table:
+
+<table>
+  <tr>
+    <th>Option</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>project</td>
+    <td>Generates a completely new app from the scratch</td>
+  </tr>
+  <tr>
+    <td>app</td>
+    <td>You can define other apps to be mounted in your main app.</td>
+  </tr>
+  <tr>
+    <td>mailer</td>
+    <td>Creating new mailers within your app</td>
+  </tr>
+  <tr>
+    <td>controller</td>
+    <td>A controller is between your views and models - it makes the model data available for displaying that data to the user.</td>
+  </tr>
+  <tr>
+    <td>model</td>
+    <td>Models are all about data. They help you to describe the abstractions of your data.</td>
+  </tr>
+  <tr>
+    <td>migration</td>
+    <td>Migration make it easy for changing the database schema.</td>
+  </tr>
+  <tr>
+    <td>plugin</td>
+    <td>Creating new Padrino projects based on a template file - it's like a list of commands which create your new app</td>
+  </tr>
+  <tr>
+    <td>admin</td>
+    <td>A very nice built-in-admin dashboard</td>
+  </tr>
+  <tr>
+    <td>admin_page</td>
+    <td>Have to figure this out ...</td>
+  </tr>
+</table>
+
+
+If this commands works, you have a nice green playground with all the Next, we need to specify the used *gem* in the *Gemfile*
+with your favored text editor `vim Gemfile`:
 
     source :rubygems
 
@@ -521,4 +564,5 @@ to think more about the problem and how to solve it.
 
 Once you have green code, you are in the position to refactor your code where you can remove duplication and enhance design without changing the
 behavior of our code.
+
 
