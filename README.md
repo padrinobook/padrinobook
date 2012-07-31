@@ -1,13 +1,13 @@
-This is an free eBook written in markdown. It describes how I developed an application in Padrino. Feel free to fork this project
+This is a free eBook written in markdown. It describes how I developed an application in Padrino. Feel free to fork this project
 and to correct my (silly grammar) mistakes.
 
 
 ## Current version
 
-I'm using [leanpub](http://leanpub.com/) to generate the current status of this book. You can find the actual version
+I'm using [leanpub](http://leanpub.com/) to generate the current status of this book. You can find the current version
 [here](https://leanpub.com/s/3YUdQuEIT35927tfd5DqSb.pdf).
 
-If you are interested in building this book on you local machine, you have to clone this repository on your local machine
+If you are interested in building this book on you local machine, you have to clone this repository to your local machine
 
     git clone git@github.com:matthias-guenther/padrino-book.git
 
@@ -27,7 +27,7 @@ In this book I'm developing the **job offer** application. You can checkout the
 
 ## Contribute/Contact
 
-Feature request, bugs, questions, etc. can be send to <matthias.guenther@wikimatze.de>. You can even fork this project, and as a
+Feature requests, bugs, questions, etc. can be send to <matthias.guenther@wikimatze.de>. You can even fork this project, and as a
 *reward*, I will put you on the **"Special thanks"** section in this README and in the final version of the book.
 
 If you like my work, you can [let me know](http://leanpub.com/padrino) how much money you would spend for this book. And don't
