@@ -57,7 +57,7 @@ Explanation of the new fields:
 [^orm]: stands for *Object Relational Mapper*
 [^sass]: stands for *Syntactically Awesome Style Sheets*
 
-Beside the `project` option for generating new Padrino apps, the following table:
+Besides the `project` option for generating new Padrino apps, the following table illustrates the other generators available:
 
 <table>
   <tr>
