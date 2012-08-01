@@ -28,7 +28,7 @@ Nowadays there are a bunch of Integrated Development Environments (IDEs) out the
 - [RubyMine by JetBrains](http://www.jetbrains.com/ruby/ "RubyMine") - commercial, available for all platforms
 - [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") - free, available for all platforms
 
-Besides, you can also use plain text editors which is a popular choice among Ruby developers
+Besides, you can also use plain text editors which is a popular choice among Ruby developers:
 
 - [Notepad++](http://notepad-plus-plus.org/ "Notepad ++") - free, available only for Windows
 - [Textmate](http://macromates.com/ "Textmate") - commercial, available only for Mac
