@@ -1,5 +1,4 @@
-This is a free eBook written in markdown. It describes how I developed an application in Padrino. Feel free to fork this project
-and to correct my (silly grammar) mistakes.
+This is a free eBook written in markdown. It describes how I developed an application in [Padrino](http://www.padrinorb.com/). Feel free to fork this project and to correct my (silly grammar) mistakes.
 
 
 ## Current version
