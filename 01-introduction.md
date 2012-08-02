@@ -82,6 +82,7 @@ There are other VCSs out there like:
 
 Feel free to track the progress of your application with several small commits and branches.
 
+
 #### Heroku
 
 The [Heroku cloud application platform](http://www.heroku.com/ "ruby gem") enables you to deploy your Padrino / Ruby application
@@ -145,7 +146,7 @@ grab a Raider, which is now know as [twix](http://en.wikipedia.org/wiki/Twix "Tw
 
 And check the selection of the correct ruby version with `ruby -v`. The output should look like:
 
-    $ * 1.9.2-p320 (set by /home/.rbenv/versions)
+    $ * 1.9.2-p290 (set by /home/.rbenv/versions)
 
 Now you are a "rookie" [Ruby Rouge](http://rubyrogues.com/).
 
@@ -157,16 +158,16 @@ Before we start make that you have installed the following packages: `make, g++,
 First, you need to get the ruby version (you can find others versions [here](http://ftp.ruby-lang.org/pub/ruby/)):
 
     $ cd ~/.rbenv/versions
-    $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.2-p320.zip
+    $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.2-p290.zip
 
 Under `.rbenv/versions` you will find all the different installed ruby versions. Next it:
 
-    $ unzip ruby-1.9.2-p320.zip
+    $ unzip ruby-1.9.2-p290.zip
 
 Configure the compilation and perform the installation:
 
     $ cd ~/.rbenv/versions
-    $ ./configure --prefix=$HOME/.rbenv/versions/ruby-1.9.2.p320
+    $ ./configure --prefix=$HOME/.rbenv/versions/ruby-1.9.2.p290
     $ make
     $ make install
 
@@ -178,6 +179,7 @@ The good is, that you how the whole configuration works, what compiles what not.
 you hardly know whats going on. So my pragmatic advice is, use the first method.
 
 If you get this working, you are a "real" [Ruby Rouge](http://rubyrogues.com/).
+
 
 ## Hello world
 
