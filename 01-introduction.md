@@ -211,7 +211,6 @@ We will go through each part:
 - `project` - tells Padrino to generate a new application.
 - `hello-wolrd` - the name of the new application and this is also the folder name.
 
-
 The console output should looks like the following:
 
       create
@@ -245,7 +244,7 @@ The console output should looks like the following:
     =================================================================
     brand_new is ready for development!
     =================================================================
-    $ cd ./brand_new
+    $ cd ./hello-world
     $ bundle install
     =================================================================
 
@@ -253,9 +252,9 @@ The last line in the console output tells you the next steps you have to perform
 we need some sort of package managing for Ruby.
 
 Ruby has a nice gem manager called [bundler](http://gembundler.com/ "bundler") which installs all necessary gems in specific
-versions you would like to have in your project. The [Gemfile](http://gembundler.com/gemfile.html) declares the gems that you want
-to install. Bundle takes the content of the Gemfile and will install everything. To install bundler perform the following
-command
+versions you would like to have in your project. The [Gemfile](http://gembundler.com/gemfile.html "Gemfile") declares the gems
+that you want to install. Bundle takes the content of the Gemfile and will install everything. To install bundler perform the
+following command
 
     $ gem install bundler
 
@@ -328,4 +327,3 @@ We will go through each part.
 
 We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools for the job, and used version
 control with Git. Now it is time to jump into a real project!
-
