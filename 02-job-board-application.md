@@ -1,9 +1,12 @@
 # Job Board Application
 
-There are more IT jobs out there than there are skilled people available. It would be great if we could have the possibility to offer a platform where
-users can easily post new jobs vacancies to recruit people for their company. This example job vacancy board is the software we will be building with Padrino. We will apply **K.I.S.S**[^KISS] principle, so we will keep maintain a very easy and extensible design.
+There are more IT jobs out there than there are skilled people available. It would be great if we could have the possibility to
+offer a platform where users can easily post new jobs vacancies to recruit people for their company. This example job vacancy
+board is the software we will be building with Padrino. We will apply **K.I.S.S**[^KISS] principle, so we will keep maintain a
+very easy and extensible design.
 
-First, we will take a look at the basic design of our application, afterwards we are going to implement our ideas using the Padrino framework.
+First, we will take a look at the basic design of our application, afterwards we are going to implement our ideas using the
+Padrino framework.
 
 [^KISS]: Is an acronym for *Keep it simple and stupid*.
 
@@ -14,7 +17,8 @@ First, we will take a look at the basic design of our application, afterwards we
 ### User data model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
-identification number **id** which is an integer (also useful for indexing our database), a **name** and an **email** both of which are strings.
+identification number **id** which is an integer (also useful for indexing our database), a **name** and an **email** both of
+which are strings.
 
 ![Figure 2-1. user data model](images/02/user.jpg)
 
@@ -43,12 +47,16 @@ world'}) but this time it has a bunch of new options:
 
 Explanation of the new fields:
 
-- **g**: is shortcut for generate (who doesn't love shortcuts to save your fingers from RSI)
-- **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework (an explanation about this will follow later)
+- **g**: is shortcut for `generate` (who doesn't love shortcuts to save your fingers from RSI)
+- **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework (an explanation
+  about this will follow later)
 - **-d activerecord**: using activerecord as the orm[^orm]
-- **-a sqlite**: specifying the orm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - easiest database to install / configure and is ideal for beginning development plus it doesn't consume much system resources on you development machine
+- **-a sqlite**: specifying the orm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - easiest database to
+  install / configure and is ideal for beginning development plus it doesn't consume much system resources on you development
+  machine
 - **-e haml**: using [Haml](http://haml-lang.com/ "Haml")[^haml] markup as a *renderer* to describe HTML in cleaner and faster way
-- **-c sass**: using [Sass](http://sass-lang.com/ "Sass")[^sass] for describing the CSS[^css] of the application, Sass offers numerous benefits over plain old CSS
+- **-c sass**: using [Sass](http://sass-lang.com/ "Sass")[^sass] for describing the CSS[^css] of the application, Sass offers
+  numerous benefits over plain old CSS
 - **-s jquery**: defining the Javascript library we are using - for this app will be using the ubiquitous
   [jQuery](http://jquery.com/ "jQuery") library
 
@@ -77,7 +85,7 @@ Besides the `project` option for generating new Padrino apps, the following tabl
   </tr>
   <tr>
     <td>project</td>
-    <td>Generates a completely new app from the scratch</td>
+    <td>Generates a completely new app from the scratch.</td>
   </tr>
   <tr>
     <td>app</td>
@@ -194,7 +202,7 @@ type in `git branch -a`
       master
 
 Lets create our first version with static content only. We are presented early with a question; where will be my *index.html* page? Because we are not
-working with controllers, the easiest thing is to put the *index.html* directly under the public folder in the project. 
+working with controllers, the easiest thing is to put the *index.html* directly under the public folder in the project.
 
 
 This book has the intention to be up-to-date so we fill our index page with the latest
@@ -225,7 +233,7 @@ We can take a look at our new page by firing up Padrino by running the followin 
 
 You should see a message telling you that Padrino has taken the stage, you should now be able to view the feshly created index
 page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html) in your favourite browser.
- 
+
 Since we are done with the small feature, it is time to push our branch to the remote repository on Github but first of all we
 need to commit our changes.  The following commands will add the index.html page to the staging area the commit the changes,
 finally we push the code up to Github.
