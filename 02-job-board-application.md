@@ -43,27 +43,27 @@ In our first attempt we will start with generating a new project with the canoni
 world'}) but this time it has a bunch of new options:
 
     $ cd ~/padrino_projects
-    $ padrino g project job_app -t rspec -d activerecord -a sqlite -e haml -c sass -s jquery
+    $ padrino g project job_vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite -m mocha
 
 Explanation of the new fields:
 
 - **g**: is shortcut for `generate` (who doesn't love shortcuts to save your fingers from RSI)
+- **-d activerecord**: using activerecord as the orm[^orm]
 - **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework (an explanation
   about this will follow later)
-- **-d activerecord**: using activerecord as the orm[^orm]
-- **-a sqlite**: specifying the orm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - easiest database to
-  install / configure and is ideal for beginning development plus it doesn't consume much system resources on you development
-  machine
-- **-e haml**: using [Haml](http://haml-lang.com/ "Haml")[^haml] markup as a *renderer* to describe HTML in cleaner and faster way
-- **-c sass**: using [Sass](http://sass-lang.com/ "Sass")[^sass] for describing the CSS[^css] of the application, Sass offers
-  numerous benefits over plain old CSS
 - **-s jquery**: defining the Javascript library we are using - for this app will be using the ubiquitous
   [jQuery](http://jquery.com/ "jQuery") library
+- **-e erb**: using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB")[^erb] markup as a *renderer* to
+  describe HTML in cleaner and faster way. I won't take [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com/ "Slim")
+  due the fact to keep the project as simple as possible - if you want, you can take another renderer and try to port the examples
+  in this book to your
+- **-a sqlite**: specifying the ORMorm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - easiest database to
+  install / configure and is ideal for beginning development plus it doesn't consume much system resources on you development
+  machine
+- **-m mocha**: [Mocha](http://gofreerange.com/mocha "Mocha") is a library for mocking and stubbing
 
-[^haml]: stands for *HTML Abstraction Markup Language*
-[^css]: stands for *Cascading Style Sheets*
+[^erb]: stands for *Embedded Ruby*
 [^orm]: stands for *Object Relational Mapper*
-[^sass]: stands for *Syntactically Awesome Style Sheets*
 
 You can use a vast array of other options when generating your new Padrino app, this table shows the currently available options:
 
