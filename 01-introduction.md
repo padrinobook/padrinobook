@@ -3,20 +3,20 @@
 Why another book about how to develop an application in Rails? But wait, this book should give you a basic introduction how to
 develop a web application with [Padrino](http://www.padrinorb.com/). Padrino is "The Elegant Ruby Web Framework". Padrino is based
 upon [Sinatra](http://www.sinatrarb.com/ "Sinatra"), which is a simple a Domain Specific Language (DSL) for quickly creating
-web-applications in Ruby. When writing Sinatra applications many developers miss some of the extra conveniences that Rails offers,
+web-applications in Ruby. While writing Sinatra applications many developers miss some of the extra conveniences that Rails offers,
 this is where Padrino comes in as it provides many of these whilst still staying true to Sinatra's ethos of being simple and
 lightweight. To say it with words of the Padrino webpage: "Padrino is a full-stack ruby framework built upon Sinatra".
 
 
 ## Motivation
 
-My motivation is to provide up-to-date documentation for Padrino. Although Padrino borrows many ideas and techniques from it's big
-brother Rails it aims to be more modular and allows you to interchange various components with considerable ease.
+My motivation is to provide up-to-date documentation for Padrino. Although Padrino borrows many ideas and techniques from its big
+brother Rails, it aims to be more modular and allows you to interchange various components with considerable ease.
 
 
 ## Basics and Tools
 
-I won't tell you which operation system you should use - there is an interesting discussion on
+I won't tell you which operating system you should use - there is an interesting discussion on
 [hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I leave it free for the reader of this book which to use -
 basically your are reading this book to learn Padrino.
 
@@ -42,7 +42,7 @@ main goal is that you are comfortable with it because you will mostly spend a lo
 
 ### Additional tools
 
-This sections contains a list of tools that are optional. That means that you can survive without them but learning them can help
+This section contains a list of tools that are optional. That means that you can survive without them but learning them can help
 you in various situations and makes it easier for you to react upon changes.
 
 
@@ -55,13 +55,13 @@ For any non-Ruby people, I strongly advice you to check out one of these books a
   - written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "why the lucky
     stiff") in a entertaining and educational way.
 
-In this book I will be assuming some Ruby knowledge and will not be explaining every last detail, I will however explain Padrino
+In this book I assume some Ruby knowledge and will not be explaining every last detail, I will however explain Padrino
 specific coding techniques.
 
 
 #### Version controlling with Git
 
-During software development it is important to keep track of your source code changes. That is what version control systems (VCSs)
+While developing software it is important to keep track of your changes to the source code. That is what version control systems (VCSs)
 is all about.  Git helps you to keep track of the changes in your code. You can switch between certain versions in your code,
 create branches to experiment with code, and easily manage your code in distributed teams. If you want to deepen your knowledge
 into this topic, you can consult the following book and only references:
@@ -93,12 +93,13 @@ of Ruby* on this platform.
 
 
 ## Installing the necessary tools
-If you are an advanced user, you can skip these section and jump straight forward to the "Hello World" section.
+
+If you are an advanced user, you can skip these sections and jump straight forward to the "Hello World" section.
 
 
 ### Installing ruby
 
-Instead of using the build in package for ruby, we will use [rben](https://github.com/sstephenson/rbenv/) which lets you switch
+Instead of using the build in package for ruby, we will use [rbenv](https://github.com/sstephenson/rbenv/) which lets you switch
 between multiple version of ruby.
 
 First, we need to clone rbenv:
@@ -155,7 +156,7 @@ Now you are a "rookie" [Ruby Rouge](http://rubyrogues.com/).
 
 Before we start make that you have installed the following packages: `make, g++, wget` and `unzip`.
 
-First, you need to get the ruby version (you can find others versions [here](http://ftp.ruby-lang.org/pub/ruby/)):
+First, you need to get the ruby version (you can find other versions [here](http://ftp.ruby-lang.org/pub/ruby/)):
 
     $ cd ~/.rbenv/versions
     $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.2-p290.zip
@@ -209,7 +210,7 @@ We will go through each part:
   create other *components* for your application like a mailing system or a nice admin panel to manage your database entries. A
   shortcut for generate is `g`
 - `project` - tells Padrino to generate a new application.
-- `hello-wolrd` - the name of the new application and this is also the folder name.
+- `hello-world` - the name of the new application and this is also the folder name.
 
 The console output should looks like the following:
 
@@ -251,7 +252,7 @@ The console output should looks like the following:
 The last line in the console output tells you the next steps you have to perform. Before we are going to start our application
 we need some sort of package managing for Ruby.
 
-Ruby has a nice gem manager called [bundler](http://gembundler.com/ "bundler") which installs all necessary gems in specific
+Ruby has a nice gem dependency manager called [bundler](http://gembundler.com/ "bundler") which installs all necessary gems in specific
 versions you would like to have in your project. The [Gemfile](http://gembundler.com/gemfile.html "Gemfile") declares the gems
 that you want to install. Bundle takes the content of the Gemfile and will install everything. To install bundler perform the
 following command
