@@ -50,7 +50,7 @@ you in various situations and makes it easier for you to react upon changes.
 
 For any non-Ruby people, I strongly advice you to check out one of these books and learn the basics of Ruby before continuing here.
 
-- [Programming ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming ruby")
+- [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming Ruby")
 - [why's (poignant) Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "why's (poignant) Guide to Ruby")
   - written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "why the lucky
     stiff") in a entertaining and educational way.
@@ -96,10 +96,10 @@ of Ruby* on this platform.
 If you are an advanced user, you can skip these section and jump straight forward to the "Hello World" section.
 
 
-### Installing ruby
+### Installing Ruby
 
-Instead of using the build in package for ruby, we will use [rben](https://github.com/sstephenson/rbenv/) which lets you switch
-between multiple version of ruby.
+Instead of using the build in package for Ruby, we will use [rben](https://github.com/sstephenson/rbenv/) which lets you switch
+between multiple versions of Ruby.
 
 First, we need to clone rbenv:
 
@@ -119,13 +119,13 @@ Next, we need to restart our shell to enable the last changes:
 
     $ exec $SHELL
 
-Now the we have to ways to install ruby versions: The easy one with a plugin and the difficult one where we have to compile ruby
+Now the we have to ways to install Ruby versions: The easy one with a plugin and the difficult one where we have to compile Ruby
 on our own.
 
 
 #### ruby-build
 
-Because we don't want to download and compile different ruby versions on our own, we will use
+Because we don't want to download and compile different Ruby versions on our own, we will use
 [ruby-build](https://github.com/sstephenson/ruby-build "ruby-build") plugin for rbenv:
 
     $ mkdir ~/.rbenv/plugins
@@ -133,18 +133,18 @@ Because we don't want to download and compile different ruby versions on our own
     $ git clone git://github.com/sstephenson/ruby-build.git
 
 
-If you now run `rbenv install` you can see all the different ruby version you can install and use for different ruby projects. We
+If you now run `rbenv install` you can see all the different Ruby version you can install and use for different Ruby projects. We
 are going to install `ruby 1.9.2-p290`:
 
     $ rbenv install 1.9.2-p290
 
 This command will take a couple of minutes (why you will ask, you have perform the steps of the next chapter ), so its best to
 grab a Raider, which is now know as [twix](http://en.wikipedia.org/wiki/Twix "Twix"). After everything runs fine, you have to run
-`rbenv rehash` to rebuild the internal rbenv libraries. The last step is to made ruby 1.9.2-p290 available on your whole machine:
+`rbenv rehash` to rebuild the internal rbenv libraries. The last step is to made Ruby 1.9.2-p290 available on your whole machine:
 
     $ rbenv global 1.9.2-p290
 
-And check the selection of the correct ruby version with `ruby -v`. The output should look like:
+And check the selection of the correct Ruby version with `ruby -v`. The output should look like:
 
     $ * 1.9.2-p290 (set by /home/.rbenv/versions)
 
@@ -155,12 +155,12 @@ Now you are a "rookie" [Ruby Rouge](http://rubyrogues.com/).
 
 Before we start make that you have installed the following packages: `make, g++, wget` and `unzip`.
 
-First, you need to get the ruby version (you can find others versions [here](http://ftp.ruby-lang.org/pub/ruby/)):
+First, you need to get the Ruby version (you can find others versions [here](http://ftp.ruby-lang.org/pub/ruby/)):
 
     $ cd ~/.rbenv/versions
     $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.2-p290.zip
 
-Under `.rbenv/versions` you will find all the different installed ruby versions. Next it:
+Under `.rbenv/versions` you will find all the different installed Ruby versions. Next it:
 
     $ unzip ruby-1.9.2-p290.zip
 
