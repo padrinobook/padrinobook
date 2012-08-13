@@ -310,8 +310,9 @@ home, about, and contact actions.
 As always, let me explain what these lines of code means:
 
 - `JobApp.controller :page` - define for our JobApp application the name space for the *page* controller
-- `do ... end` - defines a block in ruby - please checkout LINK to learn more about blocks in ruby. It is important to understand
-  this syntax because they are used in Padrino everywhere
+- `do ... end` - defines a block in ruby - please checkout this section of the famous [Programming Ruby
+  book](http://www.rubycentral.com/pickaxe/tut_containers.html#s2) affectionately know by Rubyists as the 'Pickaxe Book' to learn
+more about blocks in Ruby. It is an important concept to understand because they are used in Padrino everywhere
 - `get :index, :map => '/page/index'` - the HTTP command *get* starts the declaration of the route followed by the *index* action
   (in the form of a Ruby symbol FOOTNOTE), and is finally mapped under the explicit URL */page/index*
 - `render 'page/index'` - define the route for the view/template which is rendered when the URL gets the *get* request for the
