@@ -5,7 +5,7 @@ end
 
 desc "pdf generation"
 task :pdf do
-  `markdown2pdf -o padrino_book.pdf 01-introduction.md 02-job-board-application.md`
+  `pandoc -o padrino_book.pdf 01-introduction.md 02-job-board-application.md`
 end
 
 desc "HTML generation"
