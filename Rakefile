@@ -1,20 +1,25 @@
 desc "ebook creation"
 task :ebook do
-  `pandoc -S --epub-metadata=metadata.xml --epub-stylesheet=ebook.css -o padrino_ebook.epub title.txt 01-introduction.md`
+  `pandoc -S --epub-metadata=metadata.xml --epub-stylesheet=ebook.css -o padrino_book.epub title.txt 01-introduction.md 02-job-board-application.md`
+  puts ".. done\nName of the ebook is `padrino_book.epub`"
 end
 
 desc "pdf generation"
 task :pdf do
   `pandoc -o padrino_book.pdf 01-introduction.md 02-job-board-application.md`
+  puts ".. done\nName of the pdf is `padrino_book.pdf`"
 end
 
 desc "HTML generation"
 task :html do
   `pandoc -o padrino_book.html 01-introduction.md 02-job-board-application.md`
+  puts ".. done\nName of the html is `padrino_book.html`"
 end
 
-desc "move output files"
-task :move do
-  `mv padrino_book.pdf output/`
-  `mv padrino_book.html output/`
+desc "Cleaning the generated output format"
+task :clean do
+  `rm padrino_book.pdf`
+  `rm padrino_book.epub`
+  `rm padrino_book.html`
+  puts ".. done"
 end
