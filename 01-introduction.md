@@ -343,21 +343,27 @@ We will go through each part.
 - **Gemfile**: The place where you put all the necessary *gems* for your project. Bundle takes the content of this file and
   installs all the declared dependencies inside this file.
 - **app**: Contains the "executable" files of your project with controllers, helpers, and views of your app
-  - **app.rb**: The primary configuration file of your application
-  - bf
-  - bf
+  - **app.rb**: The primary configuration file of your application.
+  - **controller**: The controllers make the model data available to the view and handles the correct paths and which actions are
+    triggered when requests are fired up against certain routes
+  - **helper**: Helpers are small snippet of code that can be called in your views to help you to prevent repetition - also called
+    `DRY` (Don't Repeat Yourself)
+  - **views**: Holds the display templates to fill in with data to be rendered by in a controller
 - **config**: General settings for the app , that means which hooks should be performed before or after the app is
   loaded, setting the environment (e.g. production, development, test), mounting other apps within the existing app
   under different subdomains.
+  - **apps.rb**: Mounts different Padrino apps under a certain domain and/or host. It is like building a castle consisting of
+    different already crafted parts like moats, wall, and baily
+  - **boots.rb**: Basic settins for your app which will be run when you start the app
 - **config.ru**: Contains the complete configuration options of the app, such as which port the app listens to,
-  whenever it uses other Padrino apps as middleware and more.
+  whenever it uses other Padrino apps as middleware and more. This file will be used when Padrino is runs on the command line.
 - **public**: Place where you put global files to be available for the public audience of your page like images folder, JavaScript
-  files, or style sheets
-- **tmp**: If you are running your app under Nginx than tmp contains a file named *restart.txt* which reboots another
-  Padrino app.
+  files, and style sheets.
+- **tmp**: This directory holds temporary files for intermediate processing
 
 
 ## Conclusion
 
 We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools for the job, and using version
 control with Git. Now it is time to jump into a real project!
+
