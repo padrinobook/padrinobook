@@ -1,9 +1,9 @@
 # Introduction
 
-Why another book about how to develop an application in Rails? But wait, this book should give you a basic introduction how to
-develop a web application with [Padrino](http://www.padrinorb.com/). Padrino is "The Elegant Ruby Web Framework". Padrino is based
+Why another book about how to develop an application (app) in Rails? But wait, this book should give you a basic introduction how to
+develop a web app with [Padrino](http://www.padrinorb.com/). Padrino is "The Elegant Ruby Web Framework". Padrino is based
 upon [Sinatra](http://www.sinatrarb.com/ "Sinatra"), which is a simple a Domain Specific Language (DSL) for quickly creating
-web-applications in Ruby. When writing Sinatra applications many developers miss some of the extra conveniences that Rails offers,
+web apps in Ruby. When writing Sinatra apps many developers miss some of the extra conveniences that Rails offers,
 this is where Padrino comes in as it provides many of these while still staying true to Sinatra's ethos of being simple and
 lightweight. To say it with words of the Padrino webpage: "Padrino is a full-stack ruby framework built upon Sinatra".
 
@@ -80,12 +80,12 @@ There are other VCSs out there like:
 - [svn](http://en.wikipedia.org/wiki/Apache_Subversion "svn") (*subversion*), or
 - [Mercurial](http://mercurial.selenic.com/ "Mercurial")
 
-Feel free to track the progress of your application with several small commits and branches.
+Feel free to track the progress of your app with several small commits and branches.
 
 
 #### Heroku
 
-The [Heroku cloud application platform](http://www.heroku.com/ "ruby gem") enables you to deploy your Padrino / Ruby application
+The [Heroku cloud app platform](http://www.heroku.com/ "ruby gem") enables you to deploy your Padrino / Ruby app
 on the Heroku platform. It manages the database creation and installation of the gems - difficult configurations tasks are handled by
 this platform. Heroku is so attractive that even the creator of Ruby,
 [Yukihiro Matsumoto](http://blog.heroku.com/archives/2011/7/12/matz_joins_heroku/ "Yukihiroatsumoto"), works as *Chief Architect
@@ -186,7 +186,7 @@ If you get this working, you are a "real" [Ruby Rogue](http://rubyrogues.com/).
 
 On the following image you can see the basic image of our application[^omnigraffle]:
 
-![Figure 1-1. Start page of the application](images/01/application_overview.jpg)
+![Figure 1-1. Start page of the app](images/01/application_overview.jpg)
 
 [^omnigraffle]: You can use a classical stencil and paper to create mockups. I'm using
 [Omnigraffle](http://www.omnigroup.com/products/omnigraffle/ "Omnigraffle") with the stencil extensions by
@@ -199,7 +199,7 @@ Get your hands dirty and start coding. First of all we need to install the gem w
 
 We are using the last stable version of Padrino (during the release of this book it is version **0.10.5**).
 
-This will install all necessary dependencies and makes you ready to create your web applications.  Now we will generate a fresh
+This will install all necessary dependencies and makes you ready to create your web app. Now we will generate a fresh
 new Padrino project:
 
     $ padrino generate project hello-world
@@ -207,10 +207,10 @@ new Padrino project:
 We will go through each part:
 
 - `padrino generate` - tells Padrino to perform the generator with the specified options. The generate options can be used to
-  create other *components* for your application like a mailing system or a nice admin panel to manage your database entries. A
+  create other *components* for your app like a mailing system or a nice admin panel to manage your database entries. A
   shortcut for generate is `g`
-- `project` - tells Padrino to generate a new application.
-- `hello-world` - the name of the new application and this is also the folder name.
+- `project` - tells Padrino to generate a new app.
+- `hello-world` - the name of the new app and this is also the folder name.
 
 The console output should looks like the following:
 
@@ -249,7 +249,7 @@ The console output should looks like the following:
     $ bundle install
     =================================================================
 
-The last line in the console output tells you the next steps you have to perform. Before we are going to start our application,
+The last line in the console output tells you the next steps you have to perform. Before we are going to start our app,
 we need some sort of package managing for Ruby.
 
 Ruby has a nice gem manager called [bundler](http://gembundler.com/ "bundler") which installs all necessary gems in specific
@@ -262,7 +262,7 @@ install bundler perform the following command
         Successfully installed bundler-1.2.0
         1 gem installed
 
-Now we have everything to start our application:
+Now we have everything to start our app:
 
     $ cd hello-world
     $ bundle install
@@ -304,7 +304,7 @@ Let's open the file `app/app.rb` (this is like the root controller) and insert t
 
     end
 
-Now run the application with:
+Now run the app with:
 
     $ padrino s
 
@@ -312,7 +312,7 @@ Now run the application with:
 
 ![Figure 1-3. Hello world in your browser](images/01/hello_world.jpg)
 
-You can now say that you have built your first Padrino application with no great effort and it still feels natural.
+You can now say that you have built your first Padrino app with no great effort and it still feels natural.
 
 
 ### Wait, there is more - the file structure
@@ -342,16 +342,19 @@ We will go through each part.
 
 - **Gemfile**: The place where you put all the necessary *gems* for your project. Bundle takes the content of this file and
   installs all the declared dependencies inside this file.
-- **app**: Contains the "executable" files of your project with controllers, helpers, and views of your application
-- **config**: General settings for the application, that means which hooks should be performed before or after the application is
-  loaded, setting the environment (e.g. production, development, test), mounting other applications within the existing application
+- **app**: Contains the "executable" files of your project with controllers, helpers, and views of your app
+  - **app.rb**: The primary configuration file of your application
+  - bf
+  - bf
+- **config**: General settings for the app , that means which hooks should be performed before or after the app is
+  loaded, setting the environment (e.g. production, development, test), mounting other apps within the existing app
   under different subdomains.
-- **config.ru**: Contains the complete configuration options of the application, such as which port the application listens to,
-  whenever it uses other Padrino apps as middleware and more. See more under TBD.  application from the command line.
+- **config.ru**: Contains the complete configuration options of the app, such as which port the app listens to,
+  whenever it uses other Padrino apps as middleware and more.
 - **public**: Place where you put global files to be available for the public audience of your page like images folder, JavaScript
   files, or style sheets
-- **tmp**: If you are running your application under Nginx than tmp contains a file named *restart.txt* which reboots another
-  Padrino application.
+- **tmp**: If you are running your app under Nginx than tmp contains a file named *restart.txt* which reboots another
+  Padrino app.
 
 
 ## Conclusion
