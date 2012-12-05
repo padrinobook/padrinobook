@@ -1,12 +1,14 @@
+/* vim: set ts=2 sw=2 textwidth=120: */
+
 # Job Board Application
 
-There are more IT jobs out there than there are skilled people available. It would be great if we could have the possibility to
-offer a platform where users can easily post new jobs vacancies to recruit people for their company. This example job vacancy
-board is the software we will be building with Padrino. We will apply **K.I.S.S**[^KISS] principle, so we will keep maintain a
-very easy and extensible design.
+There are more IT jobs out there than there are skilled people available. It would be great if we could have the
+possibility to offer a platform where users can easily post new jobs vacancies to recruit people for their company. This
+example job vacancy board is the software we will be building with Padrino. We will apply **K.I.S.S**[^KISS] principle,
+so we will keep maintain a very easy and extensible design.
 
-First, we will take a look at the basic design of our application, afterwards we are going to implement our ideas using the
-Padrino framework.
+First, we will take a look at the basic design of our application, afterwards we are going to implement our ideas using
+the Padrino framework.
 
 [^KISS]: Is an acronym for *Keep it simple and stupid*.
 
@@ -17,8 +19,8 @@ Padrino framework.
 ### User data model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
-identification number **id** which is an integer (also useful for indexing our database), a **name** and an **email** both of
-which are strings.
+identification number **id** which is an integer (also useful for indexing our database), a **name** and an **email**
+both of which are strings.
 
 ![Figure 2-1. user data model](images/02/user.jpg)
 
@@ -39,33 +41,37 @@ A job vacancy consists of the following attributes:
 
 ## Basic crafting of the application
 
-In our first attempt we will start with generating a new project with the canonical `padrino` command (see section \ref{section 'Hello
-world'}) but this time it has a bunch of new options:
+In our first attempt we will start with generating a new project with the canonical `padrino` command (see section
+\ref{section 'Hello world'}) but this time it has a bunch of new options:
+
 
     $ cd ~/padrino_projects
     $ padrino g project job_vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite -m mocha
+
 
 Explanation of the new fields:
 
 - **g**: is shortcut for `generate` (who doesn't love shortcuts to save your fingers from RSI)
 - **-d activerecord**: using activerecord as the orm[^orm]
-- **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework (an explanation
-  about this will follow later)
+- **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework (an
+  explanation about this will follow later)
 - **-s jquery**: defining the Javascript library we are using - for this app will be using the ubiquitous
   [jQuery](http://jquery.com/ "jQuery") library
-- **-e erb**: using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB")[^erb] markup as a *renderer* to
-  describe HTML in cleaner and faster way. I won't take [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com/ "Slim")
-  due the fact to keep the project as simple as possible - if you want, you can take another renderer and try to port the examples
-  in this book to your
-- **-a sqlite**: specifying the ORMorm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - easiest database to
-  install / configure and is ideal for beginning development plus it doesn't consume much system resources on you development
-  machine
+- **-e erb**: using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB")[^erb] markup as a *renderer*
+  to describe HTML in cleaner and faster way. I won't take [Haml](http://haml.info/ "Haml") or
+  [Slim](http://slim-lang.com/ "Slim") due the fact to keep the project as simple as possible - if you want, you can
+  take another renderer and try to port the examples in this book to your
+- **-a sqlite**: specifying the ORMorm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - easiest
+  database to install / configure and is ideal for beginning development plus it doesn't consume much system resources
+  on you development machine
 - **-m mocha**: [Mocha](http://gofreerange.com/mocha "Mocha") is a library for mocking and stubbing
 
 [^erb]: stands for *Embedded Ruby*
 [^orm]: stands for *Object Relational Mapper*
 
-You can use a vast array of other options when generating your new Padrino app, this table shows the currently available options:
+You can use a vast array of other options when generating your new Padrino app, this table shows the currently available
+options:
+
 
 Component     Default     Aliases     Options
 ---------     -------     -------     ------------------------------------------------------------------------------
@@ -76,7 +82,9 @@ renderer      haml        -e          erb, haml, slim, liquid
 stylesheet    none        -c          sass, less, scss, compass
 mock          none        -m          rr, mocha
 
+
 Besides the `project` option for generating new Padrino apps, the following table illustrates the other generators available:
+
 
 <table>
   <tr>
@@ -97,7 +105,8 @@ Besides the `project` option for generating new Padrino apps, the following tabl
   </tr>
   <tr>
     <td>controller</td>
-    <td>A controller is between your views and models - it makes the model data available for displaying that data to the user.</td>
+    <td>A controller is between your views and models - it makes the model data available for displaying that data to
+    the user.</td>
   </tr>
   <tr>
     <td>model</td>
@@ -109,7 +118,8 @@ Besides the `project` option for generating new Padrino apps, the following tabl
   </tr>
   <tr>
     <td>plugin</td>
-    <td>Creating new Padrino projects based on a template file - it's like a list of commands which create your new app</td>
+    <td>Creating new Padrino projects based on a template file - it's like a list of commands which create your new
+    app</td>
   </tr>
   <tr>
     <td>admin</td>
@@ -122,8 +132,9 @@ Besides the `project` option for generating new Padrino apps, the following tabl
 </table>
 
 
-If this commands works, you have a nice green playground with all the Next, we need to specify the used *gem* in the *Gemfile*
-with your favored text editor `vim Gemfile`:
+If this commands works, you have a nice green playground with all the Next, we need to specify the used *gem* in the
+*Gemfile* with your favored text editor `vim Gemfile`:
+
 
     source :rubygems
 
@@ -144,39 +155,51 @@ with your favored text editor `vim Gemfile`:
     # Padrino Stable Gem
     gem 'padrino', '0.10.5'
 
-Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using with Bundler[^bundler] by running at the command line:
+
+Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using with
+Bundler[^bundler] by running at the command line:
+
 
     $ bundle install
 
+
 [^bundler]: recall that bundler is a service to install all the required gems for a certain project.
 
-Recall from section (\ref{section 'git - put your code under version control'}) that we need to put our achievements under version control:
+Recall from section (\ref{section 'git - put your code under version control'}) that we need to put our achievements
+under version control:
+
 
     $ git init
     $ git add .
     $ git commit -m 'first commit of a marvelous padrino application'
 
-Can you remember what the git commands are doing? The following explanation will refresh your memory if you have forgot, don't
-worry it'll become second nature to you in due course:
+
+Can you remember what the git commands are doing? The following explanation will refresh your memory if you have forgot,
+don't worry it'll become second nature to you in due course:
 
 - `git init` - initialize a new git repository
 - `git add .` - add recursively all files to staging
 - `git commit -m ` - check in your changes in the repository
 
-Because we are hosting our application on [github]( "github") we need to push the project onto the platform. (TODO: installation
-explanation of github, maybe just a link)
+Because we are hosting our application on [GitHub](https://github.com/ "github") we need to push the project onto the
+platform. (TODO: installation explanation of GitHub, maybe just a link)
+
 
     $ git remote add origin git@github.com:matthias-guenther/job_off_app.git
     $ git push origin master
 
+
 ![Figure 2-3. creating a new project on github](images/02/github.png)
 
-Instead of *matthias-guenther* you have to replace this phrase with your personal github account name. Now your repository is
-online. To write some documentation about what the whole project is about we should add a README.md to the project:
+Instead of *matthias-guenther* you have to replace this phrase with your personal GitHub account name. Now your
+repository is online. To write some documentation about what the whole project is about we should add a README.md to the
+project:
+
 
     $ git add README.md
     $ git commit -m 'add README'
     $ git push
+
 
 The md extension means this is in Markdown format you can however use many other formats.
 
@@ -186,27 +209,33 @@ If you want to see how the project should be looking on Github, just checkout th
 
 ### Basic layout - controller and routing
 
-The first thing we will do, is to check out a new branch for this section. Let's fire up the console and create a new branch.
-Creating a new branch is not a necessity but it is considered good practice when implementing new features or fixing bugs and
-it makes it easier for you if things go wrong.
+The first thing we will do, is to check out a new branch for this section. Let's fire up the console and create a new
+branch.  Creating a new branch is not a necessity but it is considered good practice when implementing new features or
+fixing bugs and it makes it easier for you if things go wrong.
+
 
     $ git branch basic-layout
     $ git checkout basic-layout
 
-With `git branch <name>` we create a new branch (in this example one with the name *basic-layout*) and with `git checkout <name>`
-we switch to this branch and all changes we make will only be visible in this branch. To get an overview of all available branches
-type in `git branch -a`
+
+With `git branch <name>` we create a new branch (in this example one with the name *basic-layout*) and with `git
+checkout <name>` we switch to this branch and all changes we make will only be visible in this branch. To get an
+overview of all available branches type in `git branch -a`
+
 
     $ git branch -a
     * basic-layout
       master
 
-Lets create our first version with static content only. We are presented early with a question; where will be my *index.html* page? Because we are not
-working with controllers, the easiest thing is to put the *index.html* directly under the public folder in the project.
+
+Lets create our first version with static content only. We are presented early with a question; where will be my
+*index.html* page? Because we are not working with controllers, the easiest thing is to put the *index.html* directly
+under the public folder in the project.
 
 
 This book has the intention to be up-to-date so we fill our index page with the latest
 [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") standards, add the following into your index.html file:
+
 
     <!DOCTYPE html>
     <html lang="en-US">
@@ -218,10 +247,13 @@ This book has the intention to be up-to-date so we fill our index page with the 
       </body>
     </html>
 
+
 Explanation of the parts:
 
-- `<!DOCTYPE html>` -  the *document type* tells the browser which HTML version should be used for rendering the content correctly
-- `head` - specifying meta information like title, description, and ; this is also the place to where to add CSS and JavaScript files
+- `<!DOCTYPE html>` -  the *document type* tells the browser which HTML version should be used for rendering the content
+  correctly
+- `head` - specifying meta information like title, description, and ; this is also the place to where to add CSS and
+  JavaScript files
 - `body` - section for displaying the main content of the page
 
 This used to be the way websites were created in the beginning of the web - plain old static content, today things are a
@@ -229,31 +261,39 @@ little more dynamic so our static app won't last long.
 
 We can take a look at our new page by firing up Padrino by running the followin at the command line:
 
+
     $ padrino start
 
-You should see a message telling you that Padrino has taken the stage, you should now be able to view the feshly created index
-page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html) in your favourite browser.
 
-Since we are done with the small feature, it is time to push our branch to the remote repository on Github but first of all we
-need to commit our changes.  The following commands will add the index.html page to the staging area the commit the changes,
-finally we push the code up to Github.
+You should see a message telling you that Padrino has taken the stage, you should now be able to view the feshly created
+index page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html) in your favourite browser.
+
+Since we are done with the small feature, it is time to push our branch to the remote repository on Github but first of
+all we need to commit our changes.  The following commands will add the index.html page to the staging area the commit
+the changes, finally we push the code up to Github.
+
 
     $ git add public/index.html
     $ git commit -m "Adding initial index page."
     $ git push origin basic-layout
 
-If you cannot run the Git commands above because the Padrino server is still running either open another terminal or stop
-the server to bring you back to the command prompt by pressing `ctrl+c`.
 
-You may have though it a little odd that we had to manually use index.html in the url when viewing our start page, this is
-because our app currently has now idea about routing.  Lets add some basic routes for displaying our home-, about-, and contact-page with the help of controllers.
+If you cannot run the Git commands above because the Padrino server is still running either open another terminal or
+stop the server to bring you back to the command prompt by pressing `ctrl+c`.
 
-Since Padrino is heavily influenced by Rails it has a script to help us make controllers called **controller**.  This commands take the name of
-the controller as a parameter.
+You may have though it a little odd that we had to manually use index.html in the url when viewing our start page, this
+is because our app currently has now idea about routing.  Lets add some basic routes for displaying our home-, about-,
+and contact-page with the help of controllers.
+
+Since Padrino is heavily influenced by Rails it has a script to help us make controllers called **controller**.  This
+commands take the name of the controller as a parameter.
+
 
     $ padrino g controller page
 
+
 The output of this command is:
+
 
     create  app/controllers/page.rb
     create  app/helpers/page_helper.rb
@@ -261,10 +301,12 @@ The output of this command is:
      apply  tests/rspec
     create  spec/app/controllers/page_controller_spec.rb
 
-If you have questions about the output above, please drop me a line - I think it is so clear that it doesn't need any explanation
-about it.
+
+If you have questions about the output above, please drop me a line - I think it is so clear that it doesn't need any
+explanation about it.
 
 Lets take a look at what the script generated for us `app/controller/page.rb`:
+
 
     JobApp.controllers :page do
       # get :index, :map => "/foo/bar" do
@@ -288,8 +330,10 @@ Lets take a look at what the script generated for us `app/controller/page.rb`:
 
     end
 
-It's an empty file with a bunch of comments which gives you some example about how you can define own own routes. Lets define the
-home, about, and contact actions.
+
+It's an empty file with a bunch of comments which gives you some example about how you can define own own routes. Lets
+define the home, about, and contact actions.
+
 
     JobApp.controllers :page do
       get :index, :map => '/page/index' do
@@ -310,17 +354,20 @@ home, about, and contact actions.
 As always, let me explain what these lines of code means:
 
 - `JobApp.controller :page` - define for our JobApp application the name space for the *page* controller
-- `do ... end` - defines a block in ruby - please checkout this section of the famous [Programming Ruby
-  book](http://www.rubycentral.com/pickaxe/tut_containers.html#s2) affectionately know by Rubyists as the 'Pickaxe Book' to learn
-more about blocks in Ruby. It is an important concept to understand because they are used in Padrino everywhere
-- `get :index, :map => '/page/index'` - the HTTP command *get* starts the declaration of the route followed by the *index* action
-  (in the form of a Ruby symbol FOOTNOTE), and is finally mapped under the explicit URL */page/index*
-- `render 'page/index'` - define the route for the view/template which is rendered when the URL gets the *get* request for the
-  route - the views are placed under *app/views/<controller-name>/<action-name>.<html|haml>*
+- `do ... end` - defines a block in ruby - please checkout this section of the famous
+  [Programming Ruby book](http://www.rubycentral.com/pickaxe/tut_containers.html#s2) affectionately know by Rubyists as
+  the 'Pickaxe Book'
+  to learn more about blocks in Ruby. It is an important concept to understand because they are used in Padrino
+  everywhere
+- `get :index, :map => '/page/index'` - the HTTP command *get* starts the declaration of the route followed by the
+  *index* action (in the form of a Ruby symbol FOOTNOTE), and is finally mapped under the explicit URL */page/index*
+- `render 'page/index'` - define the route for the view/template which is rendered when the URL gets the *get* request
+  for the route - the views are placed under *app/views/<controller-name>/<action-name>.<html|haml>*
 
-If you get confused about what routes you have defined for your application just call `padrino rake routes` - this nice command
-hunts through your application looking for delicious routes and gives you a nice overview about **URL, REQUEST**, and **PATH** in your
-terminal:
+If you get confused about what routes you have defined for your application just call `padrino rake routes` - this nice
+command hunts through your application looking for delicious routes and gives you a nice overview about **URL,
+REQUEST**, and **PATH** in your terminal:
+
 
     $ padrino rake routes
     => Executing Rake routes ...
@@ -331,7 +378,9 @@ terminal:
         (:page, :about)        GET    /page/about
         (:page, :contact)      GET    /page/contact
 
-Finally let's track our changes and commit our changes to the repository on github
+
+Finally let's track our changes and commit our changes to the repository on GitHub
+
 
     $ git add .
     $ git commit -m 'creating basic routes.'
@@ -340,8 +389,10 @@ Finally let's track our changes and commit our changes to the repository on gith
 
 ### Basic layout - Haml
 
-Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling on our web page. First we
-need to generate a basic template for all pages we want to create.  Lets create *app/views/application.haml*
+Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling
+on our web page. First we need to generate a basic template for all pages we want to create.  Lets create
+*app/views/application.haml*
+
 
     !!! 5
     %html
@@ -351,16 +402,17 @@ need to generate a basic template for all pages we want to create.  Lets create 
       %body
         = yield
 
+
 Let me explain the parts of the Haml template:
 
 - `!!! 5` - placeholder for the doctype
-- `%html` - will produce the opening (*<html>*) and closing tag (*</html>*). Other element within this tag have to put in the next
-  line with the indentation of two spaces
+- `%html` - will produce the opening (*<html>*) and closing tag (*</html>*). Other element within this tag have to put
+  in the next line with the indentation of two spaces
 - `= "Job Board Application"` - printing plain text into the view
-- `= yield` - is responsible for putting the content of each page (like *contact.haml* or
-  *about.haml*) into the layout
+- `= yield` - is responsible for putting the content of each page (like *contact.haml* or *about.haml*) into the layout
 
 The above part will be used to create the following html file
+
 
     <!DOCTYPE html>
     <html>
@@ -379,14 +431,17 @@ The above part will be used to create the following html file
 
 ### Basic layout - Twitter Bootstrap
 
-The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use by licensing
-it as an open source project, it is available from Github at:
+The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use by
+licensing it as an open source project, it is available from Github at:
 [public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github"). Thank's to
 [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use padrino-recipes :
 
+
     $ padrino g plugin bootstrap
 
+
 Next we need to include the style sheet in our application. Edit *app/layouts/application.haml*:
+
 
     !!! 5
     %html
@@ -397,14 +452,16 @@ Next we need to include the style sheet in our application. Edit *app/layouts/ap
       %body
         = yield
 
-The *stylesheet_link_tag* points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will create a link to
-this stylesheet.
+
+The *stylesheet_link_tag* points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will create a
+link to this stylesheet.
 
 
 ### Navigation
 
-Next we want to create the top-navigation for our application. We need some of our own CSS to style the custom parts of our application
-without changing the twitter-bootstrap layout files. Let's create the *app/stylesheets/application.sass*
+Next we want to create the top-navigation for our application. We need some of our own CSS to style the custom parts of
+our application without changing the twitter-bootstrap layout files. Let's create the *app/stylesheets/application.sass*
+
 
     body
       font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana, sans-serif
@@ -439,10 +496,13 @@ without changing the twitter-bootstrap layout files. Let's create the *app/style
     .clearer
       clear: both
 
-[Sass](http://sass-lang.com/ "Sass") is the CSS counterpart to Haml although the two projects were recently split apart into seperate gems.  Sass eases the creation of CSS by letting you use a cleaner syntax and also allows you to use variables and reusable mixins. Every time you make changes in the
-Sass file, it automatically detects the changes and compiles the Sass file to CSS.
-Of course we have to add the application.css in our template as well as adding our horizontal navigation as a typical ul/li
-combination
+
+[Sass](http://sass-lang.com/ "Sass") is the CSS counterpart to Haml although the two projects were recently split apart
+into seperate gems.  Sass eases the creation of CSS by letting you use a cleaner syntax and also allows you to use
+variables and reusable mixins. Every time you make changes in the Sass file, it automatically detects the changes and
+compiles the Sass file to CSS.  Of course we have to add the application.css in our template as well as adding our
+horizontal navigation as a typical ul/li combination
+
 
     !!! 5
     %html
@@ -469,14 +529,16 @@ combination
           .site
             = yield
 
-Explanation of the new parts
-- `%nav{:role => 'navigation'}` - will produce the html nav tag and takes the Ruby hash `{:role => navigation}` as an additional
-  parameter - the output in HTML is `<nav role='navigation'>`
+
+Explanation of the new parts:
+
+- `%nav{:role => 'navigation'}` - will produce the html nav tag and takes the Ruby hash `{:role => navigation}` as an
+  additional parameter - the output in HTML is `<nav role='navigation'>`
 - `.clear` - is a shortcut for a div with a class named *clear* `<div class='clear'></div>'
 - `link_to` - the first argument is the name of the link and second is the URLs
-- `url_for` - will create the link-tag - for example `url_for(:page, :contact)` is using **named parameters** which were specified
-  in our *page-controller*.  The scheme for this is `<:controller>, <:action>` - you can use these settings in your whole
-  application to create clean and encapsulated URLs
+- `url_for` - will create the link-tag - for example `url_for(:page, :contact)` is using **named parameters** which were
+  specified in our *page-controller*.  The scheme for this is `<:controller>, <:action>` - you can use these settings in
+  your whole application to create clean and encapsulated URLs
 
 
 ### Writing first tests
@@ -484,8 +546,9 @@ Explanation of the new parts
 Now it is time to begin developing our code with tests. As mentioned in the introduction, we will *describing the behavior
 of code*[^bdd] with the testing framework [RSpec](http://rspec.info/ "RSpec").
 
-As we created the controller with `padrino g controller page` Padrino created a spec file under *spec/app* for us automatically. So
-let's examine *spec/app/controller/page_controller_spec.rb*:
+As we created the controller with `padrino g controller page` Padrino created a spec file under *spec/app* for us
+automatically. So let's examine *spec/app/controller/page_controller_spec.rb*:
+
 
     require 'spec_helper'
 
@@ -499,12 +562,15 @@ let's examine *spec/app/controller/page_controller_spec.rb*:
       end
     end
 
+
 - `spec_helper` - is a file to load commonly used functions so that they can reused in other specs
 - `describe block` - this block describes the context for our tests
 - `before do` - the content of this block will be called before the execution of each `it "..." do`
 - `it "..." do` - consists of the textual description of the test and writes our expectation to our application code
 
-Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb` and see the daunting (and long) output in the terminal:
+Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb` and see the daunting (and long) output
+in the terminal:
+
 
     PageController
       returns hello world (FAILED - 1)
@@ -546,9 +612,11 @@ Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb
 
     rspec ./spec/app/controllers/page_controller_spec.rb:8 # PageController returns hello world
 
-Our tests gets the root index out our application (`get "/"`) and we expect that the response from this request should be
-*Hello world* (`last_response.body.should == "Hello World"`). Because we changed the routes and the layout of our
+
+Our tests gets the root index out our application (`get "/"`) and we expect that the response from this request should
+be *Hello world* (`last_response.body.should == "Hello World"`). Because we changed the routes and the layout of our
 application, this test failed (it's **red**). Let's change the code of our spec to pass the test (make it **green**):
+
 
     require 'spec_helper'
 
@@ -563,7 +631,9 @@ application, this test failed (it's **red**). Let's change the code of our spec 
 
     end
 
+
 Next we run our tests again with `rspec spec/app/controllers/page_controller_spec.rb`:
+
 
     PageController
       'GET' index
@@ -572,17 +642,18 @@ Next we run our tests again with `rspec spec/app/controllers/page_controller_spe
     Finished in 5.94 seconds
    1 example, 0 failures
 
+
 [^bdd]: Which is called Behavior Driven Development and has nearly the same features as Test Driven Development (TDD)
 
 
 #### Red-Green Cycle
 
-In Behavior Driven (as well as in Test Driven) Development it is important to write a failing test (so that you get a **red**
-color when running the test) first so that you know you really are testing something meaningful. Next we change our code base to make it pass (you get a **green** when running the test). The scheme
-for this approach is test first, then the implementation. But this little shift in mind set when working on production code helps you
-to think more about the problem and how to solve it.
+In Behavior Driven (as well as in Test Driven) Development it is important to write a failing test (so that you get a
+**red** color when running the test) first so that you know you really are testing something meaningful. Next we change
+our code base to make it pass (you get a **green** when running the test). The scheme for this approach is test first,
+then the implementation. But this little shift in mind set when working on production code helps you to think more about
+the problem and how to solve it.
 
-Once you have green code, you are in the position to refactor your code where you can remove duplication and enhance design without changing the
-behavior of our code.
-
+Once you have green code, you are in the position to refactor your code where you can remove duplication and enhance
+design without changing the behavior of our code.
 
