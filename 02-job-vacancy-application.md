@@ -1,6 +1,6 @@
 /* vim: set ts=2 sw=2 textwidth=120: */
 
-# Job Board Application
+# Job Vacancy Application
 
 There are more IT jobs out there than there are skilled people available. It would be great if we could have the
 possibility to offer a platform where users can easily post new jobs vacancies to recruit people for their company. This
@@ -13,32 +13,6 @@ the Padrino framework.
 [^KISS]: Is an acronym for *Keep it simple and stupid*.
 
 
-## Creation of the models
-
-
-### User data model
-
-There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
-identification number **id** which is an integer (also useful for indexing our database), a **name** and an **email**
-both of which are strings.
-
-![Figure 2-1. user data model](images/02/user.jpg)
-
-
-### Job vacancy data model
-
-A job vacancy consists of the following attributes:
-
-- title: the name of the job position
-- location: where the job is
-- description: important details about the position
-- contact: an email address is sufficient
-- time-start: what is the earliest date when you can start
-- time-end: nothing lives forever - even a job vacancy
-
-![Figure 2-2. job vacancy data model](images/02/job_vacancy.jpg)
-
-
 ## Basic crafting of the application
 
 In our first attempt we will start with generating a new project with the canonical `padrino` command (see section
@@ -46,25 +20,30 @@ In our first attempt we will start with generating a new project with the canoni
 
 
     $ cd ~/padrino_projects
-    $ padrino g project job_vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite -m mocha
+    $ padrino g project job-vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite
 
 
-Explanation of the new fields:
+Explanation of the fields for generating a new Padrino project:
 
-- **g**: is shortcut for `generate` (who doesn't love shortcuts to save your fingers from RSI)
-- **-d activerecord**: using activerecord as the orm[^orm]
-- **-t rspec**: using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework (an
-  explanation about this will follow later)
-- **-s jquery**: defining the Javascript library we are using - for this app will be using the ubiquitous
-  [jQuery](http://jquery.com/ "jQuery") library
-- **-e erb**: using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB")[^erb] markup as a *renderer*
-  to describe HTML in cleaner and faster way. I won't take [Haml](http://haml.info/ "Haml") or
-  [Slim](http://slim-lang.com/ "Slim") due the fact to keep the project as simple as possible - if you want, you can
-  take another renderer and try to port the examples in this book to your
-- **-a sqlite**: specifying the ORMorm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") - easiest
-  database to install / configure and is ideal for beginning development plus it doesn't consume much system resources
-  on you development machine
-- **-m mocha**: [Mocha](http://gofreerange.com/mocha "Mocha") is a library for mocking and stubbing
+- **g**: Is shortcut for `generate` (who doesn't love shortcuts to save time).
+- **-d activerecord**: We are using [activerecord](https://rubygems.org/gems/activerecord "activerecord") as the
+  orm[^orm].
+- **-t rspec**: We are using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing
+  framework.
+- **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous
+  [jQuery](http://jquery.com/ "jQuery") library.
+- **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB")[^erb] markup as a
+  *renderer* to describe HTML in cleaner and faster way. We won't take [Haml](http://haml.info/ "Haml") or
+  [Slim](http://slim-lang.com/ "Slim") to keep the project as simple as possible. Feel free to use them if you like to.
+- **-a sqlite**: We are specifying the ORMorm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") -
+  easiest database to install / configure and is ideal for beginning development plus it doesn't consume much system
+  resources on you development machine.
+
+Since we are using rspec for testing, we will use its build in mock extensions
+[rspec-mocks](https://github.com/rspec/rspec-mocks "rspec mocks") for writing tests later. In case you want to use
+another mocking library like [rr](https://rubygems.org/gems/rr "rr") or [mocha](http://gofreerange.com/mocha/docs/
+"mocha"), feel free to add it with the **-m** option.
+
 
 [^erb]: stands for *Embedded Ruby*
 [^orm]: stands for *Object Relational Mapper*
@@ -83,7 +62,8 @@ stylesheet    none        -c          sass, less, scss, compass
 mock          none        -m          rr, mocha
 
 
-Besides the `project` option for generating new Padrino apps, the following table illustrates the other generators available:
+Besides the `project` option for generating new Padrino apps, the following table illustrates the other generators
+available:
 
 
 <table>
@@ -656,4 +636,30 @@ the problem and how to solve it.
 
 Once you have green code, you are in the position to refactor your code where you can remove duplication and enhance
 design without changing the behavior of our code.
+
+## Creation of the models
+
+
+### User data model
+
+There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
+identification number **id** which is an integer (also useful for indexing our database), a **name** and an **email**
+both of which are strings.
+
+![Figure 2-1. user data model](images/02/user.jpg)
+
+
+### Job vacancy data model
+
+A job vacancy consists of the following attributes:
+
+- title: the name of the job position
+- location: where the job is
+- description: important details about the position
+- contact: an email address is sufficient
+- time-start: what is the earliest date when you can start
+- time-end: nothing lives forever - even a job vacancy
+
+![Figure 2-2. job vacancy data model](images/02/job_vacancy.jpg)
+
 
