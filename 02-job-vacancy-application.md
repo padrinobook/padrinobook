@@ -146,40 +146,32 @@ This book has the intention to be up-to-date so we fill our index page with the 
 
 Explanation of the parts:
 
-- `<!DOCTYPE html>` -  the *document type* tells the browser which HTML version should be used for rendering the content
-  correctly
-- `head` - specifying meta information like title, description, and ; this is also the place to where to add CSS and
-  JavaScript files
+- `<!DOCTYPE html>` - The *document type* tells the browser which HTML version should be used for rendering the content
+  correctly.
+- `head` - Specifying meta information like title, description, and other things, this is also the place to where to add
+  CSS and JavaScript files
 - `body` - section for displaying the main content of the page
 
-This used to be the way websites were created in the beginning of the web - plain old static content, today things are a
+This used to be the way websites were created in the beginning of the web - plain static content, today things are a
 little more dynamic so our static app won't last long.
 
-We can take a look at our new page by firing up Padrino by running the followin at the command line:
+We can take a look at our new page by firing up Padrino by running the following at the command line:
 
 
-    $ padrino start
+    $ bundle exec padrino start
 
 
-You should see a message telling you that Padrino has taken the stage, you should now be able to view the feshly created
-index page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html) in your favourite browser.
+You should see a message telling you that Padrino has taken the stage, you should now be able to view the freshly created
+index page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html) in your favorite browser.
+Why using the command `bundle exec`? Whenever you use this command, you are using gem version mentioned in the Gemfile.
+Instead of using `start` you can also use `s` (we all love shortcuts, don't we?).
 
-Since we are done with the small feature, it is time to push our branch to the remote repository on Github but first of
-all we need to commit our changes.  The following commands will add the index.html page to the staging area the commit
-the changes, finally we push the code up to Github.
-
-
-    $ git add public/index.html
-    $ git commit -m "Adding initial index page."
-    $ git push origin basic-layout
-
-
-If you cannot run the Git commands above because the Padrino server is still running either open another terminal or
-stop the server to bring you back to the command prompt by pressing `ctrl+c`.
-
-You may have though it a little odd that we had to manually use index.html in the url when viewing our start page, this
+You may have though it a little odd that we had to manually use index.html in the URL when viewing our start page, this
 is because our app currently has now idea about routing.  Lets add some basic routes for displaying our home-, about-,
 and contact-page with the help of controllers.
+
+
+### First Controller and Routing
 
 Since Padrino is heavily influenced by Rails it has a script to help us make controllers called **controller**.  This
 commands take the name of the controller as a parameter.
@@ -283,7 +275,7 @@ Finally let's track our changes and commit our changes to the repository on GitH
     $ git push
 
 
-### Basic layout - Haml
+### Templates with ERB
 
 Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling
 on our web page. First we need to generate a basic template for all pages we want to create.  Lets create
@@ -325,7 +317,7 @@ The above part will be used to create the following html file
     </html>
 
 
-### Basic layout - Twitter Bootstrap
+### Integrating Twitter Bootstrap
 
 The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use by
 licensing it as an open source project, it is available from Github at:
