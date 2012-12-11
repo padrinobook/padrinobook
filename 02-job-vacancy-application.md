@@ -122,26 +122,7 @@ Bundler[^bundler] by running at the command line:
 [^bundler]: recall that bundler is a service to install all the required gems for a certain project.
 
 
-### Basic layout - controller and routing
-
-The first thing we will do, is to check out a new branch for this section. Let's fire up the console and create a new
-branch.  Creating a new branch is not a necessity but it is considered good practice when implementing new features or
-fixing bugs and it makes it easier for you if things go wrong.
-
-
-    $ git branch basic-layout
-    $ git checkout basic-layout
-
-
-With `git branch <name>` we create a new branch (in this example one with the name *basic-layout*) and with `git
-checkout <name>` we switch to this branch and all changes we make will only be visible in this branch. To get an
-overview of all available branches type in `git branch -a`
-
-
-    $ git branch -a
-    * basic-layout
-      master
-
+### Basic Layout Template
 
 Lets create our first version with static content only. We are presented early with a question; where will be my
 *index.html* page? Because we are not working with controllers, the easiest thing is to put the *index.html* directly
