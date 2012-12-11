@@ -18,7 +18,7 @@ from it's big brother Rails it aims to be more modular and allows you to interch
 considerable ease.
 
 
-## Basics and Tools
+## Basics And Tools
 
 I won't tell you which operating system you should use - there is an interesting discussion on
 [hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I leave it free for the reader of this book
@@ -45,7 +45,7 @@ All tools have their strengths and weaknesses - find software that works best fo
 yourself. The main goal is that you are comfortable with it because you will mostly spend a lot of time with it.
 
 
-### Additional tools
+### Additional Tools
 
 This sections contains a list of tools that are optional. That means that you can survive without them but learning them
 can help you in various situations and makes it easier for you to react upon changes.
@@ -66,7 +66,7 @@ In this book I will be assuming some Ruby knowledge and will not be explaining e
 Padrino specific coding techniques.
 
 
-#### Version controlling with Git
+#### Version Controlling With Git
 
 During software development it is important to keep track of your source code changes. That is what version control
 systems (VCSs) are all about.  Git helps you to keep track of the changes in your code. You can switch between certain
@@ -100,7 +100,7 @@ handled by this platform. Heroku is so attractive that even the creator of Ruby,
 Architect of Ruby* on this platform.
 
 
-## Installing the necessary tools
+## Installing The Necessary Tools
 
 If you are an advanced user, you can skip these section and jump straight forward to the "Hello World" section.
 
@@ -176,7 +176,7 @@ And check the selection of the correct Ruby version with `ruby -v`. The output s
 Now you are a "rookie" [Ruby Rogue](http://rubyrogues.com/ "Ruby Rouges").
 
 
-#### Compiling Ruby on your own
+#### Compiling Ruby On Your Own
 
 Before we start make that you have installed the following packages: `make, g++, wget` and `unzip`.
 
@@ -363,7 +363,7 @@ following:
 You can now say that you have built your first Padrino app with no great effort and it still feels natural.
 
 
-### Wait, there is more - the file structure
+### Wait
 
 Navigating through the various parts of a project is essential. Thus we will go through the basic file structure of the
 *hello-world* project:
