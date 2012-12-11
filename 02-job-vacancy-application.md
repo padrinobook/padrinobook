@@ -81,7 +81,7 @@ available:
   </tr>
   <tr>
     <td>mailer</td>
-    <td>Creating new mailers within your app</td>
+    <td>Creating new mailers within your app.</td>
   </tr>
   <tr>
     <td>controller</td>
@@ -99,41 +99,17 @@ available:
   <tr>
     <td>plugin</td>
     <td>Creating new Padrino projects based on a template file - it's like a list of commands which create your new
-    app</td>
+    app.</td>
   </tr>
   <tr>
     <td>admin</td>
-    <td>A very nice built-in-admin dashboard</td>
+    <td>A very nice built-in-admin dashboard.</td>
   </tr>
   <tr>
     <td>admin_page</td>
     <td>Have to figure this out ...</td>
   </tr>
 </table>
-
-
-If this commands works, you have a nice green playground with all the Next, we need to specify the used *gem* in the
-*Gemfile* with your favored text editor `vim Gemfile`:
-
-
-    source :rubygems
-
-    # Project requirements
-    gem 'rake'
-    gem 'sinatra-flash', :require => 'sinatra/flash'
-
-    # Component requirements
-    gem 'sass'
-    gem 'haml'
-    gem 'activerecord', :require => "active_record"
-    gem 'sqlite3'
-
-    # Test requirements
-    gem 'rspec', :group => "test"
-    gem 'rack-test', :require => "rack/test", :group => "test"
-
-    # Padrino Stable Gem
-    gem 'padrino', '0.10.5'
 
 
 Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using with
@@ -144,47 +120,6 @@ Bundler[^bundler] by running at the command line:
 
 
 [^bundler]: recall that bundler is a service to install all the required gems for a certain project.
-
-Recall from section (\ref{section 'git - put your code under version control'}) that we need to put our achievements
-under version control:
-
-
-    $ git init
-    $ git add .
-    $ git commit -m 'first commit of a marvelous padrino application'
-
-
-Can you remember what the git commands are doing? The following explanation will refresh your memory if you have forgot,
-don't worry it'll become second nature to you in due course:
-
-- `git init` - initialize a new git repository
-- `git add .` - add recursively all files to staging
-- `git commit -m ` - check in your changes in the repository
-
-Because we are hosting our application on [GitHub](https://github.com/ "github") we need to push the project onto the
-platform. (TODO: installation explanation of GitHub, maybe just a link)
-
-
-    $ git remote add origin git@github.com:matthias-guenther/job_off_app.git
-    $ git push origin master
-
-
-![Figure 2-3. creating a new project on github](images/02/github.png)
-
-Instead of *matthias-guenther* you have to replace this phrase with your personal GitHub account name. Now your
-repository is online. To write some documentation about what the whole project is about we should add a README.md to the
-project:
-
-
-    $ git add README.md
-    $ git commit -m 'add README'
-    $ git push
-
-
-The md extension means this is in Markdown format you can however use many other formats.
-
-If you want to see how the project should be looking on Github, just checkout the
-[sources](https://github.com/matthias-guenther/job_app "sources").
 
 
 ### Basic layout - controller and routing
