@@ -124,13 +124,12 @@ Bundler[^bundler] by running at the command line:
 
 ### Basic Layout Template
 
-Lets create our first version with static content only. We are presented early with a question; where will be my
-*index.html* page? Because we are not working with controllers, the easiest thing is to put the *index.html* directly
-under the public folder in the project.
+Lets craft our first version of the *index.html* page which is somekind of starter page our our application. We are
+presented early with a question; where will be my *index.html* page? Because we are not working with controllers, the
+easiest thing is to put the *index.html* directly under the public folder in the project.
 
-
-This book has the intention to be up-to-date so we fill our index page with the latest
-[HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") standards, add the following into your index.html file:
+Of course, we want to be up-to-date with the current standards of webdevelopment, so we use the standards of
+[HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5").  Add the following code into `public/index.html`:
 
 
     <!DOCTYPE html>
@@ -139,7 +138,7 @@ This book has the intention to be up-to-date so we fill our index page with the 
         <title>Start Page</title>
       </head>
       <body>
-        <p>Hello, Padrino</p>
+        <p>Hello, Padrino!</p>
       </body>
     </html>
 
@@ -148,27 +147,29 @@ Explanation of the parts:
 
 - `<!DOCTYPE html>` - The *document type* tells the browser which HTML version should be used for rendering the content
   correctly.
-- `head` - Specifying meta information like title, description, and other things, this is also the place to where to add
-  CSS and JavaScript files
-- `body` - section for displaying the main content of the page
+- `<head>...</head>` - Specifying meta information like title, description, and other things, this is also the place to
+  where to add CSS and JavaScript files.
+- `<body>...</body>` - In this section the main content of the page is displayed.
 
-This used to be the way websites were created in the beginning of the web - plain static content, today things are a
-little more dynamic so our static app won't last long.
+This used to be the way websites were created in the beginning of the web - plain static content. Today things are a
+dynamic, so our static app won't last long but for the beginning it gives a success feeling.
 
-We can take a look at our new page by firing up Padrino by running the following at the command line:
+We can take a look at our new page by firing up our app by running the following at the command line:
 
 
     $ bundle exec padrino start
 
 
-You should see a message telling you that Padrino has taken the stage, you should now be able to view the freshly created
-index page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html) in your favorite browser.
-Why using the command `bundle exec`? Whenever you use this command, you are using gem version mentioned in the Gemfile.
+You should see a message telling you that Padrino has taken the stage, you should now be able to view the freshly
+created index page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html "index.html") in your
+browser. What you see will be a white page with the textline `Hello, Padrino!`.
+
+Why using the `bundle exec`command ? Whenever you use this command, you are using gem version mentioned in the Gemfile.
 Instead of using `start` you can also use `s` (we all love shortcuts, don't we?).
 
 You may have though it a little odd that we had to manually use index.html in the URL when viewing our start page, this
-is because our app currently has now idea about routing.  Lets add some basic routes for displaying our home-, about-,
-and contact-page with the help of controllers.
+is because our app currently has now idea about routing. Lets add some basic routes for displaying our home-, about-,
+and contact-page with the help of a basic routing controller.
 
 
 ### First Controller and Routing
