@@ -168,14 +168,16 @@ Why using the `bundle exec`command ? Whenever you use this command, you are usin
 Instead of using `start` you can also use `s` (we all love shortcuts, don't we?).
 
 You may have though it a little odd that we had to manually use index.html in the URL when viewing our start page, this
-is because our app currently has now idea about routing. Lets add some basic routes for displaying our home-, about-,
-and contact-page with the help of a basic routing controller.
+is because our app currently has now idea about **routing**. A router recognize URLs and distributes them to actions of
+controllers. With other words: A router is like a like vending machine where you put in money to get a coke. In this
+case the machine is the *router* which *routes* your input "Want a coke" to the action "Print out a coke".
 
 
 ### First Controller and Routing
 
-Since Padrino is heavily influenced by Rails it has a script to help us make controllers called **controller**.  This
-commands take the name of the controller as a parameter.
+Lets add some basic routes for displaying our home-, about-, and contact-page with the help of a basic routing
+controller. Since Padrino is heavily influenced by Rails it has a script to help us make controllers called
+**controller**. This commands take the name of the controller as a parameter.
 
 
     $ padrino g controller page
