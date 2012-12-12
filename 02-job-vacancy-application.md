@@ -165,7 +165,8 @@ created index page by visiting [http://localhost:3000/index.html](http://localho
 browser. What you see will be a white page with the textline `Hello, Padrino!`.
 
 Why using the `bundle exec`command ? Whenever you use this command, you are using gem version mentioned in the Gemfile.
-Instead of using `start` you can also use `s` (we all love shortcuts, don't we?).
+Instead of using `start` you can also use `s` (we all love shortcuts, don't we?). Further on in this book I will leave
+the `bundle exec` away in front of each Padrino related command for better readability of the code.
 
 You may have though it a little odd that we had to manually use index.html in the URL when viewing our start page, this
 is because our app currently has now idea about **routing**. A router recognize URLs and distributes them to actions of
@@ -175,9 +176,9 @@ case the machine is the *router* which *routes* your input "Want a coke" to the 
 
 ### First Controller and Routing
 
-Lets add some basic routes for displaying our home-, about-, and contact-page with the help of a basic routing
-controller. Since Padrino is heavily influenced by Rails it has a script to help us make controllers called
-**controller**. This commands take the name of the controller as a parameter.
+Lets add some basic routes for displaying our home-, about-, and contact-page. How can we do this? With the help of a
+basic routing controller. A controller makes data from you app (in our case job offers) available to the view (seeing
+the details of a job offer). Now let's create a controller in Padrino names page:
 
 
     $ padrino g controller page
@@ -193,13 +194,15 @@ The output of this command is:
     create  spec/app/controllers/page_controller_spec.rb
 
 
-If you have questions about the output above, please drop me a line - I think it is so clear that it doesn't need any
-explanation about it.
+(If you have questions about the output above, please drop me a line - I think it is so clear that it doesn't need any
+explanation about it.)
 
-Lets take a look at what the script generated for us `app/controller/page.rb`:
+Lets take a closer look at our page-controller:
+
+    # app/controller/page.rb
 
 
-    JobApp.controllers :page do
+    JobVacancy.controllers :page do
       # get :index, :map => "/foo/bar" do
       #   session[:foo] = "bar"
       #   render 'index'
@@ -221,61 +224,58 @@ Lets take a look at what the script generated for us `app/controller/page.rb`:
 
     end
 
+The controller above defines for our `JobVacancy` the `:page` controller with no specified routes inside the
+application. Let's change this and define the *about*, *contact*, and *home* actions:
 
-It's an empty file with a bunch of comments which gives you some example about how you can define own own routes. Lets
-define the home, about, and contact actions.
 
 
-    JobApp.controllers :page do
-      get :index, :map => '/page/index' do
-        render 'page/index'
+    JobVacancy.controllers :page do
+      get :about, :map => '/about' do
+        render :erb, 'page/about'
       end
 
-      get :about, :map => '/page/about' do
-        render 'page/about'
+      get :contact , :map => "/contact" do
+        render :erb, 'page/contact'
       end
 
-      get :contact, :map => '/page/contact' do
-        render 'page/contact'
+      get :home, :map => "/" do
+        render :erb, 'page/home'
       end
 
     end
 
 
-As always, let me explain what these lines of code means:
+We will go through each line:
 
-- `JobApp.controller :page` - define for our JobApp application the name space for the *page* controller
-- `do ... end` - defines a block in ruby - please checkout this section of the famous
-  [Programming Ruby book](http://www.rubycentral.com/pickaxe/tut_containers.html#s2) affectionately know by Rubyists as
-  the 'Pickaxe Book'
-  to learn more about blocks in Ruby. It is an important concept to understand because they are used in Padrino
-  everywhere
-- `get :index, :map => '/page/index'` - the HTTP command *get* starts the declaration of the route followed by the
-  *index* action (in the form of a Ruby symbol FOOTNOTE), and is finally mapped under the explicit URL */page/index*
-- `render 'page/index'` - define the route for the view/template which is rendered when the URL gets the *get* request
-  for the route - the views are placed under *app/views/<controller-name>/<action-name>.<html|haml>*
+- `JobVacancy.controller :page` - Define the namespace *page* for our JobVacancy application.
+- `do ... end` - Define a block in ruby. A block defines a space for a method without a name (called anonymous
+  functions) which can be used to pass it to a function as an argument.
+- `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the
+  *about* action (in the form of a Ruby *symbol*), and is finally mapped under the explicit URL */about*. When you start
+  your server with `bundle exec padrino s` and visit the URL `http.//localhost:3000/about`, you can see the rendered
+  output of this request.
+- `render :erb, 'page/about'` - Define the path where the template for rendering should be. In our case it is the
+  `app/views/page/about.erb` file. Normally the views are placed under
+  *app/views/<controller-name>/<action-name>.<ending>*The `:erb` tells the renderer to look after ERB templates. You
+  could also use `:haml` to indicate that you are using this template language. If you are lazy, you can leave the
+  option for the rendering option completely out and leave the matching completely for Padrino.
 
-If you get confused about what routes you have defined for your application just call `padrino rake routes` - this nice
-command hunts through your application looking for delicious routes and gives you a nice overview about **URL,
-REQUEST**, and **PATH** in your terminal:
+To get an confused about what routes you have defined for your application just call `padrino rake routes`:
 
 
     $ padrino rake routes
     => Executing Rake routes ...
 
-    Application: JobApp
-        URL                  REQUEST  PATH
-        (:page, :index)        GET    /page/index
-        (:page, :about)        GET    /page/about
-        (:page, :contact)      GET    /page/contact
+
+    Application: JobVacancy
+    URL                  REQUEST  PATH
+    (:page, :about)        GET    /about
+    (:page, :contact)      GET    /contact
+    (:page, :home)         GET    /
 
 
-Finally let's track our changes and commit our changes to the repository on GitHub
-
-
-    $ git add .
-    $ git commit -m 'creating basic routes.'
-    $ git push
+This command hunts through your application looking for delicious routes and gives you a nice overview about **URL,
+REQUEST**, and **PATH**.
 
 
 ### Templates with ERB
