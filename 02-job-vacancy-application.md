@@ -284,7 +284,7 @@ REQUEST**, and **PATH**.
 
 Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling
 on our web page. First we need to generate a basic template for all pages we want to create. Lets create
-*app/views/application.erb*
+*app/views/application.erb*:
 
 
     <!DOCTYPE html>
@@ -307,29 +307,48 @@ the content of each page (like *about.erb* or *contact.erb*) into the layout.
 ### Integrating Twitter Bootstrap
 
 The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use by
-licensing it as an open source project, it is available from Github at:
-[public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github"). Thank's to
-[@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use padrino-recipes :
+licensing it as an open Source Project, it is available from Github at:
+[public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github"). Padrino uses
+[padrino-recipes](https://github.com/padrino/padrino-recipes) to give templates to common task to plug in automatically
+in your application without reinventing the wheel and do unnecessary tasks.  Thank's to
+[@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his
+[bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb).
 
 
-    $ padrino g plugin bootstrap
+    $ padrino-gen plugin bootstrap
+
+      apply  https://github.com/padrino/padrino-recipes/raw/master/plugins/bootstrap_plugin.rb
+      create    public/stylesheets/bootstrap.css
+      create    public/stylesheets/bootstrap-responsive.css
+      create    public/javascripts/bootstrap.js
+      create    public/javascripts/bootstrap.min.js
+      create    public/images/glyphicons-halflings.png
+      create    public/images/glyphicons-halflings-white.png
 
 
-Next we need to include the style sheet in our application. Edit *app/layouts/application.haml*:
+Next we need to include the style sheet in our application template for the whole application:
 
 
-    !!! 5
-    %html
-      %head
-        = stylesheet_link_tag 'bootstrap.min', :media => 'screen'
-        %title
-          = "Job Board Application"
-      %body
-        = yield
+    <!DOCTYPE html>
+    <html lang="en-US">
+      <head>
+        <title>Job Vacancy - find the best jobs</title>
+        <%= stylesheet_link_tag 'bootstrap'%>
+        <%= stylesheet_link_tag 'bootstrap-responsive' %>
+
+        <%= javascript_include_tag 'bootstrap.min' %>
+        <%= javascript_include_tag 'jquery' %>
+        <%= javascript_include_tag 'jquery-ujs' %>
+      </head>
+      <body>
+        <%= yield %>
+      </body>
+    </html>
 
 
-The *stylesheet_link_tag* points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will create a
-link to this stylesheet.
+The `stylesheet_link_tag` points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will
+automatically create a link to this stylesheet. The `javascript_include_tag` does the same as `stylesheet_link_tag` for
+your JavaScript files in the *public/javascript* directory.
 
 
 ### Navigation
@@ -531,6 +550,7 @@ the problem and how to solve it.
 
 Once you have green code, you are in the position to refactor your code where you can remove duplication and enhance
 design without changing the behavior of our code.
+
 
 ## Creation of the models
 
