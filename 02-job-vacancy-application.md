@@ -13,7 +13,7 @@ the Padrino framework.
 [^KISS]: Is an acronym for *Keep it simple and stupid*.
 
 
-## Basic crafting of the application
+## Basic Crafting Of The Application
 
 In our first attempt we will start with generating a new project with the canonical `padrino` command (see section
 \ref{section 'Hello world'}) but this time it has a bunch of new options:
@@ -174,7 +174,7 @@ controllers. With other words: A router is like a like vending machine where you
 case the machine is the *router* which *routes* your input "Want a coke" to the action "Print out a coke".
 
 
-### First Controller and Routing
+### First Controller And Routing
 
 Lets add some basic routes for displaying our home-, about-, and contact-page. How can we do this? With the help of a
 basic routing controller. A controller makes data from you app (in our case job offers) available to the view (seeing
@@ -280,7 +280,7 @@ This command hunts through your application looking for delicious routes and giv
 REQUEST**, and **PATH**.
 
 
-### Application Template with ERB
+### Application Template With ERB
 
 Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling
 on our web page. First we need to generate a basic template for all pages we want to create. Lets create
@@ -441,113 +441,75 @@ The structure is ready and now we need to add some sugar-candy styling for our a
 
 
 I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c
-school css]() tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in
-`views/application.erb` - now you will understand why we did this.
+school css](http://www.w3schools.com/css/default.asp "w3c CSS") tutorial. Since we are using the asset pipeline, we
+don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
 
 
-### Writing first tests
+### Writing First Tests
 
-Now it is time to begin developing our code with tests. As mentioned in the introduction, we will *describing the behavior
-of code*[^bdd] with the testing framework [RSpec](http://rspec.info/ "RSpec").
+Now it is time to begin developing our code with tests. As mentioned in the introduction, we will *describing the
+behavior of code*[^bdd] with the testing framework [RSpec](http://rspec.info/ "RSpec").
 
-As we created the controller with `padrino g controller page` Padrino created a spec file under *spec/app* for us
-automatically. So let's examine *spec/app/controller/page_controller_spec.rb*:
-
-
-    require 'spec_helper'
-
-    describe "PageController" do
-      before do
-        get "/"
-      end
-
-      it "returns hello world" do
-        last_response.body.should == "Hello World"
-      end
-    end
-
-
-- `spec_helper` - is a file to load commonly used functions so that they can reused in other specs
-- `describe block` - this block describes the context for our tests
-- `before do` - the content of this block will be called before the execution of each `it "..." do`
-- `it "..." do` - consists of the textual description of the test and writes our expectation to our application code
-
-Now let's run our tests with `rspec spec/app/controllers/page_controller_spec.rb` and see the daunting (and long) output
-in the terminal:
-
-
-    PageController
-      returns hello world (FAILED - 1)
-
-    Failures:
-
-      1) PageController returns hello world
-         Failure/Error: last_response.body.should == "Hello World"
-           expected: "Hello World"
-                got: "<!DOCTYPE html>\n<html>\n<head>\n  <style type=\"text/css\">\n  body { text-align:center;font-family:helvetica,arial;font-size:22px;\n    color:#888;margin:20px}\n  #c {margin:0 auto;width:500px;text-align:left}\n  </style>\n</head>\n<body>\n  <h2>Sinatra doesn&rsquo;t know this ditty.</h2>\n  <div id=\"c\">\n    Try this:\n    <pre>get '/' do\n  \"Hello World\"\nend</pre>\n  </div>\n</body>\n</html>\n" (using ==)
-           Diff:
-           @@ -1,2 +1,21 @@
-           -Hello World
-           +<!DOCTYPE html>
-           +<html>
-           +<head>
-           +  <style type="text/css">
-           +  body { text-align:center;font-family:helvetica,arial;font-size:22px;
-           +    color:#888;margin:20px}
-           +  #c {margin:0 auto;width:500px;text-align:left}
-           +  </style>
-           +</head>
-           +<body>
-           +  <h2>Sinatra doesn&rsquo;t know this ditty.</h2>
-           +  <div id="c">
-           +    Try this:
-           +    <pre>get '/' do
-           +  "Hello World"
-           +end</pre>
-           +  </div>
-           +</body>
-           +</html>
-         # ./spec/app/controllers/page_controller_spec.rb:9:in `block (2 levels) in <top (required)>'
-
-    Finished in 6.02 seconds
-    1 example, 1 failure
-
-    Failed examples:
-
-    rspec ./spec/app/controllers/page_controller_spec.rb:8 # PageController returns hello world
-
-
-Our tests gets the root index out our application (`get "/"`) and we expect that the response from this request should
-be *Hello world* (`last_response.body.should == "Hello World"`). Because we changed the routes and the layout of our
-application, this test failed (it's **red**). Let's change the code of our spec to pass the test (make it **green**):
+As we created our *page-controller* with `padrino g controller page`, Padrino created a spec file under *spec/app* for
+us automatically. So let's examine our allready written *spec/app/controller/page_controller_spec.rb* which passes all
+tests:
 
 
     require 'spec_helper'
 
     describe "PageController" do
 
-      describe "'GET' index" do
-        it "should be success" do
-          get  '/page/index'
-          last_response.status.should == 200
+      describe "GET #about" do
+
+        it "renders the :about view" do
+          get '/about'
+          last_response.should be_ok
+        end
+      end
+
+      describe "GET #contact" do
+
+        it "renders the :contact view" do
+          get '/contact'
+          last_response.should be_ok
+        end
+      end
+
+      describe "GET #home" do
+        it "renders :home view" do
+          get '/'
+          last_response.should be_ok
         end
       end
 
     end
 
 
-Next we run our tests again with `rspec spec/app/controllers/page_controller_spec.rb`:
+Let's explain the most interesting parts:
+
+- `spec_helper` - Is a file to load commonly used functions so that they can reused in other specs.
+- `describe block` - This block describes the context for our tests.
+- `get ...` - Run the specified
+- `last_response` - Is a response object of the fully request against you application performed by the `get` method.
+
+
+Now let's run our tests with `rspec spec/page_controller_spec.rb` and see what's going on:
 
 
     PageController
-      'GET' index
-        should be success
+      GET #about
+        renders the :about view
+      GET #contact
+        renders the :contact view
+      GET #home
+        renders :home view
 
-    Finished in 5.94 seconds
-   1 example, 0 failures
+    Finished in 0.21769 seconds
+    3 examples, 0 failures
 
 
-[^bdd]: Which is called Behavior Driven Development and has nearly the same features as Test Driven Development (TDD)
+Cool, all tests passed, but we didn't do test-driven development. Don't worry, we will do it in other parts of this
+book.
 
 
 #### Red-Green Cycle
