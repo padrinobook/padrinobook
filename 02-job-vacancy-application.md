@@ -351,88 +351,98 @@ automatically create a link to this stylesheet. The `javascript_include_tag` doe
 your JavaScript files in the *public/javascript* directory.
 
 
+TBD Add section how to integrate asset pipeline
+
+
+
 ### Navigation
 
-Next we want to create the top-navigation for our application. We need some of our own CSS to style the custom parts of
-our application without changing the twitter-bootstrap layout files. Let's create the *app/stylesheets/application.sass*
+Next we want to create the top-navigation for our application. So we already implemented the *page* controller with the
+relevant actions. All we need is to put them in the front of our application.
 
 
-    body
-      font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana, sans-serif
-      text-align: justify
+    <!DOCTYPE html>
+    <html lang="en-US">
+      <head>
+        <title>Job Vacancy - find the best jobs</title>
 
-    nav ul
-      list-style: none
-      padding: 0
-      li
-        display: inline
-        margin: 0
-        padding-right: 25px
-        padding-left: 30px
-        clear: none
-        float: left
-        text-decoration: none
-        a
-          border-bottom: 0px
-        a:hover
-          color: blue
-          text-decoration: dotted
-
-    .site
-      max-width: 900px
-      min-height: 600px
-      padding: 20px
-      line-height: 1.8em
-
-    p
-      font-size: 95%
-
-    .clearer
-      clear: both
-
-
-[Sass](http://sass-lang.com/ "Sass") is the CSS counterpart to Haml although the two projects were recently split apart
-into seperate gems.  Sass eases the creation of CSS by letting you use a cleaner syntax and also allows you to use
-variables and reusable mixins. Every time you make changes in the Sass file, it automatically detects the changes and
-compiles the Sass file to CSS.  Of course we have to add the application.css in our template as well as adding our
-horizontal navigation as a typical ul/li combination
-
-
-    !!! 5
-    %html
-      %head
-        = stylesheet_link_tag 'bootstrap.min', :media => 'screen'
-        = stylesheet_link_tag 'application'
-        %title
-          = "Job Board Application"
-      %body
-        .container
-          %h1
-            Job Offer Board
-          %nav{:role => 'navigation'}
-            %ul
-              %li
-                = link_to 'Home', url_for(:page, :index)
-              %li
-                = link_to 'About', url_for(:page, :about)
-              %li
-                = link_to 'Contact', url_for(:page, :contact)
-              %li
-                = link_to 'Help', url_for(:page, :help)
-          .clear
-          .site
-            = yield
+        <%= stylesheet_link_tag '../assets/application' %>
+        <%= javascript_include_tag '../assets/application' %>
+    </head>
+    <body>
+      <div class=="container">
+        <div class="row">
+          <div class="span12 offset3">
+            <span id="header">Job Vacancy Board</span>
+          </div>
+          <div class="row">
+            <nav id="navigation">
+              <div class="span2 offset4">
+                <%= link_to 'Home', url_for(:page, :home) %>
+              </div>
+              <div class="span2">
+                <%= link_to 'About', url_for(:page, :about) %>
+              </div>
+              <div class="span2">
+                <%= link_to 'Contact', url_for(:page, :contact) %>
+              </div>
+            </nav>
+          </div>
+          <div class="row">
+            <div class="span9 offset3 site">
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
 
 
 Explanation of the new parts:
 
-- `%nav{:role => 'navigation'}` - will produce the html nav tag and takes the Ruby hash `{:role => navigation}` as an
-  additional parameter - the output in HTML is `<nav role='navigation'>`
-- `.clear` - is a shortcut for a div with a class named *clear* `<div class='clear'></div>'
-- `link_to` - the first argument is the name of the link and second is the URLs
-- `url_for` - will create the link-tag - for example `url_for(:page, :contact)` is using **named parameters** which were
-  specified in our *page-controller*.  The scheme for this is `<:controller>, <:action>` - you can use these settings in
-  your whole application to create clean and encapsulated URLs
+- `link_to` - Is a helper for creating links. The first argument of this function is the name for the link and the
+  second is for the URL (href) on which the names points to.
+- `url_for` - This helper return the link which can be used as the second parameter for the `link-tag`. For example uses
+  `url_for(:page, :about)` **named parameters** which were specified in our *page-controller*.  The scheme
+  for this is `<:controller>, <:action>` - you can use these settings in your whole application to create clean and
+  encapsulated URLs.
+
+
+The structure is ready and now we need to add some sugar-candy styling for our application:
+
+
+    # app/assets/stylesheets/site.css
+
+    body {
+      font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana, sans-serif;
+      text-align: justify;
+    }
+
+    #header {
+      font-family: Lato;
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    #navigation {
+      padding-top: 20px;
+    }
+
+    h1 {
+      font-family: Lato;
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .site {
+      padding: 20px;
+      line-height: 1.8em;
+    }
+
+
+I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c
+school css]() tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in
+`views/application.erb` - now you will understand why we did this.
 
 
 ### Writing first tests
