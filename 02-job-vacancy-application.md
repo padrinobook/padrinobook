@@ -512,7 +512,7 @@ Cool, all tests passed, but we didn't do test-driven development. Don't worry, w
 book.
 
 
-#### Red-Green Cycle
+**Red-Green Cycle**
 
 In Behavior Driven (as well as in Test Driven) Development it is important to write a failing test (so that you get a
 **red** color when running the test) first so that you know you really are testing something meaningful. Next we change
@@ -524,10 +524,10 @@ Once you have green code, you are in the position to refactor your code where yo
 design without changing the behavior of our code.
 
 
-## Creation of the models
+## Creation Of The Models
 
 
-### User data model
+### User Data Model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
 identification number **id** which is an integer (also useful for indexing our database), a **name** and an **email**
@@ -536,7 +536,7 @@ both of which are strings.
 ![Figure 2-1. user data model](images/02/user.jpg)
 
 
-### Job vacancy data model
+### Job Vacancy Data Model
 
 A job vacancy consists of the following attributes:
 
