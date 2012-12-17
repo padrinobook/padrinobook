@@ -485,7 +485,8 @@ tests:
     end
 
 
-Let's explain the most interesting parts:
+Let's explain the interesting parts:
+
 
 - `spec_helper` - Is a file to load commonly used functions so that they can reused in other specs.
 - `describe block` - This block describes the context for our tests.
@@ -530,13 +531,248 @@ design without changing the behavior of our code.
 ### User Data Model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
-identification number **id** which is an integer (also useful for indexing our database), a **name** and an **email**
+identification number **id** which is an integer (also useful for indexing our database), a **name**, and an **email**
 both of which are strings.
 
-![Figure 2-1. user data model](images/02/user.jpg)
+Since there are generators for creating controllers, there is also a command-line tool for this
 
 
-### Job Vacancy Data Model
+    $ padrino g model user name:string email:string
+
+       apply  orms/activerecord
+       apply  tests/rspec
+      create  models/user.rb
+      create  spec/models/user_spec.rb
+      create  db/migrate/001_create_users.rb
+
+
+Wow, it created a bunch of files for us. Let's examine each of them:
+
+
+**user.rb**
+
+
+```ruby
+# models/user.rb
+
+class User < ActiveRecord::Base
+
+end
+```
+
+All we have is an empty class which inherits from
+[ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). The `ActvieRecord` maps classes to
+relational database tables to establish the basic implementaton of the object-relational-mapper (ORM). Classes like the
+User-class are refered to models. You can also define relations between models through associations. Associations are a
+way to express how models are connected to each other.
+
+
+**spec/models/user_spec.rb**
+
+
+```ruby
+# models/user.rb
+
+require 'spec_helper'
+
+describe "User Model" do
+  let(:user) { User.new }
+  it 'can be created' do
+    user.should_not be_nil
+  end
+end
+```
+
+As you can see, the generator created alreay a test for us, which basically checks if the model can be created. What
+would happen if you run the tests for this model? Let the code speak of it's own and run the tests, that what they are
+made for:
+
+
+    $ rspec spec/models
+
+    User Model
+      can be created (FAILED - 1)
+
+    Failures:
+
+      1) User Model can be created
+         Failure/Error: let(:user) { User.new }
+         ActiveRecord::StatementInvalid:
+           Could not find table 'users'
+         # ./spec/models/user_spec.rb:4:in `new'
+         # ./spec/models/user_spec.rb:4:in `block (2 levels) in <top (required)>'
+         # ./spec/models/user_spec.rb:6:in `block (2 levels) in <top (required)>'
+
+    Finished in 0.041 seconds
+    1 example, 1 failure
+
+    Failed examples:
+
+
+It says exactly what happened. It wasn't able to create a new user for use because the *user* table is not present. This
+leads us to the next part: Migrations.
+
+Migrations helps you to change the database in an ordered manner. Let's have a look on our first migration:
+
+
+```ruby
+db/migrate/001_create_users.rb
+
+class CreateUsers < ActiveRecord::Migration
+  def self.up
+    create_table :users do |t|
+      t.string :name
+      t.string :email
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :users
+  end
+end
+```
+
+
+We create a table called **users**. The convention to name tables of models in the plural form comes from
+[Ruby On Rails](http://rubyonrails.org/). Now we need to run this migration:
+
+
+    $ padrino rake ar:migrate
+
+    => Executing Rake ar:migrate ...
+      DEBUG -  (0.1ms)  select sqlite_version(*)
+      DEBUG -  (143.0ms)  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL)
+      DEBUG -  (125.2ms)  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+      DEBUG -  (0.2ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+       INFO - Migrating to CreateUsers (1)
+      DEBUG -  (0.1ms)  begin transaction
+    ==  CreateUsers: migrating ====================================================
+    -- create_table(:users)
+      DEBUG -  (1.0ms)  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)
+       -> 0.0030s
+    ==  CreateUsers: migrated (0.0032s) ===========================================
+
+      DEBUG -  (0.3ms)  INSERT INTO "schema_migrations" ("version") VALUES ('1')
+      DEBUG -  (145.8ms)  commit transaction
+      DEBUG -  (0.2ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+
+
+Since we are working in development, Padrino recognized that we are working on our first migration it automatically
+create the development database for us:
+
+
+    $ ls db/
+      job_vacancy_development.db  job_vacancy_test.db  migrate  schema.rb
+
+
+Now we can run [sqlite3](http://www.sqlite.org/) to see, if the users table is in our development database:
+
+
+    $ sqlite3 db/job_vacanvy_development.db
+
+    SQLite version 3.7.13 2012-06-11 02:05:22
+    Enter ".help" for instructions
+    Enter SQL statements terminated with a ";"
+    sqlite> .tables
+    schema_migrations  users
+    sqlite> .schema users
+    CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
+    sqlite> .exit
+
+
+Let's have a look on the `config/database.rb` file to understand more about the different databases:
+
+
+```ruby
+ActiveRecord::Base.configurations[:development] = {
+  :adapter => 'sqlite3',
+  :database => Padrino.root('db', 'job_vacancy_development.db')
+}
+
+ActiveRecord::Base.configurations[:production] = {
+  :adapter => 'sqlite3',
+  :database => Padrino.root('db', 'job_vacancy_production.db')
+}
+
+ActiveRecord::Base.configurations[:test] = {
+  :adapter => 'sqlite3',
+  :database => Padrino.root('db', 'job_vacancy_test.db')
+}
+```
+
+
+As you can see we are creating for each different environment (*development*, *production* , and *test*) it's own
+database. Now let's create the last missing database *production *with the following command:
+
+
+    $ padrino rake ar:create:all
+
+    bundle exec padrino rake ar:create:all
+    => Executing Rake ar:create:all ...
+    /home/elex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_development.db already exists
+    /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_development.db already exists
+    /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_production.db already exists
+    /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
+    /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
+
+
+Now we have all databases created
+
+
+    $ ls db
+    job_vacancy_development.db  job_vacancy_production.db  job_vacancy_test.db  migrate  schema.rb
+
+
+If we now run our tests again, we should assume that they pass:
+
+    $ rspec spec/models
+
+    User Model
+      can be created (FAILED - 1)
+
+    Failures:
+
+      1) User Model can be created
+         Failure/Error: let(:user) { User.new }
+         ActiveRecord::StatementInvalid:
+           Could not find table 'users'
+         # ./spec/models/user_spec.rb:4:in `new'
+         # ./spec/models/user_spec.rb:4:in `block (2 levels) in <top (required)>'
+         # ./spec/models/user_spec.rb:6:in `block (2 levels) in <top (required)>'
+
+    Finished in 0.04847 seconds
+    1 example, 1 failure
+
+    Failed examples:
+
+    rspec ./spec/models/user_spec.rb:5 # User Model can be created
+
+
+Why? Because the migration we created weren't created for our test-database.
+
+
+    $ padrino rake ar:migrate -e test
+    => Executing Rake ar:migrate ...
+    ==  CreateUsers: migrating ====================================================
+    -- create_table(:users)
+       -> 0.0030s
+    ==  CreateUsers: migrated (0.0032s) ===========================================
+
+
+If we now run our tests again, we should assume that they pass:
+
+
+    $ rspec spec/models
+
+    User Model
+      can be created
+
+    Finished in 0.05492 seconds
+    1 example, 0 failures
+
+
+## Job Vacancy Data Model
 
 A job vacancy consists of the following attributes:
 
@@ -548,5 +784,4 @@ A job vacancy consists of the following attributes:
 - time-end: nothing lives forever - even a job vacancy
 
 ![Figure 2-2. job vacancy data model](images/02/job_vacancy.jpg)
-
 
