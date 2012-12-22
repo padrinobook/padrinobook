@@ -760,7 +760,7 @@ Why? Because the migration we created weren't created for our test-database.
     ==  CreateUsers: migrated (0.0032s) ===========================================
 
 
-If we now run our tests again, we should assume that they pass:
+If we now run our tests again, we will see that they pass:
 
 
     $ rspec spec/models
@@ -772,16 +772,100 @@ If we now run our tests again, we should assume that they pass:
     1 example, 0 failures
 
 
-## Job Vacancy Data Model
+Since we are feeling confident that everything in our application works, how can we run all the tests in our application
+and see if everything is working? For this case exists the case `padrino rake spec` command, which run all the complete
+tests in the `spec/` folder:
 
-A job vacancy consists of the following attributes:
 
-- title: the name of the job position
-- location: where the job is
-- description: important details about the position
-- contact: an email address is sufficient
-- time-start: what is the earliest date when you can start
-- time-end: nothing lives forever - even a job vacancy
+    $ padrino rake spec
+    => Executing Rake spec ...
+    /home/helex/.rbenv/versions/1.9.3-p286/bin/ruby -S rspec ./spec/models/user_spec.rb -fs --color
+
+    User Model
+      can be created
+
+    Finished in 0.05589 seconds
+    1 example, 0 failures
+    /home/helex/.rbenv/versions/1.9.3-p286/bin/ruby -S rspec ./spec/app/controllers/page_controller_spec.rb -fs --color
+
+    PageController
+      GET #about
+        renders the :about view
+      GET #contact
+        renders the :contact view
+      GET #home
+        renders the :home view
+
+    Finished in 0.20325 seconds
+    3 examples, 0 failures
+
+
+This is very handy to make sure that you didn't broke anything in the existing codebase when you are working on a next
+feature.
+
+
+### Job Offer Model
+
+Since we now know how to create the basic model of our users, it's time to create a model for presenting a job offer.
+A job offer consists of the following attributes:
+
+
+- title: The name of the job position.
+- location: Where the job geographical location of the job.
+- description: Details about the position.
+- contact: An Email address of the contact person.
+- time-start: What is the earliest date when you can start.
+- time-end: A job offer isn't valid forever - define a scope when Nothing lives forever - even a job vacancy.
+
+
+Let's run the Padrino command to create the model for us:
+
+
+    $ padrino g model job_offer title:string location:string description:text contact:string time_start:date time_end:date
+       apply  orms/activerecord
+       apply  tests/rspec
+       create  models/job_offer.rb
+       create  spec/models/job_offer_spec.rb
+       create  db/migrate/002_create_job_offers.rb
+
+
+Next, we need to run our new database migration so that our database has the right scheme:
+
+    bundle exec padrino rake ar:migrate
+    => Executing Rake ar:migrate ...
+      DEBUG -  (0.4ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+       INFO - Migrating to CreateUsers (1)
+       INFO - Migrating to CreateJobOffers (2)
+      DEBUG -  (0.3ms)  select sqlite_version(*)
+      DEBUG -  (0.2ms)  begin transaction
+    ==  CreateJobOffers: migrating ================================================
+    -- create_table(:job_offers)
+      DEBUG -  (1.5ms)  CREATE TABLE "job_offers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "location" varchar(255), "description" text, "contact" varchar(255), "time_start" date, "time_end" date, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)
+       -> 0.0955s
+    ==  CreateJobOffers: migrated (0.0960s) =======================================
+
+      DEBUG -  (0.6ms)  INSERT INTO "schema_migrations" ("version") VALUES ('2')
+      DEBUG -  (285.9ms)  commit transaction
+      DEBUG -  (0.6ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+
+
+In order to run our tests, we also need to run our migrations for the test environment:
+
+
+    $ padrino rake ar:migrate -e test
+    => Executing Rake ar:migrate ...
+    ==  CreateJobOffers: migrating ================================================
+    -- create_table(:job_offers)
+       -> 0.0302s
+    ==  CreateJobOffers: migrated (0.0316s) =======================================
+
+
+TBD: Find a way to run ar:migrate for all environments (mainly production and test)
+
+
+If you run your tests with `padrino rake spec` everything should be fine.
+
+
 
 ![Figure 2-2. job vacancy data model](images/02/job_vacancy.jpg)
 
