@@ -333,12 +333,9 @@ Next we need to include the style sheet in our application template for the whol
     <html lang="en-US">
       <head>
         <title>Job Vacancy - find the best jobs</title>
-        <%= stylesheet_link_tag 'bootstrap'%>
-        <%= stylesheet_link_tag 'bootstrap-responsive' %>
+        <%= stylesheet_link_tag 'bootstrap', 'bootstrap-responsive' %>
 
-        <%= javascript_include_tag 'bootstrap.min' %>
-        <%= javascript_include_tag 'jquery' %>
-        <%= javascript_include_tag 'jquery-ujs' %>
+        <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
       </head>
       <body>
         <%= yield %>
