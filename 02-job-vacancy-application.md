@@ -549,13 +549,10 @@ Wow, it created a bunch of files for us. Let's examine each of them:
 **user.rb**
 
 
-```ruby
-# models/user.rb
+    # models/user.rb
 
-class User < ActiveRecord::Base
-
-end
-```
+    class User < ActiveRecord::Base
+    end
 
 All we have is an empty class which inherits from
 [ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). The `ActvieRecord` maps classes to
@@ -567,18 +564,17 @@ way to express how models are connected to each other.
 **spec/models/user_spec.rb**
 
 
-```ruby
-# models/user.rb
+    # models/user.rb
 
-require 'spec_helper'
+    require 'spec_helper'
 
-describe "User Model" do
-  let(:user) { User.new }
-  it 'can be created' do
-    user.should_not be_nil
-  end
-end
-```
+    describe "User Model" do
+      let(:user) { User.new }
+      it 'can be created' do
+        user.should_not be_nil
+      end
+    end
+
 
 As you can see, the generator created alreay a test for us, which basically checks if the model can be created. What
 would happen if you run the tests for this model? Let the code speak of it's own and run the tests, that what they are
@@ -862,7 +858,4 @@ TBD: Find a way to run ar:migrate for all environments (mainly production and te
 
 If you run your tests with `padrino rake spec` everything should be fine.
 
-
-
-![Figure 2-2. job vacancy data model](images/02/job_vacancy.jpg)
 
