@@ -334,7 +334,6 @@ Next we need to include the style sheet in our application template for the whol
       <head>
         <title>Job Vacancy - find the best jobs</title>
         <%= stylesheet_link_tag 'bootstrap', 'bootstrap-responsive' %>
-
         <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
       </head>
       <body>
@@ -525,7 +524,7 @@ design without changing the behavior of our code.
 ## Creation Of The Models
 
 
-### User Data Model
+### User Model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
 identification number **id** which is an integer (also useful for indexing our database), a **name**, and an **email**
@@ -703,8 +702,8 @@ database. Now let's create the last missing database *production *with the follo
 
     bundle exec padrino rake ar:create:all
     => Executing Rake ar:create:all ...
-    /home/elex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_development.db already exists
-    /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_development.db already exists
+    /home/elex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db already exists
+    /home/helex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db already exists
     /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_production.db already exists
     /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
     /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
@@ -857,5 +856,196 @@ TBD: Find a way to run ar:migrate for all environments (mainly production and te
 
 
 If you run your tests with `padrino rake spec` everything should be fine.
+
+
+### Creating Connection Between User And Job Offer Model
+
+Since we now have created our two main models, it's time to define associations between our models. A associations
+makes common operations like deleting or updating data in our relational database easier. A nice side effect is that
+your code becomes much easier to maintain and easy to change. Just imagine that we have a user in our application that
+has many job offers in our system. Now this customers decides that he wants wants to cancel his account. Of course, all
+his job offers should also disappear in the system. One solution would be to delete the user by id and delete all
+entries in the job offer by the id of the user. If we are using associations between our models we can set up rules
+that says: "If I delete this user from the system, delete automatically all corresponding job for this user".
+
+
+**has_many**:
+
+This ass ...
+
+    # models/user.rb
+
+    class User < ActiveRecord::Base
+      has_many :job_offers
+    end
+
+
+**belongs_to**:
+
+
+    # models/job_offer.rb
+
+    class JobOffer < ActiveRecord::Base
+      belongs_to :user
+    end
+
+
+Now we need to write our own migration and add for each of our job offer model the foreign key of a User. We will call
+this extra column `user_id`. To create a custom migratuin we can use Padrino's migration generator:
+
+
+    $ padrino g migration AddUserIdToJobOffers user_id:integer
+    apply  orms/activerecord
+    create  db/migrate/003_add_user_id_to_job_offers.rb
+
+
+Now we need to change our migration:
+
+
+    class AddUserIdToJobOffers < ActiveRecord::Migration
+      def self.up
+        change_table :joboffers do |t|
+          t.integer :user_id
+        end
+      end
+
+      def self.down
+        change_table :joboffers do |t|
+          t.remove :user_id
+        end
+      end
+    end
+
+
+This migration won't work, you have to change `joboffers` to `job_offers`. As you can, generators can help you to write
+code but not prevent you from thinking.
+
+
+Of course we need to run our migrations
+
+
+   $ padrino rake ar:migrate
+   $ padrino rake ar:migrate -e test
+
+
+### Testing Our Associations In The Console
+
+
+The Padrino console makes it easy to interact with your application from the command line. All you have to do is to run
+the following command:
+
+
+    padrino c
+    => Loading development console (Padrino v.0.10.7)
+    => Loading Application JobVacancy
+    >>
+
+
+Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki/Interactive_Ruby_Shell). IRB stand for
+*Interactive Ruby Bash* and allows you the execution of Ruby commands with direct response for commands you type in.
+
+
+Let's run the shell and create a user with job offers:
+
+
+    User.new(:ame => 'Matthias Günther', :email => 'matthias.guenther')
+    => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther", created_at: nil, updated_at: nil>
+    >> user.name
+    => "Matthias Günther"
+
+
+This creates a user object in our session. If we want to add an entry permanten into the database, you have to use
+*create* method:
+
+
+    User.create => 'Matthias Günther', :email => 'matthias.guenther')
+    DEBUG -  (0.2ms)  begin transaction
+      DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES (?, ?, ?, ?)
+      [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias.guenther"], ["name", "Matthias Günther"],
+      ["updated_at", 2012-12-26 08:32:51 +0100]]
+        DEBUG -  (342.0ms)  commit transaction
+        => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51",
+        updated_at: "2012-12-26 08:32:51">
+      >>
+
+
+Please note, that you now have an entry in your development database `db/job_vacancy_development.db`. To see this,
+please perform the follow command:
+
+
+    $ sqlite3 db/job_vacancy_development.db
+    SQLite version 3.7.13 2012-06-11 02:05:22
+    Enter ".help" for instructions
+    Enter SQL statements terminated with a ";"
+    sqlite> SELECT * FROM users;
+    1|Matthias Günther|matthias.guenther|2012-12-26 08:32:51.323349|2012-12-26 08:32:51.323349
+    sqlite>
+
+
+Since we are now having an user it's time to create some job offers for our first user:
+
+
+     $ padrino console
+     => Loading development console (Padrino v.0.10.7)
+     => Loading Application JobVacancy
+    JobOffer.create(:title => 'Padrino Engineer', :location => 'Berlin', :description => 'Com
+    e to this great place', :contact => 'recruter@padrino-firm.org', :time_start => '2013/01/01', :time_
+    en2013/03/01', :user_id => 1)
+      DEBUG -  (0.2ms)  begin transaction
+        DEBUG - SQL (16.2ms)  INSERT INTO "job_offers" ("contact", "created_at", "description", "location", "time_end",
+        "time_start", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["contact",
+        "recruter@padrino-firm.org"], ["created_at", 2012-12-26 10:12:07 +0100], ["description", "Come to this great
+        place"], ["location", "Berlin"], ["time_end", Fri, 01 Mar 2013], ["time_start", Tue, 01 Jan 2013], ["title",
+        "Padrino Engineer"], ["updated_at", 2012-12-26 10:12:07 +0100], ["user_id", 1]]
+          DEBUG -  (309.0ms)  commit transaction
+          => #<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
+          contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
+          10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>
+
+
+And now let's create a second one for our first user:
+
+
+     >> JobOffer.create(:title => 'Padrino Engineer 2', :location => 'Berlin', :description => 'Come to this great place',
+     >> :contact => 'recruter@padrino-firm.org', :time_start => '2013/01/01', :time_end => '2013/03/01', :user_id => 1)
+       DEBUG -  (0.3ms)  begin transaction
+     DEBUG - SQL (78.2ms)  INSERT INTO "job_offers" ("contact", "created_at", "description", "location", "time_end",
+     "time_start", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["contact",
+     "recruter@padrino-firm.org"], ["created_at", 2012-12-26 10:41:29 +0100], ["description", "Come to this great
+     place"], ["location", "Berlin"], ["time_end", Fri, 01 Mar 2013], ["time_start", Tue, 01 Jan 2013], ["title",
+     "Padrino Engineer 2"], ["updated_at", 2012-12-26 10:41:29 +0100], ["user_id", 1]]
+       DEBUG -  (292.9ms)  commit transaction
+       => #<JobOffer id: 2, title: "Padrino Engineer 2", location: "Berlin", description: "Come to this great place",
+       contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
+       10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>
+       >>
+
+
+Now it's time to test our association between the user and and the job-offer model. We will use the `find_by_id` method
+to get the user from our database and the `job_offers` method to get all the job-offers from the user.
+
+
+    user = User.find_by_id(1)
+      DEBUG - User Load (0.6ms)  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+      => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51", updated_at:
+      "2012-12-26 08:32:51">
+      >> user.job_offers
+    DEBUG - JobOffer Load (0.6ms)  SELECT "job_offers".* FROM "job_offers" WHERE "job_offers"."user_id" = 1
+    => [#<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
+    contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
+    10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>, #<JobOffer id: 2, title: "Padrino Engineer 2", location:
+    "Berlin", description: "Come to this great place", contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
+    time_end: "2013-03-01", created_at: "2012-12-26 10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>]
+    >>
+
+
+Here you can see the advantage of using associations: When you declare them you get automatically methods for accessing
+the data you want.
+
+
+Let's write tests for it:
+
+
+### Testing Our Application With RSpec
 
 
