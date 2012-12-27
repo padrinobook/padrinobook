@@ -52,17 +52,10 @@ you are comfortable with it because you will mostly spend a lot of time with it.
 can't find anything.
 
 
-### Additional Tools
-
-This sections contains a list of tools that are optional. That means that you can survive without them but learning them
-can help you in various situations and makes it easier for you to react upon changes.
-
-
-#### Ruby
+## Ruby
 
 For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of Ruby before
 continuing here.
-
 
 - [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming Ruby")
 - [Poignant Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "poignant Guide to Ruby") -
@@ -72,40 +65,6 @@ continuing here.
 
 In this book I will be assuming some Ruby knowledge and will not be explaining every last detail, I will however explain
 Padrino specific coding techniques.
-
-
-#### Version Controlling With Git
-
-During software development it is important to keep track of your source code changes. That is what version control
-systems (VCSs) are all about.  Git helps you to keep track of the changes in your code. You can switch between certain
-versions in your code, create branches to experiment with code, and easily manage your code in distributed teams. If you
-want to deepen your knowledge into this topic, you can consult the following book and only references:
-
-- [Pro Git](http://progit.org/ "Pro Git") - this free online book explains the basic internals of git, and what the
-  workflow can be like. Learn the fundamentals and internals of git with the help of beautiful images.
-- [gitref](http://gitref.org/ "gitref") - page with the basic commands you have to use to be productive when working
-  with Git.
-
-**Remember**: Without version control you are lost. Git helps to detect changes in your code base, to better collaborate
-with other people, and to get out of the pit when you break something badly. You can experiment in *branches* to create
-running code, or to build a prototype to test design and technical limitation.
-
-There are other VCSs out there like:
-
-- [cvs](http://en.wikipedia.org/wiki/Concurrent_Versions_System "cvs") (*concurrent version system*),
-- [svn](http://en.wikipedia.org/wiki/Apache_Subversion "SVN") (*subversion*), or
-- [Mercurial](http://mercurial.selenic.com/ "Mercurial")
-
-Feel free to track the progress of your app with several small commits and branches.
-
-
-#### Heroku
-
-The [Heroku cloud app platform](http://www.heroku.com/ "heroku gem") enables you to deploy your Padrino / Ruby app on the
-Heroku platform. It manages the database creation and installation of the gems - difficult configurations tasks are
-handled by this platform. Heroku is so attractive that even the creator of Ruby,
-[Yukihiro Matsumoto](http://blog.heroku.com/archives/2011/7/12/matz_joins_heroku/ "Yukihiroatsumoto"), works as *Chief
-Architect of Ruby* on this platform.
 
 
 ## Installing The Necessary Tools
