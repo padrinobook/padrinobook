@@ -24,25 +24,32 @@ I won't tell you which operating system you should use - there is an interesting
 [hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I leave it free for the reader of this book
 which to use - basically you are reading this book to learn Padrino.
 
+
 I assume that you already have your favorite browser - in the end you you just need to call a certain URL in your
 browser to see the your Padrino app running.
 
+
 Nowadays there are a bunch of Integrated Development Environments (IDEs) out there:
+
 
 - [RubyMine by JetBrains](http://www.jetbrains.com/ruby/ "RubyMine") - commercial, available for all platforms
 - [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") - free, available for all platforms
 
+
 Besides, you can also use plain text editors which is a popular choice among Ruby developers:
 
-- [Notepad++](http://notepad-plus-plus.org/ "Notepad ++") - free, available only for Windows
-- [Textmate](http://macromates.com/ "Textmate") - commercial, available only for Mac
-- [Gedit](http://projects.gnome.org/gedit/ "Gedit") - free, available for Linux
-- [Vim](http://www.vim.org/ "vim") - free, available for all platform
-- [Emacs](http://www.gnu.org/s/emacs/ "emacs") - free, available for all platforms
-- [SublimeText](http://www.sublimetext.com "SublimeText") - commercial, available for all platform
 
-All tools have their strengths and weaknesses - find software that works best for you or write even something by
-yourself. The main goal is that you are comfortable with it because you will mostly spend a lot of time with it.
+- [Emacs](http://www.gnu.org/s/emacs/ "Emacs") - free, available for all platforms.
+- [Gedit](http://projects.gnome.org/gedit/ "Gedit") - free, available for Linux.
+- [Notepad++](http://notepad-plus-plus.org/ "Notepad ++") - free, available only for Windows.
+- [SublimeText](http://www.sublimetext.com "SublimeText") - commercial, available for all platform.
+- [Textmate](http://macromates.com/ "Textmate") - commercial, available only for Mac.
+- [Vim](http://www.vim.org/ "Vim") - free, available for all platform.
+
+
+All tools have their strengths and weaknesses. Try to find the software that works best for you. The main goal is that
+you are comfortable with it because you will mostly spend a lot of time with it. Feel free to write your software if you
+can't find anything.
 
 
 ### Additional Tools
@@ -56,11 +63,12 @@ can help you in various situations and makes it easier for you to react upon cha
 For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of Ruby before
 continuing here.
 
+
 - [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming Ruby")
-- [why's (poignant) Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "why's (poignant) Guide
-  to Ruby") - written by the nebulous programmer
-  [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "why the lucky stiff") in a entertaining and
-  educational way.
+- [Poignant Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "poignant Guide to Ruby") -
+  written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "stiff") in
+  a entertaining and educational way.
+
 
 In this book I will be assuming some Ruby knowledge and will not be explaining every last detail, I will however explain
 Padrino specific coding techniques.
