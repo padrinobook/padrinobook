@@ -361,7 +361,6 @@ relevant actions. All we need is to put them in the front of our application.
     <html lang="en-US">
       <head>
         <title>Job Vacancy - find the best jobs</title>
-
         <%= stylesheet_link_tag '../assets/application' %>
         <%= javascript_include_tag '../assets/application' %>
     </head>
@@ -930,7 +929,6 @@ Of course we need to run our migrations
 
 ### Testing Our Associations In The Console
 
-
 The Padrino console makes it easy to interact with your application from the command line. All you have to do is to run
 the following command:
 
@@ -948,7 +946,7 @@ Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki
 Let's run the shell and create a user with job offers:
 
 
-    User.new(:ame => 'Matthias Günther', :email => 'matthias.guenther')
+    User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
     => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther", created_at: nil, updated_at: nil>
     >> user.name
     => "Matthias Günther"
@@ -958,7 +956,7 @@ This creates a user object in our session. If we want to add an entry permanten 
 *create* method:
 
 
-    User.create => 'Matthias Günther', :email => 'matthias.guenther')
+    User.create(name => 'Matthias Günther', :email => 'matthias.guenther')
     DEBUG -  (0.2ms)  begin transaction
       DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES (?, ?, ?, ?)
       [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias.guenther"], ["name", "Matthias Günther"],
@@ -1046,6 +1044,192 @@ the data you want.
 Let's write tests for it:
 
 
-### Testing Our Application With RSpec
+### Testing Our Application With RSpec + Factory Girl
+
+We could use `ActiveRecord` for the tests but factories to create fixtures for our models are a more convenient way to
+do it. A handy gem for our mission is [Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines
+it's own language to create fixtures in a `ActiveRecord`-way but with a much cleaner syntax.
+
+
+What do we need to use it for our app? Right, first we need to add it into our `Gemfile`:
+
+
+    # Gemfile
+    ...
+    gem 'factory_girl', '~> 4.1.0', :group => test
+
+
+If you Rspec pay a closer look into the `Gemfile` you can see that we have several gems with the `:group` option:
+
+
+    # Gemfile
+    ...
+    gem 'rspec' , '~> 2.12.0', :group => 'test'
+    gem 'factory_girl', '~> 4.1.0', :group => 'test'
+    gem 'rack-test', '~> 0.6.2', :require => 'rack/test', :group => 'test'
+
+
+Luckily we can use the `:group <name> do ... end` syntax to cleanup  to get rid of several `:group => 'test'` lines in
+our `Gemfile`:
+
+
+    # Gemfile
+
+    group :test do
+      gem 'rspec' , '~> 2.12.0'
+      gem 'factory_girl', '~> 4.1.0'
+      gem 'rack-test', '~> 0.6.2', :require => 'rack/test'
+    end
+
+
+Next we need to define a *factory* to include all the fixtures of our models:
+
+
+    # spec/factories.rb
+
+    # encoding: utf-8
+    FactoryGirl.define do |u|
+
+      factory :user do
+        name "Matthias Günther"
+        email "matthias.guenther@wikimatze.de"
+      end
+
+    end
+
+
+I'm a German and I want to use symbols from my language. To make ruby aware of this I'm putting `# encoding: utf-8` at
+the header of the file. The symbol `:user` stands for the definition for user model. To made our factory available in
+all our tests we just have to *require* our factory in the `spec_helper.rb`:
+
+
+    # spec/spec_helper.rb
+
+    PADRINO_ENV = 'test' unless defined?(PADRINO_ENV)
+    require File.expand_path(File.dirname(__FILE__) + "/../config/boot")
+    require File.dirname(__FILE__) + "/factories"
+    ...
+
+
+Now we have everything at hand to make user of our factories in our test:
+
+
+    # spec/models/user_spec.rb
+
+    require 'spec_helper'
+
+    describe "User Model" do
+      let(:user) { FactoryGirl.build(:user) }
+      let(:job_offer) { {:title => 'Padrino Engineer', :location => 'Berlin', :description => 'Come to this great place'} }
+      it 'can be created' do
+        user.should_not be_nil
+      end
+
+      it 'fresh user should have no offers' do
+        user.job_offers.size.should == 0
+      end
+
+      it 'have job-offers' do
+        user.job_offers.build(job_offer)
+        user.job_offers.size.should == 1
+      end
+
+    end
+
+
+Instead of using `User.create` we are using `FactoryGirl.build(:user)` to build our `user` fixture. The `:job_offer`
+symbol is an attribute hash that is used as an input to build an job offer for our user - see the code in
+`user.job_offers.build(job_offer)`. If you run your tests, they pass.
+
+
+The `build` method will create the test object in memory. If you want to save your fixtures in the database you have to
+use `create` instead. Play with it around and see that the same test using `create` instead of `build` takes much longer
+because it hits the database.
+
+
+Our test above doesn't look quite well. So let's create a factory for our job offer and clean up the `user_spec.rb`
+afterwards:
+
+
+    # spec/factories.rb
+
+    ...
+    factory :user do
+      name "Matthias Günther"
+      email "matthias.guenther@wikimatze.de"
+    end
+
+    factory :job_offer do
+      title "Padrino Engineer"
+      location "Berlin"
+      text "We want you ..."
+      contact "recruter@awesome.de"
+      time_start "0/01/2013"
+      time_end "01/03/2013"
+    end
+    ...
+
+
+And now our `user_spec`:
+
+
+    # spec/user_spec.rb
+
+    require 'spec_helper'
+
+    describe "User Model" do
+      let(:user) { FactoryGirl.build(:user) }
+      it 'can be created' do
+        user.should_not be_nil
+      end
+
+      it 'fresh user should have no offers' do
+        user.job_offers.size.should == 0
+      end
+
+      it 'have job-offers' do
+        user.job_offers.build(FactoryGirl.attributes_for(:job_offer))
+        user.job_offers.size.should == 1
+      end
+
+    end
+
+
+We are using now the `attributes_for` method takes a symbol as an input and will return the attributes of the fixture
+model as a hash. Looks fine, and our tests are still green. But we can do even better. We can leave the verbose
+`FactoryGirl` clutter word away, if we add make the following change to our `spec_helper.rb`:
+
+
+    # spec/spec_helper.rb
+
+    RSpec.configure do |conf|
+      conf.include Rack::Test::Methods
+      conf.include FactoryGirl::Syntax::Methods
+    end
+
+
+Now we can change our test:
+
+
+    # spec/models/user_spec.rb
+
+    require 'spec_helper'
+
+    describe "User Model" do
+      let(:user) { build(:user) }
+      it 'can be created' do
+        user.should_not be_nil
+      end
+
+      it 'fresh user should have no offers' do
+        user.job_offers.size.should == 0
+      end
+
+      it 'have job-offers' do
+        user.job_offers.build(attributes_for(:job_offer))
+        user.job_offers.size.should == 1
+      end
+
+    end
 
 
