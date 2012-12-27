@@ -54,12 +54,12 @@ can't find anything.
 
 ## Ruby
 
-For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of Ruby before
+For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of ruby before
 continuing here.
 
 - [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming Ruby")
-- [Poignant Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "poignant Guide to Ruby") -
-  written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "stiff") in
+- [Poignant Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "Poignant Guide To Ruby") -
+  written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "Stiff") in
   a entertaining and educational way.
 
 
@@ -67,25 +67,22 @@ In this book I will be assuming some Ruby knowledge and will not be explaining e
 Padrino specific coding techniques.
 
 
-## Installing The Necessary Tools
-
-If you are an advanced user, you can skip these section and jump straight forward to the "Hello World" section.
-
-
-### Installing Ruby
+## Installing Ruby With rbenv
 
 Instead of using the build in package for Ruby, we will use [rbenv](https://github.com/sstephenson/rbenv/ "rbenv") which
 lets you switch between multiple versions of Ruby.
 
-First, we need to clone rbenv:
+
+First, we need to get the resources of rbenv:
 
 
     $ cd $HOME
     $ git clone git://github.com/sstephenson/rbenv.git .rbenv
 
 
-Now we add the recently installed `.rbenv` directory in the `bin` path (if you are on Mac, you have to replace `.bashrc`
-with `.bash_profile` in all of the following commands):
+In case you shouldn't want to use git you can also download the latest zip.  Now we add the recently installed `.rbenv`
+directory in the `bin` path (if you are on Mac, you have to replace `.bashrc` with `.bash_profile` in all of the
+following commands):
 
 
     $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
@@ -107,7 +104,7 @@ Now the we have two ways to install Ruby versions: The easy one with a plugin, a
 compile Ruby on our own.
 
 
-#### ruby-build
+### ruby-build
 
 Because we don't want to download and compile different Ruby versions on our own, we will use
 [ruby-build](https://github.com/sstephenson/ruby-build "ruby-build") plugin for rbenv:
@@ -119,10 +116,10 @@ Because we don't want to download and compile different Ruby versions on our own
 
 
 If you now run `rbenv install` you can see all the different Ruby version you can install and use for different Ruby
-projects. We are going to install `ruby 1.9.2-p290`:
+projects. We are going to install `ruby 1.9.3-p286`:
 
 
-    $ rbenv install 1.9.2-p290
+    $ rbenv install 1.9.3-p286
 
 
 This command will take a couple of minutes (why you will ask, you have perform the steps of the next chapter), so it's
@@ -131,41 +128,39 @@ fine, you have to run `rbenv rehash` to rebuild the internal rbenv libraries. Th
 available on your whole machine:
 
 
-    $ rbenv global 1.9.2-p290
+    $ rbenv global 1.9.3-p286
 
-j
+
 And check the selection of the correct Ruby version with `ruby -v`. The output should look like:
 
 
-    $ * 1.9.2-p290 (set by /home/.rbenv/versions)
+    $ 1.9.3-p286 (set by /home/.rbenv/versions)
 
 
 Now you are a "rookie" [Ruby Rogue](http://rubyrogues.com/ "Ruby Rouges").
 
 
-#### Compiling Ruby On Your Own
+### Compiling Ruby On Your Own
 
-Before we start make that you have installed the following packages: `make, g++, wget` and `unzip`.
-
-First, you need to get the Ruby version (you can find other versions
-[here](http://ftp.ruby-lang.org/pub/ruby/ "ruby versions")):
+Before we start make that you have installed the following packages: `make, g++, wget` and `unzip`. First, you need to
+get the Ruby version (you can find other versions [here](http://ftp.ruby-lang.org/pub/ruby/ "ruby versions")):
 
 
     $ cd ~/.rbenv/versions
-    $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.2-p290.zip
+    $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.3-p286.zip
 
 
 Under `.rbenv/versions` you will find all the different installed Ruby versions. Next do:
 
 
-    $ unzip ruby-1.9.2-p290.zip
+    $ unzip ruby-1.9.3-p286.zip
 
 
 Configure the compilation and perform the installation:
 
 
     $ cd ~/.rbenv/versions
-    $ ./configure --prefix=$HOME/.rbenv/versions/ruby-1.9.2.p290
+    $ ./configure --prefix=$HOME/.rbenv/versions/ruby-1.9.3.p286
     $ make
     $ make install
 
@@ -179,7 +174,7 @@ The good is,that you know how the whole configuration works, what compiles, and 
 
 you hardly know whats going on. So my pragmatic advice is, use the first method.
 
-If you get this working, you are a "real" [Ruby Rogue](http://rubyrogues.com/ "Ruby Rogue").
+If you get this working, you are a "real" **Ruby Rouge**
 
 
 ## Hello world
