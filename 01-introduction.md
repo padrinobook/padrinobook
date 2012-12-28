@@ -179,13 +179,11 @@ If you get this working, you are a "real" **Ruby Rouge**
 
 ## Hello world
 
-On the following image you can see the basic image of our application[^omnigraffle]:
+The basic layout of our application is displayed On the following image application:
+
 
 ![Figure 1-1. Start page of the app](images/01/application_overview.jpg)
 
-[^omnigraffle]: You can use a classical stencil and paper to create mockups. I'm using
-[Omnigraffle](http://www.omnigroup.com/products/omnigraffle/ "Omnigraffle") with the stencil extensions by
-[konigi](http://konigi.com/tools/omnigraffle-wireframe-stencils "konigi") for writing wireframes.
 
 You know this section from several tutorials, which makes you comfortable with your first program in a new programming
 language.  Get your hands dirty and start coding. First of all we need to install the gem with:
