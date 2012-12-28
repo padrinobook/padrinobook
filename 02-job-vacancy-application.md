@@ -923,7 +923,7 @@ This creates a user object in our session. If we want to add an entry permanten 
 *create* method:
 
 
-    User.create(name => 'Matthias Günther', :email => 'matthias.guenther')
+    User.create(:name => 'Matthias Günther', :email => 'matthias.guenther')
     DEBUG -  (0.2ms)  begin transaction
       DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES (?, ?, ?, ?)
       [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias.guenther"], ["name", "Matthias Günther"],
@@ -1198,5 +1198,3 @@ Now we can change our test:
       end
 
     end
-
-
