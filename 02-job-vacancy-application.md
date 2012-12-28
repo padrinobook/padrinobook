@@ -15,38 +15,36 @@ the Padrino framework.
 
 ## Basic Crafting Of The Application
 
-In our first attempt we will start with generating a new project with the canonical `padrino` command (see section
-\ref{section 'Hello world'}) but this time it has a bunch of new options:
+In our first attempt we will start with generating a new project with the canonical `padrino` command. In contrast to
+our "Hello World!" app before we are using new options:
 
 
     $ cd ~/padrino_projects
     $ padrino g project job-vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite
 
 
-Explanation of the fields for generating a new Padrino project:
+Explanation of the fields commands:
 
-- **g**: Is shortcut for `generate` (who doesn't love shortcuts to save time).
-- **-d activerecord**: We are using [activerecord](https://rubygems.org/gems/activerecord "activerecord") as the
-  orm[^orm].
+
+- **g**: Is shortcut for `generate`.
+- **-d activerecord**: We are using [Active Record](https://rubygems.org/gems/activerecord "Active Record") as the
+  orm (*Object Relational Mapper*).
 - **-t rspec**: We are using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing
   framework.
 - **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous
   [jQuery](http://jquery.com/ "jQuery") library.
-- **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB")[^erb] markup as a
-  *renderer* to describe HTML in cleaner and faster way. We won't take [Haml](http://haml.info/ "Haml") or
-  [Slim](http://slim-lang.com/ "Slim") to keep the project as simple as possible. Feel free to use them if you like to.
-- **-a sqlite**: We are specifying the ORMorm[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite") -
-  easiest database to install / configure and is ideal for beginning development plus it doesn't consume much system
-  resources on you development machine.
+- **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup as a
+  *renderer* for HTML. We won't take [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com/ "Slim") to keep
+  the project as simple as possible. Feel free to use them if you like to.
+- **-a sqlite**: Our ORM[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite"). It is
+  easy to install because the whole database is saved in a text file.
+
 
 Since we are using rspec for testing, we will use its build in mock extensions
 [rspec-mocks](https://github.com/rspec/rspec-mocks "rspec mocks") for writing tests later. In case you want to use
 another mocking library like [rr](https://rubygems.org/gems/rr "rr") or [mocha](http://gofreerange.com/mocha/docs/
 "mocha"), feel free to add it with the **-m** option.
 
-
-[^erb]: stands for *Embedded Ruby*
-[^orm]: stands for *Object Relational Mapper*
 
 You can use a vast array of other options when generating your new Padrino app, this table shows the currently available
 options:
