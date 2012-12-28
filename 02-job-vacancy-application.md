@@ -7,8 +7,10 @@ possibility to offer a platform where users can easily post new jobs vacancies t
 example job vacancy board is the software we will be building with Padrino. We will apply **K.I.S.S**[^KISS] principle,
 so we will keep maintain a very easy and extensible design.
 
+
 First, we will take a look at the basic design of our application, afterwards we are going to implement our ideas using
 the Padrino framework.
+
 
 [^KISS]: Is an acronym for *Keep it simple and stupid*.
 
@@ -19,6 +21,7 @@ In our first attempt we will start with generating a new project with the canoni
 our "Hello World!" app before we are using new options:
 
 
+{: lang="bash" }
     $ cd ~/padrino_projects
     $ padrino g project job-vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite
 
@@ -83,6 +86,7 @@ Later, when *the time comes*, we will add extra gems, for now though we'll grab 
 Bundler[^bundler] by running at the command line:
 
 
+{: lang="bash" }
     $ bundle install
 
 
@@ -95,10 +99,12 @@ Lets craft our first version of the *index.html* page which is somekind of start
 presented early with a question; where will be my *index.html* page? Because we are not working with controllers, the
 easiest thing is to put the *index.html* directly under the public folder in the project.
 
+
 Of course, we want to be up-to-date with the current standards of webdevelopment, so we use the standards of
 [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5").  Add the following code into `public/index.html`:
 
 
+{: lang="html" }
     <!DOCTYPE html>
     <html lang="en-US">
       <head>
@@ -112,18 +118,22 @@ Of course, we want to be up-to-date with the current standards of webdevelopment
 
 Explanation of the parts:
 
+
 - `<!DOCTYPE html>` - The *document type* tells the browser which HTML version should be used for rendering the content
   correctly.
 - `<head>...</head>` - Specifying meta information like title, description, and other things, this is also the place to
   where to add CSS and JavaScript files.
 - `<body>...</body>` - In this section the main content of the page is displayed.
 
+
 This used to be the way websites were created in the beginning of the web - plain static content. Today things are a
 dynamic, so our static app won't last long but for the beginning it gives a success feeling.
+
 
 We can take a look at our new page by firing up our app by running the following at the command line:
 
 
+{: lang="bash" }
     $ bundle exec padrino start
 
 
@@ -131,9 +141,11 @@ You should see a message telling you that Padrino has taken the stage, you shoul
 created index page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html "index.html") in your
 browser. What you see will be a white page with the textline `Hello, Padrino!`.
 
+
 Why using the `bundle exec`command ? Whenever you use this command, you are using gem version mentioned in the Gemfile.
 Instead of using `start` you can also use `s` (we all love shortcuts, don't we?). Further on in this book I will leave
 the `bundle exec` away in front of each Padrino related command for better readability of the code.
+
 
 You may have though it a little odd that we had to manually use index.html in the URL when viewing our start page, this
 is because our app currently has now idea about **routing**. A router recognize URLs and distributes them to actions of
@@ -148,12 +160,14 @@ basic routing controller. A controller makes data from you app (in our case job 
 the details of a job offer). Now let's create a controller in Padrino names page:
 
 
+{: lang="bash" }
     $ padrino g controller page
 
 
 The output of this command is:
 
 
+{: lang="bash" }
     create  app/controllers/page.rb
     create  app/helpers/page_helper.rb
     create  app/views/page
@@ -164,9 +178,11 @@ The output of this command is:
 (If you have questions about the output above, please drop me a line - I think it is so clear that it doesn't need any
 explanation about it.)
 
+
 Lets take a closer look at our page-controller:
 
 
+{: lang="ruby" }
     # app/controller/page.rb
 
     JobVacancy.controllers :page do
@@ -196,6 +212,7 @@ The controller above defines for our `JobVacancy` the `:page` controller with no
 application. Let's change this and define the *about*, *contact*, and *home* actions:
 
 
+{: lang="ruby" }
     # app/controller/page.rb
 
     JobVacancy.controllers :page do
@@ -216,6 +233,7 @@ application. Let's change this and define the *about*, *contact*, and *home* act
 
 We will go through each line:
 
+
 - `JobVacancy.controller :page` - Define the namespace *page* for our JobVacancy application.
 - `do ... end` - Define a block in ruby. A block defines a space for a method without a name (called anonymous
   functions) which can be used to pass it to a function as an argument.
@@ -229,13 +247,16 @@ We will go through each line:
   could also use `:haml` to indicate that you are using this template language. If you are lazy, you can leave the
   option for the rendering option completely out and leave the matching completely for Padrino.
 
+
 To get an confused about what routes you have defined for your application just call `padrino rake routes`:
 
 
+{: lang="bash" }
     $ padrino rake routes
     => Executing Rake routes ...
 
 
+{: lang="bash" }
     Application: JobVacancy
     URL                  REQUEST  PATH
     (:page, :about)        GET    /about
@@ -254,6 +275,7 @@ on our web page. First we need to generate a basic template for all pages we wan
 *app/views/application.erb*:
 
 
+{: lang="html" }
     <!DOCTYPE html>
     <html lang="en-US">
       <head>
@@ -282,6 +304,7 @@ in your application without reinventing the wheel and do unnecessary tasks.  Tha
 [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb).
 
 
+{: lang="bash" }
     $ padrino-gen plugin bootstrap
 
       apply  https://github.com/padrino/padrino-recipes/raw/master/plugins/bootstrap_plugin.rb
@@ -296,6 +319,7 @@ in your application without reinventing the wheel and do unnecessary tasks.  Tha
 Next we need to include the style sheet in our application template for the whole application:
 
 
+{: lang="bash" }
     <!DOCTYPE html>
     <html lang="en-US">
       <head>
@@ -317,13 +341,13 @@ your JavaScript files in the *public/javascript* directory.
 TBD Add section how to integrate asset pipeline
 
 
-
 ### Navigation
 
 Next we want to create the top-navigation for our application. So we already implemented the *page* controller with the
 relevant actions. All we need is to put them in the front of our application.
 
 
+{: lang="html" }
     <!DOCTYPE html>
     <html lang="en-US">
       <head>
@@ -362,6 +386,7 @@ relevant actions. All we need is to put them in the front of our application.
 
 Explanation of the new parts:
 
+
 - `link_to` - Is a helper for creating links. The first argument of this function is the name for the link and the
   second is for the URL (href) on which the names points to.
 - `url_for` - This helper return the link which can be used as the second parameter for the `link-tag`. For example uses
@@ -373,6 +398,7 @@ Explanation of the new parts:
 The structure is ready and now we need to add some sugar-candy styling for our application:
 
 
+{: lang="css" }
     # app/assets/stylesheets/site.css
 
     body {
@@ -412,11 +438,13 @@ don't need to register our new CSS file in `views/application.erb` - now you wil
 Now it is time to begin developing our code with tests. As mentioned in the introduction, we will *describing the
 behavior of code*[^bdd] with the testing framework [RSpec](http://rspec.info/ "RSpec").
 
+
 As we created our *page-controller* with `padrino g controller page`, Padrino created a spec file under *spec/app* for
 us automatically. So let's examine our allready written *spec/app/controller/page_controller_spec.rb* which passes all
 tests:
 
 
+{: lang="ruby" }
     require 'spec_helper'
 
     describe "PageController" do
@@ -459,6 +487,7 @@ Let's explain the interesting parts:
 Now let's run our tests with `rspec spec/page_controller_spec.rb` and see what's going on:
 
 
+{: lang="bash" }
     PageController
       GET #about
         renders the :about view
@@ -477,11 +506,13 @@ book.
 
 **Red-Green Cycle**
 
+
 In Behavior Driven (as well as in Test Driven) Development it is important to write a failing test (so that you get a
 **red** color when running the test) first so that you know you really are testing something meaningful. Next we change
 our code base to make it pass (you get a **green** when running the test). The scheme for this approach is test first,
 then the implementation. But this little shift in mind set when working on production code helps you to think more about
 the problem and how to solve it.
+
 
 Once you have green code, you are in the position to refactor your code where you can remove duplication and enhance
 design without changing the behavior of our code.
@@ -496,9 +527,11 @@ There are many different ways how to develop a user entity for your system. A us
 identification number **id** which is an integer (also useful for indexing our database), a **name**, and an **email**
 both of which are strings.
 
+
 Since there are generators for creating controllers, there is also a command-line tool for this
 
 
+{: lang="bash" }
     $ padrino g model user name:string email:string
 
        apply  orms/activerecord
@@ -514,10 +547,12 @@ Wow, it created a bunch of files for us. Let's examine each of them:
 **user.rb**
 
 
+{: lang="ruby" }
     # models/user.rb
 
     class User < ActiveRecord::Base
     end
+
 
 All we have is an empty class which inherits from
 [ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). The `ActvieRecord` maps classes to
@@ -529,6 +564,7 @@ way to express how models are connected to each other.
 **spec/models/user_spec.rb**
 
 
+{: lang="ruby" }
     # models/user.rb
 
     require 'spec_helper'
@@ -546,6 +582,7 @@ would happen if you run the tests for this model? Let the code speak of it's own
 made for:
 
 
+{: lang="bash" }
     $ rspec spec/models
 
     User Model
@@ -570,32 +607,33 @@ made for:
 It says exactly what happened. It wasn't able to create a new user for use because the *user* table is not present. This
 leads us to the next part: Migrations.
 
+
 Migrations helps you to change the database in an ordered manner. Let's have a look on our first migration:
 
 
-```ruby
-db/migrate/001_create_users.rb
+{: lang="ruby" }
+    db/migrate/001_create_users.rb
 
-class CreateUsers < ActiveRecord::Migration
-  def self.up
-    create_table :users do |t|
-      t.string :name
-      t.string :email
-      t.timestamps
+    class CreateUsers < ActiveRecord::Migration
+      def self.up
+        create_table :users do |t|
+          t.string :name
+          t.string :email
+          t.timestamps
+        end
+      end
+
+      def self.down
+        drop_table :users
+      end
     end
-  end
-
-  def self.down
-    drop_table :users
-  end
-end
-```
 
 
 We create a table called **users**. The convention to name tables of models in the plural form comes from
 [Ruby On Rails](http://rubyonrails.org/). Now we need to run this migration:
 
 
+{: lang="bash" }
     $ padrino rake ar:migrate
 
     => Executing Rake ar:migrate ...
@@ -620,6 +658,7 @@ Since we are working in development, Padrino recognized that we are working on o
 create the development database for us:
 
 
+{: lang="bash" }
     $ ls db/
       job_vacancy_development.db  job_vacancy_test.db  migrate  schema.rb
 
@@ -627,6 +666,7 @@ create the development database for us:
 Now we can run [sqlite3](http://www.sqlite.org/) to see, if the users table is in our development database:
 
 
+{: lang="bash" }
     $ sqlite3 db/job_vacanvy_development.db
 
     SQLite version 3.7.13 2012-06-11 02:05:22
@@ -642,28 +682,28 @@ Now we can run [sqlite3](http://www.sqlite.org/) to see, if the users table is i
 Let's have a look on the `config/database.rb` file to understand more about the different databases:
 
 
-```ruby
-ActiveRecord::Base.configurations[:development] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'job_vacancy_development.db')
-}
+{: lang="ruby" }
+    ActiveRecord::Base.configurations[:development] = {
+      :adapter => 'sqlite3',
+      :database => Padrino.root('db', 'job_vacancy_development.db')
+    }
 
-ActiveRecord::Base.configurations[:production] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'job_vacancy_production.db')
-}
+    ActiveRecord::Base.configurations[:production] = {
+      :adapter => 'sqlite3',
+      :database => Padrino.root('db', 'job_vacancy_production.db')
+    }
 
-ActiveRecord::Base.configurations[:test] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'job_vacancy_test.db')
-}
-```
+    ActiveRecord::Base.configurations[:test] = {
+      :adapter => 'sqlite3',
+      :database => Padrino.root('db', 'job_vacancy_test.db')
+    }
 
 
 As you can see we are creating for each different environment (*development*, *production* , and *test*) it's own
 database. Now let's create the last missing database *production *with the following command:
 
 
+{: lang="bash" }
     $ padrino rake ar:create:all
 
     bundle exec padrino rake ar:create:all
@@ -678,12 +718,15 @@ database. Now let's create the last missing database *production *with the follo
 Now we have all databases created
 
 
+{: lang="bash" }
     $ ls db
     job_vacancy_development.db  job_vacancy_production.db  job_vacancy_test.db  migrate  schema.rb
 
 
 If we now run our tests again, we should assume that they pass:
 
+
+{: lang="bash" }
     $ rspec spec/models
 
     User Model
@@ -710,6 +753,7 @@ If we now run our tests again, we should assume that they pass:
 Why? Because the migration we created weren't created for our test-database.
 
 
+{: lang="bash" }
     $ padrino rake ar:migrate -e test
     => Executing Rake ar:migrate ...
     ==  CreateUsers: migrating ====================================================
@@ -721,6 +765,7 @@ Why? Because the migration we created weren't created for our test-database.
 If we now run our tests again, we will see that they pass:
 
 
+{: lang="bash" }
     $ rspec spec/models
 
     User Model
@@ -735,6 +780,7 @@ and see if everything is working? For this case exists the case `padrino rake sp
 tests in the `spec/` folder:
 
 
+{: lang="bash" }
     $ padrino rake spec
     => Executing Rake spec ...
     /home/helex/.rbenv/versions/1.9.3-p286/bin/ruby -S rspec ./spec/models/user_spec.rb -fs --color
@@ -779,6 +825,7 @@ A job offer consists of the following attributes:
 Let's run the Padrino command to create the model for us:
 
 
+{: lang="bash" }
     $ padrino g model job_offer title:string location:string description:text contact:string time_start:date time_end:date
        apply  orms/activerecord
        apply  tests/rspec
@@ -789,6 +836,8 @@ Let's run the Padrino command to create the model for us:
 
 Next, we need to run our new database migration so that our database has the right scheme:
 
+
+{: lang="bash" }
     bundle exec padrino rake ar:migrate
     => Executing Rake ar:migrate ...
       DEBUG -  (0.4ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
@@ -810,6 +859,7 @@ Next, we need to run our new database migration so that our database has the rig
 In order to run our tests, we also need to run our migrations for the test environment:
 
 
+{: lang="bash" }
     $ padrino rake ar:migrate -e test
     => Executing Rake ar:migrate ...
     ==  CreateJobOffers: migrating ================================================
@@ -839,6 +889,8 @@ that says: "If I delete this user from the system, delete automatically all corr
 
 This ass ...
 
+
+{: lang="ruby" }
     # models/user.rb
 
     class User < ActiveRecord::Base
@@ -849,6 +901,7 @@ This ass ...
 **belongs_to**:
 
 
+{: lang="ruby" }
     # models/job_offer.rb
 
     class JobOffer < ActiveRecord::Base
@@ -860,6 +913,7 @@ Now we need to write our own migration and add for each of our job offer model t
 this extra column `user_id`. To create a custom migratuin we can use Padrino's migration generator:
 
 
+{: lang="bash" }
     $ padrino g migration AddUserIdToJobOffers user_id:integer
     apply  orms/activerecord
     create  db/migrate/003_add_user_id_to_job_offers.rb
@@ -868,6 +922,7 @@ this extra column `user_id`. To create a custom migratuin we can use Padrino's m
 Now we need to change our migration:
 
 
+{: lang="ruby" }
     class AddUserIdToJobOffers < ActiveRecord::Migration
       def self.up
         change_table :joboffers do |t|
@@ -890,6 +945,7 @@ code but not prevent you from thinking.
 Of course we need to run our migrations
 
 
+{: lang="bash" }
    $ padrino rake ar:migrate
    $ padrino rake ar:migrate -e test
 
@@ -900,7 +956,8 @@ The Padrino console makes it easy to interact with your application from the com
 the following command:
 
 
-    padrino c
+{: lang="bash" }
+    $ padrino c
     => Loading development console (Padrino v.0.10.7)
     => Loading Application JobVacancy
     >>
@@ -913,6 +970,7 @@ Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki
 Let's run the shell and create a user with job offers:
 
 
+{: lang="bash" }
     User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
     => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther", created_at: nil, updated_at: nil>
     >> user.name
@@ -923,7 +981,8 @@ This creates a user object in our session. If we want to add an entry permanten 
 *create* method:
 
 
-    User.create(name => 'Matthias Günther', :email => 'matthias.guenther')
+{: lang="bash" }
+    User.create(:name => 'Matthias Günther', :email => 'matthias.guenther')
     DEBUG -  (0.2ms)  begin transaction
       DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES (?, ?, ?, ?)
       [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias.guenther"], ["name", "Matthias Günther"],
@@ -938,6 +997,7 @@ Please note, that you now have an entry in your development database `db/job_vac
 please perform the follow command:
 
 
+{: lang="bash" }
     $ sqlite3 db/job_vacancy_development.db
     SQLite version 3.7.13 2012-06-11 02:05:22
     Enter ".help" for instructions
@@ -950,7 +1010,8 @@ please perform the follow command:
 Since we are now having an user it's time to create some job offers for our first user:
 
 
-     $ padrino console
+{: lang="bash" }
+     $ padrino c
      => Loading development console (Padrino v.0.10.7)
      => Loading Application JobVacancy
     JobOffer.create(:title => 'Padrino Engineer', :location => 'Berlin', :description => 'Com
@@ -971,6 +1032,7 @@ Since we are now having an user it's time to create some job offers for our firs
 And now let's create a second one for our first user:
 
 
+{: lang="bash" }
      >> JobOffer.create(:title => 'Padrino Engineer 2', :location => 'Berlin', :description => 'Come to this great place',
      >> :contact => 'recruter@padrino-firm.org', :time_start => '2013/01/01', :time_end => '2013/03/01', :user_id => 1)
        DEBUG -  (0.3ms)  begin transaction
@@ -990,6 +1052,7 @@ Now it's time to test our association between the user and and the job-offer mod
 to get the user from our database and the `job_offers` method to get all the job-offers from the user.
 
 
+{: lang="bash" }
     user = User.find_by_id(1)
       DEBUG - User Load (0.6ms)  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
       => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51", updated_at:
@@ -1021,14 +1084,16 @@ it's own language to create fixtures in a `ActiveRecord`-way but with a much cle
 What do we need to use it for our app? Right, first we need to add it into our `Gemfile`:
 
 
+{: lang="ruby" }
     # Gemfile
     ...
     gem 'factory_girl', '~> 4.1.0', :group => test
 
 
-If you Rspec pay a closer look into the `Gemfile` you can see that we have several gems with the `:group` option:
+If you pay a closer look into the `Gemfile` you can see that we have several gems with the `:group` option:
 
 
+{: lang="ruby" }
     # Gemfile
     ...
     gem 'rspec' , '~> 2.12.0', :group => 'test'
@@ -1040,6 +1105,7 @@ Luckily we can use the `:group <name> do ... end` syntax to cleanup  to get rid 
 our `Gemfile`:
 
 
+{: lang="ruby" }
     # Gemfile
 
     group :test do
@@ -1052,6 +1118,7 @@ our `Gemfile`:
 Next we need to define a *factory* to include all the fixtures of our models:
 
 
+{: lang="ruby" }
     # spec/factories.rb
 
     # encoding: utf-8
@@ -1070,6 +1137,7 @@ the header of the file. The symbol `:user` stands for the definition for user mo
 all our tests we just have to *require* our factory in the `spec_helper.rb`:
 
 
+{: lang="ruby" }
     # spec/spec_helper.rb
 
     PADRINO_ENV = 'test' unless defined?(PADRINO_ENV)
@@ -1081,6 +1149,7 @@ all our tests we just have to *require* our factory in the `spec_helper.rb`:
 Now we have everything at hand to make user of our factories in our test:
 
 
+{: lang="ruby" }
     # spec/models/user_spec.rb
 
     require 'spec_helper'
@@ -1118,6 +1187,7 @@ Our test above doesn't look quite well. So let's create a factory for our job of
 afterwards:
 
 
+{: lang="ruby" }
     # spec/factories.rb
 
     ...
@@ -1140,6 +1210,7 @@ afterwards:
 And now our `user_spec`:
 
 
+{: lang="ruby" }
     # spec/user_spec.rb
 
     require 'spec_helper'
@@ -1167,6 +1238,7 @@ model as a hash. Looks fine, and our tests are still green. But we can do even b
 `FactoryGirl` clutter word away, if we add make the following change to our `spec_helper.rb`:
 
 
+{: lang="ruby" }
     # spec/spec_helper.rb
 
     RSpec.configure do |conf|
@@ -1175,9 +1247,10 @@ model as a hash. Looks fine, and our tests are still green. But we can do even b
     end
 
 
-Now we can change our test:
+Now we can change our test to:
 
 
+{: lang="ruby" }
     # spec/models/user_spec.rb
 
     require 'spec_helper'
