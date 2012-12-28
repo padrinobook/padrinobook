@@ -1,4 +1,4 @@
-/* vim: set ts=2 sw=2 textwidth=120: */
+%%/* vim: set ts=2 sw=2 textwidth=120: */
 
 # Job Vacancy Application
 
@@ -40,7 +40,7 @@ Explanation of the fields commands:
   easy to install because the whole database is saved in a text file.
 
 
-Since we are using rspec for testing, we will use its build in mock extensions
+Since we are using RSpec for testing, we will use its' build in mock extensions
 [rspec-mocks](https://github.com/rspec/rspec-mocks "rspec mocks") for writing tests later. In case you want to use
 another mocking library like [rr](https://rubygems.org/gems/rr "rr") or [mocha](http://gofreerange.com/mocha/docs/
 "mocha"), feel free to add it with the **-m** option.
@@ -50,64 +50,33 @@ You can use a vast array of other options when generating your new Padrino app, 
 options:
 
 
-Component     Default     Aliases     Options
----------     -------     -------     ------------------------------------------------------------------------------
-orm           none        -d          mongoid, activerecord, datamapper, couchrest, mongomatic, ohm, ripple, sequel
-test          none        -t          bacon, shoulda, cucumber, testspec, riot, rspec, minitest
-script        none        -s          prototype, rightjs, jquery, mootools, extcore, dojo
-renderer      haml        -e          erb, haml, slim, liquid
-stylesheet    none        -c          sass, less, scss, compass
-mock          none        -m          rr, mocha
+|Component | Default | Aliases | Options                                                                      |
+|----------|---------|---------|------------------------------------------------------------------------------|
+|orm       | none    | -d      | mongoid, activerecord, datamapper, couchrest, mongomatic, ohm, ripple, sequel|
+|test      | none    | -t      | bacon, shoulda, cucumber, testspec, riot, rspec, minitest                    |
+|script    | none    | -s      | prototype, rightjs, jquery, mootools, extcore, dojo                          |
+|renderer  | haml    | -e      | erb, haml, slim, liquid                                                      |
+|stylesheet| none    | -c      | sass, less, scss, compass                                                    |
+|mock      | none    | -m      | rr, mocha                                                                    |
 
 
 Besides the `project` option for generating new Padrino apps, the following table illustrates the other generators
 available:
 
 
-<table>
-  <tr>
-    <th>Option</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>project</td>
-    <td>Generates a completely new app from the scratch.</td>
-  </tr>
-  <tr>
-    <td>app</td>
-    <td>You can define other apps to be mounted in your main app.</td>
-  </tr>
-  <tr>
-    <td>mailer</td>
-    <td>Creating new mailers within your app.</td>
-  </tr>
-  <tr>
-    <td>controller</td>
-    <td>A controller is between your views and models - it makes the model data available for displaying that data to
-    the user.</td>
-  </tr>
-  <tr>
-    <td>model</td>
-    <td>Models are all about data. They help you to describe the abstractions of your data.</td>
-  </tr>
-  <tr>
-    <td>migration</td>
-    <td>Migration make it easy for changing the database schema.</td>
-  </tr>
-  <tr>
-    <td>plugin</td>
-    <td>Creating new Padrino projects based on a template file - it's like a list of commands which create your new
-    app.</td>
-  </tr>
-  <tr>
-    <td>admin</td>
-    <td>A very nice built-in-admin dashboard.</td>
-  </tr>
-  <tr>
-    <td>admin_page</td>
-    <td>Have to figure this out ...</td>
-  </tr>
-</table>
+|Option     | Description
+|-----------|------------------------------------------------------------------------------------------------|
+|project    | Generates a completely new app from the scratch.                                               |
+|app        | You can define other apps to be mounted in your main app.                                      |
+|mailer     | Creating new mailers within your app.                                                          |
+|controller | A controller is between your views and models - it makes the model data available for          |
+|           | displaying that data to the user.                                                              |
+|model      | Models are all about data. They help you to describe the abstractions of your data.            |
+|migration  | Migration make it easy for changing the database schema.                                       |
+|plugin     | Creating new Padrino projects based on a template file - it's like a list of commands          |
+|           | which create your new app.                                                                     |
+|admin      | A very nice built-in-admin dashboard.                                                          |
+|admin_page | TBD                                                                                            |
 
 
 Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using with
@@ -925,7 +894,7 @@ Of course we need to run our migrations
    $ padrino rake ar:migrate -e test
 
 
-### Testing Our Associations In The Console
+#### Testing Our Associations In The Console
 
 The Padrino console makes it easy to interact with your application from the command line. All you have to do is to run
 the following command:
@@ -1042,7 +1011,7 @@ the data you want.
 Let's write tests for it:
 
 
-### Testing Our Application With RSpec + Factory Girl
+#### Testing Our Application With RSpec + Factory Girl
 
 We could use `ActiveRecord` for the tests but factories to create fixtures for our models are a more convenient way to
 do it. A handy gem for our mission is [Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines
