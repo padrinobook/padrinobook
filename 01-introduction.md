@@ -186,16 +186,17 @@ The basic layout of our application is displayed On the following image applicat
 
 
 You know this section from several tutorials, which makes you comfortable with your first program in a new programming
-language.  Get your hands dirty and start coding. First of all we need to install the gem with:
+language.  Get your hands dirty and start coding. First of all we need to install the padrino gem with:
 
 
     $ gem install padrino
 
 
-We are using the last stable version of Padrino (during the release of this book it is version **0.10.5**).
+We are using the last stable version of Padrino (during the release of this book it is version **0.10.7**).
 
-This will install all necessary dependencies and makes you ready to create your web app. Now we will generate a fresh
-new Padrino project:
+
+This will install all necessary dependencies and makes you ready to get started. Now we will generate a fresh new
+Padrino project:
 
 
     $ padrino generate project hello-world
@@ -203,11 +204,14 @@ new Padrino project:
 
 We will go through each part:
 
-- `padrino generate` - tells Padrino to perform the generator with the specified options. The generate options can be
-  used to create other *components* for your app like a mailing system or a nice admin panel to manage your database
-  entries. A shortcut for generate is `g`
-- `project` - tells Padrino to generate a new app.
-- `hello-world` - the name of the new app and this is also the folder name.
+
+- `padrino generate`: Tells Padrino to perform the generator with the specified options. The generate options can be
+  used to create other **components** for your app like a **mailing system** or an **admin panel** to manage your
+  database entries. We will handle these things in a further chapter. A shortcut for generate is `g` which we will use
+  in all following examples.
+- `project`: Tells Padrino to generate a new app.
+- `hello-world`: The name of the new app and this is also the folder name.
+
 
 The console output should looks like the following:
 
@@ -251,23 +255,25 @@ The console output should looks like the following:
 The last line in the console output tells you the next steps you have to perform. Before we are going to start our app,
 we need some sort of package managing for Ruby.
 
-Ruby has a nice gem manager called [bundler](http://gembundler.com/ "bundler") which installs all necessary gems in
-specific versions you would like to have in your project. The [Gemfile](http://gembundler.com/gemfile.html "Gemfile")
-declares the gems that you want to install. Bundler takes the content of the Gemfile and will install everything
-declared inside this file. To install bundler perform the following command
+
+Ruby has a nice gem manager called [bundler](http://gembundler.com/ "Bundler") which installs all necessary gems in the
+versions you would like to have for your project. This makes it very easy for other developers to work with your project
+even after years. The [Gemfile](http://gembundler.com/gemfile.html "Gemfile") declares the gems that you want to
+install. Bundler takes the content of the Gemfile and will install everything declared inside this file. To install
+bundler perform the following command:
 
 
     $ gem install bundler
-        Fetching: bundler-1.2.0.gem (100%)
-        Successfully installed bundler-1.2.0
+        Fetching: bundler-1.2.3.gem (100%)
+        Successfully installed bundler-1.2.3
         1 gem installed
 
 
-Now we have everything to start our app:
+Now we have everything to run the `bundle` command to install our dependencies:
 
 
     $ cd hello-world
-    $ bundle install
+    $ bundle
       Fetching gem metadata from http://rubygems.org/.........
       Using rake (0.9.2.2)
       Installing i18n (0.6.1)
@@ -312,15 +318,11 @@ Let's open the file `app/app.rb` (this is like the root controller) and insert t
 Now run the app with:
 
 
-    $ padrino s
+    $ padrino start
 
 
-(`s` is an acronym for start) and fire up your browser with the URL *http://localhost:3000*. Be happy if you see the
-following:
-
-![Figure 1-3. Hello world in your browser](images/01/hello_world.jpg)
-
-You can now say that you have built your first Padrino app with no great effort and it still feels natural.
+(instead of writing `start` we can also use the alias `s`) and fire up your browser with the URL
+*http://localhost:3000*. Be happy you've made it and built your first Padrino app with no great effort.
 
 
 ### Wait
