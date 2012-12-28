@@ -5,16 +5,16 @@
 Why another book about how to develop an application (app) in Rails? But wait, this book should give you a basic
 introduction how to develop a web app with [Padrino](http://www.padrinorb.com/ "Padrino"). Padrino is "The Elegant Ruby
 Web Framework". Padrino is based upon [Sinatra](http://www.sinatrarb.com/ "Sinatra"), which is a simple a Domain
-Specific Language (DSL) for quickly creating web apps in Ruby. When writing Sinatra apps many developers miss some of
+Specific Language  for quickly creating web apps in Ruby. When writing Sinatra apps many developers miss some of
 the extra conveniences that Rails offers, this is where Padrino comes in as it provides many of these while still
-staying true to Sinatra's ethos of being simple and lightweight. To say it with words of the Padrino webpage: "Padrino
+staying true to Sinatra's philosophy of being simple and lightweight. To say it with words of the Padrino webpage: "Padrino
 is a full-stack ruby framework built upon Sinatra".
 
 
 ## Motivation
 
 My motivation is to provide up-to-date documentation for Padrino. Although Padrino borrows many ideas and techniques
-from it's big brother Rails it aims to be more modular and allows you to interchange various components with
+from it's big brother Rails, it aims to be more modular and allows you to interchange various components with
 considerable ease.
 
 
@@ -22,21 +22,19 @@ considerable ease.
 
 I won't tell you which operating system you should use - there is an interesting discussion on
 [hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I leave it free for the reader of this book
-which to use - basically you are reading this book to learn Padrino.
+which to use, becaus ebasically you are reading this book to learn Padrino.
 
+To actually see a running padrino app, you need a web browser of your choice.
 
-I assume that you already have your favorite browser - in the end you you just need to call a certain URL in your
-browser to see the your Padrino app running.
-
+For writing the application, you can either use an Integrated Development Environment (IDE) or with
+a plain text editor.
 
 Nowadays there are a bunch of Integrated Development Environments (IDEs) out there:
-
 
 - [RubyMine by JetBrains](http://www.jetbrains.com/ruby/ "RubyMine") - commercial, available for all platforms
 - [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") - free, available for all platforms
 
-
-Besides, you can also use plain text editors which is a popular choice among Ruby developers:
+Here is a list of plain text editors which are a popular choice among Ruby developers:
 
 
 - [Emacs](http://www.gnu.org/s/emacs/ "Emacs") - free, available for all platforms.
@@ -48,32 +46,32 @@ Besides, you can also use plain text editors which is a popular choice among Rub
 
 
 All tools have their strengths and weaknesses. Try to find the software that works best for you. The main goal is that
-you are comfortable with it because you will mostly spend a lot of time with it. Feel free to write your software if you
-can't find anything.
+you are comfortable with it because you will spend a lot of time with it.
 
 
-## Ruby
+### Ruby Knowledge
 
-For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of ruby before
+For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of Ruby before
 continuing here.
 
-- [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming Ruby")
+- [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming Ruby") - the
+  standaard book on Ruby.
 - [Poignant Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "Poignant Guide To Ruby") -
   written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "Stiff") in
   a entertaining and educational way.
 
 
-In this book I will be assuming some Ruby knowledge and will not be explaining every last detail, I will however explain
+In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will however explain
 Padrino specific coding techniques.
 
 
 ## Installing Ruby With rbenv
 
-Instead of using the build in package for Ruby, we will use [rbenv](https://github.com/sstephenson/rbenv/ "rbenv") which
-lets you switch between multiple versions of Ruby.
+Instead of using the build-in software package for Ruby of your operating system, we will use
+[rbenv](https://github.com/sstephenson/rbenv/ "rbenv") which lets you switch between multiple versions of Ruby.
 
 
-First, we need to get the resources of rbenv:
+First, we need to use [git](http://git-scm.org) to get the current version of rbenv:
 
 
 {: lang="bash" }
@@ -81,9 +79,10 @@ First, we need to get the resources of rbenv:
     $ git clone git://github.com/sstephenson/rbenv.git .rbenv
 
 
-In case you shouldn't want to use git you can also download the latest zip.  Now we add the recently installed `.rbenv`
-directory in the `bin` path (if you are on Mac, you have to replace `.bashrc` with `.bash_profile` in all of the
-following commands):
+In case you shouldn't want to use git, you can also download the latest version as a zip file from [Github](http://github.com).
+
+You need to add the directory that contains rbenv to your `$PATH`environment variable.  If you are on Mac, you have
+to replace `.bashrc` with `.bash_profile` in all of thefollowing commands):
 
 
 {: lang="bash" }
