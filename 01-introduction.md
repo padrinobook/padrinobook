@@ -22,7 +22,7 @@ considerable ease.
 
 I won't tell you which operating system you should use - there is an interesting discussion on
 [hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I leave it free for the reader of this book
-which to use, becaus ebasically you are reading this book to learn Padrino.
+which to use, because basically you are reading this book to learn Padrino.
 
 To actually see a running padrino app, you need a web browser of your choice.
 
@@ -61,7 +61,7 @@ continuing here.
   a entertaining and educational way.
 
 
-In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will however explain
+In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will, however, explain
 Padrino specific coding techniques.
 
 
@@ -103,8 +103,8 @@ Next, we need to restart our shell to enable the last changes:
     $ exec $SHELL
 
 
-Now the we have two ways to install Ruby versions: The easy one with a plugin, and the difficult one where we have to
-compile Ruby on our own.
+Basically, there are two ways to install different versions of Ruby: You can compile Ruby on your
+own and tr to manage the versions and gems on your own, or you use a tool that helps you.
 
 
 ### ruby-build
@@ -127,9 +127,8 @@ projects. We are going to install `ruby 1.9.3-p286`:
     $ rbenv install 1.9.3-p286
 
 
-This command will take a couple of minutes (why you will ask, you have perform the steps of the next chapter), so it's
-best to grab a Raider, which is now know as [twix](http://en.wikipedia.org/wiki/Twix "Twix"). After everything runs
-fine, you have to run `rbenv rehash` to rebuild the internal rbenv libraries. The last step is to made Ruby 1.9.2-p290
+This command will take a couple of minutes, so it's best to grab a Raider, which is now know as [Twix](http://en.wikipedia.org/wiki/Twix "Twix").
+After everything runs fine, you have to run `rbenv rehash` to rebuild the internal rbenv libraries. The last step is to made Ruby 1.9.3-p286
 available on your whole machine:
 
 
@@ -149,8 +148,9 @@ Now you are a "rookie" [Ruby Rogue](http://rubyrogues.com/ "Ruby Rouges").
 
 ### Compiling Ruby On Your Own
 
-Before we start make that you have installed the following packages: `make, g++, wget` and `unzip`. First, you need to
-get the Ruby version (you can find other versions [here](http://ftp.ruby-lang.org/pub/ruby/ "ruby versions")):
+If you want to compile a different version of Ruby that is not offered with rbenv, then make sure you have
+the following packages installed foryour os: `make, g++, wget` and `unzip`. You continue to select your preferred
+[Ruby versions ](http://ftp.ruby-lang.org/pub/ruby/ "ruby versions") and then download the appropriate package:
 
 
 {: lang="bash" }
@@ -158,7 +158,7 @@ get the Ruby version (you can find other versions [here](http://ftp.ruby-lang.or
     $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.3-p286.zip
 
 
-Under `.rbenv/versions` you will find all the different installed Ruby versions. Next do:
+Go the the directory `.rbenv/versions` where you will find the downloaded file. Next unzip the file:
 
 
 {: lang="bash" }
@@ -175,7 +175,8 @@ Configure the compilation and perform the installation:
     $ make install
 
 
-The good is, that you know how the whole configuration works, what compiles, and what doesn't. The bad is that if you get
+Following these steps, you gain knowledge about the whole process of cconfiguration and compilation
+of custom Ruby versions. However, this doesn't always work:'
 
 
 {: lang="bash" }
@@ -183,21 +184,23 @@ The good is, that you know how the whole configuration works, what compiles, and
     Segmentation fault
 
 
-you hardly know whats going on. So my pragmatic advice is, use the first method.
-
-If you get this working, you are a "real" **Ruby Rouge**
+If you want to be on the safe side, then use Ruby build.
 
 
 ## Hello world
 
-The basic layout of our application is displayed On the following image application:
+The basic layout of our application is displayed on the following image application:
 
 
 ![Figure 1-1. Start page of the app](images/01/application_overview.jpg)
 
 
-You know this section from several tutorials, which makes you comfortable with your first program in a new programming
-language.  Get your hands dirty and start coding. First of all we need to install the padrino gem with:
+It is possible that You know this section from several tutorials, which makes you even mor comfortable with
+your first program.
+
+Now, get your hands dirty and start coding.
+
+First of all we need to install the padrino gem with:
 
 
 {: lang="bash" }
