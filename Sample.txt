@@ -1,2 +1,2 @@
 01-introduction.md
-02-job-board-application.md
+02-job-vacancy-application.md
