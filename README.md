@@ -28,8 +28,8 @@ In this book I'm developing the **job vacancy** application. You can checkout th
 ## Contribute/Contact
 
 Feature requests, bugs, questions, etc. can be send to <matthias.guenther@wikimatze.de>. You can even fork this project,
-and as a *reward*, I will put you on the **"Special thanks"** section in this README and in the final version of the
-book.
+and create pull requests as you like. I will then add you to the [contributor list](http://leanpub.com/padrino).
+
 
 If you like my work, you can [let me know](http://leanpub.com/padrino) how much money you would spend for this book. And
 don't worry, this book will be free at anytime.
@@ -39,10 +39,18 @@ don't worry, this book will be free at anytime.
 
 Love you guys and women, you motivated me:
 
-- [@nesquena](http://twitter.com/#!/nesquena): Your tweets are encouraging my to keep up with this work and recommended
-  this book for the community.
-- [@WaYdotNET](http://twitter.com/#!/WaYdotNET): Make me aware of emacs and created first pull-request for this project.
-- [@emachnic](http://twitter.com/#!/emachnic): Improved the first chapter with useful hints.
+- [Nathan Esquenazi](http://twitter.com/nesquena): Your tweets are encouraging my to keep up with this work and
+  recommended this book for the community.
+- [Carlo Bertini](http://twitter.com/WaYdotNET): Make me aware of emacs and created first pull-request for this project.
+- [Evan Machnic](http://twitter.com/emachnic): Improved the first chapter with useful hints.
+- [Sebastian Günther](http://twitter.com/#!/sebastianguenth): Thanks for correcting the first chapter of the book.
+- [Carlo Bertini](http://twitter.com/#!/WaYdotNET): Make me aware of emacs and created first pull-request for this
+  project.
+- [Florian Gilcher](https://twitter.com/Argorak): Helps me improving my first nasty code and transforms it to the next
+  better level.
+- [Luca Pette](https://twitter.com/lucapette): Did a lot of different stuff.
+- [Ross Timson](https://twitter.com/rosstimson): You helped me to focus more on the important things in the book and get
+  away from using to many extensions.
 
 
 ## License
