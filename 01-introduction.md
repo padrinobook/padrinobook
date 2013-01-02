@@ -5,16 +5,16 @@
 Why another book about how to develop an application (app) in Rails? But wait, this book should give you a basic
 introduction how to develop a web app with [Padrino](http://www.padrinorb.com/ "Padrino"). Padrino is "The Elegant Ruby
 Web Framework". Padrino is based upon [Sinatra](http://www.sinatrarb.com/ "Sinatra"), which is a simple a Domain
-Specific Language (DSL) for quickly creating web apps in Ruby. When writing Sinatra apps many developers miss some of
+Specific Language  for quickly creating web apps in Ruby. When writing Sinatra apps many developers miss some of
 the extra conveniences that Rails offers, this is where Padrino comes in as it provides many of these while still
-staying true to Sinatra's ethos of being simple and lightweight. To say it with words of the Padrino webpage: "Padrino
+staying true to Sinatra's philosophy of being simple and lightweight. To say it with words of the Padrino webpage: "Padrino
 is a full-stack ruby framework built upon Sinatra".
 
 
 ## Motivation
 
 My motivation is to provide up-to-date documentation for Padrino. Although Padrino borrows many ideas and techniques
-from it's big brother Rails it aims to be more modular and allows you to interchange various components with
+from it's big brother Rails, it aims to be more modular and allows you to interchange various components with
 considerable ease.
 
 
@@ -22,21 +22,19 @@ considerable ease.
 
 I won't tell you which operating system you should use - there is an interesting discussion on
 [hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I leave it free for the reader of this book
-which to use - basically you are reading this book to learn Padrino.
+which to use, because basically you are reading this book to learn Padrino.
 
+To actually see a running padrino app, you need a web browser of your choice.
 
-I assume that you already have your favorite browser - in the end you you just need to call a certain URL in your
-browser to see the your Padrino app running.
-
+For writing the application, you can either use an Integrated Development Environment (IDE) or with
+a plain text editor.
 
 Nowadays there are a bunch of Integrated Development Environments (IDEs) out there:
-
 
 - [RubyMine by JetBrains](http://www.jetbrains.com/ruby/ "RubyMine") - commercial, available for all platforms
 - [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") - free, available for all platforms
 
-
-Besides, you can also use plain text editors which is a popular choice among Ruby developers:
+Here is a list of plain text editors which are a popular choice among Ruby developers:
 
 
 - [Emacs](http://www.gnu.org/s/emacs/ "Emacs") - free, available for all platforms.
@@ -48,32 +46,32 @@ Besides, you can also use plain text editors which is a popular choice among Rub
 
 
 All tools have their strengths and weaknesses. Try to find the software that works best for you. The main goal is that
-you are comfortable with it because you will mostly spend a lot of time with it. Feel free to write your software if you
-can't find anything.
+you are comfortable with it because you will spend a lot of time with it.
 
 
-## Ruby
+### Ruby Knowledge
 
-For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of ruby before
+For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of Ruby before
 continuing here.
 
-- [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming Ruby")
+- [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming Ruby") - the
+  standaard book on Ruby.
 - [Poignant Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "Poignant Guide To Ruby") -
   written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "Stiff") in
   a entertaining and educational way.
 
 
-In this book I will be assuming some Ruby knowledge and will not be explaining every last detail, I will however explain
-Padrino specific coding techniques.
+In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will, however, explain
+Padrino-specific coding techniques.
 
 
 ## Installing Ruby With rbenv
 
-Instead of using the build in package for Ruby, we will use [rbenv](https://github.com/sstephenson/rbenv/ "rbenv") which
-lets you switch between multiple versions of Ruby.
+Instead of using the build-in software package for Ruby of your operating system, we will use
+[rbenv](https://github.com/sstephenson/rbenv/ "rbenv") which lets you switch between multiple versions of Ruby.
 
 
-First, we need to get the resources of rbenv:
+First, we need to use [git](http://git-scm.org) to get the current version of rbenv:
 
 
 {: lang="bash" }
@@ -81,9 +79,10 @@ First, we need to get the resources of rbenv:
     $ git clone git://github.com/sstephenson/rbenv.git .rbenv
 
 
-In case you shouldn't want to use git you can also download the latest zip.  Now we add the recently installed `.rbenv`
-directory in the `bin` path (if you are on Mac, you have to replace `.bashrc` with `.bash_profile` in all of the
-following commands):
+In case you shouldn't want to use git, you can also download the latest version as a zip file from [Github](http://github.com).
+
+You need to add the directory that contains rbenv to your `$PATH`environment variable.  If you are on Mac, you have
+to replace `.bashrc` with `.bash_profile` in all of thefollowing commands):
 
 
 {: lang="bash" }
@@ -104,8 +103,8 @@ Next, we need to restart our shell to enable the last changes:
     $ exec $SHELL
 
 
-Now the we have two ways to install Ruby versions: The easy one with a plugin, and the difficult one where we have to
-compile Ruby on our own.
+Basically, there are two ways to install different versions of Ruby: You can compile Ruby on your
+own and try to manage the versions and gems on your own, or you use a tool that helps you.
 
 
 ### ruby-build
@@ -128,17 +127,16 @@ projects. We are going to install `ruby 1.9.3-p286`:
     $ rbenv install 1.9.3-p286
 
 
-This command will take a couple of minutes (why you will ask, you have perform the steps of the next chapter), so it's
-best to grab a Raider, which is now know as [twix](http://en.wikipedia.org/wiki/Twix "Twix"). After everything runs
-fine, you have to run `rbenv rehash` to rebuild the internal rbenv libraries. The last step is to made Ruby 1.9.2-p290
-available on your whole machine:
+This command will take a couple of minutes, so it's best to grab a Raider, which is now known as [Twix](http://en.wikipedia.org/wiki/Twix "Twix").
+After everything runs fine, you have to run `rbenv rehash` to rebuild the internal rbenv libraries. The last step is to makeRuby 1.9.3-p286
+the current executable on your machine:
 
 
 {: lang="bash" }
     $ rbenv global 1.9.3-p286
 
 
-And check the selection of the correct Ruby version with `ruby -v`. The output should look like:
+Check that the correct executable is active by exexuting `ruby -v`. The output should look like:
 
 
 {: lang="bash" }
@@ -150,8 +148,9 @@ Now you are a "rookie" [Ruby Rogue](http://rubyrogues.com/ "Ruby Rouges").
 
 ### Compiling Ruby On Your Own
 
-Before we start make that you have installed the following packages: `make, g++, wget` and `unzip`. First, you need to
-get the Ruby version (you can find other versions [here](http://ftp.ruby-lang.org/pub/ruby/ "ruby versions")):
+If you want to compile a different version of Ruby that is not offered with rbenv, then make sure you have
+the following packages installed for your os: `make, g++, wget` and `unzip`. Continue to select your preferred
+[Ruby versions ](http://ftp.ruby-lang.org/pub/ruby/ "ruby versions") and then download the appropriate package:
 
 
 {: lang="bash" }
@@ -159,7 +158,7 @@ get the Ruby version (you can find other versions [here](http://ftp.ruby-lang.or
     $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.3-p286.zip
 
 
-Under `.rbenv/versions` you will find all the different installed Ruby versions. Next do:
+Go to the directory `.rbenv/versions` where you will find the downloaded file. Next unzip the file:
 
 
 {: lang="bash" }
@@ -176,7 +175,8 @@ Configure the compilation and perform the installation:
     $ make install
 
 
-The good is, that you know how the whole configuration works, what compiles, and what doesn't. The bad is that if you get
+Following these steps, you gain knowledge about the whole process of configuration and compilation
+of custom Ruby versions. However, this doesn't always work:'
 
 
 {: lang="bash" }
@@ -184,28 +184,27 @@ The good is, that you know how the whole configuration works, what compiles, and
     Segmentation fault
 
 
-you hardly know whats going on. So my pragmatic advice is, use the first method.
-
-If you get this working, you are a "real" **Ruby Rouge**
+If you want to be on the safe side, then use ruby-build.
 
 
 ## Hello world
 
-The basic layout of our application is displayed On the following image application:
+The basic layout of our application is displayed on the following image application:
 
 
 ![Figure 1-1. Start page of the app](images/01/application_overview.jpg)
 
 
-You know this section from several tutorials, which makes you comfortable with your first program in a new programming
-language.  Get your hands dirty and start coding. First of all we need to install the padrino gem with:
+It is possible that you know this section from several tutorials, which makes you even more comfortable with
+your first program.
+
+Now, get your hands dirty and start coding.
+
+First of all we need to install the padrino gem. We are using the last stable version of Padrino (during the release of this book it is version **0.10.7**). Execute this command.
 
 
 {: lang="bash" }
     $ gem install padrino
-
-
-We are using the last stable version of Padrino (during the release of this book it is version **0.10.7**).
 
 
 This will install all necessary dependencies and makes you ready to get started. Now we will generate a fresh new
@@ -216,15 +215,15 @@ Padrino project:
     $ padrino generate project hello-world
 
 
-We will go through each part:
+Let's go through each part of this command:
 
 
-- `padrino generate`: Tells Padrino to perform the generator with the specified options. The generate options can be
+- `padrino generate`: Tells Padrino to execute thegenerator with the specified options. The options can be
   used to create other **components** for your app like a **mailing system** or an **admin panel** to manage your
   database entries. We will handle these things in a further chapter. A shortcut for generate is `g` which we will use
   in all following examples.
 - `project`: Tells Padrino to generate a new app.
-- `hello-world`: The name of the new app and this is also the folder name.
+- `hello-world`: The name of the new app, which is also the folder name.
 
 
 The console output should looks like the following:
@@ -267,15 +266,15 @@ The console output should looks like the following:
     =================================================================
 
 
-The last line in the console output tells you the next steps you have to perform. Before we are going to start our app,
-we need some sort of package managing for Ruby.
+The last line in the console output tells you the next steps you have to perform. Before we are going to start coding our
+app, we need some sort of package managing for Ruby gems.
 
 
 Ruby has a nice gem manager called [bundler](http://gembundler.com/ "Bundler") which installs all necessary gems in the
 versions you would like to have for your project. This makes it very easy for other developers to work with your project
 even after years. The [Gemfile](http://gembundler.com/gemfile.html "Gemfile") declares the gems that you want to
 install. Bundler takes the content of the Gemfile and will install everything declared inside this file. To install
-bundler perform the following command:
+bundler, execute the following command and check the console output:
 
 
 {: lang="bash" }
@@ -321,7 +320,7 @@ Now we have everything to run the `bundle` command to install our dependencies:
       Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
 
 
-Let's open the file `app/app.rb` (this is like the root controller) and insert the following:
+Let's open the file `app/app.rb` (think of it as the root controller of your app) and insert the following:
 
 
 {: lang="ruby" }
@@ -341,14 +340,18 @@ Now run the app with:
     $ padrino start
 
 
-(instead of writing `start` we can also use the alias `s`) and fire up your browser with the URL
-*http://localhost:3000*. Be happy you've made it and built your first Padrino app with no great effort.
+Instead of writing `start`, we can also use the alias `s`. Now, fire up your browser with the URL
+*http://localhost:3000* and see the `Hello World` Greeting being printed.
 
 
-### Wait
+Congratulations! You've built your first Padrino app.
+
+
+
+### Folder structure of a Padrino app
 
 Navigating through the various parts of a project is essential. Thus we will go through the basic file structure of the
-*hello-world* project:
+*hello-world* project. The app consists of the following parts:
 
 
 {: lang="bash" }
@@ -376,28 +379,27 @@ We will go through each part.
 
 - **Gemfile**: The place where you put all the necessary *gems* for your project. Bundle takes the content of this file
   and installs all the declared dependencies inside this file.
-- **app**: Contains the "executable" files of your project with controllers, helpers, and views of your app
+- **app**: Contains the "executable" files of your project with controllers, helpers, and views of your app.
   - **app.rb**: The primary configuration file of your application.
-  - **controller**: The controllers make the model data available to the view and handles the correct paths and which
-    actions are triggered when requests are fired up against certain routes
+  - **controller**: The controllers make the model data available to the view. They define the URL routes that are
+    callable in your app and defines the actions that are triggered by requests.
   - **helper**: Helpers are small snippet of code that can be called in your views to help you to prevent repetition -
-    also called `DRY` (Don't Repeat Yourself)
-  - **views**: Holds the display templates to fill in with data to be rendered by in a controller
-- **config**: General settings for the app , that means which hooks should be performed before or after the app is
-  loaded, setting the environment (e.g. production, development, test), mounting other apps within the existing app
+    following the `DRY` (Don't Repeat Yourself) principle.
+  - **views**: Contains the templates that are filled with model data and rendered by a controller.
+- **config**: General settings for the app, including hooks (explained later) that should be performed before or after the app is
+  loaded, setting the environment (e.g. production, development, test) and mounting other apps within the existing app
   under different subdomains.
-  - **apps.rb**: Mounts different Padrino apps under a certain domain and/or host. It is like building a castle
-    consisting of different already crafted parts like moats, wall, and baily
-  - **boots.rb**: Basic settins for your app which will be run when you start the app
+  - **apps.rb**: Allows you to configure a compound app that consists of several smaller apps. Each
+    app has his own default route form which requests will be handled by that app.
+  - **boots.rb**: Basic settings for your app which will be run when you start the app.
 - **config.ru**: Contains the complete configuration options of the app, such as which port the app listens to, whenever
-  it uses other Padrino apps as middleware and more. This file will be used when Padrino is runs on the command line.
-- **public**: Place where you put global files to be available for the public audience of your page like images folder,
-  JavaScript files, and style sheets.
-- **tmp**: This directory holds temporary files for intermediate processing
+  it uses other Padrino apps as middleware and more. This file will be used when Padrino is started from the command line.
+- **public**: Folder where you put static resources like images folder, JavaScript files, and style sheets.
+- **tmp**: This directory holds temporary files for intermediate processing.
 
 
 ## Conclusion
 
-We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools for the job, and
-using version control with Git. Now it is time to jump into a real project!
+We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools to manage different Ruby
+versions, and creating our first Padrino app. Now it is time to jump into a real project!
 
