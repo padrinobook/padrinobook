@@ -1,5 +1,6 @@
 This is a free eBook written in markdown. It describes how I developed an application in
-[Padrino](http://www.padrinorb.com/). Feel free to fork this project and to correct my (silly grammar) mistakes.
+[Padrino](http://www.padrinorb.com/). Feel free to fork this project and to correct my grammar. I'm not going to do
+premature optimazation until the book is nearly done.
 
 
 ## Current version
@@ -9,14 +10,21 @@ I'm using [leanpub](http://leanpub.com/) to generate the current status of this 
 
 If you are interested in building this book on you local machine, you have to clone this repository to your local machine
 
+
+```bash
     git clone git@github.com:matthias-guenther/padrino-book.git
+```
 
-And then run the rake task:
 
+You can build a PDF on your own machine with the help of [Pandoc](http://johnmacfarlane.net/pandoc/). Please install it
+for your operating system. If you are done with it please run the following [Rake](http://en.wikipedia.org/wiki/Rake_(software))
+task:
+
+
+```bash
     rake pdf
+```
 
-and you have the generated PDF version of this book on your local machine. You need to install
-[Pandoc](http://johnmacfarlane.net/pandoc/) to run this command.
 
 
 ## Repository of the job offer app
@@ -56,3 +64,5 @@ Love you guys and women, you motivated me:
 This software is licensed under the [MIT](http://en.wikipedia.org/wiki/MIT_License) licence.
 
 © 2011-2013 Matthias Günther <matthias.guenther@wikimatze.de>.
+
+/* vim: set ts=2 sw=2 textwidth=120: */
