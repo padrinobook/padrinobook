@@ -1,5 +1,3 @@
-%%/* vim: set ts=2 sw=2 textwidth=120: */
-
 # Job Vacancy Application
 
 There are more IT jobs out there than there are skilled people available. It would be great if we could have the
@@ -1273,3 +1271,4 @@ Now we can change our test to:
     end
 
 
+%%/* vim: set ts=2 sw=2 textwidth=120: */

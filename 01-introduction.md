@@ -1,5 +1,3 @@
-%%/* vim: set ts=2 sw=2 textwidth=120: */
-
 # Introduction
 
 Why another book about how to develop an application (app) in Rails? But wait, this book should give you a basic
@@ -400,6 +398,7 @@ We will go through each part.
 
 ## Conclusion
 
-We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools to manage different Ruby
-versions, and creating our first Padrino app. Now it is time to jump into a real project!
+We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools to manage different
+Ruby versions, and creating our first Padrino app. Now it is time to jump into a real project!
 
+%%/* vim: set ts=2 sw=2 textwidth=120: */
