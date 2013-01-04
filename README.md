@@ -44,8 +44,6 @@ Love you guys and women, you motivated me:
 - [Carlo Bertini](http://twitter.com/WaYdotNET): Make me aware of emacs and created first pull-request for this project.
 - [Evan Machnic](http://twitter.com/emachnic): Improved the first chapter with useful hints.
 - [Sebastian Günther](http://twitter.com/#!/sebastianguenth): Thanks for correcting the first chapter of the book.
-- [Carlo Bertini](http://twitter.com/#!/WaYdotNET): Make me aware of emacs and created first pull-request for this
-  project.
 - [Florian Gilcher](https://twitter.com/Argorak): Helps me improving my first nasty code and transforms it to the next
   better level.
 - [Luca Pette](https://twitter.com/lucapette): Did a lot of different stuff.
