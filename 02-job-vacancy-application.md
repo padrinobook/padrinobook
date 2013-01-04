@@ -641,15 +641,7 @@ We create a table called **users**. The convention to name tables of models in t
       DEBUG -  (0.2ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
        INFO - Migrating to CreateUsers (1)
       DEBUG -  (0.1ms)  begin transaction
-    ==  CreateUsers: migrating ====================================================
-    -- create_table(:users)
-      DEBUG -  (1.0ms)  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)
-       -> 0.0030s
-    ==  CreateUsers: migrated (0.0032s) ===========================================
-
-      DEBUG -  (0.3ms)  INSERT INTO "schema_migrations" ("version") VALUES ('1')
-      DEBUG -  (145.8ms)  commit transaction
-      DEBUG -  (0.2ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+      ...
 
 
 Since we are working in development, Padrino recognized that we are working on our first migration it automatically
@@ -845,13 +837,7 @@ Next, we need to run our new database migration so that our database has the rig
       DEBUG -  (0.2ms)  begin transaction
     ==  CreateJobOffers: migrating ================================================
     -- create_table(:job_offers)
-      DEBUG -  (1.5ms)  CREATE TABLE "job_offers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "location" varchar(255), "description" text, "contact" varchar(255), "time_start" date, "time_end" date, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)
-       -> 0.0955s
-    ==  CreateJobOffers: migrated (0.0960s) =======================================
-
-      DEBUG -  (0.6ms)  INSERT INTO "schema_migrations" ("version") VALUES ('2')
-      DEBUG -  (285.9ms)  commit transaction
-      DEBUG -  (0.6ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+    ...
 
 
 In order to run our tests, we also need to run our migrations for the test environment:
@@ -1012,38 +998,34 @@ Since we are now having an user it's time to create some job offers for our firs
      $ padrino c
      => Loading development console (Padrino v.0.10.7)
      => Loading Application JobVacancy
-    JobOffer.create(:title => 'Padrino Engineer', :location => 'Berlin', :description => 'Com
-    e to this great place', :contact => 'recruter@padrino-firm.org', :time_start => '2013/01/01', :time_
-    en2013/03/01', :user_id => 1)
-      DEBUG -  (0.2ms)  begin transaction
-        DEBUG - SQL (16.2ms)  INSERT INTO "job_offers" ("contact", "created_at", "description", "location", "time_end",
-        "time_start", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["contact",
-        "recruter@padrino-firm.org"], ["created_at", 2012-12-26 10:12:07 +0100], ["description", "Come to this great
-        place"], ["location", "Berlin"], ["time_end", Fri, 01 Mar 2013], ["time_start", Tue, 01 Jan 2013], ["title",
-        "Padrino Engineer"], ["updated_at", 2012-12-26 10:12:07 +0100], ["user_id", 1]]
-          DEBUG -  (309.0ms)  commit transaction
-          => #<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
-          contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
-          10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>
+      JobOffer.create(:title => 'Padrino Engineer',
+        :location => 'Berlin',
+        :description => 'Come to this great place',
+        :contact => 'recruter@padrino-firm.org',
+        :time_start => '2013/01/01',
+        :time_end => 2013/03/01',
+        :user_id => 1)
+      ...
+        => #<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
+        contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
+        10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>
 
 
 And now let's create a second one for our first user:
 
 
 {: lang="bash" }
-     >> JobOffer.create(:title => 'Padrino Engineer 2', :location => 'Berlin', :description => 'Come to this great place',
-     >> :contact => 'recruter@padrino-firm.org', :time_start => '2013/01/01', :time_end => '2013/03/01', :user_id => 1)
-       DEBUG -  (0.3ms)  begin transaction
-     DEBUG - SQL (78.2ms)  INSERT INTO "job_offers" ("contact", "created_at", "description", "location", "time_end",
-     "time_start", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["contact",
-     "recruter@padrino-firm.org"], ["created_at", 2012-12-26 10:41:29 +0100], ["description", "Come to this great
-     place"], ["location", "Berlin"], ["time_end", Fri, 01 Mar 2013], ["time_start", Tue, 01 Jan 2013], ["title",
-     "Padrino Engineer 2"], ["updated_at", 2012-12-26 10:41:29 +0100], ["user_id", 1]]
-       DEBUG -  (292.9ms)  commit transaction
-       => #<JobOffer id: 2, title: "Padrino Engineer 2", location: "Berlin", description: "Come to this great place",
-       contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
-       10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>
-       >>
+     >> JobOffer.create(:title => 'Padrino Engineer 2',
+         :location => 'Berlin',
+         :description => 'Come to this great place',
+         :contact => 'recruter@padrino-firm.org',
+         :time_start => '2013/01/01',
+         :time_end => '2013/03/01',
+         :user_id => 1)
+       ...
+         => #<JobOffer id: 2, title: "Padrino Engineer 2", location: "Berlin", description: "Come to this great place",
+         contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
+         10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>
 
 
 Now it's time to test our association between the user and and the job-offer model. We will use the `find_by_id` method
@@ -1051,18 +1033,17 @@ to get the user from our database and the `job_offers` method to get all the job
 
 
 {: lang="bash" }
-    user = User.find_by_id(1)
+    >> user = User.find_by_id(1)
       DEBUG - User Load (0.6ms)  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
       => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51", updated_at:
       "2012-12-26 08:32:51">
-      >> user.job_offers
-    DEBUG - JobOffer Load (0.6ms)  SELECT "job_offers".* FROM "job_offers" WHERE "job_offers"."user_id" = 1
-    => [#<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
-    contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
-    10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>, #<JobOffer id: 2, title: "Padrino Engineer 2", location:
-    "Berlin", description: "Come to this great place", contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
-    time_end: "2013-03-01", created_at: "2012-12-26 10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>]
-    >>
+    >> user.job_offers
+      DEBUG - JobOffer Load (0.6ms)  SELECT "job_offers".* FROM "job_offers" WHERE "job_offers"."user_id" = 1
+      => [#<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
+      contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
+      10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>, #<JobOffer id: 2, title: "Padrino Engineer 2", location:
+      "Berlin", description: "Come to this great place", contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
+      time_end: "2013-03-01", created_at: "2012-12-26 10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>]
 
 
 Here you can see the advantage of using associations: When you declare them you get automatically methods for accessing
