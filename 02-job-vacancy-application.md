@@ -1,22 +1,22 @@
 # Job Vacancy Application
 
 There are more IT jobs out there than there are skilled people available. It would be great if we could have the
-possibility to offer a platform where users can easily post new jobs vacancies to recruit people for their company. This
-example job vacancy board is the software we will be building with Padrino. We will apply **K.I.S.S**[^KISS] principle,
-so we will keep maintain a very easy and extensible design.
+possibility to offer a platform where users can easily post new jobs vacancies to recruit people for their company.
+Now our job is to build this software using Padrino. We will apply **K.I.S.S**[^KISS] principle to obtain a very easy 
+and extensible design.
 
 
-First, we will take a look at the basic design of our application, afterwards we are going to implement our ideas using
-the Padrino framework.
+First, we are going to create the applications file and folder strucutre. Then we are adding feature by feature until 
+the application is complete. First, we will take a look at the basic design of our application. Afterwards, we will
+implement one feature at a time.
 
 
-[^KISS]: Is an acronym for *Keep it simple and stupid*.
+[^KISS]: Is an acronym for *Keep it simple, stupid*.
 
+## Creating a new application
 
-## Basic Crafting Of The Application
-
-In our first attempt we will start with generating a new project with the canonical `padrino` command. In contrast to
-our "Hello World!" app before we are using new options:
+start with generating a new project with the canonical `padrino` command. In contrast to our "Hello World!" app before, 
+we are using new options:
 
 
 {: lang="bash" }
@@ -29,19 +29,18 @@ Explanation of the fields commands:
 
 - **g**: Is shortcut for `generate`.
 - **-d activerecord**: We are using [Active Record](https://rubygems.org/gems/activerecord "Active Record") as the
-  orm (*Object Relational Mapper*).
+  orm library (*Object Relational Mapper*).
 - **-t rspec**: We are using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing
   framework.
 - **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous
   [jQuery](http://jquery.com/ "jQuery") library.
-- **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup as a
-  *renderer* for HTML. We won't take [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com/ "Slim") to keep
-  the project as simple as possible. Feel free to use them if you like to.
-- **-a sqlite**: Our ORM[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite"). It is
-  easy to install because the whole database is saved in a text file.
+- **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup
+  for writing HTML templates. An alternative is [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com/ "Slim"), but 
+  to keep the project as simple as possible, we stick with ERB. Feel free to use them if you like to.
+- **-a sqlite**: Our ORM[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite"). It is easy to install because the whole database is saved in a text file.
 
 
-Since we are using RSpec for testing, we will use its' build in mock extensions
+Since we are using RSpec for testing, we will use its' built-in mock extensions
 [rspec-mocks](https://github.com/rspec/rspec-mocks "rspec mocks") for writing tests later. In case you want to use
 another mocking library like [rr](https://rubygems.org/gems/rr "rr") or [mocha](http://gofreerange.com/mocha/docs/
 "mocha"), feel free to add it with the **-m** option.
@@ -70,17 +69,16 @@ available:
 |project    | Generates a completely new app from the scratch.                                               |
 |app        | You can define other apps to be mounted in your main app.                                      |
 |mailer     | Creating new mailers within your app.                                                          |
-|controller | A controller is between your views and models - it makes the model data available for          |
-|           | displaying that data to the user.                                                              |
-|model      | Models are all about data. They help you to describe the abstractions of your data.            |
-|migration  | Migration make it easy for changing the database schema.                                       |
+|controller | A controller takes date from the models and puts them into view that are rendered              |
+|model      | Models describe data objects of your application                                               |
+|migration  | Migrations simplify changing the database schema.                                              |
 |plugin     | Creating new Padrino projects based on a template file - it's like a list of commands          |
 |           | which create your new app.                                                                     |
-|admin      | A very nice built-in-admin dashboard.                                                          |
+|admin      | A very nice built-in admin dashboard.                                                          |
 |admin_page | TBD                                                                                            |
 
 
-Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using with
+Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems usingh
 Bundler[^bundler] by running at the command line:
 
 
@@ -93,13 +91,13 @@ Bundler[^bundler] by running at the command line:
 
 ### Basic Layout Template
 
-Lets craft our first version of the *index.html* page which is somekind of starter page our our application. We are
-presented early with a question; where will be my *index.html* page? Because we are not working with controllers, the
-easiest thing is to put the *index.html* directly under the public folder in the project.
+Lets design our first version of the *index.html* page which is the starter page our our application. An early design
+question is: Where to put the *index.html* page? Because we are not working with controllers, the easiest thing is to 
+put the *index.html* directly under the public folder in the project.
 
 
-Of course, we want to be up-to-date with the current standards of webdevelopment, so we use the standards of
-[HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5").  Add the following code into `public/index.html`:
+We are using [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, and add the following code into  
+`public/index.html`:
 
 
 {: lang="html" }
