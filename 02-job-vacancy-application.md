@@ -122,31 +122,33 @@ Explanation of the parts:
 - `<body>...</body>` - In this section the main content of the page is displayed.
 
 
-This used to be the way websites were created in the beginning of the web - plain static content. Today things are a
-dynamic, so our static app won't last long but for the beginning it gives a success feeling.
+Plain static content - this used to be the way websites were created in the beginning of the web. Today, apps provide
+dynamic layout. During this chapter, we will se how to add more and more dynamic parts to our application.
 
 
-We can take a look at our new page by firing up our app by running the following at the command line:
+We can take a look at our new page by executing the following command: 
 
 
 {: lang="bash" }
     $ bundle exec padrino start
 
 
-You should see a message telling you that Padrino has taken the stage, you should now be able to view the freshly
-created index page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html "index.html") in your
-browser. What you see will be a white page with the textline `Hello, Padrino!`.
+You should see a message telling you that Padrino has taken the stage, and you should be able to view our created index 
+page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html "index.html") in your
+browser.
 
 
-Why using the `bundle exec`command ? Whenever you use this command, you are using gem version mentioned in the Gemfile.
-Instead of using `start` you can also use `s` (we all love shortcuts, don't we?). Further on in this book I will leave
-the `bundle exec` away in front of each Padrino related command for better readability of the code.
+But hey, you might ask "Why do we use the `bundle exec`command - isn't just `padrino start`enough?" The reason for this
+is that we use bundler to load exactly those Ruby gems that we specified in the Gemfile. I recommend that you use 
+`bundle exec`for all following commands, but to focus on Padrino, I will skip this command on the following parts of
+the book.
 
 
-You may have though it a little odd that we had to manually use index.html in the URL when viewing our start page, this
-is because our app currently has now idea about **routing**. A router recognize URLs and distributes them to actions of
-controllers. With other words: A router is like a like vending machine where you put in money to get a coke. In this
-case the machine is the *router* which *routes* your input "Want a coke" to the action "Print out a coke".
+You may have thought it a little odd that we had to manually request the index.html in the URL when viewing our start page.
+This is because our app currently has now idea about **routing**. Routing is the process to recognize requeste URLs and to
+forward these requests to actions of controllers. With other words: A router is like a like vending machine where you put 
+in money to get a coke. In this case, the machine is the *router* which *routes* your input "Want a coke" to the action 
+"Drop a coke in the tray" 
 
 
 ### First Controller And Routing
@@ -230,21 +232,22 @@ application. Let's change this and define the *about*, *contact*, and *home* act
 We will go through each line:
 
 
-- `JobVacancy.controller :page` - Define the namespace *page* for our JobVacancy application.
-- `do ... end` - Define a block in ruby. A block defines a space for a method without a name (called anonymous
-  functions) which can be used to pass it to a function as an argument.
+- `JobVacancy.controller :page` - Define the namespace *page* for our JobVacancy application. Typically, the controller
+  name will also be part of the route.
+- `do ... end` - This expression defines a block in Ruby. Think of it as a method without a name, also called anonymous
+  functions, which is passed to another function as an argument.
 - `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the
-  *about* action (in the form of a Ruby *symbol*), and is finally mapped under the explicit URL */about*. When you start
+  *about* action (in the form of a Ruby *symbol*), and is finally mapped to the explicit URL */about*. When you start
   your server with `bundle exec padrino s` and visit the URL `http.//localhost:3000/about`, you can see the rendered
   output of this request.
-- `render :erb, 'page/about'` - Define the path where the template for rendering should be. In our case it is the
-  `app/views/page/about.erb` file. Normally the views are placed under
-  *app/views/<controller-name>/<action-name>.<ending>*The `:erb` tells the renderer to look after ERB templates. You
-  could also use `:haml` to indicate that you are using this template language. If you are lazy, you can leave the
-  option for the rendering option completely out and leave the matching completely for Padrino.
+- `render :erb, 'page/about'` - This action tells us that we want to render an the *erb* file *page/about*. This file 
+  is actually located at `app/views/page/about.erb` file. Normally the views are placed under
+  *app/views/<controller-name>/<action-name>.<ending>*  Instead of using an ERB templates, you could also use `:haml`, 
+  or another template language. If you are lazy, you can leave the   option for the rendering option completely out 
+  and leave the matching completely for Padrino.
 
 
-To get an confused about what routes you have defined for your application just call `padrino rake routes`:
+To see what routes you have defined for your application just call `padrino rake routes`:
 
 
 {: lang="bash" }
@@ -260,7 +263,7 @@ To get an confused about what routes you have defined for your application just 
     (:page, :home)         GET    /
 
 
-This command hunts through your application looking for delicious routes and gives you a nice overview about **URL,
+This command crawls through your application looking for delicious routes and gives you a nice overview about **URL,
 REQUEST**, and **PATH**.
 
 
@@ -283,21 +286,20 @@ on our web page. First we need to generate a basic template for all pages we wan
     </html>
 
 
-Let's see what is going with the `<%= yield %>` line? At first you may ask what does the `<>` symbols mean? They are
-indicators for determining tags in the provided templates in which predefined variables like `yield` or istance
-variables from your application will be evaluated and converted to HTML. The `yield` part is responsible for putting
-the content of each page (like *about.erb* or *contact.erb*) into the layout.
+Let's see what is going on with the `<%= yield %>` line. At first you may ask what does the `<>` symbols mean. They are
+indicators that you want to execute Ruby code to fetch data that is put into the themplate. Here, the `yield` command will 
+put the content of th called page, like *about.erb* or *contact.erb*,  into the template.
 
 
-### Integrating Twitter Bootstrap
+### CSS design using Twitter bootstrap
 
-The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use by
-licensing it as an open Source Project, it is available from Github at:
-[public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github"). Padrino uses
-[padrino-recipes](https://github.com/padrino/padrino-recipes) to give templates to common task to plug in automatically
-in your application without reinventing the wheel and do unnecessary tasks.  Thank's to
-[@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his
-[bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb).
+
+The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use. It is
+available from Github at [public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github"). 
+
+
+Padrino itself also provides built-in templates for common tasks done on web applictions. These [padrino-recipes](https://github.com/padrino/padrino-recipes) 
+help you saving time by not reinventing the wheel.  Thank's to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb) by executing:
 
 
 {: lang="bash" }
