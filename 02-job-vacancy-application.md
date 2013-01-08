@@ -288,7 +288,7 @@ on our web page. First we need to generate a basic template for all pages we wan
 
 Let's see what is going on with the `<%= yield %>` line. At first you may ask what does the `<>` symbols mean. They are
 indicators that you want to execute Ruby code to fetch data that is put into the themplate. Here, the `yield` command will 
-put the content of th called page, like *about.erb* or *contact.erb*,  into the template.
+put the content of the called page, like *about.erb* or *contact.erb*,  into the template.
 
 
 ### CSS design using Twitter bootstrap
@@ -342,7 +342,7 @@ TBD Add section how to integrate asset pipeline
 ### Navigation
 
 Next we want to create the top-navigation for our application. So we already implemented the *page* controller with the
-relevant actions. All we need is to put them in the front of our application.
+relevant actions. All we need is to put links to them in a navigation header for our basic layout. 
 
 
 {: lang="html" }
@@ -385,15 +385,15 @@ relevant actions. All we need is to put them in the front of our application.
 Explanation of the new parts:
 
 
-- `link_to` - Is a helper for creating links. The first argument of this function is the name for the link and the
-  second is for the URL (href) on which the names points to.
-- `url_for` - This helper return the link which can be used as the second parameter for the `link-tag`. For example uses
-  `url_for(:page, :about)` **named parameters** which were specified in our *page-controller*.  The scheme
-  for this is `<:controller>, <:action>` - you can use these settings in your whole application to create clean and
-  encapsulated URLs.
+- `link_to` - Is a helper for creating links. The first argument to this function is the name for the link and the
+  second is for the URL (href) to which the link points to.
+- `url_for` - This helper return the link which can be used as the second parameter for the `link-to`. I specifies 
+   the `<:controller>, <:action>` which will be executed. You can use in your s helper in your whole application to
+   create clean and encapsulated URLs.
 
 
-The structure is ready and now we need to add some sugar-candy styling for our application:
+Now that the we provide links to other parts of the application, lets add some sugar-candy styling to tht file 
+`app/assets/stylesheets/site.css`:
 
 
 {: lang="css" }
@@ -433,13 +433,14 @@ don't need to register our new CSS file in `views/application.erb` - now you wil
 
 ### Writing First Tests
 
-Now it is time to begin developing our code with tests. As mentioned in the introduction, we will *describing the
-behavior of code*[^bdd] with the testing framework [RSpec](http://rspec.info/ "RSpec").
+
+Our site does not list static entries of job offers that you write, but other users will be allowed to post job offers
+from the internet to our site. We need to add this beahvior to our site. To be on the sure side, we will implement this
+behavior by writing tests first, then the code. We use the [RSpec](http://rspec.info/ "RSpec") testing framework for this.
 
 
-As we created our *page-controller* with `padrino g controller page`, Padrino created a spec file under *spec/app* for
-us automatically. So let's examine our allready written *spec/app/controller/page_controller_spec.rb* which passes all
-tests:
+Remember when we created the *page-controller* with `padrino g controller page`? Thereby, Padrino created a corresponding
+spec file *spec/app/controller/page_controller_spec.rb* which has the following content:
 
 
 {: lang="ruby" }
@@ -476,13 +477,13 @@ tests:
 Let's explain the interesting parts:
 
 
-- `spec_helper` - Is a file to load commonly used functions so that they can reused in other specs.
-- `describe block` - This block describes the context for our tests.
-- `get ...` - Run the specified
-- `last_response` - Is a response object of the fully request against you application performed by the `get` method.
+- `spec_helper` - Is a file to load commonly used functions to setup the tests.
+- `describe block` - This block describes the context for our tests. Think of it as way to group related tests.
+- `get ...` - This command executes a HTTTP GET to the provided address.
+- `last_response` - The response object returns the header and body of the HTTP request.
 
 
-Now let's run our tests with `rspec spec/page_controller_spec.rb` and see what's going on:
+Now let's run the tests with `rspec spec/page_controller_spec.rb` and see what's going on:
 
 
 {: lang="bash" }
@@ -498,22 +499,16 @@ Now let's run our tests with `rspec spec/page_controller_spec.rb` and see what's
     3 examples, 0 failures
 
 
-Cool, all tests passed, but we didn't do test-driven development. Don't worry, we will do it in other parts of this
-book.
+Cool, all tests passed! We didn't exactly use behaviour-driven development until now, but  will do so in the next parts.
 
 
 **Red-Green Cycle**
 
 
-In Behavior Driven (as well as in Test Driven) Development it is important to write a failing test (so that you get a
-**red** color when running the test) first so that you know you really are testing something meaningful. Next we change
-our code base to make it pass (you get a **green** when running the test). The scheme for this approach is test first,
-then the implementation. But this little shift in mind set when working on production code helps you to think more about
-the problem and how to solve it.
-
-
-Once you have green code, you are in the position to refactor your code where you can remove duplication and enhance
-design without changing the behavior of our code.
+In behavior driven development (BDD) it is important to write a failing test first and then the code that satisfies the 
+test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then 
+beautifull green. But once your code passes the tests, take yet a litte more time toe refactor your code. This little 
+mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice byproduct too. 
 
 
 ## Creation Of The Models
@@ -522,11 +517,8 @@ design without changing the behavior of our code.
 ### User Model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
-identification number **id** which is an integer (also useful for indexing our database), a **name**, and an **email**
-both of which are strings.
-
-
-Since there are generators for creating controllers, there is also a command-line tool for this
+identification number **id** , a **name**, and an **email**. You can use commands on the command-line to create models
+too:
 
 
 {: lang="bash" }
@@ -539,7 +531,7 @@ Since there are generators for creating controllers, there is also a command-lin
       create  db/migrate/001_create_users.rb
 
 
-Wow, it created a bunch of files for us. Let's examine each of them:
+Wow, it created a quite a bunch of files for us. Let's examine each of them:
 
 
 **user.rb**
@@ -553,10 +545,9 @@ Wow, it created a bunch of files for us. Let's examine each of them:
 
 
 All we have is an empty class which inherits from
-[ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). The `ActvieRecord` maps classes to
-relational database tables to establish the basic implementaton of the object-relational-mapper (ORM). Classes like the
-User-class are refered to models. You can also define relations between models through associations. Associations are a
-way to express how models are connected to each other.
+[ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). `ActvieRecord` provides a simple 
+object-relational-mapper from our models to corresponding database tables. You can also define relations between 
+models through associations.
 
 
 **spec/models/user_spec.rb**
@@ -576,8 +567,8 @@ way to express how models are connected to each other.
 
 
 As you can see, the generator created alreay a test for us, which basically checks if the model can be created. What
-would happen if you run the tests for this model? Let the code speak of it's own and run the tests, that what they are
-made for:
+would happen if you run the tests for this model? Let the code speak of it's own and run the tests, thats what they are
+made for after all:
 
 
 {: lang="bash" }
@@ -602,11 +593,11 @@ made for:
     Failed examples:
 
 
-It says exactly what happened. It wasn't able to create a new user for use because the *user* table is not present. This
-leads us to the next part: Migrations.
+Executing the test resulted in an error. However, it very explicitly told us the reason: The *user* table does not exist
+yet. And how do we create one? Here, migrations enter the stage.
 
 
-Migrations helps you to change the database in an ordered manner. Let's have a look on our first migration:
+Migrations helps you to change the database in an ordered manner. Let's have a look at our first migration:
 
 
 {: lang="ruby" }
@@ -627,8 +618,9 @@ Migrations helps you to change the database in an ordered manner. Let's have a l
     end
 
 
-We create a table called **users**. The convention to name tables of models in the plural form comes from
-[Ruby On Rails](http://rubyonrails.org/). Now we need to run this migration:
+This code will create a `users`table with the `name`and `email`attributes. The `id` attribute will be created automatically
+unless you specify to use a different attribute as the unique key to a database entry. By the way, the convention to name
+tables of models in the plural form comes from [Ruby On Rails](http://rubyonrails.org/). Now we need to run this migration:
 
 
 {: lang="bash" }
@@ -644,8 +636,7 @@ We create a table called **users**. The convention to name tables of models in t
       ...
 
 
-Since we are working in development, Padrino recognized that we are working on our first migration it automatically
-create the development database for us:
+Since we are working in the development environment, Padrino automatically created the development database for us:
 
 
 {: lang="bash" }
@@ -653,7 +644,8 @@ create the development database for us:
       job_vacancy_development.db  job_vacancy_test.db  migrate  schema.rb
 
 
-Now we can run [sqlite3](http://www.sqlite.org/) to see, if the users table is in our development database:
+Now let's start [sqlite3](http://www.sqlite.org/), connect to the database, and see if the users table was created
+properly:
 
 
 {: lang="bash" }
@@ -689,8 +681,8 @@ Let's have a look on the `config/database.rb` file to understand more about the 
     }
 
 
-As you can see we are creating for each different environment (*development*, *production* , and *test*) it's own
-database. Now let's create the last missing database *production *with the following command:
+As you can see, each of the different environments  *development*, *production* , and *test* have their own database. 
+Lets's be sure that all databases are created:
 
 
 {: lang="bash" }
@@ -705,15 +697,7 @@ database. Now let's create the last missing database *production *with the follo
     /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
 
 
-Now we have all databases created
-
-
-{: lang="bash" }
-    $ ls db
-    job_vacancy_development.db  job_vacancy_production.db  job_vacancy_test.db  migrate  schema.rb
-
-
-If we now run our tests again, we should assume that they pass:
+Allright, now we are ready to re-execute the tests again. 
 
 
 {: lang="bash" }
@@ -740,7 +724,8 @@ If we now run our tests again, we should assume that they pass:
     rspec ./spec/models/user_spec.rb:5 # User Model can be created
 
 
-Why? Because the migration we created weren't created for our test-database.
+But why are the tests still failing? Because the migration for the *user* table was not executed for the test 
+envirnoment. Let's fix this with the following command:
 
 
 {: lang="bash" }
@@ -752,7 +737,7 @@ Why? Because the migration we created weren't created for our test-database.
     ==  CreateUsers: migrated (0.0032s) ===========================================
 
 
-If we now run our tests again, we will see that they pass:
+Finally the test passes:
 
 
 {: lang="bash" }
@@ -765,9 +750,8 @@ If we now run our tests again, we will see that they pass:
     1 example, 0 failures
 
 
-Since we are feeling confident that everything in our application works, how can we run all the tests in our application
-and see if everything is working? For this case exists the case `padrino rake spec` command, which run all the complete
-tests in the `spec/` folder:
+How can we run all the tests in our application and see if everything is working? Just execute `padrino rake spec`
+to run all tests in the `spec/` folder:
 
 
 {: lang="bash" }
@@ -795,7 +779,7 @@ tests in the `spec/` folder:
 
 
 This is very handy to make sure that you didn't broke anything in the existing codebase when you are working on a next
-feature.
+feature. Run these regression tests frequently and enjoy it to see your application growing feature by feature.
 
 
 ### Job Offer Model
