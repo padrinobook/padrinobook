@@ -6,7 +6,7 @@ Now our job is to build this software using Padrino. We will apply **K.I.S.S**[^
 and extensible design.
 
 
-First, we are going to create the applications file and folder strucutre. Then we are adding feature by feature until 
+First, we are going to create the applications file and folder structure. Then we are adding feature by feature until 
 the application is complete. First, we will take a look at the basic design of our application. Afterwards, we will
 implement one feature at a time.
 
@@ -78,7 +78,7 @@ available:
 |admin_page | TBD                                                                                            |
 
 
-Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems usingh
+Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using
 Bundler[^bundler] by running at the command line:
 
 
@@ -91,7 +91,7 @@ Bundler[^bundler] by running at the command line:
 
 ### Basic Layout Template
 
-Lets design our first version of the *index.html* page which is the starter page our our application. An early design
+Lets design our first version of the *index.html* page which is the starter page our application. An early design
 question is: Where to put the *index.html* page? Because we are not working with controllers, the easiest thing is to 
 put the *index.html* directly under the public folder in the project.
 
@@ -144,7 +144,7 @@ is that we use bundler to load exactly those Ruby gems that we specified in the 
 the book.
 
 
-You may have thought it a little odd that we had to manually request the index.html in the URL when viewing our start page.
+You may have thought it a little odd that we had to manually requests the index.html in the URL when viewing our start page.
 This is because our app currently has now idea about **routing**. Routing is the process to recognize requeste URLs and to
 forward these requests to actions of controllers. With other words: A router is like a like vending machine where you put 
 in money to get a coke. In this case, the machine is the *router* which *routes* your input "Want a coke" to the action 
@@ -287,7 +287,7 @@ on our web page. First we need to generate a basic template for all pages we wan
 
 
 Let's see what is going on with the `<%= yield %>` line. At first you may ask what does the `<>` symbols mean. They are
-indicators that you want to execute Ruby code to fetch data that is put into the themplate. Here, the `yield` command will 
+indicators that you want to execute Ruby code to fetch data that is put into the template. Here, the `yield` command will 
 put the content of the called page, like *about.erb* or *contact.erb*,  into the template.
 
 
@@ -387,12 +387,12 @@ Explanation of the new parts:
 
 - `link_to` - Is a helper for creating links. The first argument to this function is the name for the link and the
   second is for the URL (href) to which the link points to.
-- `url_for` - This helper return the link which can be used as the second parameter for the `link-to`. I specifies 
+- `url_for` - This helper return the link which can be used as the second parameter for the `link-to`. It specifies 
    the `<:controller>, <:action>` which will be executed. You can use in your s helper in your whole application to
    create clean and encapsulated URLs.
 
 
-Now that the we provide links to other parts of the application, lets add some sugar-candy styling to tht file 
+Now that the we provide links to other parts of the application, lets add some sugar-candy styling to the file 
 `app/assets/stylesheets/site.css`:
 
 
@@ -435,7 +435,7 @@ don't need to register our new CSS file in `views/application.erb` - now you wil
 
 
 Our site does not list static entries of job offers that you write, but other users will be allowed to post job offers
-from the internet to our site. We need to add this beahvior to our site. To be on the sure side, we will implement this
+from the internet to our site. We need to add this behavior to our site. To be on the sure side, we will implement this
 behavior by writing tests first, then the code. We use the [RSpec](http://rspec.info/ "RSpec") testing framework for this.
 
 
@@ -499,7 +499,7 @@ Now let's run the tests with `rspec spec/page_controller_spec.rb` and see what's
     3 examples, 0 failures
 
 
-Cool, all tests passed! We didn't exactly use behaviour-driven development until now, but  will do so in the next parts.
+Cool, all tests passed! We didn't exactly use behavior-driven development until now, but  will do so in the next parts.
 
 
 **Red-Green Cycle**
@@ -507,7 +507,7 @@ Cool, all tests passed! We didn't exactly use behaviour-driven development until
 
 In behavior driven development (BDD) it is important to write a failing test first and then the code that satisfies the 
 test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then 
-beautifull green. But once your code passes the tests, take yet a litte more time toe refactor your code. This little 
+beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little 
 mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice byproduct too. 
 
 
@@ -566,8 +566,8 @@ models through associations.
     end
 
 
-As you can see, the generator created alreay a test for us, which basically checks if the model can be created. What
-would happen if you run the tests for this model? Let the code speak of it's own and run the tests, thats what they are
+As you can see, the generator created already a test for us, which basically checks if the model can be created. What
+would happen if you run the tests for this model? Let the code speak of it's own and run the tests, that's what they are
 made for after all:
 
 
@@ -618,7 +618,7 @@ Migrations helps you to change the database in an ordered manner. Let's have a l
     end
 
 
-This code will create a `users`table with the `name`and `email`attributes. The `id` attribute will be created automatically
+This code will create a `users` table with the `name` and `email` attributes. The `id` attribute will be created automatically
 unless you specify to use a different attribute as the unique key to a database entry. By the way, the convention to name
 tables of models in the plural form comes from [Ruby On Rails](http://rubyonrails.org/). Now we need to run this migration:
 
@@ -681,7 +681,7 @@ Let's have a look on the `config/database.rb` file to understand more about the 
     }
 
 
-As you can see, each of the different environments  *development*, *production* , and *test* have their own database. 
+As you can see, each of the different environments  *development*, *production*, and *test* have their own database. 
 Lets's be sure that all databases are created:
 
 
@@ -697,7 +697,7 @@ Lets's be sure that all databases are created:
     /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
 
 
-Allright, now we are ready to re-execute the tests again. 
+Alright, now we are ready to re-execute the tests again. 
 
 
 {: lang="bash" }
@@ -725,7 +725,8 @@ Allright, now we are ready to re-execute the tests again.
 
 
 But why are the tests still failing? Because the migration for the *user* table was not executed for the test 
-envirnoment. Let's fix this with the following command:
+environment. Let's fix this with the following command:
+
 
 
 {: lang="bash" }
@@ -789,11 +790,11 @@ A job offer consists of the following attributes:
 
 
 - title: The name of the job position.
-- location: Where the job geographical location of the job.
+- location: The geographical location of the job.
 - description: Details about the position.
-- contact: An Email address of the contact person.
-- time-start: What is the earliest date when you can start.
-- time-end: A job offer isn't valid forever - define a scope when Nothing lives forever - even a job vacancy.
+- contact: An email address of the contact person.
+- time-start: The earliest entry date for this position.
+- time-end: A job offer isn't valid forever.
 
 
 Let's run the Padrino command to create the model for us:
@@ -839,23 +840,28 @@ In order to run our tests, we also need to run our migrations for the test envir
 TBD: Find a way to run ar:migrate for all environments (mainly production and test)
 
 
-If you run your tests with `padrino rake spec` everything should be fine.
+If you run your tests with `padrino rake spec`, everything should be fine.
 
 
 ### Creating Connection Between User And Job Offer Model
 
-Since we now have created our two main models, it's time to define associations between our models. A associations
-makes common operations like deleting or updating data in our relational database easier. A nice side effect is that
-your code becomes much easier to maintain and easy to change. Just imagine that we have a user in our application that
-has many job offers in our system. Now this customers decides that he wants wants to cancel his account. Of course, all
-his job offers should also disappear in the system. One solution would be to delete the user by id and delete all
-entries in the job offer by the id of the user. If we are using associations between our models we can set up rules
-that says: "If I delete this user from the system, delete automatically all corresponding job for this user".
+Since we now have created our two main models, it's time to define associations between. Associations make common 
+operations like deleting or updating data in our relational database easier. Just imagine that we have a user 
+in our application that added many job offers in our system. Now this customers decides that he wants to cancel
+his account. We decide that all his job offers should also disappear in the system. One solution would be to delete 
+the user, remember his id, and delete all job offers entries that originate from this id. This manual effort 
+disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete 
+automatically all corresponding job for this user".
 
 
-**has_many**:
+We will quickly browse through the associations.
 
-This ass ...
+
+**has_many**
+
+
+This association is the most commonly used one. It does exactly as it tells us: One object has many other objects.
+We define the association between the user and the job offers as shown in the following expression:
 
 
 {: lang="ruby" }
@@ -866,7 +872,10 @@ This ass ...
     end
 
 
-**belongs_to**:
+**belongs_to**
+
+
+The receiving object of the *has_many* relationship defines that it belongs to exactly one object, and therefore:
 
 
 {: lang="ruby" }
@@ -877,8 +886,13 @@ This ass ...
     end
 
 
-Now we need to write our own migration and add for each of our job offer model the foreign key of a User. We will call
-this extra column `user_id`. To create a custom migratuin we can use Padrino's migration generator:
+**Migrate after associate**
+
+
+Whenever you modify your models, remember that you need to run migrations too. Because we added the associations 
+manually, we also need to write the migrations. Luckily, Padrino helps us with this task a bit. We know that the 
+job offer is linked to an user via the user's id. This foreign key relationship results in adding an extra 
+column `user_id` to the User. For this change, we can use the following command to create a migration:
 
 
 {: lang="bash" }
@@ -887,7 +901,7 @@ this extra column `user_id`. To create a custom migratuin we can use Padrino's m
     create  db/migrate/003_add_user_id_to_job_offers.rb
 
 
-Now we need to change our migration:
+Let's take a look at the created migration:
 
 
 {: lang="ruby" }
@@ -906,11 +920,11 @@ Now we need to change our migration:
     end
 
 
-This migration won't work, you have to change `joboffers` to `job_offers`. As you can, generators can help you to write
-code but not prevent you from thinking.
+Can you see the small bug? This migration won't work, you have to change `joboffers` to `job_offers`. For the time
+being, generators can help you to write code, but not prevent you from thinking.
 
 
-Of course we need to run our migrations
+Finally let's run our migrations:
 
 
 {: lang="bash" }
@@ -918,10 +932,11 @@ Of course we need to run our migrations
    $ padrino rake ar:migrate -e test
 
 
-#### Testing Our Associations In The Console
+#### Testing our associations in the console
 
-The Padrino console makes it easy to interact with your application from the command line. All you have to do is to run
-the following command:
+
+To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a 
+different approach and use the Padrino console this time.  All you have to do is to run the following command:
 
 
 {: lang="bash" }
@@ -931,11 +946,11 @@ the following command:
     >>
 
 
-Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki/Interactive_Ruby_Shell). IRB stand for
-*Interactive Ruby Bash* and allows you the execution of Ruby commands with direct response for commands you type in.
+Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki/Interactive_Ruby_Shell), the
+*Interactive Ruby* shell. This allows you to execute Ruby commands and immediately see it's response.
 
 
-Let's run the shell and create a user with job offers:
+Let's run the shell to create a user with job offers:
 
 
 {: lang="bash" }
@@ -945,7 +960,7 @@ Let's run the shell and create a user with job offers:
     => "Matthias Günther"
 
 
-This creates a user object in our session. If we want to add an entry permanten into the database, you have to use
+This creates a user object in our session. If we want to add an entry permanently into the database, you have to use
 *create* method:
 
 
@@ -961,8 +976,8 @@ This creates a user object in our session. If we want to add an entry permanten 
       >>
 
 
-Please note, that you now have an entry in your development database `db/job_vacancy_development.db`. To see this,
-please perform the follow command:
+Please note that now you have an entry in your development database `db/job_vacancy_development.db`. To see this,
+connect to the database and execute a 'SELECT' statement::
 
 
 {: lang="bash" }
@@ -975,7 +990,7 @@ please perform the follow command:
     sqlite>
 
 
-Since we are now having an user it's time to create some job offers for our first user:
+Since we have an user, it's time to some job offers too:
 
 
 {: lang="bash" }
@@ -985,7 +1000,7 @@ Since we are now having an user it's time to create some job offers for our firs
       JobOffer.create(:title => 'Padrino Engineer',
         :location => 'Berlin',
         :description => 'Come to this great place',
-        :contact => 'recruter@padrino-firm.org',
+        :contact => 'recruter@padrino-company.org',
         :time_start => '2013/01/01',
         :time_end => 2013/03/01',
         :user_id => 1)
@@ -1002,7 +1017,7 @@ And now let's create a second one for our first user:
      >> JobOffer.create(:title => 'Padrino Engineer 2',
          :location => 'Berlin',
          :description => 'Come to this great place',
-         :contact => 'recruter@padrino-firm.org',
+         :contact => 'recruter@padrino-company.org',
          :time_start => '2013/01/01',
          :time_end => '2013/03/01',
          :user_id => 1)
@@ -1012,8 +1027,8 @@ And now let's create a second one for our first user:
          10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>
 
 
-Now it's time to test our association between the user and and the job-offer model. We will use the `find_by_id` method
-to get the user from our database and the `job_offers` method to get all the job-offers from the user.
+Now it's time to test our association between the user and the job-offer model. We will use the `find_by_id` method
+to get the user from our database, and the `job_offers` method to get all the job-offers from the user.
 
 
 {: lang="bash" }
@@ -1030,21 +1045,25 @@ to get the user from our database and the `job_offers` method to get all the job
       time_end: "2013-03-01", created_at: "2012-12-26 10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>]
 
 
-Here you can see the advantage of using associations: When you declare them you get automatically methods for accessing
+Here you can see the advantage of using associations: When you declare them, you automatically get methods for accessing
 the data you want.
 
 
-Let's write tests for it:
+Ok, we are doing great so far. With users and post in place, let's add some tests to create and associate these objects.
 
 
-#### Testing Our Application With RSpec + Factory Girl
-
-We could use `ActiveRecord` for the tests but factories to create fixtures for our models are a more convenient way to
-do it. A handy gem for our mission is [Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines
-it's own language to create fixtures in a `ActiveRecord`-way but with a much cleaner syntax.
+#### Testing our application with RSpec + Factory Girl
 
 
-What do we need to use it for our app? Right, first we need to add it into our `Gemfile`:
+When you use data for the tests, you need to decide how to create them. You could, of course, define a set of test data 
+with pure SQL and add it to your application. A more convenient solution instead is to use factories and fixtures. Think
+of factories as producers for you data. You are telling the factory that you need 10 users that should have different 
+names and emails. This kind of mass object creation. which are called fixtures in testing, can easily be done with 
+[Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines it's own language to create fixtures in 
+a `ActiveRecord`-like way, but with a much cleaner syntax.
+
+
+What do we need to use Factory Girl in our app? Right, we first we need to add a gem to our `Gemfile`:
 
 
 {: lang="ruby" }
@@ -1053,7 +1072,7 @@ What do we need to use it for our app? Right, first we need to add it into our `
     gem 'factory_girl', '~> 4.1.0', :group => test
 
 
-If you pay a closer look into the `Gemfile` you can see that we have several gems with the `:group` option:
+If you pay a closer look into the `Gemfile`, you can see that we have several gems with the `:group` option:
 
 
 {: lang="ruby" }
@@ -1078,6 +1097,9 @@ our `Gemfile`:
     end
 
 
+Execute `bundle` and the new gem will be installed.
+
+
 Next we need to define a *factory* to include all the fixtures of our models:
 
 
@@ -1095,9 +1117,10 @@ Next we need to define a *factory* to include all the fixtures of our models:
     end
 
 
-I'm a German and I want to use symbols from my language. To make ruby aware of this I'm putting `# encoding: utf-8` at
-the header of the file. The symbol `:user` stands for the definition for user model. To made our factory available in
-all our tests we just have to *require* our factory in the `spec_helper.rb`:
+I want to add myself as a test user. Since I'm German, I want to use special symbols, called umlauts, from my language. 
+To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for 
+the definition for user model. To make our factory available in all our tests, we just have to *require* our factory 
+in the `spec_helper.rb`:
 
 
 {: lang="ruby" }
@@ -1109,7 +1132,7 @@ all our tests we just have to *require* our factory in the `spec_helper.rb`:
     ...
 
 
-Now we have everything at hand to make user of our factories in our test:
+Now we have everything at hand to create a user with the factory while testing our app:
 
 
 {: lang="ruby" }
@@ -1136,18 +1159,18 @@ Now we have everything at hand to make user of our factories in our test:
     end
 
 
-Instead of using `User.create` we are using `FactoryGirl.build(:user)` to build our `user` fixture. The `:job_offer`
-symbol is an attribute hash that is used as an input to build an job offer for our user - see the code in
-`user.job_offers.build(job_offer)`. If you run your tests, they pass.
+The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient expressions.
+Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create  a  `user` fixture. The 
+job offer that we are adding for the tests is defined as an attribute hash - you map the attributes (keys) to their values.
+If you run the tests, they will pass.
 
 
-The `build` method will create the test object in memory. If you want to save your fixtures in the database you have to
-use `create` instead. Play with it around and see that the same test using `create` instead of `build` takes much longer
-because it hits the database.
+The `build` method that we use to create the user will only add the test object in memory. If you want to permanently add 
+fixtures to the database, you have to use `create` instead. Play with it, and see that the same test using `create` instead 
+of `build` takes much longer because it hits the database.
 
 
-Our test above doesn't look quite well. So let's create a factory for our job offer and clean up the `user_spec.rb`
-afterwards:
+We can improve our test by creating a factory for our job odder too and cleaning the `user_spec.rb` file:
 
 
 {: lang="ruby" }
@@ -1170,7 +1193,7 @@ afterwards:
     ...
 
 
-And now our `user_spec`:
+And now we modify our `user_spec`:
 
 
 {: lang="ruby" }
@@ -1196,9 +1219,11 @@ And now our `user_spec`:
     end
 
 
-We are using now the `attributes_for` method takes a symbol as an input and will return the attributes of the fixture
-model as a hash. Looks fine, and our tests are still green. But we can do even better. We can leave the verbose
-`FactoryGirl` clutter word away, if we add make the following change to our `spec_helper.rb`:
+As you see, the job fixtures us created with FactoryGirls' `attributes_for` method. This method  takes a symbol as an 
+input and returns the attributes of the fixture as a hash. 
+
+Now, our tests are looking fine and they are still green. But we can do even better. We can remove the `FactoryGirl` 
+expressions if we add make the following change to our `spec_helper.rb`:
 
 
 {: lang="ruby" }
