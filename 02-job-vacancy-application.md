@@ -2,20 +2,22 @@
 
 There are more IT jobs out there than there are skilled people available. It would be great if we could have the
 possibility to offer a platform where users can easily post new jobs vacancies to recruit people for their company.
-Now our job is to build this software using Padrino. We will apply **K.I.S.S**[^KISS] principle to obtain a very easy 
+Now our job is to build this software using Padrino. We will apply **K.I.S.S**[^KISS] principle to obtain a very easy
 and extensible design.
 
 
-First, we are going to create the applications file and folder structure. Then we are adding feature by feature until 
-the application is complete. First, we will take a look at the basic design of our application. Afterwards, we will
+First, we are going to create the app file and folder structure. Then we are adding feature by feature until
+the app is complete. First, we will take a look at the basic design of our app. Afterwards, we will
 implement one feature at a time.
 
 
 [^KISS]: Is an acronym for *Keep it simple, stupid*.
 
+
 ## Creating a new application
 
-start with generating a new project with the canonical `padrino` command. In contrast to our "Hello World!" app before, 
+Start with generating a new project with the canonical `padrino` command. In contrast to our "Hello World!" application
+(app) before,
 we are using new options:
 
 
@@ -35,7 +37,7 @@ Explanation of the fields commands:
 - **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous
   [jQuery](http://jquery.com/ "jQuery") library.
 - **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup
-  for writing HTML templates. An alternative is [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com/ "Slim"), but 
+  for writing HTML templates. An alternative is [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com/ "Slim"), but
   to keep the project as simple as possible, we stick with ERB. Feel free to use them if you like to.
 - **-a sqlite**: Our ORM[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite"). It is easy to install because the whole database is saved in a text file.
 
@@ -91,12 +93,12 @@ Bundler[^bundler] by running at the command line:
 
 ### Basic Layout Template
 
-Lets design our first version of the *index.html* page which is the starter page our application. An early design
-question is: Where to put the *index.html* page? Because we are not working with controllers, the easiest thing is to 
+Lets design our first version of the *index.html* page which is the starter page our app. An early design
+question is: Where to put the *index.html* page? Because we are not working with controllers, the easiest thing is to
 put the *index.html* directly under the public folder in the project.
 
 
-We are using [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, and add the following code into  
+We are using [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, and add the following code into
 `public/index.html`:
 
 
@@ -123,32 +125,32 @@ Explanation of the parts:
 
 
 Plain static content - this used to be the way websites were created in the beginning of the web. Today, apps provide
-dynamic layout. During this chapter, we will se how to add more and more dynamic parts to our application.
+dynamic layout. During this chapter, we will se how to add more and more dynamic parts to our app.
 
 
-We can take a look at our new page by executing the following command: 
+We can take a look at our new page by executing the following command:
 
 
 {: lang="bash" }
     $ bundle exec padrino start
 
 
-You should see a message telling you that Padrino has taken the stage, and you should be able to view our created index 
+You should see a message telling you that Padrino has taken the stage, and you should be able to view our created index
 page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html "index.html") in your
 browser.
 
 
 But hey, you might ask "Why do we use the `bundle exec`command - isn't just `padrino start`enough?" The reason for this
-is that we use bundler to load exactly those Ruby gems that we specified in the Gemfile. I recommend that you use 
+is that we use bundler to load exactly those Ruby gems that we specified in the Gemfile. I recommend that you use
 `bundle exec`for all following commands, but to focus on Padrino, I will skip this command on the following parts of
 the book.
 
 
 You may have thought it a little odd that we had to manually requests the index.html in the URL when viewing our start page.
 This is because our app currently has now idea about **routing**. Routing is the process to recognize requeste URLs and to
-forward these requests to actions of controllers. With other words: A router is like a like vending machine where you put 
-in money to get a coke. In this case, the machine is the *router* which *routes* your input "Want a coke" to the action 
-"Drop a coke in the tray" 
+forward these requests to actions of controllers. With other words: A router is like a like vending machine where you put
+in money to get a coke. In this case, the machine is the *router* which *routes* your input "Want a coke" to the action
+"Drop a coke in the tray"
 
 
 ### First Controller And Routing
@@ -207,7 +209,7 @@ Lets take a closer look at our page-controller:
 
 
 The controller above defines for our `JobVacancy` the `:page` controller with no specified routes inside the
-application. Let's change this and define the *about*, *contact*, and *home* actions:
+app. Let's change this and define the *about*, *contact*, and *home* actions:
 
 
 {: lang="ruby" }
@@ -232,7 +234,7 @@ application. Let's change this and define the *about*, *contact*, and *home* act
 We will go through each line:
 
 
-- `JobVacancy.controller :page` - Define the namespace *page* for our JobVacancy application. Typically, the controller
+- `JobVacancy.controller :page` - Define the namespace *page* for our JobVacancy app. Typically, the controller
   name will also be part of the route.
 - `do ... end` - This expression defines a block in Ruby. Think of it as a method without a name, also called anonymous
   functions, which is passed to another function as an argument.
@@ -240,14 +242,14 @@ We will go through each line:
   *about* action (in the form of a Ruby *symbol*), and is finally mapped to the explicit URL */about*. When you start
   your server with `bundle exec padrino s` and visit the URL `http.//localhost:3000/about`, you can see the rendered
   output of this request.
-- `render :erb, 'page/about'` - This action tells us that we want to render an the *erb* file *page/about*. This file 
+- `render :erb, 'page/about'` - This action tells us that we want to render an the *erb* file *page/about*. This file
   is actually located at `app/views/page/about.erb` file. Normally the views are placed under
-  *app/views/<controller-name>/<action-name>.<ending>*  Instead of using an ERB templates, you could also use `:haml`, 
-  or another template language. If you are lazy, you can leave the   option for the rendering option completely out 
+  *app/views/<controller-name>/<action-name>.<ending>*  Instead of using an ERB templates, you could also use `:haml`,
+  or another template language. If you are lazy, you can leave the   option for the rendering option completely out
   and leave the matching completely for Padrino.
 
 
-To see what routes you have defined for your application just call `padrino rake routes`:
+To see what routes you have defined for your app just call `padrino rake routes`:
 
 
 {: lang="bash" }
@@ -263,11 +265,11 @@ To see what routes you have defined for your application just call `padrino rake
     (:page, :home)         GET    /
 
 
-This command crawls through your application looking for delicious routes and gives you a nice overview about **URL,
+This command crawls through your app looking for delicious routes and gives you a nice overview about **URL,
 REQUEST**, and **PATH**.
 
 
-### Application Template With ERB
+### App Template With ERB
 
 Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling
 on our web page. First we need to generate a basic template for all pages we want to create. Lets create
@@ -287,7 +289,7 @@ on our web page. First we need to generate a basic template for all pages we wan
 
 
 Let's see what is going on with the `<%= yield %>` line. At first you may ask what does the `<>` symbols mean. They are
-indicators that you want to execute Ruby code to fetch data that is put into the template. Here, the `yield` command will 
+indicators that you want to execute Ruby code to fetch data that is put into the template. Here, the `yield` command will
 put the content of the called page, like *about.erb* or *contact.erb*,  into the template.
 
 
@@ -295,10 +297,10 @@ put the content of the called page, like *about.erb* or *contact.erb*,  into the
 
 
 The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use. It is
-available from Github at [public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github"). 
+available from Github at [public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github").
 
 
-Padrino itself also provides built-in templates for common tasks done on web applictions. These [padrino-recipes](https://github.com/padrino/padrino-recipes) 
+Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes)
 help you saving time by not reinventing the wheel.  Thank's to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb) by executing:
 
 
@@ -314,7 +316,7 @@ help you saving time by not reinventing the wheel.  Thank's to [@arthur_chiu](ht
       create    public/images/glyphicons-halflings-white.png
 
 
-Next we need to include the style sheet in our application template for the whole application:
+Next we need to include the style sheet in our app template for the whole app:
 
 
 {: lang="bash" }
@@ -341,8 +343,8 @@ TBD Add section how to integrate asset pipeline
 
 ### Navigation
 
-Next we want to create the top-navigation for our application. So we already implemented the *page* controller with the
-relevant actions. All we need is to put links to them in a navigation header for our basic layout. 
+Next we want to create the top-navigation for our app. So we already implemented the *page* controller with the
+relevant actions. All we need is to put links to them in a navigation header for our basic layout.
 
 
 {: lang="html" }
@@ -387,12 +389,12 @@ Explanation of the new parts:
 
 - `link_to` - Is a helper for creating links. The first argument to this function is the name for the link and the
   second is for the URL (href) to which the link points to.
-- `url_for` - This helper return the link which can be used as the second parameter for the `link-to`. It specifies 
-   the `<:controller>, <:action>` which will be executed. You can use in your s helper in your whole application to
+- `url_for` - This helper return the link which can be used as the second parameter for the `link-to`. It specifies
+   the `<:controller>, <:action>` which will be executed. You can use in your s helper in your whole app to
    create clean and encapsulated URLs.
 
 
-Now that the we provide links to other parts of the application, lets add some sugar-candy styling to the file 
+Now that the we provide links to other parts of the app, lets add some sugar-candy styling to the file
 `app/assets/stylesheets/site.css`:
 
 
@@ -505,10 +507,10 @@ Cool, all tests passed! We didn't exactly use behavior-driven development until 
 **Red-Green Cycle**
 
 
-In behavior driven development (BDD) it is important to write a failing test first and then the code that satisfies the 
-test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then 
-beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little 
-mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice byproduct too. 
+In behavior driven development (BDD) it is important to write a failing test first and then the code that satisfies the
+test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then
+beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little
+mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice byproduct too.
 
 
 ## Creation Of The Models
@@ -545,8 +547,8 @@ Wow, it created a quite a bunch of files for us. Let's examine each of them:
 
 
 All we have is an empty class which inherits from
-[ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). `ActvieRecord` provides a simple 
-object-relational-mapper from our models to corresponding database tables. You can also define relations between 
+[ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). `ActvieRecord` provides a simple
+object-relational-mapper from our models to corresponding database tables. You can also define relations between
 models through associations.
 
 
@@ -681,7 +683,7 @@ Let's have a look on the `config/database.rb` file to understand more about the 
     }
 
 
-As you can see, each of the different environments  *development*, *production*, and *test* have their own database. 
+As you can see, each of the different environments  *development*, *production*, and *test* have their own database.
 Lets's be sure that all databases are created:
 
 
@@ -697,7 +699,7 @@ Lets's be sure that all databases are created:
     /home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
 
 
-Alright, now we are ready to re-execute the tests again. 
+Alright, now we are ready to re-execute the tests again.
 
 
 {: lang="bash" }
@@ -724,7 +726,7 @@ Alright, now we are ready to re-execute the tests again.
     rspec ./spec/models/user_spec.rb:5 # User Model can be created
 
 
-But why are the tests still failing? Because the migration for the *user* table was not executed for the test 
+But why are the tests still failing? Because the migration for the *user* table was not executed for the test
 environment. Let's fix this with the following command:
 
 
@@ -780,7 +782,7 @@ to run all tests in the `spec/` folder:
 
 
 This is very handy to make sure that you didn't broke anything in the existing codebase when you are working on a next
-feature. Run these regression tests frequently and enjoy it to see your application growing feature by feature.
+feature. Run these regression tests frequently and enjoy it to see your app growing feature by feature.
 
 
 ### Job Offer Model
@@ -845,12 +847,12 @@ If you run your tests with `padrino rake spec`, everything should be fine.
 
 ### Creating Connection Between User And Job Offer Model
 
-Since we now have created our two main models, it's time to define associations between. Associations make common 
-operations like deleting or updating data in our relational database easier. Just imagine that we have a user 
-in our application that added many job offers in our system. Now this customers decides that he wants to cancel
-his account. We decide that all his job offers should also disappear in the system. One solution would be to delete 
-the user, remember his id, and delete all job offers entries that originate from this id. This manual effort 
-disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete 
+Since we now have created our two main models, it's time to define associations between. Associations make common
+operations like deleting or updating data in our relational database easier. Just imagine that we have a user
+in our app that added many job offers in our system. Now this customers decides that he wants to cancel
+his account. We decide that all his job offers should also disappear in the system. One solution would be to delete
+the user, remember his id, and delete all job offers entries that originate from this id. This manual effort
+disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete
 automatically all corresponding job for this user".
 
 
@@ -889,9 +891,9 @@ The receiving object of the *has_many* relationship defines that it belongs to e
 **Migrate after associate**
 
 
-Whenever you modify your models, remember that you need to run migrations too. Because we added the associations 
-manually, we also need to write the migrations. Luckily, Padrino helps us with this task a bit. We know that the 
-job offer is linked to an user via the user's id. This foreign key relationship results in adding an extra 
+Whenever you modify your models, remember that you need to run migrations too. Because we added the associations
+manually, we also need to write the migrations. Luckily, Padrino helps us with this task a bit. We know that the
+job offer is linked to an user via the user's id. This foreign key relationship results in adding an extra
 column `user_id` to the User. For this change, we can use the following command to create a migration:
 
 
@@ -935,7 +937,7 @@ Finally let's run our migrations:
 #### Testing our associations in the console
 
 
-To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a 
+To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a
 different approach and use the Padrino console this time.  All you have to do is to run the following command:
 
 
@@ -1052,14 +1054,14 @@ the data you want.
 Ok, we are doing great so far. With users and post in place, let's add some tests to create and associate these objects.
 
 
-#### Testing our application with RSpec + Factory Girl
+#### Testing our app with RSpec + Factory Girl
 
 
-When you use data for the tests, you need to decide how to create them. You could, of course, define a set of test data 
-with pure SQL and add it to your application. A more convenient solution instead is to use factories and fixtures. Think
-of factories as producers for you data. You are telling the factory that you need 10 users that should have different 
-names and emails. This kind of mass object creation. which are called fixtures in testing, can easily be done with 
-[Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines it's own language to create fixtures in 
+When you use data for the tests, you need to decide how to create them. You could, of course, define a set of test data
+with pure SQL and add it to your app. A more convenient solution instead is to use factories and fixtures. Think
+of factories as producers for you data. You are telling the factory that you need 10 users that should have different
+names and emails. This kind of mass object creation. which are called fixtures in testing, can easily be done with
+[Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines it's own language to create fixtures in
 a `ActiveRecord`-like way, but with a much cleaner syntax.
 
 
@@ -1117,9 +1119,9 @@ Next we need to define a *factory* to include all the fixtures of our models:
     end
 
 
-I want to add myself as a test user. Since I'm German, I want to use special symbols, called umlauts, from my language. 
-To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for 
-the definition for user model. To make our factory available in all our tests, we just have to *require* our factory 
+I want to add myself as a test user. Since I'm German, I want to use special symbols, called umlauts, from my language.
+To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for
+the definition for user model. To make our factory available in all our tests, we just have to *require* our factory
 in the `spec_helper.rb`:
 
 
@@ -1160,13 +1162,13 @@ Now we have everything at hand to create a user with the factory while testing o
 
 
 The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient expressions.
-Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create  a  `user` fixture. The 
+Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create  a  `user` fixture. The
 job offer that we are adding for the tests is defined as an attribute hash - you map the attributes (keys) to their values.
 If you run the tests, they will pass.
 
 
-The `build` method that we use to create the user will only add the test object in memory. If you want to permanently add 
-fixtures to the database, you have to use `create` instead. Play with it, and see that the same test using `create` instead 
+The `build` method that we use to create the user will only add the test object in memory. If you want to permanently add
+fixtures to the database, you have to use `create` instead. Play with it, and see that the same test using `create` instead
 of `build` takes much longer because it hits the database.
 
 
@@ -1219,10 +1221,10 @@ And now we modify our `user_spec`:
     end
 
 
-As you see, the job fixtures us created with FactoryGirls' `attributes_for` method. This method  takes a symbol as an 
-input and returns the attributes of the fixture as a hash. 
+As you see, the job fixtures us created with FactoryGirls' `attributes_for` method. This method  takes a symbol as an
+input and returns the attributes of the fixture as a hash.
 
-Now, our tests are looking fine and they are still green. But we can do even better. We can remove the `FactoryGirl` 
+Now, our tests are looking fine and they are still green. But we can do even better. We can remove the `FactoryGirl`
 expressions if we add make the following change to our `spec_helper.rb`:
 
 
