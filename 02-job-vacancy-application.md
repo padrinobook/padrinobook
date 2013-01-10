@@ -71,10 +71,10 @@ available:
 |project    | Generates a completely new app from the scratch.                                               |
 |app        | You can define other apps to be mounted in your main app.                                      |
 |mailer     | Creating new mailers within your app.                                                          |
-|controller | A controller takes date from the models and puts them into view that are rendered              |
-|model      | Models describe data objects of your application                                               |
+|controller | A controller takes date from the models and puts them into view that are rendered.              |
+|model      | Models describe data objects of your application.                                               |
 |migration  | Migrations simplify changing the database schema.                                              |
-|plugin     | Creating new Padrino projects based on a template file - it's like a list of commands          |
+|plugin     | Creating new Padrino projects based on a template file - it's like a list of commands.          |
 |           | which create your new app.                                                                     |
 |admin      | A very nice built-in admin dashboard.                                                          |
 |admin_page | TBD                                                                                            |
@@ -150,7 +150,7 @@ You may have thought it a little odd that we had to manually requests the index.
 This is because our app currently has now idea about **routing**. Routing is the process to recognize requeste URLs and to
 forward these requests to actions of controllers. With other words: A router is like a like vending machine where you put
 in money to get a coke. In this case, the machine is the *router* which *routes* your input "Want a coke" to the action
-"Drop a coke in the tray"
+"Drop a coke in the tray".
 
 
 ### First Controller And Routing
@@ -507,7 +507,7 @@ Cool, all tests passed! We didn't exactly use behavior-driven development until 
 **Red-Green Cycle**
 
 
-In behavior driven development (BDD) it is important to write a failing test first and then the code that satisfies the
+In behavior-driven development (BDD) it is important to write a failing test first and then the code that satisfies the
 test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then
 beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little
 mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice byproduct too.
