@@ -3,17 +3,43 @@
 Why another book about how to develop an application (app) in Rails? But wait, this book should give you a basic
 introduction how to develop a web app with [Padrino](http://www.padrinorb.com/ "Padrino"). Padrino is "The Elegant Ruby
 Web Framework". Padrino is based upon [Sinatra](http://www.sinatrarb.com/ "Sinatra"), which is a simple a Domain
-Specific Language  for quickly creating web apps in Ruby. When writing Sinatra apps many developers miss some of
-the extra conveniences that Rails offers, this is where Padrino comes in as it provides many of these while still
-staying true to Sinatra's philosophy of being simple and lightweight. To say it with words of the Padrino webpage: "Padrino
-is a full-stack ruby framework built upon Sinatra".
+Specific Language for quickly creating web apps in Ruby. When writing Sinatra apps many developers miss some of the
+extra conveniences that Rails offers, this is where Padrino comes in as it provides many of these while still staying
+true to Sinatra's philosophy of being simple and lightweight. In order to understand the mantra of the Padrino webpage:
+"Padrino is a full-stack ruby framework built upon Sinatra" you have to read on.
 
 
-## Motivation
+# Why Padrino In A Human Way?
 
-My motivation is to provide up-to-date documentation for Padrino. Although Padrino borrows many ideas and techniques
-from it's big brother Rails, it aims to be more modular and allows you to interchange various components with
-considerable ease.
+Before going any further you may ask: Why should you care about learning and using another web framework? Because you
+want something that is *easy to use*, *simple to hack*, and *open to any contribution*. If you've done
+[Rails](http://rubyonrails.org/) before you may reach the point where you can't see how things are solved in particular
+order. In other words: There are many layers between you and the core of you application. You want to have the freedom
+to chose which layer you want to use in your application. This freedoms comes with the help of the
+[Sinatra framework](http://www.sinatrarb.com/).
+
+
+Padrino adds the core values of Rails into Sinatra and gives you the following extras:
+
+
+- `orm`: Chose which adapter you want for a new application. They are available for datamapper, sequel, activerecord,
+  mongomapper, mongoid, and couchrest.
+- `multiple application support`: Split you application into small, more manage- and -testable parts that are easier to
+  maintain and to test.
+- `admin interface`: Provides an easy way to view, search, and modify data in your application.
+
+
+When you are starting a new project in Padrino only a few files are created and when your a taking a closer look at them
+you will see what each part of the car does. Having less files means less code and that is easier to maintain. Less code
+means that your application will run faster.
+
+
+With the ability to manage different applications for example for your blog, your image gallery, or your payment cycle.
+By separating your business logic you can share data models, session information and the admin interface between them
+without duplicating code.
+
+
+[Remember](https://speakerdeck.com/daddye/padrino-framework-0-dot-11-and-1-dot-0): "**Be tiny. Be fast. Be a Padrino**"
 
 
 ## Basics And Tools
