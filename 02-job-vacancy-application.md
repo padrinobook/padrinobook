@@ -22,6 +22,7 @@ we are using new options:
 
 
 {: lang="bash" }
+    $ mkdir ~/padrino_projects
     $ cd ~/padrino_projects
     $ padrino g project job-vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite
 
@@ -85,6 +86,7 @@ Bundler[^bundler] by running at the command line:
 
 
 {: lang="bash" }
+    $ cd job-vacancy
     $ bundle install
 
 
@@ -140,22 +142,22 @@ page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.
 browser.
 
 
-But hey, you might ask "Why do we use the `bundle exec`command - isn't just `padrino start`enough?" The reason for this
+But hey, you might ask "Why do we use the `bundle exec` command - isn't just `padrino start` enough?" The reason for this
 is that we use bundler to load exactly those Ruby gems that we specified in the Gemfile. I recommend that you use
-`bundle exec`for all following commands, but to focus on Padrino, I will skip this command on the following parts of
+`bundle exec` for all following commands, but to focus on Padrino, I will skip this command on the following parts of
 the book.
 
 
 You may have thought it a little odd that we had to manually requests the index.html in the URL when viewing our start page.
 This is because our app currently has now idea about **routing**. Routing is the process to recognize requeste URLs and to
 forward these requests to actions of controllers. With other words: A router is like a like vending machine where you put
-in money to get a coke. In this case, the machine is the *router* which *routes* your input "Want a coke" to the action
-"Drop a coke in the tray".
+in money to get a Coke. In this case, the machine is the *router* which *routes* your input "Want a Coke" to the action
+"Drop a Coke in the tray".
 
 
 ### First Controller And Routing
 
-Lets add some basic routes for displaying our home-, about-, and contact-page. How can we do this? With the help of a
+Lets add some basic routes for displaying our home, about, and contact-page. How can we do this? With the help of a
 basic routing controller. A controller makes data from you app (in our case job offers) available to the view (seeing
 the details of a job offer). Now let's create a controller in Padrino names page:
 
@@ -301,7 +303,7 @@ available from Github at [public repository on Github](https://github.com/twitte
 
 
 Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes)
-help you saving time by not reinventing the wheel.  Thank's to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb) by executing:
+help you saving time by not reinventing the wheel.  Thanks to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb) by executing:
 
 
 {: lang="bash" }
@@ -390,11 +392,11 @@ Explanation of the new parts:
 - `link_to` - Is a helper for creating links. The first argument to this function is the name for the link and the
   second is for the URL (href) to which the link points to.
 - `url_for` - This helper return the link which can be used as the second parameter for the `link-to`. It specifies
-   the `<:controller>, <:action>` which will be executed. You can use in your s helper in your whole app to
+   the `<:controller>, <:action>` which will be executed. You can use in your helper in your whole app to
    create clean and encapsulated URLs.
 
 
-Now that the we provide links to other parts of the app, lets add some sugar-candy styling to the file
+Now that the we provided links to other parts of the app, lets add some sugar-candy styling to the file
 `app/assets/stylesheets/site.css`:
 
 
@@ -444,6 +446,20 @@ behavior by writing tests first, then the code. We use the [RSpec](http://rspec.
 Remember when we created the *page-controller* with `padrino g controller page`? Thereby, Padrino created a corresponding
 spec file *spec/app/controller/page_controller_spec.rb* which has the following content:
 
+{: lang="ruby" }
+    require 'spec_helper'
+
+    describe "PageController" do
+      before do
+        get "/"
+      end
+
+      it "returns hello world" do
+        last_response.body.should == "Hello World"
+      end
+    end
+    
+Let's update that file and write some basic tests to make sure that everything is working as expected. Replace the specs in the file with the following code:
 
 {: lang="ruby" }
     require 'spec_helper'
@@ -481,27 +497,21 @@ Let's explain the interesting parts:
 
 - `spec_helper` - Is a file to load commonly used functions to setup the tests.
 - `describe block` - This block describes the context for our tests. Think of it as way to group related tests.
-- `get ...` - This command executes a HTTTP GET to the provided address.
+- `get ...` - This command executes a HTTP GET to the provided address.
 - `last_response` - The response object returns the header and body of the HTTP request.
 
 
-Now let's run the tests with `rspec spec/page_controller_spec.rb` and see what's going on:
+Now let's run the tests with `rspec spec/app/page_controller_spec.rb` and see what's going on:
 
 
 {: lang="bash" }
-    PageController
-      GET #about
-        renders the :about view
-      GET #contact
-        renders the :contact view
-      GET #home
-        renders :home view
+    ...
 
-    Finished in 0.21769 seconds
+    Finished in 0.15416 seconds
     3 examples, 0 failures
 
 
-Cool, all tests passed! We didn't exactly use behavior-driven development until now, but  will do so in the next parts.
+Cool, all tests passed! We didn't exactly use behavior-driven development until now, but will do so in the next parts.
 
 
 **Red-Green Cycle**
@@ -510,7 +520,7 @@ Cool, all tests passed! We didn't exactly use behavior-driven development until 
 In behavior-driven development (BDD) it is important to write a failing test first and then the code that satisfies the
 test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then
 beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little
-mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice byproduct too.
+mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice by product too.
 
 
 ## Creation Of The Models
@@ -519,7 +529,7 @@ mind shift helps you a lot to think more about the problem and how to solve it. 
 ### User Model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
-identification number **id** , a **name**, and an **email**. You can use commands on the command-line to create models
+identification number **id**, a **name**, and an **email**. You can use commands on the command-line to create models
 too:
 
 
@@ -746,10 +756,9 @@ Finally the test passes:
 {: lang="bash" }
     $ rspec spec/models
 
-    User Model
-      can be created
+    .
 
-    Finished in 0.05492 seconds
+    Finished in 0.02354 seconds
     1 example, 0 failures
 
 
@@ -847,7 +856,7 @@ If you run your tests with `padrino rake spec`, everything should be fine.
 
 ### Creating Connection Between User And Job Offer Model
 
-Since we now have created our two main models, it's time to define associations between. Associations make common
+Since we now have created our two main models, it's time to define associations between them. Associations make common
 operations like deleting or updating data in our relational database easier. Just imagine that we have a user
 in our app that added many job offers in our system. Now this customers decides that he wants to cancel
 his account. We decide that all his job offers should also disappear in the system. One solution would be to delete
@@ -930,8 +939,8 @@ Finally let's run our migrations:
 
 
 {: lang="bash" }
-   $ padrino rake ar:migrate
-   $ padrino rake ar:migrate -e test
+    $ padrino rake ar:migrate
+    $ padrino rake ar:migrate -e test
 
 
 #### Testing our associations in the console
@@ -956,7 +965,7 @@ Let's run the shell to create a user with job offers:
 
 
 {: lang="bash" }
-    User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
+    >> user = User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
     => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther", created_at: nil, updated_at: nil>
     >> user.name
     => "Matthias Günther"
@@ -967,16 +976,13 @@ This creates a user object in our session. If we want to add an entry permanentl
 
 
 {: lang="bash" }
-    User.create(:name => 'Matthias Günther', :email => 'matthias.guenther')
-    DEBUG -  (0.2ms)  begin transaction
-      DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES (?, ?, ?, ?)
-      [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias.guenther"], ["name", "Matthias Günther"],
-      ["updated_at", 2012-12-26 08:32:51 +0100]]
-        DEBUG -  (342.0ms)  commit transaction
-        => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51",
-        updated_at: "2012-12-26 08:32:51">
-      >>
-
+    >> User.create(:name => 'Matthias Günther', :email => 'matthias.guenther')
+      DEBUG -  (0.2ms)  begin transaction
+      DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES (?, ?, ?, ?) [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias.guenther"], ["name", "Matthias Günther"], ["updated_at", 2012-12-26 08:32:51 +0100]]
+      DEBUG -  (342.0ms)  commit transaction
+    => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51", updated_at: "2012-12-26 08:32:51">
+    
+To exit out of of the console type `exit` and hit return.
 
 Please note that now you have an entry in your development database `db/job_vacancy_development.db`. To see this,
 connect to the database and execute a 'SELECT' statement::
@@ -989,10 +995,10 @@ connect to the database and execute a 'SELECT' statement::
     Enter SQL statements terminated with a ";"
     sqlite> SELECT * FROM users;
     1|Matthias Günther|matthias.guenther|2012-12-26 08:32:51.323349|2012-12-26 08:32:51.323349
-    sqlite>
+    sqlite> .exit
 
 
-Since we have an user, it's time to some job offers too:
+Since we have a user, it's time to add some job offers too:
 
 
 {: lang="bash" }
@@ -1004,7 +1010,7 @@ Since we have an user, it's time to some job offers too:
         :description => 'Come to this great place',
         :contact => 'recruter@padrino-company.org',
         :time_start => '2013/01/01',
-        :time_end => 2013/03/01',
+        :time_end => '2013/03/01',
         :user_id => 1)
       ...
         => #<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
@@ -1051,7 +1057,7 @@ Here you can see the advantage of using associations: When you declare them, you
 the data you want.
 
 
-Ok, we are doing great so far. With users and post in place, let's add some tests to create and associate these objects.
+Ok, we are doing great so far. With users and job offers in place, let's add some tests to create and associate these objects.
 
 
 #### Testing our app with RSpec + Factory Girl
@@ -1060,9 +1066,9 @@ Ok, we are doing great so far. With users and post in place, let's add some test
 When you use data for the tests, you need to decide how to create them. You could, of course, define a set of test data
 with pure SQL and add it to your app. A more convenient solution instead is to use factories and fixtures. Think
 of factories as producers for you data. You are telling the factory that you need 10 users that should have different
-names and emails. This kind of mass object creation. which are called fixtures in testing, can easily be done with
+names and emails. This kind of mass object creation which is called fixtures in testing, can easily be done with
 [Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines it's own language to create fixtures in
-a `ActiveRecord`-like way, but with a much cleaner syntax.
+an `ActiveRecord`-like way, but with a much cleaner syntax.
 
 
 What do we need to use Factory Girl in our app? Right, we first we need to add a gem to our `Gemfile`:
@@ -1071,7 +1077,7 @@ What do we need to use Factory Girl in our app? Right, we first we need to add a
 {: lang="ruby" }
     # Gemfile
     ...
-    gem 'factory_girl', '~> 4.1.0', :group => test
+    gem 'factory_girl', '~> 4.1.0', :group => "test"
 
 
 If you pay a closer look into the `Gemfile`, you can see that we have several gems with the `:group` option:
@@ -1153,7 +1159,7 @@ Now we have everything at hand to create a user with the factory while testing o
         user.job_offers.size.should == 0
       end
 
-      it 'have job-offers' do
+      it 'has job-offers' do
         user.job_offers.build(job_offer)
         user.job_offers.size.should == 1
       end
@@ -1162,7 +1168,7 @@ Now we have everything at hand to create a user with the factory while testing o
 
 
 The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient expressions.
-Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create  a  `user` fixture. The
+Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create a  `user` fixture. The
 job offer that we are adding for the tests is defined as an attribute hash - you map the attributes (keys) to their values.
 If you run the tests, they will pass.
 
@@ -1172,7 +1178,7 @@ fixtures to the database, you have to use `create` instead. Play with it, and se
 of `build` takes much longer because it hits the database.
 
 
-We can improve our test by creating a factory for our job odder too and cleaning the `user_spec.rb` file:
+We can improve our test by creating a factory for our job offer too and cleaning the `user_spec.rb` file:
 
 
 {: lang="ruby" }
@@ -1187,7 +1193,7 @@ We can improve our test by creating a factory for our job odder too and cleaning
     factory :job_offer do
       title "Padrino Engineer"
       location "Berlin"
-      text "We want you ..."
+      description "We want you ..."
       contact "recruter@awesome.de"
       time_start "0/01/2013"
       time_end "01/03/2013"
@@ -1213,7 +1219,7 @@ And now we modify our `user_spec`:
         user.job_offers.size.should == 0
       end
 
-      it 'have job-offers' do
+      it 'has job-offers' do
         user.job_offers.build(FactoryGirl.attributes_for(:job_offer))
         user.job_offers.size.should == 1
       end
@@ -1231,10 +1237,12 @@ expressions if we add make the following change to our `spec_helper.rb`:
 {: lang="ruby" }
     # spec/spec_helper.rb
 
+    ...
     RSpec.configure do |conf|
       conf.include Rack::Test::Methods
       conf.include FactoryGirl::Syntax::Methods
     end
+    ...
 
 
 Now we can change our test to:
@@ -1255,12 +1263,9 @@ Now we can change our test to:
         user.job_offers.size.should == 0
       end
 
-      it 'have job-offers' do
+      it 'has job-offers' do
         user.job_offers.build(attributes_for(:job_offer))
         user.job_offers.size.should == 1
       end
 
     end
-
-
-%%/* vim: set ts=2 sw=2 textwidth=120: */
