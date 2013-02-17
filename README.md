@@ -57,12 +57,13 @@ Love you guys and women, you motivated me:
 - [Luca Pette](https://twitter.com/lucapette): Did a lot of different stuff.
 - [Ross Timson](https://twitter.com/rosstimson): You helped me to focus more on the important things in the book and get
   away from using to many extensions.
+- [Scott Harvey](https://twitter.com/scottharveyco): Corrections of the text.
 
 
 ## License
 
 This software is licensed under the [MIT](http://en.wikipedia.org/wiki/MIT_License) licence.
 
-© 2011-2013 Matthias Günther <matthias.guenther@wikimatze.de>.
+© Matthias Günther <matthias.guenther@wikimatze.de>.
 
 /* vim: set ts=2 sw=2 textwidth=120: */
