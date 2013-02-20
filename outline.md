@@ -15,9 +15,7 @@
   - User account (specify the points) DONE
   - User Article (specify the little tasks) DONE
   - Basic coding of the app DONE
-  - haml for displaying the view DONE
-    - Short introduction about haml and how it works
-    - Why not plain erb?
+  - erb for displaying the view DONE
   - Writing first tests with RSpec
   - Displaying the user profile
   - Conclusion

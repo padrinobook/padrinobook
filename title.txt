@@ -1,3 +1,2 @@
-% How to write Padrino Applications
-% Matthias Guenther <matthias.guenther@wikimatze.de>
-
+% Padrino - The Elegant Ruby Web Framework
+% Matthias Günther <matthias.guenther@wikimatze.de>
