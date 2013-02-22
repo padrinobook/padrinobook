@@ -55,13 +55,13 @@ available:
 |project    | Generates a completely new app from the scratch.                                               |
 |app        | You can define other apps to be mounted in your main app.                                      |
 |mailer     | Creating new mailers within your app.                                                          |
-|controller | A controller takes date from the models and puts them into view that are rendered.              |
-|model      | Models describe data objects of your application.                                               |
+|controller | A controller takes date from the models and puts them into view that are rendered.             |
+|model      | Models describe data objects of your application.                                              |
 |migration  | Migrations simplify changing the database schema.                                              |
-|plugin     | Creating new Padrino projects based on a template file - it's like a list of commands.          |
+|plugin     | Creating new Padrino projects based on a template file - it's like a list of commands.         |
 |           | which create your new app.                                                                     |
 |admin      | A very nice built-in admin dashboard.                                                          |
-|admin_page | TBD                                                                                            |
+|admin_page | Creates for an existing model the CRUD operation for the admin interface                       |
 
 
 Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using
