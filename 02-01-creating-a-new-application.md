@@ -5,6 +5,7 @@ Start with generating a new project with the canonical `padrino` command. In con
 
 
 {: lang="bash" }
+    $ mkdir ~/padrino-projects
     $ cd ~/padrino_projects
     $ padrino g project job-vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite
 
@@ -65,14 +66,11 @@ available:
 
 
 Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using
-Bundler[^bundler] by running at the command line:
+`bundle` by running at the command line:
 
 
 {: lang="bash" }
     $ bundle install
-
-
-[^bundler]: recall that bundler is a service to install all the required gems for a certain project.
 
 
 ### Basic Layout Template
@@ -116,6 +114,7 @@ We can take a look at our new page by executing the following command:
 
 
 {: lang="bash" }
+    $ cd job-vacancy
     $ bundle exec padrino start
 
 
@@ -124,9 +123,9 @@ page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.
 browser.
 
 
-But hey, you might ask "Why do we use the `bundle exec`command - isn't just `padrino start`enough?" The reason for this
-is that we use bundler to load exactly those Ruby gems that we specified in the Gemfile. I recommend that you use
-`bundle exec`for all following commands, but to focus on Padrino, I will skip this command on the following parts of
+But hey, you might ask "Why do we use the `bundle exec` command - isn't just `padrino start` enough?" The reason for
+this is that we use bundler to load exactly those Ruby gems that we specified in the Gemfile. I recommend that you use
+`bundle exec` for all following commands, but to focus on Padrino, I will skip this command on the following parts of
 the book.
 
 
@@ -134,14 +133,14 @@ You may have thought it a little odd that we had to manually requests the index.
 page.  This is because our app currently has now idea about **routing**. Routing is the process to recognize requeste
 URLs and to forward these requests to actions of controllers. With other words: A router is like a like vending machine
 where you put in money to get a coke. In this case, the machine is the *router* which *routes* your input "Want a coke"
-to the action "Drop a coke in the tray".
+to the action "Drop a Coke in the tray".
 
 
 ### First Controller And Routing
 
-Lets add some basic routes for displaying our home-, about-, and contact-page. How can we do this? With the help of a
-basic routing controller. A controller makes data from you app (in our case job offers) available to the view (seeing
-the details of a job offer). Now let's create a controller in Padrino names page:
+Lets add some basic routes for displaying our home, about, and contact-page. How can we do this? With the help of a
+routing controller. A controller makes data from you app (in our case job offers) available to the view (seeing the
+details of a job offer). Now let's create a controller in Padrino names page:
 
 
 {: lang="bash" }
@@ -286,7 +285,7 @@ is available from Github at [public repository on Github](https://github.com/twi
 
 Padrino itself also provides built-in templates for common tasks done on web app. These
 [padrino-recipes](https://github.com/padrino/padrino-recipes) help you saving time by not reinventing the wheel.
-Thank's to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his
+Thanks to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his
 [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb) by executing:
 
 
@@ -373,15 +372,14 @@ relevant actions. All we need is to put links to them in a navigation header for
 Explanation of the new parts:
 
 
-- `link_to` - Is a helper for creating links. The first argument to this function is the name for the link and the
-  second is for the URL (href) to which the link points to.
-- `url_for` - This helper return the link which can be used as the second parameter for the `link-to`. It specifies
-   the `<:controller>, <:action>` which will be executed. You can use in your s helper in your whole app to
-   create clean and encapsulated URLs.
+- `link_to` - Is a helper for creating links. The first argument is the name for the link and the second is for the URL
+  (href) to which the link points to.
+- `url_for` - This helper return the link which can be used as the second parameter for the `link_to` function. It
+  specifies the `<:controller>, <:action>` which will be executed. You can use in your helper in your whole app to
+  create clean and encapsulated URLs.
 
 
-Now that the we provide links to other parts of the app, lets add some sugar-candy styling to the file
-`app/assets/stylesheets/site.css`:
+Now that the we provide links to other parts of the app, lets add some sugar-candy styling:
 
 
 {: lang="css" }
@@ -419,7 +417,7 @@ school css](http://www.w3schools.com/css/default.asp "w3c CSS") tutorial. Since 
 don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
 
 
-### Writing First Tests
+### Writing Tests
 
 
 Our site does not list static entries of job offers that you write, but other users will be allowed to post job offers
@@ -428,8 +426,26 @@ behavior by writing tests first, then the code. We use the [RSpec](http://rspec.
 this.
 
 
-Remember when we created the *page-controller* with `padrino g controller page`? Thereby, Padrino created a corresponding
-spec file *spec/app/controller/page_controller_spec.rb* which has the following content:
+Remember when we created the *page-controller* with `padrino g controller page`? Thereby, Padrino created a
+corresponding spec file *spec/app/controller/page_controller_spec.rb* which has the following content:
+
+
+{: lang="ruby" }
+    require 'spec_helper'
+
+    describe "PageController" do
+      before do
+        get "/"
+      end
+
+      it "returns hello world" do
+        last_response.body.should == "Hello World"
+      end
+    end
+
+
+Let's update that file and write some basic tests to make sure that everything is working as expected. Replace the specs
+in the file with the following code:
 
 
 {: lang="ruby" }
@@ -468,27 +484,21 @@ Let's explain the interesting parts:
 
 - `spec_helper` - Is a file to load commonly used functions to setup the tests.
 - `describe block` - This block describes the context for our tests. Think of it as way to group related tests.
-- `get ...` - This command executes a HTTTP GET to the provided address.
+- `get ...` - This command executes a HTTP GET to the provided address.
 - `last_response` - The response object returns the header and body of the HTTP request.
 
 
-Now let's run the tests with `rspec spec/page_controller_spec.rb` and see what's going on:
+Now let's run the tests with `rspec spec/app/page_controller_spec.rb` and see what's going on:
 
 
 {: lang="bash" }
-    PageController
-      GET #about
-        renders the :about view
-      GET #contact
-        renders the :contact view
-      GET #home
-        renders :home view
+    ...
 
     Finished in 0.21769 seconds
     3 examples, 0 failures
 
 
-Cool, all tests passed! We didn't exactly use behavior-driven development until now, but  will do so in the next parts.
+Cool, all tests passed! We didn't exactly use behavior-driven development until now, but will do so in the next parts.
 
 
 **Red-Green Cycle**
@@ -497,6 +507,7 @@ Cool, all tests passed! We didn't exactly use behavior-driven development until 
 In behavior-driven development (BDD) it is important to write a failing test first and then the code that satisfies the
 test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then
 beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little
-mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice byproduct too.
+mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice by product too.
+
 
 %%/* vim: set ts=2 sw=2 textwidth=120: */

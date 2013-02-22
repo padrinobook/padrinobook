@@ -3,7 +3,7 @@
 ### User Model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
-identification number **id** , a **name**, and an **email**. You can use commands on the command-line to create models
+identification number **id**, a **name**, and an **email**. You can use commands on the command-line to create models
 too:
 
 
@@ -331,7 +331,7 @@ If you run your tests with `padrino rake spec`, everything should be fine.
 
 ### Creating Connection Between User And Job Offer Model
 
-Since we now have created our two main models, it's time to define associations between. Associations make common
+Since we now have created our two main models, it's time to define associations between them. Associations make common
 operations like deleting or updating data in our relational database easier. Just imagine that we have a user
 in our app that added many job offers in our system. Now this customers decides that he wants to cancel
 his account. We decide that all his job offers should also disappear in the system. One solution would be to delete
@@ -440,7 +440,7 @@ Let's run the shell to create a user with job offers:
 
 
 {: lang="bash" }
-    User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
+    user = User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
     => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther", created_at: nil, updated_at: nil>
     >> user.name
     => "Matthias Günther"
@@ -457,7 +457,7 @@ This creates a user object in our session. If we want to add an entry permanentl
       [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias.guenther"], ["name", "Matthias Günther"],
       ["updated_at", 2012-12-26 08:32:51 +0100]]
         DEBUG -  (342.0ms)  commit transaction
-        => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51",
+    => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51",
         updated_at: "2012-12-26 08:32:51">
       >>
 
@@ -473,7 +473,7 @@ connect to the database and execute a 'SELECT' statement::
     Enter SQL statements terminated with a ";"
     sqlite> SELECT * FROM users;
     1|Matthias Günther|matthias.guenther|2012-12-26 08:32:51.323349|2012-12-26 08:32:51.323349
-    sqlite>
+    sqlite>.exit
 
 
 Since we have an user, it's time to some job offers too:
@@ -488,7 +488,7 @@ Since we have an user, it's time to some job offers too:
         :description => 'Come to this great place',
         :contact => 'recruter@padrino-company.org',
         :time_start => '2013/01/01',
-        :time_end => 2013/03/01',
+        :time_end => '2013/03/01',
         :user_id => 1)
       ...
         => #<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
@@ -535,7 +535,8 @@ Here you can see the advantage of using associations: When you declare them, you
 the data you want.
 
 
-Ok, we are doing great so far. With users and post in place, let's add some tests to create and associate these objects.
+Ok, we are doing great so far. With users and job offers in place, let's add some tests to create and associate these
+objects.
 
 
 #### Testing our app with RSpec + Factory Girl
@@ -543,9 +544,9 @@ Ok, we are doing great so far. With users and post in place, let's add some test
 When you use data for the tests, you need to decide how to create them. You could, of course, define a set of test data
 with pure SQL and add it to your app. A more convenient solution instead is to use factories and fixtures. Think
 of factories as producers for you data. You are telling the factory that you need 10 users that should have different
-names and emails. This kind of mass object creation. which are called fixtures in testing, can easily be done with
+names and emails. This kind of mass object creation which are called fixtures in testing, can easily be done with
 [Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines it's own language to create fixtures in
-a `ActiveRecord`-like way, but with a much cleaner syntax.
+an `ActiveRecord`-like way, but with a much cleaner syntax.
 
 
 What do we need to use Factory Girl in our app? Right, we first we need to add a gem to our `Gemfile`:
@@ -554,7 +555,7 @@ What do we need to use Factory Girl in our app? Right, we first we need to add a
 {: lang="ruby" }
     # Gemfile
     ...
-    gem 'factory_girl', '~> 4.1.0', :group => test
+    gem 'factory_girl', '~> 4.1.0', :group => 'test'
 
 
 If you pay a closer look into the `Gemfile`, you can see that we have several gems with the `:group` option:
@@ -645,9 +646,9 @@ Now we have everything at hand to create a user with the factory while testing o
 
 
 The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient
-expressions.  Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create  a  `user`
+expressions. Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create a `user`
 fixture. The job offer that we are adding for the tests is defined as an attribute hash - you map the attributes (keys)
-to their values.  If you run the tests, they will pass.
+to their values. If you run the tests, they will pass.
 
 
 The `build` method that we use to create the user will only add the test object in memory. If you want to permanently
@@ -655,7 +656,7 @@ add fixtures to the database, you have to use `create` instead. Play with it, an
 instead of `build` takes much longer because it hits the database.
 
 
-We can improve our test by creating a factory for our job odder too and cleaning the `user_spec.rb` file:
+We can improve our test by creating a factory for our job offer too and cleaning the `user_spec.rb` file:
 
 
 {: lang="ruby" }
@@ -670,7 +671,7 @@ We can improve our test by creating a factory for our job odder too and cleaning
     factory :job_offer do
       title "Padrino Engineer"
       location "Berlin"
-      text "We want you ..."
+      description "We want you ..."
       contact "recruter@awesome.de"
       time_start "0/01/2013"
       time_end "01/03/2013"
@@ -696,7 +697,7 @@ And now we modify our `user_spec`:
         user.job_offers.size.should == 0
       end
 
-      it 'have job-offers' do
+      it 'has job-offers' do
         user.job_offers.build(FactoryGirl.attributes_for(:job_offer))
         user.job_offers.size.should == 1
       end
@@ -739,7 +740,7 @@ Now we can change our test to:
         user.job_offers.size.should == 0
       end
 
-      it 'have job-offers' do
+      it 'has job-offers' do
         user.job_offers.build(attributes_for(:job_offer))
         user.job_offers.size.should == 1
       end
