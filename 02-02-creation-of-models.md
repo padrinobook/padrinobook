@@ -593,7 +593,7 @@ Next we need to define a *factory* to include all the fixtures of our models:
     # spec/factories.rb
 
     # encoding: utf-8
-    FactoryGirl.define do |u|
+    FactoryGirl.define do
 
       factory :user do
         name "Matthias Günther"
