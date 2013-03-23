@@ -377,7 +377,7 @@ The receiving object of the *has_many* relationship defines that it belongs to e
 
 Whenever you modify your models, remember that you need to run migrations too. Because we added the associations
 manually, we also need to write the migrations. Luckily, Padrino helps us with this task a bit. We know that the
-job offer is linked to an user via the user's id. This foreign key relationship results in adding an extra
+job offer is linked to a user via the user's id. This foreign key relationship results in adding an extra
 column `user_id` to the User. For this change, we can use the following command to create a migration:
 
 
