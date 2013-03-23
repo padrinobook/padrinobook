@@ -256,7 +256,7 @@ REQUEST**, and **PATH**.
 
 Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling
 on our web page. First we need to generate a basic template for all pages we want to create. Lets create
-*app/views/application.erb*:
+*app/views/layouts/application.erb*:
 
 
 {: lang="html" }
