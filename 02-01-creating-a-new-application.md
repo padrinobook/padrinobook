@@ -340,7 +340,6 @@ relevant actions. All we need is to put links to them in a navigation header for
         <%= stylesheet_link_tag 'bootstrap', 'bootstrap-responsive' %>
         <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
         <%= stylesheet_link_tag '/stylesheets/site.css' %>
-        <%= javascript_include_tag '../assets/application' %>
     </head>
     <body>
       <div class=="container">
