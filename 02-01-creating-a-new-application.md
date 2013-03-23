@@ -337,6 +337,8 @@ relevant actions. All we need is to put links to them in a navigation header for
     <html lang="en-US">
       <head>
         <title>Job Vacancy - find the best jobs</title>
+        <%= stylesheet_link_tag 'bootstrap', 'bootstrap-responsive' %>
+        <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
         <%= stylesheet_link_tag '../assets/application' %>
         <%= javascript_include_tag '../assets/application' %>
     </head>
