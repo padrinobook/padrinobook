@@ -333,7 +333,7 @@ If you run your tests with `padrino rake spec`, everything should be fine.
 
 Since we now have created our two main models, it's time to define associations between them. Associations make common
 operations like deleting or updating data in our relational database easier. Just imagine that we have a user
-in our app that added many job offers in our system. Now this customers decides that he wants to cancel
+in our app that added many job offers in our system. Now this customer decides that he wants to cancel
 his account. We decide that all his job offers should also disappear in the system. One solution would be to delete
 the user, remember his id, and delete all job offers entries that originate from this id. This manual effort
 disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete
