@@ -130,7 +130,7 @@ the book.
 
 
 You may have thought it a little odd that we had to manually requests the index.html in the URL when viewing our start
-page.  This is because our app currently has now idea about **routing**. Routing is the process to recognize requeste
+page.  This is because our app currently has no idea about **routing**. Routing is the process to recognize requeste
 URLs and to forward these requests to actions of controllers. With other words: A router is like a like vending machine
 where you put in money to get a coke. In this case, the machine is the *router* which *routes* your input "Want a coke"
 to the action "Drop a Coke in the tray".
