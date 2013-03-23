@@ -136,7 +136,7 @@ properly:
 
 
 {: lang="bash" }
-    $ sqlite3 db/job_vacanvy_development.db
+    $ sqlite3 db/job_vacancy_development.db
 
     SQLite version 3.7.13 2012-06-11 02:05:22
     Enter ".help" for instructions
