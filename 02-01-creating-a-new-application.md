@@ -200,15 +200,15 @@ app. Let's change this and define the *about*, *contact*, and *home* actions:
 
     JobVacancy.controllers :page do
       get :about, :map => '/about' do
-        render :erb, 'page/about'
+        render :erb, :'page/about'
       end
 
       get :contact , :map => "/contact" do
-        render :erb, 'page/contact'
+        render :erb, :'page/contact'
       end
 
       get :home, :map => "/" do
-        render :erb, 'page/home'
+        render :erb, :'page/home'
       end
 
     end
