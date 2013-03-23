@@ -337,7 +337,7 @@ in our app that added many job offers in our system. Now this customer decides t
 his account. We decide that all his job offers should also disappear in the system. One solution would be to delete
 the user, remember his id, and delete all job offers entries that originate from this id. This manual effort
 disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete
-automatically all corresponding job for this user".
+automatically all corresponding jobs for this user".
 
 
 We will quickly browse through the associations.
