@@ -26,7 +26,6 @@ task:
 ```
 
 
-
 ## Repository of the job offer app
 
 In this book I'm developing the **job vacancy** application. You can checkout the
@@ -51,13 +50,14 @@ Love you guys and women, you motivated me:
   recommended this book for the community.
 - [Carlo Bertini](http://twitter.com/WaYdotNET): Make me aware of emacs and created first pull-request for this project.
 - [Evan Machnic](http://twitter.com/emachnic): Improved the first chapter with useful hints.
-- [Sebastian Günther](http://twitter.com/#!/sebastianguenth): Thanks for correcting the first chapter of the book.
+- [Sebastian Günther](http://twitter.com/sebastianguenth): Thanks for correcting the first chapter of the book.
 - [Florian Gilcher](https://twitter.com/Argorak): Helps me improving my first nasty code and transforms it to the next
   better level.
 - [Luca Pette](https://twitter.com/lucapette): Did a lot of different stuff.
 - [Ross Timson](https://twitter.com/rosstimson): You helped me to focus more on the important things in the book and get
   away from using to many extensions.
 - [Scott Harvey](https://twitter.com/scottharveyco): Corrections of the text.
+- [Markus Schappi](https://twitter.com/Schappi): Several grammar and code fixes.
 
 
 ## License
