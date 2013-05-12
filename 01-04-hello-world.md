@@ -14,7 +14,7 @@ Now, get your hands dirty and start coding.
 
 
 First of all we need to install the padrino gem. We are using the last stable version of Padrino (during the release of
-this book it is version **0.10.7**). Execute this command.
+this book it is version **0.11.1**). Execute this command.
 
 
 {: lang="bash" }
@@ -62,21 +62,24 @@ The console output should looks like the following:
       create  app/views
       create  app/views/layouts
       create  Gemfile
+      create  Rakefile
     skipping  orm component...
     skipping  test component...
     skipping  mock component...
     skipping  script component...
-    applying  haml (renderer)...
-       apply  renderers/haml
+    applying  slim (renderer)...
+       apply  renderers/slim
       insert  Gemfile
     skipping  stylesheet component...
-    identical  .components
+   identical  .components
+       force  .components
+       force  .components
 
     =================================================================
     hello-world is ready for development!
     =================================================================
     $ cd ./hello-world
-    $ bundle install
+    $ bundle
     =================================================================
 
 
@@ -93,8 +96,8 @@ bundler, execute the following command and check the console output:
 
 {: lang="bash" }
     $ gem install bundler
-        Fetching: bundler-1.2.3.gem (100%)
-        Successfully installed bundler-1.2.3
+        Fetching: bundler-1.3.5.gem (100%)
+        Successfully installed bundler-1.3.5
         1 gem installed
 
 
@@ -106,31 +109,8 @@ Now we have everything to run the `bundle` command to install our dependencies:
     $ bundle
       Fetching gem metadata from http://rubygems.org/.........
 
-      Using rake (10.0.3)
-      Using i18n (0.6.1)
-      Using multi_json (1.5.0)
-      Using activesupport (3.2.9)
-      Using bundler (1.2.3)
-      Using haml (3.1.7)
-      Using rack (1.4.1)
-      Using url_mount (0.2.1)
-      Using http_router (0.10.2)
-      Using mime-types (1.19)
-      Using polyglot (0.3.3)
-      Using treetop (1.4.12)
-      Using mail (2.3.3)
-      Using rack-protection (1.3.2)
-      Using tilt (1.3.3)
-      Using sinatra (1.3.3)
-      Using thor (0.15.4)
-      Using padrino-core (0.10.7)
-      Using padrino-helpers (0.10.7)
-      Using padrino-admin (0.10.7)
-      Using padrino-cache (0.10.7)
-      Using padrino-gen (0.10.7)
-      Using padrino-mailer (0.10.7)
-      Using padrino (0.10.7)
-      Using sinatra-flash (0.3.0)
+      Using rake ...
+      Using ...
       Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
 
 
@@ -148,7 +128,7 @@ Now run the app with:
 
 
 {: lang="bash" }
-    $ padrino start
+    $ bundle exec padrino start
 
 
 Instead of writing `start`, we can also use the alias `s`. Now, fire up your browser with the URL
