@@ -427,7 +427,7 @@ different approach and use the Padrino console this time.  All you have to do is
 
 {: lang="bash" }
     $ padrino c
-    => Loading development console (Padrino v.0.10.7)
+    => Loading development console (Padrino v.0.11.1)
     => Loading Application JobVacancy
     >>
 
@@ -555,7 +555,7 @@ What do we need to use Factory Girl in our app? Right, we first we need to add a
 {: lang="ruby" }
     # Gemfile
     ...
-    gem 'factory_girl', '~> 4.1.0', :group => 'test'
+    gem 'factory_girl', '4.2.0', :group => 'test'
 
 
 If you pay a closer look into the `Gemfile`, you can see that we have several gems with the `:group` option:
@@ -564,9 +564,9 @@ If you pay a closer look into the `Gemfile`, you can see that we have several ge
 {: lang="ruby" }
     # Gemfile
     ...
-    gem 'rspec' , '~> 2.12.0', :group => 'test'
-    gem 'factory_girl', '~> 4.1.0', :group => 'test'
-    gem 'rack-test', '~> 0.6.2', :require => 'rack/test', :group => 'test'
+    gem 'rspec' , '2.13.0', :group => 'test'
+    gem 'factory_girl', '4.2.0', :group => 'test'
+    gem 'rack-test', '0.6.2', :require => 'rack/test', :group => 'test'
 
 
 Luckily we can use the `:group <name> do ... end` syntax to cleanup  to get rid of several `:group => 'test'` lines in
@@ -577,9 +577,9 @@ our `Gemfile`:
     # Gemfile
 
     group :test do
-      gem 'rspec' , '~> 2.12.0'
-      gem 'factory_girl', '~> 4.1.0'
-      gem 'rack-test', '~> 0.6.2', :require => 'rack/test'
+      gem 'rspec' , '2.13.0'
+      gem 'factory_girl', '4.2.0'
+      gem 'rack-test', '0.6.2', :require => 'rack/test'
     end
 
 

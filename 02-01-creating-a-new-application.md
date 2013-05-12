@@ -169,23 +169,24 @@ Lets take a closer look at our page-controller:
     # app/controller/page.rb
 
     JobVacancy.controllers :page do
-      # get :index, :map => "/foo/bar" do
-      #   session[:foo] = "bar"
+
+      # get :index, :map => '/foo/bar' do
+      #   session[:foo] = 'bar'
       #   render 'index'
       # end
 
-      # get :sample, :map => "/sample/url", :provides => [:any, :js] do
+      # get :sample, :map => '/sample/url', :provides => [:any, :js] do
       #   case content_type
       #     when :js then ...
       #     else ...
       # end
 
       # get :foo, :with => :id do
-      #   "Maps to url '/foo/#{params[:id]}'"
+      #   'Maps to url '/foo/#{params[:id]}''
       # end
 
-      # get "/example" do
-      #   "Hello world!"
+      # get '/example' do
+      #   'Hello world!'
       # end
 
     end
@@ -203,11 +204,11 @@ app. Let's change this and define the *about*, *contact*, and *home* actions:
         render :erb, 'page/about'
       end
 
-      get :contact , :map => "/contact" do
+      get :contact , :map => '/contact' do
         render :erb, 'page/contact'
       end
 
-      get :home, :map => "/" do
+      get :home, :map => '/' do
         render :erb, 'page/home'
       end
 
@@ -323,7 +324,7 @@ automatically create a link to this stylesheet. The `javascript_include_tag` doe
 your JavaScript files in the *public/javascript* directory.
 
 
-TBD Add section how to integrate asset pipeline
+[TBD Add section how to integrate asset pipeline]()
 
 
 ### Navigation

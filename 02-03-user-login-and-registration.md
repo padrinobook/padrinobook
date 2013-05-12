@@ -1,8 +1,8 @@
 ## Registration and Login {#chapter-32}
 
-In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions `new`,
-`create`, `update`, and `delete`. And you can't forget about security these days it would be nice to to have something
-at hand to save At the end we would need to find a method of safely storing the password for the user.
+In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions
+`new`, `create`, `update`, and `delete`. And you can't forget about security these days it would be nice to to have
+something at hand to save At the end we would need to find a method of safely storing the password for the user.
 
 
 Of course, we could use you don't have to reinvent the wheel you can use Padrino's beautiful
@@ -24,7 +24,7 @@ user has.
     Password: String
 
 
-Recording from chapter [2.0](#chapter-32) we only need to add the `Password` fields to the user table:
+Recording from chapter [Registration and Login](#chapter-32) we only need to add the `Password` fields to the user table:
 
 
 Let's create the migration:
@@ -911,8 +911,8 @@ Now let's add the fields to a migration:
     end
 
 
-We added the `:default` option which sets the confirmation for every user to false if a new one is registered. Now let's
-migrate our production and test database to this new event:
+We added the `:default` option which sets the confirmation for every user to false if a new one is registered. Now
+let's migrate our production and test database to this new event:
 
 
 {: lang="bash" }
@@ -1076,14 +1076,14 @@ algorithm. In order to use this in our app we need to add it to our `Gemfile`:
     ...
 
     # Security
-    gem 'bcrypt-ruby', '~> 3.0.1', :require => 'bcrypt'
+    gem 'bcrypt-ruby', '3.0.1', :require => 'bcrypt'
 
 
 Now let's open the console and play around with this Gem:
 
 
 {: lang="ruby" }
-    TBD padrino console session
+    [TBD padrino console session]
 
     require 'bcrypt'
 
@@ -2045,7 +2045,8 @@ The last thing we want to is to give the user feedback about what the action he 
 be nice to give feedback of the success of the logged and logged out action. We can do this with short flash messages
 above our application which will fade away after a certain amount of time. To do this we can use Padrino's flash
 mechanism is build on
-[Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash). In
+[Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash).
+In
 order to use it, we need to add the `padrino-flash` gem:
 
 
@@ -2053,7 +2054,7 @@ order to use it, we need to add the `padrino-flash` gem:
     # Gemfile
     ...
     # Padrino Stable Gem
-    gem 'padrino', '~> 0.10.7'
+    gem 'padrino', '0.11.1'
     gem 'padrino-flash', '~> 0.1.1'
 
 
