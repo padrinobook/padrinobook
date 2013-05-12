@@ -2046,29 +2046,6 @@ be nice to give feedback of the success of the logged and logged out action. We 
 above our application which will fade away after a certain amount of time. To do this we can use Padrino's flash
 mechanism is build on
 [Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash).
-In
-order to use it, we need to add the `padrino-flash` gem:
-
-
-{: lang="ruby" }
-    # Gemfile
-    ...
-    # Padrino Stable Gem
-    gem 'padrino', '0.11.1'
-    gem 'padrino-flash', '~> 0.1.1'
-
-
-Register the Gem in our app:
-
-
-{: lang="ruby" }
-    # app/app.rb
-
-    class JobVacancy < Padrino::Application
-      ...
-      register Padrino::Flash
-      ...
-    end
 
 
 And here is the implementation of the code:
