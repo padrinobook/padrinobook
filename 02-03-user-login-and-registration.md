@@ -1082,16 +1082,16 @@ algorithm. In order to use this in our app we need to add it to our `Gemfile`:
 Now let's open the console and play around with this Gem:
 
 
-{: lang="ruby" }
-    [TBD padrino console session]
-
-    require 'bcrypt'
-
-    password = "Test11111134543"
-    salt = "$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW"
-    password_confirmation = BCrypt::Engine.hash_secret(password, salt)
-
-    puts password_confirmation
+{: lang="bash" }
+    $ padrino c
+    => Loading development console (Padrino v.0.11.1)
+    => Loading Application JobVacancy
+    >> password = "Test11111134543"
+    => "Test11111134543"
+    >> salt = "$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW"
+    => "$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW"
+    >> BCrypt::Engine.hash_secret(password, salt)
+    => "$2a$05$CCCCCCCCCCCCCCCCCCCCC.9APD.dklRtXYdki/E3XrHiCWd/rfAFu"
 
 
 I> ## What is a Salt?
