@@ -542,7 +542,7 @@ I> [SQL injection](http://en.wikipedia.org/wiki/SQL_injection) attacks. SQL inje
 I> injected into input fields in order to drop tables or getting access on user related data.
 
 
-### Mailer
+### Emails
 
 Padrino uses the [Padrino Mail gem](https://rubygems.org/gems/padrino-mailer) for sending mail. For simplification, we
 are using SMTP with Gmail. First of all we need to give our application the settings for setting mails in the main
@@ -562,7 +562,8 @@ configuration file of our application `app.rb`:
     }
 
 
-This is now the default delivery address unless it is overwritten in an individual mail definition.
+This is now the default delivery address unless it is overwritten in an individual mail definition.  We won't test the
+email functionality to this point because the *Mailer gem* is already tested.
 
 
 #### Quick Mail Usage
