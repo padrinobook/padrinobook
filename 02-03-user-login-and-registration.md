@@ -558,8 +558,25 @@ configuration file of our application `app.rb`:
       :user_name => '<your-gmail-account-address',
       :password => '<secret>',
       :authentication => :plain,
-      :enable_starttls_auto => true
     }
+
+
+Let's get through all the different options:
+
+
+- `:delivery_method`: Defines the delivery method. Possible values are [:smtp](http://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) (default), [:sendmail](http://en.wikipedia.org/wiki/Sendmail), `:test` (no mails will be send), and
+  [:file](http://edgeguides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration) (will write the contents of the email in a file).
+- `:address`: The SMTP mail address.
+- `:port`: The port of the mail address.
+- `:user_name`: The name of the SMTP address.
+- `:password`: The password of your SMPT address.
+- `:authentication`: Specify if your mail server requires authentication. The default setting is plain meaning that
+   the password is not encrypted. `:login` will send the password [Base64 encoded](https://en.wikipedia.org/wiki/Base64),  [:cram_md5](http://en.wikipedia.org/wiki/CRAM-MD5) is a challenge/response authentication mechanism .
+- `:domain`: This key is set up for [HELO checking](http://en.wikipedia.org/wiki/Anti-spam_techniques#HELO.2FEHLO_checking).
+
+
+Prior Padrino 0.10.7 the `:enable_starttls_auto => true` was changeable. This is option is now always on true in Padrino
+>= 0.11.1.
 
 
 This is now the default delivery address unless it is overwritten in an individual mail definition.  We won't test the
