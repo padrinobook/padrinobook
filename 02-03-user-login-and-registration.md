@@ -681,8 +681,7 @@ controller and move it to this place.
     end
 
 
-Now we can use the [deliver method](http://www.padrinorb.com/api/Padrino/Mailer/Helpers.html#deliver-instance_method)
-to call our `:registration` mailer with it's template `:registration_email`:
+Now we can use the *deliver* method to call our `:registration` mailer with it's template `:registration_email`:
 
 
 {: lang="ruby" }
@@ -699,6 +698,19 @@ to call our `:registration` mailer with it's template `:registration_email`:
       end
     end
     ...
+
+
+I> Difference between Padrino's Mailer methods email and deliver
+I>
+I> The [email](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#email-instance_method) method is
+I> has the parameters `mail_attributes = {}, &block`. That means the you write emails directly
+I> `JobVacancy.email(:to => '...', :from => '...', :subject => '...', :body => '...')` or use the block syntax
+I> `JobVacancy.email do ... end`. In comparison to this is the
+I> [deliver](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#deliver-instance_method) method.
+I> It has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer
+I> for them. If you want to use very simple mails in your application, prefer to use the email method. But if you
+I> have templates with a much more complex layout in different formats (plain, HTML), the deliver method is the
+I> best fit.
 
 
 Instead of writing only a simple "Hallo" in our email we would like to give more input. First we need to write an
