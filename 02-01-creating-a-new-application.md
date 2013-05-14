@@ -218,20 +218,23 @@ app. Let's change this and define the *about*, *contact*, and *home* actions:
 We will go through each line:
 
 
-- `JobVacancy.controller :page` - Define the namespace *page* for our JobVacancy app. Typically, the controller
-  name will also be part of the route.
+- `JobVacancy.controller :page` - Define the namespace *page* for our JobVacancy app. Typically, the controller name
+  will also be part of the route.
 - `do ... end` - This expression defines a block in Ruby. Think of it as a method without a name, also called anonymous
   functions, which is passed to another function as an argument.
-- `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the
-  *about* action (in the form of a Ruby *symbol*), and is finally mapped to the explicit URL */about*. When you start
+- `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the *about*
+  action (in the form of a Ruby symbol[^symbol]), and is finally mapped to the explicit URL */about*. When you start
   your server with `bundle exec padrino s` and visit the URL `http.//localhost:3000/about`, you can see the rendered
   output of this request.
-- `render :erb, 'page/about'` - This action tells us that we want to render an the *erb* file *page/about*. This file
-  is actually located at `app/views/page/about.erb` file. Normally the views are placed under
+- `render :erb, 'page/about'` - This action tells us that we want to render an the *erb* file *page/about*. This file is
+  actually located at `app/views/page/about.erb` file. Normally the views are placed under
   *app/views/<controller-name>/<action-name>.<ending>*  Instead of using an ERB templates, you could also use `:haml`,
-  or another template language. If you are lazy, you can leave the   option for the rendering option completely out
-  and leave the matching completely for Padrino.
+  or another template language. If you are lazy, you can leave the   option for the rendering option completely out and
+  leave the matching completely for Padrino.
 
+
+[^symbol]: Unlike strings, symbols of the same name are initialized and exist in memory only once during a session of
+ruby. This makes your programs more efficient.
 
 To see what routes you have defined for your app just call `padrino rake routes`:
 
