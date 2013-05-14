@@ -241,14 +241,14 @@ to run all tests in the `spec/` folder:
 {: lang="bash" }
     $ padrino rake spec
     => Executing Rake spec ...
-    /home/helex/.rbenv/versions/1.9.3-p286/bin/ruby -S rspec ./spec/app/models/user_spec.rb -fs --color
+    /home/helex/.rbenv/versions/1.9.3-p392/bin/ruby -S rspec ./spec/app/models/user_spec.rb -fs --color
 
     User Model
       can be created
 
     Finished in 0.05589 seconds
     1 example, 0 failures
-    /home/helex/.rbenv/versions/1.9.3-p286/bin/ruby -S rspec ./spec/app/controllers/page_controller_spec.rb -fs --color
+    /home/helex/.rbenv/versions/1.9.3-p392/bin/ruby -S rspec ./spec/app/controllers/page_controller_spec.rb -fs --color
 
     PageController
       GET #about

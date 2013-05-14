@@ -55,27 +55,27 @@ Because we don't want to download and compile different Ruby versions on our own
 
 
 If you now run `rbenv install` you can see all the different Ruby version you can install and use for different Ruby
-projects. We are going to install `ruby 1.9.3-p286`:
+projects. We are going to install `ruby 1.9.3-p392`:
 
 
 {: lang="bash" }
-    $ rbenv install 1.9.3-p286
+    $ rbenv install 1.9.3-p392
 
 
 This command will take a couple of minutes, so it's best to grab a Raider, which is now known as
 [Twix](http://en.wikipedia.org/wiki/Twix "Twix").  After everything runs fine, you have to run `rbenv rehash` to rebuild
-the internal rbenv libraries. The last step is to makeRuby 1.9.3-p286 the current executable on your machine:
+the internal rbenv libraries. The last step is to makeRuby 1.9.3-p392 the current executable on your machine:
 
 
 {: lang="bash" }
-    $ rbenv global 1.9.3-p286
+    $ rbenv global 1.9.3-p392
 
 
 Check that the correct executable is active by exexuting `ruby -v`. The output should look like:
 
 
 {: lang="bash" }
-    $ 1.9.3-p286 (set by /home/.rbenv/versions)
+    $ 1.9.3-p392 (set by /home/.rbenv/versions)
 
 
 Now you are a "rookie" [Ruby Rogue](http://rubyrogues.com/ "Ruby Rouges").
@@ -90,14 +90,14 @@ the following packages installed for your os: `make, g++, wget` and `unzip`. Con
 
 {: lang="bash" }
     $ cd ~/.rbenv/versions
-    $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.3-p286.zip
+    $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.3-p392.zip
 
 
 Go to the directory `.rbenv/versions` where you will find the downloaded file. Next unzip the file:
 
 
 {: lang="bash" }
-    $ unzip ruby-1.9.3-p286.zip
+    $ unzip ruby-1.9.3-p392.zip
 
 
 Configure the compilation and perform the installation:
@@ -105,7 +105,7 @@ Configure the compilation and perform the installation:
 
 {: lang="bash" }
     $ cd ~/.rbenv/versions
-    $ ./configure --prefix=$HOME/.rbenv/versions/ruby-1.9.3.p286
+    $ ./configure --prefix=$HOME/.rbenv/versions/ruby-1.9.3.p392
     $ make
     $ make install
 

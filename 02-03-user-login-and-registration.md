@@ -67,7 +67,7 @@ Before we are going to implement what we think, we are going to write **pending*
 
 
 {: lang="ruby" }
-    # spec/models/user_spec.rb
+    # spec/app/models/user_spec.rb
 
     require 'spec_helper'
 
@@ -118,7 +118,7 @@ occur. Let's implement the first pending test that a user can't have an empty na
 
 
 {: lang="ruby" }
-    # spec/models/user_spec.rb
+    # spec/app/models/user_spec.rb
     ...
 
     it 'have no blank name' do
@@ -139,14 +139,14 @@ If we run the test we get the following error:
          Failure/Error: user.save.should be_false
            expected: false value
                 got: true
-         # ./spec/models/user_spec.rb:20:in `block (2 levels) in <top (required)>'
+         # ./spec/app/models/user_spec.rb:20:in `block (2 levels) in <top (required)>'
 
     Finished in 0.42945 seconds
     10 examples, 1 failure, 5 pending
 
     Failed examples:
 
-    rspec ./spec/models/user_spec.rb:18 # User Model have no blank name
+    rspec ./spec/app/models/user_spec.rb:18 # User Model have no blank name
 
 
 To make this test pass we need to validate the `email` property in our user model with the help of the
@@ -154,7 +154,7 @@ To make this test pass we need to validate the `email` property in our user mode
 
 
 {: lang="ruby" }
-  # models/user.rb
+  # app/models/user.rb
 
   class User < ActiveRecord::Base
     validates :name, :presence => true
@@ -190,7 +190,7 @@ with a unique email address. You can write a test for this ability in the follow
 
 
 {: lang="ruby" }
-    # spec/models/user_spec.rb
+    # spec/app/models/user_spec.rb
     describe "when name is already used" do
       let(:user_second) { build(:user) }
 
@@ -205,7 +205,7 @@ All what it does is to validates that the attribute's value is unique before it 
 
 
 {: lang="ruby" }
-    # models/user.rb
+    # app/models/user.rb
     class User < ActiveRecord::Base
       validates :name, :email, :password, :presence => true
       validates :name, :uniqueness => true
@@ -218,7 +218,7 @@ Now this test is fixed. Next we are going to implement the validation for the em
 
 
 {: lang="ruby" }
-    # spec/models/user.spec
+    # spec/app/models/user.spec
     ...
 
     describe "email address" do
@@ -247,7 +247,7 @@ expression and use the [format validation](http://guides.rubyonrails.org/active_
 
 
 {: lang="ruby" }
-    # models/user.rb
+    # app/models/user.rb
     class User < ActiveRecord::Base
     ...
       VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -993,7 +993,7 @@ Why? Because we are hitting the database and our tests slow. Please consider cod
 
 
 {: lang="ruby" }
-    # spec/models/user_spec.rb
+    # spec/app/models/user_spec.rb
 
     describe "when name is already used" do
       it 'should not be saved' do
@@ -1068,7 +1068,7 @@ business logic, we will put this method inside our users model. First we will wr
 
 
 {: lang="ruby" }
-    # spec/models/user_spec.rb
+    # spec/app/models/user_spec.rb
     ...
 
       describe "confirmation code" do
@@ -1085,7 +1085,7 @@ To make this test pass we add the validates presence of ability in our user mode
 
 
 {: lang="ruby" }
-    # models/user.rb
+    # app/models/user.rb
 
     class User < ActiveRecord::Base
       ...
@@ -1140,7 +1140,7 @@ let's create code for it:
 
 
 {: lang="ruby" }
-    # models/user.rb
+    # app/models/user.rb
 
     class User < ActiveRecord::Base
       ... # The other validations
@@ -1186,7 +1186,7 @@ confirmation code as an input and mark our user as *confirmed*. As always, let's
 
 
 {: lang="ruby" }
-    # spec/models/user_spec.rb
+    # spec/app/models/user_spec.rb
     ...
 
     describe "confirmation code" do
@@ -1257,7 +1257,7 @@ Here is now the code that makes our tests green:
 
 
 {: lang="ruby" }
-    # models/user.rb
+    # app/models/user.rb
 
     class User < ActiveRecord::Base
       ...
@@ -1419,7 +1419,7 @@ Let's create the observer with the name `user_observer` in the models folder
 
 
 {: lang="ruby" }
-    # models/user_observer.rb
+    # app/models/user_observer.rb
 
     class UserObserver < ActiveRecord::Observer
     ... # put in here the private methods of the users model
@@ -1437,7 +1437,7 @@ To see what we can move out of the user model let's have a look inside this mode
 
 
 {: lang="ruby" }
-    # models/user.rb
+    # app/models/user.rb
 
     class User < ActiveRecord::Base
       ... # The other validations
@@ -1470,7 +1470,7 @@ And refactor the code above into our observer:
 
 
 {: lang="ruby" }
-    # models/user_observer.rb
+    # app/models/user_observer.rb
 
     class UserObserver < ActiveRecord::Observer
 
@@ -1497,7 +1497,7 @@ and we need also to transfer this logic:
 
 
 {: lang="ruby" }
-    # models/user_observer.rb
+    # app/models/user_observer.rb
 
     class UserObserver < ActiveRecord::Observer
     ...
@@ -1516,7 +1516,7 @@ confirmation of our user? Right, we need to add an `after_save` method which sen
 
 
 {: lang="ruby" }
-    # models/user_observer.rb
+    # app/models/user_observer.rb
     ...
 
     def after_save(user)
@@ -1553,7 +1553,7 @@ After we've written the code let's add a test[^test] for it:
 
 
 {: lang="ruby" }
-    # spec/models/user_observer_spec.rb
+    # spec/app/models/user_observer_spec.rb
 
     require 'spec_helper'
 
@@ -1562,7 +1562,6 @@ After we've written the code let's add a test[^test] for it:
       before do
         @observer = UserObserver.instance
         @model = User
-
       end
 
       it 'creates Mail::Message object before save' do
