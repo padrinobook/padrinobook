@@ -8,12 +8,12 @@ too:
 
 
 {: lang="bash" }
-    $ padrino g model user name:string email:string
+    $ padrino g model user name:string email:string -a app
 
        apply  orms/activerecord
        apply  tests/rspec
-      create  models/user.rb
-      create  spec/models/user_spec.rb
+      create  app/models/user.rb
+      create  app/spec/models/user_spec.rb
       create  db/migrate/001_create_users.rb
 
 
@@ -24,7 +24,7 @@ Wow, it created a quite a bunch of files for us. Let's examine each of them:
 
 
 {: lang="ruby" }
-    # models/user.rb
+    # app/models/user.rb
 
     class User < ActiveRecord::Base
     end
@@ -36,11 +36,8 @@ object-relational-mapper from our models to corresponding database tables. You c
 models through associations.
 
 
-**spec/models/user_spec.rb**
-
-
 {: lang="ruby" }
-    # models/user.rb
+    # app/spec/models/user_spec.rb
 
     require 'spec_helper'
 
@@ -58,7 +55,7 @@ made for after all:
 
 
 {: lang="bash" }
-    $ rspec spec/models
+    $ rspec spec/app/models
 
     User Model
       can be created (FAILED - 1)
@@ -69,9 +66,9 @@ made for after all:
          Failure/Error: let(:user) { User.new }
          ActiveRecord::StatementInvalid:
            Could not find table 'users'
-         # ./spec/models/user_spec.rb:4:in `new'
-         # ./spec/models/user_spec.rb:4:in `block (2 levels) in <top (required)>'
-         # ./spec/models/user_spec.rb:6:in `block (2 levels) in <top (required)>'
+         # ./spec/app/models/user_spec.rb:4:in `new'
+         # ./spec/app/models/user_spec.rb:4:in `block (2 levels) in <top (required)>'
+         # ./spec/app/models/user_spec.rb:6:in `block (2 levels) in <top (required)>'
 
     Finished in 0.041 seconds
     1 example, 1 failure
@@ -188,7 +185,7 @@ Alright, now we are ready to re-execute the tests again.
 
 
 {: lang="bash" }
-    $ rspec spec/models
+    $ rspec spec/app/models
 
     User Model
       can be created (FAILED - 1)
@@ -199,16 +196,16 @@ Alright, now we are ready to re-execute the tests again.
          Failure/Error: let(:user) { User.new }
          ActiveRecord::StatementInvalid:
            Could not find table 'users'
-         # ./spec/models/user_spec.rb:4:in `new'
-         # ./spec/models/user_spec.rb:4:in `block (2 levels) in <top (required)>'
-         # ./spec/models/user_spec.rb:6:in `block (2 levels) in <top (required)>'
+         # ./spec/app/models/user_spec.rb:4:in `new'
+         # ./spec/app/models/user_spec.rb:4:in `block (2 levels) in <top (required)>'
+         # ./spec/app/models/user_spec.rb:6:in `block (2 levels) in <top (required)>'
 
     Finished in 0.04847 seconds
     1 example, 1 failure
 
     Failed examples:
 
-    rspec ./spec/models/user_spec.rb:5 # User Model can be created
+    rspec ./spec/app/models/user_spec.rb:5 # User Model can be created
 
 
 But why are the tests still failing? Because the migration for the *user* table was not executed for the test
@@ -228,7 +225,7 @@ Finally the test passes:
 
 
 {: lang="bash" }
-    $ rspec spec/models
+    $ rspec spec/app/models
 
     User Model
       can be created
@@ -244,7 +241,7 @@ to run all tests in the `spec/` folder:
 {: lang="bash" }
     $ padrino rake spec
     => Executing Rake spec ...
-    /home/helex/.rbenv/versions/1.9.3-p286/bin/ruby -S rspec ./spec/models/user_spec.rb -fs --color
+    /home/helex/.rbenv/versions/1.9.3-p286/bin/ruby -S rspec ./spec/app/models/user_spec.rb -fs --color
 
     User Model
       can be created
@@ -287,11 +284,11 @@ Let's run the Padrino command to create the model for us:
 
 
 {: lang="bash" }
-    $ padrino g model job_offer title:string location:string description:text contact:string time_start:date time_end:date
+    $ padrino g model job_offer title:string location:string description:text contact:string time_start:date time_end:date -a app
        apply  orms/activerecord
        apply  tests/rspec
-       create  models/job_offer.rb
-       create  spec/models/job_offer_spec.rb
+       create  app/models/job_offer.rb
+       create  app/spec/models/job_offer_spec.rb
        create  db/migrate/002_create_job_offers.rb
 
 
@@ -351,7 +348,7 @@ We define the association between the user and the job offers as shown in the fo
 
 
 {: lang="ruby" }
-    # models/user.rb
+    # app/models/user.rb
 
     class User < ActiveRecord::Base
       has_many :job_offers
@@ -365,7 +362,7 @@ The receiving object of the *has_many* relationship defines that it belongs to e
 
 
 {: lang="ruby" }
-    # models/job_offer.rb
+    # app/models/job_offer.rb
 
     class JobOffer < ActiveRecord::Base
       belongs_to :user
@@ -622,7 +619,7 @@ Now we have everything at hand to create a user with the factory while testing o
 
 
 {: lang="ruby" }
-    # spec/models/user_spec.rb
+    # spec/app/models/user_spec.rb
 
     require 'spec_helper'
 
@@ -726,7 +723,7 @@ Now we can change our test to:
 
 
 {: lang="ruby" }
-    # spec/models/user_spec.rb
+    # spec/app/models/user_spec.rb
 
     require 'spec_helper'
 
