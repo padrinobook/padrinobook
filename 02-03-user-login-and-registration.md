@@ -1549,20 +1549,38 @@ The last step we need to do is to register our observer in the `app.rb` file:
     end
 
 
-But we have forget something: For testing simplifications we want to disable our observer for testing. If we are not
-doing this, many of our tests will fail.  Don't worry about the confirmation code - we created a default in our user
-factory. To make our tests more reliable we have to disable the observer in our `spec_helper`:
+After we've written the code let's add a test[^test] for it:
 
 
 {: lang="ruby" }
-    # spec/spec_helper.rb
-    ...
-    RSpec.configure do |conf|
-      conf.before do
-        User.observers.disable :all # <-- turn of all observers for testing reasons
+    # spec/models/user_observer_spec.rb
+
+    require 'spec_helper'
+
+    describe "UserObserver" do
+      let(:user) { build(:user)}
+      before do
+        @observer = UserObserver.instance
+        @model = User
+
       end
-      ...
+
+      it 'creates Mail::Message object before save' do
+        @observer.before_save(user).should be_instance_of(Mail::Message)
+      end
+
+      it 'do not create Mail::Message if user already exist' do
+        @observer.before_save(@model.first).should be_nil
+      end
+
+      it 'creates Mail::Message object after save' do
+        @observer.after_save(user).should be_instance_of(Mail::Message)
+      end
+
     end
+
+
+[^test]: Got the inspiration from [stackoverflow](http://stackoverflow.com/questions/33048/how-would-you-test-observers-with-rspec-in-a-ruby-on-rails-application)
 
 
 ### Sessions
