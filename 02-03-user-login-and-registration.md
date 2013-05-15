@@ -1536,7 +1536,7 @@ We cleaned up our users controller from sending mail and this is the best soluti
 just talks to the model and passing the ball to the right direction after an event.
 
 
-The last step we need to do is to register our observer in the `app.rb` file:
+The last step we need to do is to register our observer in the `app.rb` and disable the observer for our specs
 
 
 {: lang="ruby" }
@@ -1548,13 +1548,20 @@ The last step we need to do is to register our observer in the `app.rb` file:
       ...
     end
 
+    # spec/spec_helper.rb
 
-After we've written the code let's add a test[^test] for it:
+    RSpec.configure do |conf|
+      ...
+      ActiveRecord::Base.observers.disable :all # <-- Turn 'em all off!
+      ...
+    end
+
+
+If you want to have an observer test[^test], you can use  the following one:
 
 
 {: lang="ruby" }
     # spec/app/models/user_observer_spec.rb
-
     require 'spec_helper'
 
     describe "UserObserver" do
@@ -1578,6 +1585,9 @@ After we've written the code let's add a test[^test] for it:
 
     end
 
+
+But during writing this book I became different testing results when using `bundle exec rake spec` and `be rspec spec`
+and to go on with the book, I removed the test and disabled all observers for the application.
 
 [^test]: Got the inspiration from [stackoverflow](http://stackoverflow.com/questions/33048/how-would-you-test-observers-with-rspec-in-a-ruby-on-rails-application)
 
