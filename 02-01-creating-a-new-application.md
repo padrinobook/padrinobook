@@ -168,7 +168,7 @@ Lets take a closer look at our page-controller:
 {: lang="ruby" }
     # app/controller/page.rb
 
-    JobVacancy.controllers :page do
+    JobVacancy::App.controllers :page do
 
       # get :index, :map => '/foo/bar' do
       #   session[:foo] = 'bar'
@@ -199,7 +199,7 @@ app. Let's change this and define the *about*, *contact*, and *home* actions:
 {: lang="ruby" }
     # app/controller/page.rb
 
-    JobVacancy.controllers :page do
+    JobVacancy:.App.controllers :page do
       get :about, :map => '/about' do
         render :erb, 'page/about'
       end
@@ -218,7 +218,7 @@ app. Let's change this and define the *about*, *contact*, and *home* actions:
 We will go through each line:
 
 
-- `JobVacancy.controller :page` - Define the namespace *page* for our JobVacancy app. Typically, the controller name
+- `JobVacancy::App.controller :page` - Define the namespace *page* for our JobVacancy app. Typically, the controller name
   will also be part of the route.
 - `do ... end` - This expression defines a block in Ruby. Think of it as a method without a name, also called anonymous
   functions, which is passed to another function as an argument.
@@ -281,7 +281,6 @@ put the content of the called page, like *about.erb* or *contact.erb*,  into the
 
 
 ### CSS design using Twitter bootstrap
-
 
 The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use. It
 is available from Github at [public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github").

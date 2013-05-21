@@ -119,8 +119,14 @@ last `end` in the file:
 
 
 {: lang="ruby" }
-    get "/" do
-      "Hello World!"
+    module HelloWorld
+      class App < Padrino::Application
+
+        get "/" do
+          "Hello World!"
+        end
+
+      end
     end
 
 

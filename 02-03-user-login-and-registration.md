@@ -356,11 +356,13 @@ We need to make sure to have the right mappings for the `/login` route in the ac
 {: lang="ruby" }
     # app/controllers/users.rb
 
-    JobVacancy.controllers :users do
+    JobVacancy::App.controllers :users do
+
       get :new, :map => "/login" do
         @user = User.new
         render 'users/new'
       end
+
     end
 
 
@@ -552,13 +554,18 @@ configuration file of our application `app.rb`:
 {: lang="ruby" }
     # app/app.rb
 
-    set :delivery_method, :smtp => {
-      :address => 'smtp.gmail.com',
-      :port => 587,
-      :user_name => '<your-gmail-account-address',
-      :password => '<secret>',
-      :authentication => :plain,
-    }
+    module JobVacancy
+      class App < Padrino::Application
+        ...
+        set :delivery_method, :smtp => {
+          :address => 'smtp.gmail.com',
+          :port => 587,
+          :user_name => '<your-gmail-account-address',
+          :password => '<secret>',
+          :authentication => :plain,
+        }
+      end
+    end
 
 
 Let's get through all the different options:
@@ -657,7 +664,7 @@ Now we let's look into the `registration.rb` file:
 {: lang="ruby" }
     # app/mailers/registration.rb
 
-    JobVacancy.mailer :registration do
+    JobVacancy:App.mailer :registration do
       email :registration_email do
         # Your mailer goes here
       end
@@ -671,7 +678,7 @@ controller and move it to this place.
 {: lang="ruby" }
     # app/mailers/registration.rb
 
-    JobVacancy.mailer :registration do
+    JobVacancy::App.mailer :registration do
       email :registration_email do
         from "admin@job-vacancy.de"
         to "lordmatze@gmail.com"
@@ -733,7 +740,7 @@ And now we make sure that we are rendering this template in our registration mai
 {: lang="ruby" }
     # app/mailers/registration.rb
 
-    JobVacancy.mailer :registration do
+    JobVacancy::App.mailer :registration do
       email :registration_email do
         from "admin@job-vacancy.de"
         to "lordmatze@gmail.com"
@@ -755,7 +762,7 @@ to do this we need to use enable the `locals` option.
 {: lang="ruby" }
     # app/mailers/registration.rb
 
-    JobVacancy.mailer :registration do
+    JobVacancy::App.mailer :registration do
       email :registration_email do |name, email|
         from "admin@job-vacancy.de"
         to email
@@ -1335,7 +1342,7 @@ Now let's fill out the confirmation mailer:
 {: lang="ruby" }
     # app/mailers/confirmation.rb
 
-    JobVacancy.mailer :confirmation do
+    JobVacancy::App.mailer :confirmation do
       CONFIRMATION_URL = "http://localhost:3000/confirm"
 
       email :confirmation_email do |name, email, id, link|
@@ -1541,11 +1548,13 @@ The last step we need to do is to register our observer in the `app.rb` and disa
 
 {: lang="ruby" }
     # app/app.rb.
-    class JobVacancy < Padrino::Application
-      ...
-      # Activating the user_observer
-      ActiveRecord::Base.add_observer UserObserver.instance
-      ...
+    module JobVacancy
+      class App < Padrino::Application
+        ...
+        # Activating the user_observer
+        ActiveRecord::Base.add_observer UserObserver.instance
+        ...
+      end
     end
 
     # spec/spec_helper.rb
@@ -1638,7 +1647,8 @@ Our session controller is naked:
 {: lang="ruby" }
     # app/controllers/sessions_controller.rb
 
-    JobVacancy.controllers :sessions do
+    JobVacancy:.App.controllers :sessions do
+
       get :new, :map => "/login" do
       end
 
@@ -1763,7 +1773,7 @@ Here is the code for our session controller to make the test green:
 {: lang="ruby" }
     # app/controllers/session.rb
 
-    JobVacancy.controllers :sessions do
+    JobVacancy::App.controllers :sessions do
 
       get :new, :map => "/login" do
         render 'sessions/new'
@@ -1845,7 +1855,7 @@ let's look into this file:
 
     # Helper methods defined here can be accessed in any controller or view in the application
 
-    JobVacancy.helpers do
+    JobVacancy::App.helpers do
       # def simple_helper_method
       #  ...
       # end
@@ -1859,7 +1869,7 @@ implement the main features:
 {: lang="ruby" }
     # app/helpers/session_helper.rb
 
-    JobVacancy.helpers do
+    JobVacancy::App.helpers do
       def current_user=(user)
         @current_user = user
       end
@@ -1960,7 +1970,7 @@ And finally the implementation of the code that it make our tests green:
 {: lang="ruby" }
     # app/controllers/session.rb
 
-    JobVacancy.controllers :sessions do
+    JobVacancy::App.controllers :sessions do
       get :destroy, :map => '/logout' do
         sign_out
         redirect '/'
@@ -1975,7 +1985,7 @@ session `:create` action:
 {: lang="ruby" }
     # app/controller/session.rb
 
-    JobVacancy.controllers :sessions do
+    JobVacancy::App.controllers :sessions do
       ...
       post :create do
         ...
@@ -2056,7 +2066,7 @@ using the `:locals` option to create customized params for your views:
 {: lang="ruby" }
     # app/controllers/sessions.rb
 
-    JobVacancy.controllers :sessions do
+    JobVacancy::App.controllers :sessions do
 
       get :new, :map => "/login" do
         render '/sessions/new', :locals => { :error => false }
@@ -2137,7 +2147,7 @@ Next we need implement the flash messages in our session controller:
 {: lang="ruby" }
     # app/controllers/sessions.rb
 
-    JobVacancy.controllers :sessions do
+    JobVacancy::App.controllers :sessions do
       ...
       post :create do
         user = User.find_by_email(params[:email])
