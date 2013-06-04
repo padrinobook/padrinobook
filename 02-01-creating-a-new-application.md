@@ -405,7 +405,7 @@ First we are loading the `bootstrap` default css, then `bootstrap-response`, and
 check the order of the loaded CSS as a comment above your application without ever have to look into the source of it.
 
 
-Next let's have a look into our JavaScript stylesheets:
+Next let's have a look into our JavaScript files:
 
 
 {: lang="javascript" }
@@ -420,7 +420,7 @@ Next let's have a look into our JavaScript stylesheets:
     //= require_tree .
 
 
-The interesting thing here is the `require_tree .` option. This options tells Sprockets to include all
+The interesting thing here is the `require_tree .` option. This option tells Sprockets to include all
 JavaScript files in the assets folder with no specific order.
 
 
