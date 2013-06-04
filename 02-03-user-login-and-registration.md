@@ -2,7 +2,7 @@
 
 In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions
 `new`, `create`, `update`, and `delete`. And you can't forget about security these days it would be nice to to have
-something at hand to save At the end we would need to find a method of safely storing the password for the user.
+something at hand to save atemail the end we would need to find a method of safely storing the password for the user.
 
 
 Of course, we could use you don't have to reinvent the wheel you can use Padrino's beautiful
@@ -560,7 +560,7 @@ configuration file of our application `app.rb`:
         set :delivery_method, :smtp => {
           :address => 'smtp.gmail.com',
           :port => 587,
-          :user_name => '<your-gmail-account-address',
+          :user_name => '<your-gmail-account-address>',
           :password => '<secret>',
           :authentication => :plain,
         }
@@ -576,7 +576,7 @@ Let's get through all the different options:
 - `:address`: The SMTP mail address.
 - `:port`: The port of the mail address.
 - `:user_name`: The name of the SMTP address.
-- `:password`: The password of your SMPT address.
+- `:password`: The password of your SMTP address.
 - `:authentication`: Specify if your mail server requires authentication. The default setting is plain meaning that
    the password is not encrypted. `:login` will send the password [Base64 encoded](https://en.wikipedia.org/wiki/Base64),  [:cram_md5](http://en.wikipedia.org/wiki/CRAM-MD5) is a challenge/response authentication mechanism .
 - `:domain`: This key is set up for [HELO checking](http://en.wikipedia.org/wiki/Anti-spam_techniques#HELO.2FEHLO_checking).
@@ -622,7 +622,7 @@ the mail is send::
 {: lang="bash" }
     DEBUG - Sending email to: lordmatze@gmail.com
     Date: Sun, 14 Apr 2013 09:17:38 +0200
-    From: admin@job-vacancy.org
+    From: admin@job-vacancy.de
     To: lordmatze@gmail.com
     Message-ID: <516a581243fb3_498a446f81c295e3@mg.mail>
     Subject: Welcome!
@@ -823,7 +823,7 @@ content as hash elements as arguments.
       subject "Welcome!"
       locals :name => name, :email=> email
       render 'registration/registration_email'
-      add_file :filename => 'welcome.pdf', :content => File.open("#{Padrino.root}/app/assets/pdfs/welcome.pdf") { |f| f.read}
+      add_file :filename => 'welcome.pdf', :content => File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |f| f.read}
     end
 
 
@@ -908,7 +908,7 @@ The basic steps for implementing the logic of email confirmation are the followi
 - Protect our controller methods and views to prevent security issues.
 
 
-I>## Why Confirmation Mail
+I> ## Why Confirmation Mail
 I>
 I> Check that the user actually signed up for the account and actually wants it. This also helps you from spamming your
 I> platform is going to be floated with billions of users. Another usage of this information is to give your users a
@@ -1595,7 +1595,7 @@ If you want to have an observer test[^test], you can use  the following one:
     end
 
 
-But during writing this book I became different testing results when using `bundle exec rake spec` and `be rspec spec`
+But during writing this book I became different testing results when using `bundle exec rake spec` and `bundle exec rspec spec`
 and to go on with the book, I removed the test and disabled all observers for the application.
 
 [^test]: Got the inspiration from [stackoverflow](http://stackoverflow.com/questions/33048/how-would-you-test-observers-with-rspec-in-a-ruby-on-rails-application)
@@ -1647,7 +1647,7 @@ Our session controller is naked:
 {: lang="ruby" }
     # app/controllers/sessions_controller.rb
 
-    JobVacancy:.App.controllers :sessions do
+    JobVacancy:App.controllers :sessions do
 
       get :new, :map => "/login" do
       end
@@ -1763,7 +1763,7 @@ We are using **mocking** to make test what we want with the `User.should_receive
 method. I was thinking at the first that mocking is something very difficult but it isn't Read it the method out loud
 ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it
 should return our user object. This method will simulate from calling an actual find method in our application - yeah
-we are mocking the actual call and preventing our tests from hitting the database and making it faster.actual call and
+we are mocking the actual call and preventing our tests from hitting the database and making it faster. Actual call and
 preventing our tests from hitting the database and making it faster.
 
 
@@ -1978,7 +1978,7 @@ And finally the implementation of the code that it make our tests green:
     end
 
 
-What we forget due to this point is to make use of the `sign_in(user)` method. Of, course we need use this during our
+What we forget due to this point is to make use of the `sign_in(user)` method. Of course we need use this during our
 session `:create` action:
 
 
@@ -2200,4 +2200,3 @@ the message. Since we are first writing our own customized JavaScript, let's cre
 Feel free to add the `flash[:notice]` function when the user has registered and confirmed successfully on our platform.
 If you have problems you can check
 [my commit](https://github.com/matthias-guenther/job-vacancy/commit/f7233bf2edc7da89f02adf7f030a090fc74b3f2d).
-

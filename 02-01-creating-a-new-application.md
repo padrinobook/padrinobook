@@ -37,7 +37,7 @@ You can use a vast array of other options when generating your new Padrino app, 
 options:
 
 
-- `orm`: Available options are: `, activerecord, couchrest,  datamapper, mongoid, mongomatic,
+- `orm`: Available options are: `activerecord, couchrest,  datamapper, mongoid, mongomatic,
   ohm, ripple`, and `sequel`. The command line alias is `-d`.
 - `test`: Availabe options are: `bacon, cucumber, minitest, riot, rspec, should`, and `testspec`. The command line
   alias is `-t`.
@@ -230,7 +230,7 @@ We will go through each line:
 - `render :erb, 'page/about'` - This action tells us that we want to render an the *erb* file *page/about*. This file is
   actually located at `app/views/page/about.erb` file. Normally the views are placed under
   *app/views/<controller-name>/<action-name>.<ending>*  Instead of using an ERB templates, you could also use `:haml`,
-  or another template language. If you are lazy, you can leave the   option for the rendering option completely out and
+  or another template language. If you are lazy, you can leave the option for the rendering option completely out and
   leave the matching completely for Padrino.
 
 
@@ -324,7 +324,7 @@ Next we need to include the style sheet in our app template for the whole app:
 
 The `stylesheet_link_tag` points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will
 automatically create a link to this stylesheet. The `javascript_include_tag` does the same as `stylesheet_link_tag` for
-your JavaScript files in the *public/javascript* directory.
+your JavaScript files in the *public/javascripts* directory.
 
 
 ### Using Sprockets to Manage the Asset Pipeline
@@ -567,7 +567,7 @@ behavior by writing tests first, then the code. We use the [RSpec](http://rspec.
 this.
 
 
-Remember when we created the *page-controller* with `padrino g controller page`? Thereby, Padrino created a
+Remember when we created the *page-controller* with `padrino g controller page` ? Thereby, Padrino created a
 corresponding spec file *spec/app/controller/page_controller_spec.rb* which has the following content:
 
 
