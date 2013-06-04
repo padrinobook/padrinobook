@@ -23,7 +23,7 @@ Explanation of the fields commands:
 - **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*)
   markup for writing HTML templates. An alternative is [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com/
   "Slim"), but to keep the project as simple as possible, we stick with ERB. Feel free to use them if you like to.
-- **-a sqlite**: Our ORM[^orm] database adapter is [sqlite](http://www.sqlite.org/ "SQLite"). It is easy to install
+- **-a sqlite**: Our ORM[^orm] database adapter is [SQLite](http://www.sqlite.org/ "SQLite"). It is easy to install
   because the whole database is saved in a text file.
 
 
