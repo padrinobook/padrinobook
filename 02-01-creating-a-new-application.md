@@ -37,32 +37,33 @@ You can use a vast array of other options when generating your new Padrino app, 
 options:
 
 
-|Component | Default | Aliases | Options                                                                      |
-|----------|---------|---------|------------------------------------------------------------------------------|
-|orm       | none    | -d      | mongoid, activerecord, datamapper, couchrest, mongomatic, ohm, ripple, sequel|
-|test      | none    | -t      | bacon, shoulda, cucumber, testspec, riot, rspec, minitest                    |
-|script    | none    | -s      | prototype, rightjs, jquery, mootools, extcore, dojo                          |
-|renderer  | haml    | -e      | erb, haml, slim, liquid                                                      |
-|stylesheet| none    | -c      | sass, less, scss, compass                                                    |
-|mock      | none    | -m      | rr, mocha                                                                    |
+- `orm`: Available options are: `, activerecord, couchrest,  datamapper, mongoid, mongomatic,
+  ohm, ripple`, and `sequel`. The command line alias is `-d`.
+- `test`: Availabe options are: `bacon, cucumber, minitest, riot, rspec, should`, and `testspec`. The command line
+  alias is `-t`.
+- `script`: Available options are: `dojo, extcore, jquery, mootools, prototype`, and `rightjs`. The command line alias
+  is `-s`.
+- `renderer`: Available options are: `erb, haml, liquid`, and `slim`. The command line alias is `-e`.
+- `stylesheet`: Available options are: `compass, less, sass`, and `scss`. The command line alias is `-c`.
+- `mock`: Available options are: `mocha` and `rr`.
+
+
+The default value of each option is none. So to in order to use them you have to specify the option you want to use.
 
 
 Besides the `project` option for generating new Padrino apps, the following table illustrates the other generators
 available:
 
 
-|Option     | Description
-|-----------|------------------------------------------------------------------------------------------------|
-|project    | Generates a completely new app from the scratch.                                               |
-|app        | You can define other apps to be mounted in your main app.                                      |
-|mailer     | Creating new mailers within your app.                                                          |
-|controller | A controller takes date from the models and puts them into view that are rendered.             |
-|model      | Models describe data objects of your application.                                              |
-|migration  | Migrations simplify changing the database schema.                                              |
-|plugin     | Creating new Padrino projects based on a template file - it's like a list of commands.         |
-|           | which create your new app.                                                                     |
-|admin      | A very nice built-in admin dashboard.                                                          |
-|admin_page | Creates for an existing model the CRUD operation for the admin interface                       |
+- `admin`: A very nice built-in admin dashboard.
+- `admin_page`: Creates for an existing model the CRUD operation for the admin interface.
+- `app`: You can define other apps to be mounted in your main app.
+- `controller`: A controller takes date from the models and puts them into view that are rendered.
+- `mailer`: Creating new mailers within your app.
+- `migration`: Migrations simplify changing the database schema.
+- `model`: Models describe data objects of your application.
+- `project`: Generates a completely new app from the scratch.
+- `plugin`: Creating new Padrino projects based on a template file - it's like a list of commands.
 
 
 Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using
