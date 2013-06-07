@@ -283,7 +283,7 @@ The new thing about the controller command above is the `get:new` option. This w
 `users/new`.
 
 
-#### Sign up Form
+#### Sign Up Form
 
 The stage is set: We have the model with the tested constraints, and a controller for the user which handles the action.
 Time to create a sign up form for getting new users on our platform. For this case we can use the `form_for` helper.
@@ -889,22 +889,22 @@ I> MIME types. This means that MIME headers are optional for plain text emails a
 I> read correctly by a clients being able to read MIME encoded messages.
 
 
-#### Sending Email With Confirmation Link
+#### Sending Email with Confirmation Link
 
 The basic steps for implementing the logic of email confirmation are the following:
 
 
-- We need to add the *confirmation_code* and *confirmation* attributes in our user model.
-- Create a controller method for our user model that expects a user id and confirmation code, looks up the user, checks
+- we need to add the *confirmation_code* and *confirmation* attributes in our user model.
+- create a controller method for our user model that expects a user id and confirmation code, looks up the user, checks
   the code in the parameter matches the code saved in our database and clears the code after confirmation.
-- Create an action that maps to our new controller method (e.g. `/confirm/<user-id>/<code>`).
-- Create an Mailer template which takes the user as a parameter and use the *confirmation code* of the user to send
+- create an action that maps to our new controller method (e.g. `/confirm/<user-id>/<code>`).
+- create an mailer template which takes the user as a parameter and use the *confirmation code* of the user to send
   a mail containing a link to the new route in our controller.
-- Create an **observer** for our user model. If the email of the user needs to be modified or a record is created we
-  need to create a confirmation code, set it in the model and clear the confirmation flag. After that we need to
-  trigger our Mailer.
-- Create a helper method which allows views to check if the current user is confirmed.
-- Protect our controller methods and views to prevent security issues.
+- create an **observer** for our user model. if the email of the user needs to be modified or a record is created we
+  need to create a confirmation code, set it in the model and clear the confirmation flag. after that we need to
+  trigger our mailer.
+- create a helper method which allows views to check if the current user is confirmed.
+- protect our controller methods and views to prevent security issues.
 
 
 I> ## Why Confirmation Mail
@@ -914,7 +914,7 @@ I> platform is going to be floated with billions of users. Another usage of this
 I> chance to change their password and/or stay in contact with them to inform them about updates.
 
 
-#### Add confirmation code and confirmation attributes to the User Model
+### Add Confirmation Code and Confirmation Attributes to the User Model
 
 Create a good migration which fits to the task we want to do:
 
@@ -931,7 +931,7 @@ Now let's add the fields to a migration:
 {: lang="ruby" }
     # db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
 
-    class AddConfirmationCodeAndConfirmationToUsers < ActiveRecord::Migration
+    class addconfirmationcodeandconfirmationtousers < activerecord::migration
       def self.up
         change_table :users do
           t.string :confirmation_code
@@ -947,7 +947,7 @@ Now let's add the fields to a migration:
     end
 
 
-We added the `:default` option which sets the confirmation for every user to false if a new one is registered. Now
+We added the `:default` option which sets the confirmation for every user to false if a new one is registered. now
 let's migrate our production and test database to this new event:
 
 
@@ -958,9 +958,9 @@ let's migrate our production and test database to this new event:
 
 #### My Tests are Slow ...
 
-During writing this book I discovered various strange behavior for my tests because I was writing data into my
-test database. So the tests weren't really reliable because some worked only when the database is fresh with no
-preexisting entries. One solution would be to clean up the database before each run:
+During writing this book I discovered various strange behavior for my tests because I was writing data into my test
+database. So the tests weren't really reliable because some worked only when the database is fresh with no preexisting
+entries. One solution would be to clean up the database before each run:
 
 
 {: lang="bash" }
