@@ -360,9 +360,9 @@ Next we need to move all our assets from the public folder in the assets folder:
 {: lang="bash" }
     $ cd <path-to-your-padrino-app>
     $ mkdir -p app/assets
-    $ mv app/public/javascript app/assets
-    $ mv app/public/stylesheets app/assets
-    $ mv app/public/images app/assets
+    $ mv public/javascript app/assets
+    $ mv public/stylesheets app/assets
+    $ mv public/images app/assets
 
 
 Now we have to register Padrino-Sprockets in this application:
