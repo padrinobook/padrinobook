@@ -1,4 +1,4 @@
-## Registration and Login {#chapter-32}
+## Registration and Login
 
 In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions
 `new`, `create`, `update`, and `delete`. And you can't forget about security these days it would be nice to to have
@@ -24,7 +24,7 @@ user has.
     Password: String
 
 
-Recording from chapter [Registration and Login](#chapter-32) we only need to add the `Password` fields to the user table:
+Recording from chapter "???" we only need to add the `Password` fields to the user table:
 
 
 Let's create the migration:
@@ -154,13 +154,12 @@ To make this test pass we need to validate the `email` property in our user mode
 
 
 {: lang="ruby" }
-  # app/models/user.rb
+    # app/models/user.rb
+    class User < ActiveRecord::Base
+      validates :name, :presence => true
 
-  class User < ActiveRecord::Base
-    validates :name, :presence => true
-
-    has_many :job_offers
-  end
+      has_many :job_offers
+    end
 
 
 As an exercise, Please write the validates for `email` and `password` on your own.
@@ -258,11 +257,11 @@ expression and use the [format validation](http://guides.rubyonrails.org/active_
 
 I> ## Regular Expressions
 I>
-I> [Regular expressions](http://en.wikipedia.org/wiki/Regular_expression) are your first tool when you need to match
-I> certain parts (or whole) strings against a predefined pattern. The drawback of using them is that you have to
-I> learn a formal language to define your patterns. I can highly
-I> recommend you the [Rubular tool](http://rubular.com/) for training and trying out the expression you want to use
-I> It make it very easy to build and test your patterns against test data.
+I> [Regular expressions](http://en.wikipedia.org/wiki/Regular_expression) are your first tool when you
+I> need to match certain parts (or whole) strings against a predefined pattern. The drawback of using them is that
+I> you have to learn a formal language to define your patterns. I can highly
+I> recommend you the [Rubular tool](http://rubular.com/) for training and trying out the expression you
+I> want to use. It make it very easy to build and test your patterns against test data.
 
 
 ### Users Controller
@@ -444,7 +443,7 @@ It counts the number of errors (`@user.errors.count`) and is looping through all
 But this will result in a big box with a bunch of error messages like the following one:
 
 
-{: lang="plain" }
+{: lang="bash" }
     5 errors prohibited this User from being saved
     There were problems with the following fields:
 
@@ -459,7 +458,7 @@ This isn't something we want to ship to our customers.
 
 
 Let's change this by using
-[error_message_on method](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_message_on-instance_method)
+[error\_message\_on method](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_message_on-instance_method)
 which returns a string containing the error message attached to the method on the object:
 
 
@@ -535,7 +534,7 @@ Remember that have an eye on your logs can help you to see what's going on in yo
 front-end of your app.
 
 
-I>## What are VALUES (?, ?, ?, ?, ?) in an SQL insert query?
+I> ## What are VALUES (?, ?, ?, ?, ?) in a SQL insert query?
 I>
 I> These form of inserting data in your database is known as parameterized queries. A parameterized query is a query
 I> in which placeholders are used for parameters and the
@@ -724,7 +723,7 @@ Instead of writing only a simple "Hallo" in our email we would like to give more
 template and then use the `render` method in our registration mailer. Let's define the registration template:
 
 
-{: lang="plain" }
+{: lang="bash" }
     # app/views/mailers/registration/registration_email.plain.erb
 
     Hi ...,
@@ -835,7 +834,7 @@ get the attachment based as binary code directly into your mail. Please put the 
 `registration` mailer. If the mail will be send you can see something like this in your logs:
 
 
-{: lang="plain" }
+{: lang="bash" }
         DEBUG - Sending email to: lordmatze@gmail.com
       Date: Thu, 18 Apr 2013 18:34:15 +0200
       From: admin@job-vacancy.de
