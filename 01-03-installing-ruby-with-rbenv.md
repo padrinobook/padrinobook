@@ -42,7 +42,7 @@ Basically, there are two ways to install different versions of Ruby: You can com
 own and try to manage the versions and gems on your own, or you use a tool that helps you.
 
 
-### ruby-build
+**ruby-build**
 
 Because we don't want to download and compile different Ruby versions on our own, we will use
 [ruby-build](https://github.com/sstephenson/ruby-build "ruby-build") plugin for rbenv:
@@ -78,47 +78,8 @@ Check that the correct executable is active by exexuting `ruby -v`. The output s
     $ 1.9.3-p392 (set by /home/.rbenv/versions)
 
 
-Now you are a "rookie" [Ruby Rogue](http://rubyrogues.com/ "Ruby Rouges").
+Now you are a ready to hack on with Padrino!
 
-
-### Compiling Ruby On Your Own
-
-If you want to compile a different version of Ruby that is not offered with rbenv, then make sure you have
-the following packages installed for your os: `make, g++, wget` and `unzip`. Continue to select your preferred
-[Ruby versions ](http://ftp.ruby-lang.org/pub/ruby/ "ruby versions") and then download the appropriate package:
-
-
-{: lang="bash" }
-    $ cd ~/.rbenv/versions
-    $ wget http://ftp.ruby-lang.org/pub/ruby/ruby-1.9.3-p392.zip
-
-
-Go to the directory `.rbenv/versions` where you will find the downloaded file. Next unzip the file:
-
-
-{: lang="bash" }
-    $ unzip ruby-1.9.3-p392.zip
-
-
-Configure the compilation and perform the installation:
-
-
-{: lang="bash" }
-    $ cd ~/.rbenv/versions
-    $ ./configure --prefix=$HOME/.rbenv/versions/ruby-1.9.3.p392
-    $ make
-    $ make install
-
-
-Following these steps, you gain knowledge about the whole process of configuration and compilation
-of custom Ruby versions. However, this doesn't always work:'
-
-
-{: lang="bash" }
-    $ ruby -v
-    Segmentation fault
-
-
-If you want to be on the safe side, then use ruby-build.
 
 %%/* vim: set ts=2 sw=2 textwidth=120: */
+
