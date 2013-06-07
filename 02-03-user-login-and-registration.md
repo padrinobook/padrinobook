@@ -1899,12 +1899,12 @@ There's a lot of stuff going on in this helper:
   the right hand-side.
 - `sign_in(user)`: Uses the global [session](http://www.sinatrarb.com/faq.html#sessions) method use the user Id as login
   information
-- `sign_out`: purges the `:current_user` field from our session.
+- `sign_out`: Purges the `:current_user` field from our session.
 - `signed_in?`: We will use this small method within our whole application to display special actions which should only
   be available for authenticated users.
 
 
-I>## Why Sessions?
+I>## Why Sessions and how does sign_out work?
 I>
 I> When you request an URL in your browser you are using the HTTP/HTTPS protocol. This protocol is stateless that means
 I> that it doesn't save the state in which you are in your application. Web applications implement states with one of
@@ -1912,7 +1912,14 @@ I> the following mechanisms: hidden variables in forms when sending data, cookie
 I> http://localhost:3000/login?user=test&password=test).
 I>
 I> We are going to use cookies to save if a user is logged in and saving the user-Id in our session cookies under the
-I> key `:current_user`.
+I> `:current_user` key.
+I>
+I> What the delete method does is the following: It will look into the last request in your application inside the
+I> session information hash and delete the `current_user` key. And the sentence in code
+I> `browser.last_request.env['rack.session'].delete(:current_user)`. If you want to explore more of the internal of an
+I> application I highly recommend you the [Pry](https://github.com/pry/pry). You can throw in at any part of your
+I> application `binding.pry` and have full access to all variables.
+
 
 
 Now we are in a position to write tests for our `:destroy` action:
