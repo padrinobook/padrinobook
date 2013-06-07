@@ -13,8 +13,8 @@ your first program.
 Now, get your hands dirty and start coding.
 
 
-First of all we need to install the padrino gem. We are using the last stable version of Padrino (during the release of
-this book it is version **0.11.1**). Execute this command.
+First of all we need to install the *padrino gem*. We are using the last stable version of Padrino (during the release of
+this book it is version **0.11.2**). Execute this command.
 
 
 {: lang="bash" }
@@ -145,7 +145,7 @@ Congratulations! You've built your first Padrino app.
 
 
 
-### Folder structure of a Padrino app
+## Folder structure of Padrino
 
 Navigating through the various parts of a project is essential. Thus we will go through the basic file structure of the
 *hello-world* project. The app consists of the following parts:
@@ -193,7 +193,7 @@ We will go through each part.
   existing app under different subdomains.
   - **apps.rb**: Allows you to configure a compound app that consists of several smaller apps. Each app has his own
     default route form which requests will be handled by that app. Here you can set site wide configs like caching,
-    csrf, mounting different apps
+    csrf, mounting different apps.
   - **boots.rb**: Basic settings for your app which will be run when you start the app. Here you can turn on or off the
     error logginh, enable internationalization and localization, load any prerquisites like HTML5 or Mailer helpers
   - **database.rb**: Define different adapters for all the environments in your application.
