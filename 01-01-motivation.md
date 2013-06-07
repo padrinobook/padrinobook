@@ -1,4 +1,4 @@
-# Motivation
+## Motivation
 
 Shamelessly I have to tell you that I'm learning Padrino through writing a book about instead of doing a blog post
 series about it. Besides I want to provide to provide you an up-to-date documentation for Padrino which is at the moment
@@ -10,7 +10,7 @@ more modular and allows you to interchange various components with considerable 
 the creation of two different application we are going to build throughout the book.
 
 
-## Why Padrino With The Developer Point of View
+### Why Padrino With The Developer Point of View
 
 Nothing is enabled without explicit choice. You as a programmer knows what database is best for your application, which
 Gems don't provides security issues. If you are honest to yourself you can only learn a framework by heart if you go
@@ -20,7 +20,7 @@ of techniques that are common to Ruby can be reused.  Having a low stack frame m
 best Rails convenience parts like `I18n` and `active_support` are available for you.
 
 
-## Why Padrino In A Human Way?
+### Why Padrino In A Human Way?
 
 Before going any further you may ask: Why should you care about learning and using another web framework? Because you
 want something that is *easy to use*, *simple to hack*, and *open to any contribution*. If you've done
