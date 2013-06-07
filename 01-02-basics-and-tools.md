@@ -1,13 +1,13 @@
-## Basics And Tools
+## Tools and Knowledge
 
 I won't tell you which operating system you should use - there is an interesting discussion on
 [hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I leave it free for the reader of this book
 which to use, because basically you are reading this book to learn Padrino.
 
-To actually see a running padrino app, you need a web browser of your choice.
 
-For writing the application, you can either use an Integrated Development Environment (IDE) or with
-a plain text editor.
+To actually see a running padrino app, you need a web browser of your choice.  For writing the application, you can
+either use an Integrated Development Environment (IDE) or with a plain text editor.
+
 
 Nowadays there are a bunch of Integrated Development Environments (IDEs) out there:
 
@@ -36,6 +36,7 @@ you are comfortable with it because you will spend a lot of time with it.
 For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of Ruby before
 continuing here.
 
+
 - [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming Ruby") - the
   standard book on Ruby.
 - [Poignant Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "Poignant Guide To Ruby") -
@@ -44,6 +45,6 @@ continuing here.
 
 
 In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will, however,
-explain Padrino-specific coding techniques.
+explain Padrino-specific coding techniques and how to get most parts under test.
 
 %%/* vim: set ts=2 sw=2 textwidth=120: */
