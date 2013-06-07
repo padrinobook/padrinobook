@@ -31,7 +31,7 @@ All tools have their strengths and weaknesses. Try to find the software that wor
 you are comfortable with it because you will spend a lot of time with it.
 
 
-### Ruby Knowledge
+**Ruby Knowledge**
 
 For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of Ruby before
 continuing here.
