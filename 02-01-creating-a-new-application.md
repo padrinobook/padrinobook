@@ -647,6 +647,14 @@ make sure the following matches:
 
     def app(app = nil, &blk) # note the comma right after nil
 
+Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was ommited during the initial
+app generation that looks something like 'NameError: undefined local variable' so check your `spec_helper.rb` file and
+make sure the following matches:
+
+
+    def app(app = nil, &blk) # note the comma right after nil
+
+
 I> ## Red-Green Cycle
 I>
 I> In behavior-driven development (BDD) it is important to write a failing test first and then the code that satisfies the
