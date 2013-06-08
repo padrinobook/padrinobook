@@ -3,9 +3,8 @@
 ### User Model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
-identification number **id**, a **name**, and an **email**. You can use commands on the command-line to create models
-too:
-
+identification number **id**, a **name**, and an **email**. We can specify the location of the model by appending the 
+end of the generate command with `-a app` as follows:
 
 {: lang="bash" }
     $ padrino g model user name:string email:string -a app
@@ -13,7 +12,7 @@ too:
        apply  orms/activerecord
        apply  tests/rspec
       create  app/models/user.rb
-      create  app/spec/models/user_spec.rb
+      create  spec/app/models/user_spec.rb
       create  db/migrate/001_create_users.rb
 
 
@@ -37,7 +36,7 @@ models through associations.
 
 
 {: lang="ruby" }
-    # app/spec/models/user_spec.rb
+    # spec/app/models/user_spec.rb
 
     require 'spec_helper'
 
@@ -262,7 +261,7 @@ to run all tests in the `spec/` folder:
     3 examples, 0 failures
 
 
-This is very handy to make sure that you didn't broke anything in the existing codebase when you are working on a next
+This is very handy to make sure that you didn't break anything in the existing codebase when you are working on a new
 feature. Run these regression tests frequently and enjoy it to see your app growing feature by feature.
 
 
@@ -280,17 +279,22 @@ A job offer consists of the following attributes:
 - time-end: A job offer isn't valid forever.
 
 
-Let's run the Padrino command to create the model for us:
-
+Let's run the Padrino command to create the model for us. As you see, we once again run `-a app` at the end of our generation. 
+Without specifying location, a new folder called `models` is created in the main directory. 
 
 {: lang="bash" }
     $ padrino g model job_offer title:string location:string description:text contact:string time_start:date time_end:date -a app
        apply  orms/activerecord
        apply  tests/rspec
        create  app/models/job_offer.rb
-       create  app/spec/models/job_offer_spec.rb
+       create  spec/app/models/job_offer_spec.rb
        create  db/migrate/002_create_job_offers.rb
 
+Perhaps your forgot to add `-a app` to specify the app directory when running the generation. You can delete a model in Padrino by running:
+
+    padrino g model job_offer -d
+
+Keep in mind that you will need to manually delete the now empty `models` folder or with the `$ rmdir models` unix/linux command.
 
 Next, we need to run our new database migration so that our database has the right scheme:
 
@@ -585,6 +589,7 @@ Execute `bundle` and the new gem will be installed.
 
 Next we need to define a *factory* to include all the fixtures of our models:
 
+    $ touch ./spec/factories.rb
 
 {: lang="ruby" }
     # spec/factories.rb
@@ -605,6 +610,7 @@ To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the
 the definition for user model. To make our factory available in all our tests, we just have to *require* our factory
 in the `spec_helper.rb`:
 
+    $ touch ./spec/models.user_spec.rb
 
 {: lang="ruby" }
     # spec/spec_helper.rb
