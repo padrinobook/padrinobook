@@ -641,6 +641,11 @@ Now let's run the tests with `rspec spec/app/controllers/page_controller_spec.rb
 
 Cool, all tests passed! We didn't exactly use behavior-driven development until now, but will do so in the next parts.
 
+Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was ommited during the initial 
+app generation that looks something like 'NameError: undefined local variable' so check your `spec_helper.rb` file and 
+make sure the following matches:
+
+    def app(app = nil, &blk) # note the comma right after nil
 
 Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was ommited during the initial
 app generation that looks something like 'NameError: undefined local variable' so check your `spec_helper.rb` file and
