@@ -644,7 +644,7 @@ Cool, all tests passed! We didn't exactly use behavior-driven development until 
 Note: It's possible your tests did not pass due to a Padrino error in which a comma (,) was ommited during the initial app generation 
 that looks something like 'NameError: undefined local variable' Check your `spec_helper.rb` file and make sure the following mathces:
 
-    `def app(app = nil, &blk) # notice the comma right after nil`
+    def app(app = nil, &blk) # notice the comma right after nil
 
 I> ## Red-Green Cycle
 I>
