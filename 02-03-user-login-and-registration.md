@@ -46,7 +46,9 @@ And write the fields into the migration file:
     class AddRegistrationFieldsToUsers < ActiveRecord::Migration
 
       @fields = [:password]
-
+      
+      # Recommended to add :password_confirmation field at this step as well
+      
       def self.up
         change_table :users do |t|
           @fields.each { |field| t.string field}
@@ -60,6 +62,9 @@ And write the fields into the migration file:
       end
     end
 
+Ok, now migrate run migrations:
+
+      $ exec padrino rake ar:migrate
 
 ### Validating attributes
 
@@ -217,13 +222,13 @@ Now this test is fixed. Next we are going to implement the validation for the em
 
 
 {: lang="ruby" }
-    # spec/app/models/user.spec
+    # spec/app/models/user_spec.rb
     ...
 
     describe "email address" do
       it 'valid' do
-        adresses = %w[thor@marvel.de hero@movie.com]
-        adresses.each do |email|
+        addresses = %w[thor@marvel.de hero@movie.com]
+        addresses.each do |email|
           user_second.email = email
           user_second.name= email
           user_second.should be_valid
@@ -231,8 +236,8 @@ Now this test is fixed. Next we are going to implement the validation for the em
       end
 
       it 'not valid' do
-        adresses = %w[spamspamspam.de heman,test.com]
-        adresses.each do |email|
+        addresses = %w[spamspamspam.de heman,test.com]
+        addresses.each do |email|
           user_second.email= email
           user_second.should_not be_valid
         end
@@ -288,7 +293,9 @@ The new thing about the controller command above is the `get:new` option. This w
 The stage is set: We have the model with the tested constraints, and a controller for the user which handles the action.
 Time to create a sign up form for getting new users on our platform. For this case we can use the `form_for` helper.
 This method takes an object as its input and creates a form using the attributes of the object. We need this to
-save/edit the attributes of the model in our controller.
+save/edit the attributes of the model in our controller. Create a new erb file under the users view:
+
+    $ touch ./app/views/users/new.erb
 
 
 {: lang="ruby" }
@@ -315,7 +322,7 @@ There is a lot of stuff going on -- let's break it down:
 
 - `form_for`: Is part of [Padrino's Form Builder](http://www.padrinorb.com/guides/application-helpers#formbuilders) and
   allows you to create standard input fields based on a model. The first argument to the function is an object (mostly a
-  model), the second argument is an string (the action to which the form should be send after an submit), and the third
+  model), the second argument is an string (the action to which the form should be sent after a submit), and the third
   parameter are settings in form of an hash which aren't used in this example. The part `action="/users/create"` says,
   that we want to use the `create` action to the `users` controller with the `create` action.
 - `f.label` and `f.text`: Will a label and text field for the attributes of your model.
