@@ -46,9 +46,7 @@ And write the fields into the migration file:
     class AddRegistrationFieldsToUsers < ActiveRecord::Migration
 
       @fields = [:password]
-      
-      # Recommended to add :password_confirmation field at this step as well
-      
+
       def self.up
         change_table :users do |t|
           @fields.each { |field| t.string field}
@@ -62,9 +60,12 @@ And write the fields into the migration file:
       end
     end
 
-Ok, now migrate run migrations:
 
-      $ exec padrino rake ar:migrate
+Ok, run the migrations:
+
+
+      $ padrino rake ar:migrate
+
 
 ### Validating attributes
 
@@ -167,7 +168,9 @@ To make this test pass we need to validate the `email` property in our user mode
     end
 
 
-As an exercise, Please write the validates for `email` and `password` on your own.
+As an exercise, Please write the validates for `email` and `password` on your own. Please consider that the
+`password_confirmation` attribute can be create with the `:confirmation => true` option to the `validates :password`
+setting.
 
 
 We don't want to have duplicated names in our application. To simply test this we need as second user with the same
@@ -295,11 +298,9 @@ Time to create a sign up form for getting new users on our platform. For this ca
 This method takes an object as its input and creates a form using the attributes of the object. We need this to
 save/edit the attributes of the model in our controller. Create a new erb file under the users view:
 
-    $ touch ./app/views/users/new.erb
-
 
 {: lang="ruby" }
-    # views/users/new.erb
+    # app/views/users/new.erb
     <h1>Registration</h1>
 
     <% form_for(@user, '/users/create') do |f| %>
@@ -326,7 +327,7 @@ There is a lot of stuff going on -- let's break it down:
   parameter are settings in form of an hash which aren't used in this example. The part `action="/users/create"` says,
   that we want to use the `create` action to the `users` controller with the `create` action.
 - `f.label` and `f.text`: Will a label and text field for the attributes of your model.
-- `f.password_field`: Constructs a password input, where the input is marked with stars,  from the given attribute of
+- `f.password_field`: Constructs a password input, where the input is marked with stars, from the given attribute of
   the form.
 - `f.submit`: Take an string as an caption for the submit button and options as hashes for additional parameter (for
   example `:class => 'long'`).
