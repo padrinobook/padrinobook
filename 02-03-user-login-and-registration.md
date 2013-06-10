@@ -61,6 +61,12 @@ And write the fields into the migration file:
     end
 
 
+Ok, run the migrations:
+
+
+      $ padrino rake ar:migrate
+
+
 ### Validating attributes
 
 Before we are going to implement what we think, we are going to write **pending** specs:
@@ -162,7 +168,9 @@ To make this test pass we need to validate the `email` property in our user mode
     end
 
 
-As an exercise, Please write the validates for `email` and `password` on your own.
+As an exercise, Please write the validates for `email` and `password` on your own. Please consider that the
+`password_confirmation` attribute can be create with the `:confirmation => true` option to the `validates :password`
+setting.
 
 
 We don't want to have duplicated names in our application. To simply test this we need as second user with the same
@@ -217,13 +225,13 @@ Now this test is fixed. Next we are going to implement the validation for the em
 
 
 {: lang="ruby" }
-    # spec/app/models/user.spec
+    # spec/app/models/user_spec.rb
     ...
 
     describe "email address" do
       it 'valid' do
-        adresses = %w[thor@marvel.de hero@movie.com]
-        adresses.each do |email|
+        addresses = %w[thor@marvel.de hero@movie.com]
+        addresses.each do |email|
           user_second.email = email
           user_second.name= email
           user_second.should be_valid
@@ -231,8 +239,8 @@ Now this test is fixed. Next we are going to implement the validation for the em
       end
 
       it 'not valid' do
-        adresses = %w[spamspamspam.de heman,test.com]
-        adresses.each do |email|
+        addresses = %w[spamspamspam.de heman,test.com]
+        addresses.each do |email|
           user_second.email= email
           user_second.should_not be_valid
         end
@@ -288,11 +296,11 @@ The new thing about the controller command above is the `get:new` option. This w
 The stage is set: We have the model with the tested constraints, and a controller for the user which handles the action.
 Time to create a sign up form for getting new users on our platform. For this case we can use the `form_for` helper.
 This method takes an object as its input and creates a form using the attributes of the object. We need this to
-save/edit the attributes of the model in our controller.
+save/edit the attributes of the model in our controller. Create a new erb file under the users view:
 
 
 {: lang="ruby" }
-    # views/users/new.erb
+    # app/views/users/new.erb
     <h1>Registration</h1>
 
     <% form_for(@user, '/users/create') do |f| %>
@@ -315,11 +323,11 @@ There is a lot of stuff going on -- let's break it down:
 
 - `form_for`: Is part of [Padrino's Form Builder](http://www.padrinorb.com/guides/application-helpers#formbuilders) and
   allows you to create standard input fields based on a model. The first argument to the function is an object (mostly a
-  model), the second argument is an string (the action to which the form should be send after an submit), and the third
+  model), the second argument is an string (the action to which the form should be sent after a submit), and the third
   parameter are settings in form of an hash which aren't used in this example. The part `action="/users/create"` says,
   that we want to use the `create` action to the `users` controller with the `create` action.
 - `f.label` and `f.text`: Will a label and text field for the attributes of your model.
-- `f.password_field`: Constructs a password input, where the input is marked with stars,  from the given attribute of
+- `f.password_field`: Constructs a password input, where the input is marked with stars, from the given attribute of
   the form.
 - `f.submit`: Take an string as an caption for the submit button and options as hashes for additional parameter (for
   example `:class => 'long'`).
