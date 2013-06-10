@@ -1,6 +1,6 @@
 ## User Profile
 
-To update a use profile we need and `edit` and `update` action. Let's beginning with writing tests for the `edit`
+To update a user profile we need the `edit` and `update` action. Let's beginning with writing tests for the `edit`
 section:
 
 
@@ -102,6 +102,11 @@ see this right after the controller code.
     end
 
 
+Please note that The `update_attributes` method is making a `user.valid?` call before saving. During writing the tests I
+had huge problems with them and the fixtures. It might occur that they are failing for you too. If this is the case
+don't spend too much time on it and mark the tests as pending.
+
+
 And finally the edit form:
 
 
@@ -109,6 +114,8 @@ And finally the edit form:
     # app/views/users/edit.erb
 
     <% form_for(@user, "/users/#{@user.id}") do |f| %>
+      <h2>Edit your profile</h2>
+
       <input name="_method" type="hidden" value="put" />
       <%= f.label :name %>
       <%= f.text_field :name %>
@@ -132,7 +139,330 @@ And finally the edit form:
     <% end %>
 
 
-If you now open the browser at http://jobvacancy.de:3000/users/37/edit  you can edit the user even if you are not logged
-into the application. Ups, this is huge security issue.
+If you now open the browser at http://jobvacancy.de:3000/users/<some-existing-id>/edit you can edit the user even if you
+are not logged into the application. Ups, this is huge security issue.
 
+
+### Authorization
+
+We want our user to be logged in and edit only his profile. In the previous parts of the book we wrote a lot of
+functions for our `sessions_helper.rb` without any tests. Before going on, let's see why testing helpers is not
+easy in Padrino.
+
+
+{: lang="ruby" }
+    # app/helpers/page_helper.rb
+
+    # Helper methods defined here can be accessed in any controller or view in the application
+
+    JobVacancy::App.helpers do
+      # def simple_helper_method
+      #  ...
+      # end
+    end
+
+
+This syntax is a shortcut for:
+
+
+{: lang="ruby" }
+    helpers = Module.new do
+      # def simple_helper_method
+      #  ...
+      # end
+    end
+
+    JobVacancy::App.helpers helpers
+
+
+The helpers are an anonymous module and its hard to reference something that is anonymous. The solution is easy: make
+the module explicit. This is something I learned from [Florian Gilcher](https://twitter.com/Argorak) in his
+[comment on GitHub](https://github.com/padrino/padrino-framework/issues/930#issuecomment-8448579). Let's transform the
+`page_helper.rb`:
+
+
+{: lang="ruby" }
+    # app/helpers/page_helper.rb
+
+    module PageHelper
+      # def simple_helper_method
+      #  ...
+      # end
+    end
+
+    JobVacancy::App.helpers UsersHelper
+
+
+Now you can include this module in some of your spec and finally test them. Let's apply the learned lesson to our
+`sessions_helper.rb`:
+
+
+{: lang="ruby" }
+    # app/helpers/session_helper.rb
+
+    module SessionsHelper
+      def current_user=(user)
+        @current_user = user
+      end
+      ...
+    end
+
+    JobVacancy::App.helpers SessionsHelper
+
+
+Padrino isn't requiring helper to be tested automatically. Since we are planing to be consistence with the folder
+structure of our app within the tests folder, we need to add all helpers files in `app/helpers/*.rb` in our our
+`spec_helper.rb`:
+
+
+{: lang="ruby" }
+    # spec/spec_helper.rb
+
+    PADRINO_ENV = 'test' unless defined?(PADRINO_ENV)
+    ...
+    Dir[File.dirname(__FILE__) + '/../app/helpers/**.rb'].each { |file| require file }
+    ...
+
+
+Here is the outline of the `sessions_helper_spec.rb`:
+
+
+{: lang="ruby" }
+    # spec/app/helpers/sessions_helper_spec.rb
+
+    require 'spec_helper'
+
+    describe SessionsHelper do
+      before do
+        class SessionsHelperKlass
+          include SessionsHelper
+        end
+
+        @session_helper = SessionsHelperKlass.new
+      end
+
+      context "#current_user" do
+        it "output the current user if current user is already set"
+        it "find the user by id from the current session"
+      end
+
+      context "#current_user?" do
+        it "returns true if current user is logged in"
+        it "returns false if user is not logged in"
+      end
+
+      context "#sign_in" do
+        it "it sets the current user to the signed in user"
+      end
+
+      context "#signed_in?" do
+        it "return false if user is not logged in"
+        it "return true if user is logged in"
+      end
+    end
+
+
+Let's go through the new parts:
+
+
+- `before do`: This block contains the `SessionsHelperKlass` class which includes the `SessionsHelper` module. Through
+  this all the methods defined in the `session_helper.rb` file are available for the `@session_helper` instance variable
+- `context`: According to [rspec code](https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L232)
+  `context` is an alias for `describe`. I'm using `describe` to specify the part of the functionality I'm going to test
+  and `context` to test smaller parts of the bigger function like direct functions.
+- `#current_user`: Methods I'm going to test have always the # in front of their names.
+
+
+I'm not testing the a) `current_user=(user)` and b) `sign_out` method because a) is a setter method and b) is deleting a
+key in the session hash.
+
+
+The most interesting part of the test it the  *"find the user by id from the current session"*. Padrino has easy access
+to the session of your variable. We emulate this access in our tests with the `session` method of our `spec_helper.rb`
+which looks like the following:
+
+
+{: lang="ruby" }
+    # spec/spec_helper.rb
+
+    def session
+      last_request.env['rack.session']
+    end
+
+
+What we need to do now for our test is to to mock a request and set the the uer id of some of our test user in the
+session hash. To create a new session we will use
+[Rack::Test::Session](https://github.com/brynary/rack-test/blob/master/lib/rack/test.rb#L25) and mock the `last_request`
+method call of the `session` method of our `spec_helper`:
+
+
+{: lang="ruby" }
+    # spec/app/helpers/sessions_helper_spec.rb
+    require 'spec_helper'
+
+    describe SessionsHelper do
+      ...
+      context "#current_user" do
+
+        it "find the user by id from the current session" do
+          user = User.first
+          browser = Rack::Test::Session.new(JobVacancy::App)
+          browser.get '/', {}, 'rack.session' => { :current_user => user.id }
+          @session_helper.should_receive(:last_request).and_return(browser.last_request)
+          @session_helper.current_user.should == user
+        end
+      end
+      ...
+    end
+
+
+You can write the other tests as an exercise on your own. In case you have problems with writing them, please check the
+[spec on GitHub](https://github.com/matthias-guenther/job-vacancy/blob/user-update/spec/app/helpers/sessions_helper_spec.rb).
+
+
+We will limit the access of the `edit` and `update` action of the users controller only to users who are logged and if the
+logged in user is going to edit With the help of a `before .. do` block:
+
+
+{: lang="ruby" }
+    # app/controllers/users.rb
+
+    JobVacancy::App.controllers :users do
+      before :edit, :update  do
+        redirect('/login') unless signed_in?
+        @user = User.find(params[:id])
+        redirect('/login') unless current_user?(@user)
+      end
+    ...
+    end
+
+
+Since we are now having our authorization logic in the before block we don't need the unless test in the edit action
+anymore:
+
+
+{: lang="ruby" }
+    # app/controllers/users.rb
+
+    JobVacancy::App.controllers :users do
+      ...
+      get :edit, :map => '/users/:id/edit' do
+        @user = User.find_by_id(params[:id])
+        render 'users/edit'
+      end
+      ...
+    end
+
+
+Finally, we need to provider the edit link in the header navigation:
+
+
+{: lang="erb" }
+    # app/views/application.erb
+
+    <nav id="navigation">
+      ...
+      <% if signed_in? %>
+        <div class="span2">
+          <%= link_to 'Logout', url_for(:sessions, :destroy) %>
+        </div>
+        <div class="span2">
+        <%= link_to 'Edit Profile', url_for(:users, :edit, :id => session[:current_user]) %>
+        </div>
+        <div>
+      <% else %>
+        <div class="span3">
+          <%= link_to 'Login', url_for(:sessions, :new) %>
+        </div>
+      <% end %>
+      ...
+      </div>
+    </nav>
+
+
+There is one last thing we forget: Say you are logged in and wants to edit a user with an wrong id, like
+http://localhost:3000/users/padrino/edit. You'll get a `ActiveRecord::RecordNotFound` exception because we are using
+the Active Record's plain `find` method in the users controller. Let's catch the exception and return a `nil` user
+instead:
+
+
+{: lang="ruby" }
+    # app/controllers/user.rb
+
+    JobVacancy::App.controllers :users do
+      before :edit, :update  do
+        redirect('/login') unless signed_in?
+        begin
+          @user = User.find(params[:id])
+        rescue ActiveRecord::RecordNotFound
+          @user = nil
+        end
+
+        redirect('/login') unless current_user?(@user)
+      end
+      ...
+    end
+
+
+There is a better way to handle this issue. The `find_by_*` method will always return `nil` if an entry was not found:
+
+
+{: lang="ruby" }
+    # app/controllers/user.rb
+
+    JobVacancy::App.controllers :users do
+      before :edit, :update  do
+        redirect('/login') unless signed_in?
+        @user = User.find_by_id(params[:id])
+        redirect('/login') unless current_user?(@user)
+      end
+      ...
+    end
+
+
+Apparently one of our tests is failing now :( with the following exception:
+
+
+{: lang="bash" }
+    1) UsersController GET edit render the view for editing a user
+       Failure/Error: get "/users/#{user.id}/edit"
+       Padrino::Routing::UnrecognizedException:
+         route mapping for url(:users_edit) could not be found!
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:544:in `rescue in url'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:525:in `url'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:908:in `url'
+       # ./app/views/application.erb:48:in `block in singletonclass'
+       # ./app/views/application.erb:65530:in `instance_eval'
+       # ./app/views/application.erb:65530:in `singletonclass'
+       # ./app/views/application.erb:65528:in `__tilt_84109320'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/rendering.rb:219:in `render'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/rendering.rb:219:in `render'
+       # ./app/controllers/users.rb:26:in `block (2 levels) in <top (required)>'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:638:in `call'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:638:in `block in route'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:53:in `[]'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:53:in `block (3 levels) in process_destination_path'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:53:in `block (2 levels) in process_destination_path'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:53:in `catch'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:53:in `block in process_destination_path'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:28:in `instance_eval'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:28:in `process_destination_path'
+       # (eval):424:in `block in call'
+       # (eval):414:in `catch'
+       # (eval):414:in `call'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:1014:in `route!'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:999:in `block in dispatch!'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-framework-309e667487f6/padrino-core/lib/padrino-core/application/routing.rb:997:in `dispatch!'
+       # /home/helex/.bundler/ruby/1.9.1/padrino-sprockets-8f4f6150b2d9/lib/padrino/sprockets.rb:89:in `call'
+       # ./spec/app/controllers/users_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+
+This error occurs as soon as I add the following line in `application.erb`:
+
+
+    # <%= link_to 'Edit Profile', url(:users, :edit, :id => session[:current_user])%>
+
+
+Please let me know if you have any suggesion how to fix this. I spend a huge amount of time and couldn't fix it. Maybe
+it's a bug!
 
