@@ -1,7 +1,7 @@
 ## Motivation
 
 Shamelessly I have to tell you that I'm learning Padrino through writing a book about instead of doing a blog post
-series about it. Besides I want to provide to provide you an up-to-date documentation for Padrino which is at the moment
+series about it. Besides I want to provide you an up-to-date documentation for Padrino which is at the moment
 scattered around the Padrino's web page [padrinorb.com](http://www.padrinorb.com/).
 
 
