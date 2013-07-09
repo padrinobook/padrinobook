@@ -16,8 +16,8 @@ In case you shouldn't want to use git, you can also download the latest version 
 [Github](http://github.com).
 
 
-You need to add the directory that contains rbenv to your `$PATH`environment variable.  If you are on Mac, you have
-to replace `.bashrc` with `.bash_profile` in all of the following commands):
+You need to add the directory that contains rbenv to your `$PATH` environment variable.  If you are on Mac, you have to
+replace `.bashrc` with `.bash_profile` in all of the following commands):
 
 
 {: lang="bash" }
@@ -44,7 +44,7 @@ own and try to manage the versions and gems on your own, or you use a tool that 
 
 **ruby-build**
 
-Because we don't want to download and compile different Ruby versions on our own, we will use
+Because we don't want to download and compile different Ruby versions on our own, we will use the
 [ruby-build](https://github.com/sstephenson/ruby-build "ruby-build") plugin for rbenv:
 
 
@@ -64,7 +64,7 @@ projects. We are going to install `ruby 1.9.3-p392`:
 
 This command will take a couple of minutes, so it's best to grab a Raider, which is now known as
 [Twix](http://en.wikipedia.org/wiki/Twix "Twix").  After everything runs fine, you have to run `rbenv rehash` to rebuild
-the internal rbenv libraries. The last step is to makeRuby 1.9.3-p392 the current executable on your machine:
+the internal rbenv libraries. The last step is to make Ruby 1.9.3-p392 the current executable on your machine:
 
 
 {: lang="bash" }
