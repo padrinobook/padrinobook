@@ -1,7 +1,7 @@
 ## Tools and Knowledge
 
 I won't tell you which operating system you should use - there is an interesting discussion on
-[hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I leave it free for the reader of this book
+[hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I'll leave it free for the reader of this book
 which to use, because basically you are reading this book to learn Padrino.
 
 
@@ -20,15 +20,15 @@ Here is a list of plain text editors which are a popular choice among Ruby devel
 
 
 - [Emacs](http://www.gnu.org/s/emacs/ "Emacs") - free, available for all platforms.
-- [Gedit](http://projects.gnome.org/gedit/ "Gedit") - free, available for Linux.
+- [Gedit](http://projects.gnome.org/gedit/ "Gedit") - free, available for Linux and Windows.
 - [Notepad++](http://notepad-plus-plus.org/ "Notepad ++") - free, available only for Windows.
-- [SublimeText](http://www.sublimetext.com "SublimeText") - commercial, available for all platform.
+- [SublimeText](http://www.sublimetext.com "SublimeText") - commercial, available for all platforms.
 - [Textmate](http://macromates.com/ "Textmate") - commercial, available only for Mac.
-- [Vim](http://www.vim.org/ "Vim") - free, available for all platform.
+- [Vim](http://www.vim.org/ "Vim") - free, available for all platforms.
 
 
 All tools have their strengths and weaknesses. Try to find the software that works best for you. The main goal is that
-you are comfortable with it because you will spend a lot of time with it.
+you comfortable because you will spend a lot of time with it.
 
 
 **Ruby Knowledge**
