@@ -1,3 +1,5 @@
+[![Issues](https://badge.waffle.io/matthias-guenther/padrino-book.png?label=ready)](http://waffle.io/matthias-guenther/padrino-book)
+
 This is a free eBook written in markdown. It describes how I developed an application in
 [Padrino](http://www.padrinorb.com/). Feel free to fork this project and to correct my grammar. I'm not going to do
 premature optimazation until the book is nearly done.
@@ -22,7 +24,7 @@ task:
 
 
 ```bash
-    rake pdf
+   rake pdf
 ```
 
 
