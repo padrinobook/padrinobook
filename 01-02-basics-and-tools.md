@@ -41,7 +41,7 @@ continuing here.
   standard book on Ruby.
 - [Poignant Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "Poignant Guide To Ruby") -
   written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "Stiff") in
-  a entertaining and educational way.
+  an entertaining and educational way.
 
 
 In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will, however,
