@@ -23,8 +23,7 @@ section:
     end
 
 
-The interesting part above is the `.twice` call. We need to use this because when want to edit a user we need to load this
-profile and load it again if we are having an input error.
+The interesting part above is the `.twice` call. We need to use this because when want to edit a user we need to load this profile and load it again if we are having an input error.
 
 
 As you can see in the test above we are using namespaced routes an alias for the action.
@@ -76,9 +75,7 @@ And the tests for the put action:
     end
 
 
-Making this test pass took me a while. The HTTP spec only understands GET and POST in a the `<form>`'s method attribute.
-How can we solve this? We need to use a hidden form with the form input called `_method` with a `put` value. You will
-see this right after the controller code.
+Making this test pass took me a while. The HTTP specification only understands GET and POST in the `<form>`' method attribute. How can we solve this? We need to use a hidden form with the form input called `_method` with a `put` value. You will see this right after the controller code.
 
 
 {: lang="ruby" }
@@ -146,8 +143,7 @@ are not logged into the application. Ups, this is huge security issue.
 ### Authorization
 
 We want our user to be logged in and edit only his profile. In the previous parts of the book we wrote a lot of
-functions for our `sessions_helper.rb` without any tests. Before going on, let's see why testing helpers is not
-easy in Padrino.
+functions for our `sessions_helper.rb` without any tests. Before going on, let's how you can test helpers:
 
 
 {: lang="ruby" }
@@ -211,7 +207,7 @@ Now you can include this module in some of your spec and finally test them. Let'
 
 
 Padrino isn't requiring helper to be tested automatically. Since we are planing to be consistence with the folder
-structure of our app within the tests folder, we need to add all helpers files in `app/helpers/*.rb` in our our
+structure of our app within the tests folder, we need to add all helpers files in `app/helpers/*.rb` in our
 `spec_helper.rb`:
 
 
@@ -269,7 +265,7 @@ Let's go through the new parts:
   this all the methods defined in the `session_helper.rb` file are available for the `@session_helper` instance variable
 - `context`: According to [rspec code](https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L232)
   `context` is an alias for `describe`. I'm using `describe` to specify the part of the functionality I'm going to test
-  and `context` to test smaller parts of the bigger function like direct functions.
+  and `context` to test smaller parts of the bigger function.
 - `#current_user`: Methods I'm going to test have always the # in front of their names.
 
 
@@ -277,7 +273,7 @@ I'm not testing the a) `current_user=(user)` and b) `sign_out` method because a)
 key in the session hash.
 
 
-The most interesting part of the test it the  *"find the user by id from the current session"*. Padrino has easy access
+The most interesting part of the test is the  *"find the user by id from the current session"*. Padrino has access
 to the session of your variable. We emulate this access in our tests with the `session` method of our `spec_helper.rb`
 which looks like the following:
 
@@ -290,7 +286,7 @@ which looks like the following:
     end
 
 
-What we need to do now for our test is to to mock a request and set the the uer id of some of our test user in the
+What we need to do now for our test is to to mock a request and set the user id of some of our test user in the
 session hash. To create a new session we will use
 [Rack::Test::Session](https://github.com/brynary/rack-test/blob/master/lib/rack/test.rb#L25) and mock the `last_request`
 method call of the `session` method of our `spec_helper`:
@@ -320,8 +316,7 @@ You can write the other tests as an exercise on your own. In case you have probl
 [spec on GitHub](https://github.com/matthias-guenther/job-vacancy/blob/user-update/spec/app/helpers/sessions_helper_spec.rb).
 
 
-We will limit the access of the `edit` and `update` action of the users controller only to users who are logged and if the
-logged in user is going to edit With the help of a `before .. do` block:
+We will limit the access of the `edit` and `update` action of the users controller only to users who are logged and if the logged in user is going to edit With the help of a `before .. do` block:
 
 
 {: lang="ruby" }
@@ -404,7 +399,7 @@ instead:
     end
 
 
-There is a better way to handle this issue. The `find_by_*` method will always return `nil` if an entry was not found:
+Do we really need to throw an exception? No there is a better way to handle this issue. The `find_by_*` method will always return `nil` if an entry was not found. So we can refactor the code above in the following way:
 
 
 {: lang="ruby" }
