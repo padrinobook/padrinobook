@@ -1,5 +1,4 @@
 [![Issues](https://badge.waffle.io/matthias-guenther/padrino-book.png?label=ready)](http://waffle.io/matthias-guenther/padrino-book)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/matthias-guenther/padrino-book/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 This is a free eBook written in markdown. It describes how I developed an application in
 [Padrino](http://www.padrinorb.com/). Feel free to fork this project and to correct my grammar. I'm not going to do
