@@ -1,3 +1,6 @@
+[![Issues](https://badge.waffle.io/matthias-guenther/padrino-book.png?label=ready)](http://waffle.io/matthias-guenther/padrino-book)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/matthias-guenther/padrino-book/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 This is a free eBook written in markdown. It describes how I developed an application in
 [Padrino](http://www.padrinorb.com/). Feel free to fork this project and to correct my grammar. I'm not going to do
 premature optimazation until the book is nearly done.
@@ -22,7 +25,7 @@ task:
 
 
 ```bash
-    rake pdf
+   rake pdf
 ```
 
 
@@ -58,12 +61,16 @@ Love you guys and women, you motivated me:
   away from using to many extensions.
 - [Scott Harvey](https://twitter.com/scottharveyco): Corrections of the text.
 - [Markus Schappi](https://twitter.com/Schappi): Several grammar and code fixes.
+- [Renich Bon Ciric](https://github.com/renich): Orthographic and grammatical corrections.
+- [Nicolás Paez](http://www.nicopaez.com.ar/): For your typo fixes.
+- [Chase Pursley](http://www.chasepursley.com/): For your endless effort pull requests to improve many parts of this
+  book.
 
 
 ## License
 
 This software is licensed under the [MIT](http://en.wikipedia.org/wiki/MIT_License) licence.
 
-© Matthias Günther <matthias.guenther@wikimatze.de>.
+© Matthias Günther <matthias@wikimatze.de>.
 
 /* vim: set ts=2 sw=2 textwidth=120: */
