@@ -362,9 +362,8 @@ Finally, we need to provider the edit link in the header navigation:
           <%= link_to 'Logout', url_for(:sessions, :destroy) %>
         </div>
         <div class="span2">
-        <%= link_to 'Edit Profile', url_for(:users, :edit, :id => session[:current_user]) %>
+          <%= link_to 'Edit Profile', url_for(:users, :edit, :id => session[:current_user]) %>
         </div>
-        <div>
       <% else %>
         <div class="span3">
           <%= link_to 'Login', url_for(:sessions, :new) %>
@@ -375,7 +374,7 @@ Finally, we need to provider the edit link in the header navigation:
     </nav>
 
 
-There is one last thing we forget: Say you are logged in and wants to edit a user with an wrong id, like
+There is one last thing we forget: Say you are logged in and wants to edit a user with a wrong id, like
 http://localhost:3000/users/padrino/edit. You'll get a `ActiveRecord::RecordNotFound` exception because we are using
 the Active Record's plain `find` method in the users controller. Let's catch the exception and return a `nil` user
 instead:
@@ -413,4 +412,84 @@ Do we really need to throw an exception? No there is a better way to handle this
       end
       ...
     end
+
+
+You have now reach a point where you still don't know, which parts of your application is tested and which not. This is
+a good point to find the right tool to measure the code coverage of your Padrino application.
+
+
+### Excursion: Code Coverage
+
+We have the following options:
+
+
+- [simplecov](https://github.com/colszowka/simplecov): It will automatically detect the tests you are using Rubies 1.9's [built-in Coverage library](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/coverage/rdoc/Coverage.html) to gather code coverage data.
+- [metric_fu](https://github.com/metricfu/metric_fu/): Create churn, code smells and other coverage tools generate
+  reports about your code.
+- [codeclimate.com](https://codeclimate.com/): Online tool for measuring quality and security for your application.
+
+
+Since we are only interested in our code coverage for tests, we will use the lightweight `simplecov` method.
+
+
+Add the gem to your `Gemfile`:
+
+{% highlight ruby %}
+
+gem 'simplecov', '~> 0.7.1'
+
+{% endhighlight %}
+
+
+Next, we want to start the code coverage generation every time when the tests are going to run. All you have to do is to add the following line to
+the `spec_helper.rb`:
+
+
+{% highlight ruby %}
+
+require 'simplecov'
+SimpleCov.start
+
+{% endhighlight %}
+
+
+And that's all. Next time when you run the tests you can detect lines with the following output:
+
+
+{% highlight bash %}
+
+Coverage report generated for RSpec to git-repositories/job-vacancy/coverage. 209 / 252 LOC (82.94%) covered.
+/
+
+{% endhighlight %}
+
+
+After all tests passed, you can see the output in the `coverage` directory in the root of your directory:
+
+
+IMG: simplecov_overview.png
+
+
+Clicking on a single class will give you a brief overview which lines are not tested:
+
+
+IMG: simplecov_detailed_view.png
+
+
+It is also possible to group the parts of your application into several parts. All you need to do is to add options to
+the `Simplecov.start` block:
+
+
+{% highlight ruby %}
+
+SimpleCov.start do
+  add_group "Models", "app/models"
+  add_group "Controllers", "app/controllers"
+  add_group "Helpers", "app/helpers"
+  add_group "Mailers", "app/mailers"
+end
+
+{% endhighlight %}
+
+IMG: simplecov_grouped.png
 
