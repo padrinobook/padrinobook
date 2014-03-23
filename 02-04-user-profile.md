@@ -38,7 +38,7 @@ As you can see in the test above we are using namespaced routes an alias for the
       unless @user
         redirect('/')
       end
-      render 'users/edit'
+      render 'edit'
     end
 
 
@@ -86,7 +86,7 @@ Making this test pass took me a while. The HTTP specification only understands G
 
       unless @user
         flash[:error] = "User is not registered in our platform."
-        render 'users/edit'
+        render 'edit'
       end
 
       if @user.update_attributes(params[:user])
@@ -94,7 +94,7 @@ Making this test pass took me a while. The HTTP specification only understands G
         redirect('/')
       else
         flash[:error] = "Your profile was not updated."
-        render 'users/edit'
+        render 'edit'
       end
     end
 
@@ -343,7 +343,7 @@ anymore:
       ...
       get :edit, :map => '/users/:id/edit' do
         @user = User.find_by_id(params[:id])
-        render 'users/edit'
+        render 'edit'
       end
       ...
     end

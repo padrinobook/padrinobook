@@ -202,15 +202,15 @@ app. Let's change this and define the *about*, *contact*, and *home* actions:
 
     JobVacancy:.App.controllers :page do
       get :about, :map => '/about' do
-        render :erb, 'page/about'
+        render :erb, 'about'
       end
 
       get :contact , :map => '/contact' do
-        render :erb, 'page/contact'
+        render :erb, 'contact'
       end
 
       get :home, :map => '/' do
-        render :erb, 'page/home'
+        render :erb, 'home'
       end
 
     end
@@ -227,7 +227,8 @@ We will go through each line:
   action (in the form of a Ruby symbol[^symbol]), and is finally mapped to the explicit URL */about*. When you start
   your server with `bundle exec padrino s` and visit the URL `http.//localhost:3000/about`, you can see the rendered
   output of this request.
-- `render :erb, 'page/about'` - This action tells us that we want to render an the *erb* file *page/about*. This file is
+- `render :erb, 'about'` - This action tells us that we want to render an the *erb* file *about* for the corresponding
+  controller which is `page` in our case. This file is
   actually located at `app/views/page/about.erb` file. Normally the views are placed under
   *app/views/<controller-name>/<action-name>.<ending>*  Instead of using an ERB templates, you could also use `:haml`,
   or another template language. If you are lazy, you can leave the option for the rendering option completely out and
@@ -298,7 +299,7 @@ Thanks to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we u
 
       apply  https://github.com/padrino/padrino-recipes/raw/master/plugins/bootstrap_plugin.rb
       create    public/stylesheets/bootstrap.css
-      create    public/stylesheets/bootstrap-theme.css      
+      create    public/stylesheets/bootstrap-theme.css
       create    public/javascripts/bootstrap.js
       create    public/javascripts/bootstrap.min.js
       create    public/javascripts/jquery.js
@@ -642,8 +643,8 @@ Now let's run the tests with `rspec spec/app/controllers/page_controller_spec.rb
 
 Cool, all tests passed! We didn't exactly use behavior-driven development until now, but will do so in the next parts.
 
-Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was ommited during the initial 
-app generation that looks something like 'NameError: undefined local variable' so check your `spec_helper.rb` file and 
+Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was ommited during the initial
+app generation that looks something like 'NameError: undefined local variable' so check your `spec_helper.rb` file and
 make sure the following matches:
 
     def app(app = nil, &blk) # note the comma right after nil

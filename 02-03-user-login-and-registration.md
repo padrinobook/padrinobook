@@ -5,10 +5,9 @@ In traditional frameworks you would generate a user with a `user` model and a `u
 something at hand to save atemail the end we would need to find a method of safely storing the password for the user.
 
 
-Of course, we could use you don't have to reinvent the wheel you can use Padrino's beautiful
+We could use you don't have to reinvent the wheel you can use Padrino's beautiful
 [Admin interface](http://www.padrinorb.com/guides/padrino-admin) for your user authentication to prevent us from
-reinventing the wheel. But with that we won't learn the basics and as you will see in this chapter you can make a lot of
-mistakes. So step into the part of creating user, sending confirmation mails, and understanding how sessions are
+reinventing the wheel. But with that we won't learn the basics and as you will see in this chapter you can make a lot of mistakes. So step into the part of creating user, sending confirmation mails, and understanding how sessions are
 managed in Padrino.
 
 
@@ -287,7 +286,7 @@ creating in a first step our users controller four our sign up form with only on
       create  spec/app/controllers/users_controller_spec.rb
 
 
-The new thing about the controller command above is the `get:new` option. This will create an URL rout `:new` to
+The new thing about the controller command above is the `get:new` option. This will create an URL route `:new` to
 `users/new`.
 
 
@@ -367,7 +366,7 @@ We need to make sure to have the right mappings for the `/login` route in the ac
 
       get :new, :map => "/login" do
         @user = User.new
-        render 'users/new'
+        render 'new'
       end
 
     end
@@ -397,7 +396,7 @@ Let's go through the new parts:
 
 
 - `User.new(params[:users])`: Will create a new user object based on the information of the form attributes of the
-  `@user` model which which were part of the form of the `views/users/new.erb` page.
+  `@user` model which which were part of the form from the `views/users/new.erb` page.
 - `@user.save`: Will save the user in the database.
 - `redirect`: Will redirect the user to the root directory of our app.
 
@@ -616,7 +615,7 @@ To send a first simple "Hallo" message we create an [email block](https://github
         end
         redirect('/')
       else
-        render 'users/new'
+        render 'new'
       end
     end
 
@@ -708,7 +707,7 @@ Now we can use the *deliver* method to call our `:registration` mailer with it's
         deliver(:registration, :registration_email)
         redirect('/')
       else
-        render 'users/new'
+        render 'new'
       end
     end
     ...
@@ -752,7 +751,7 @@ And now we make sure that we are rendering this template in our registration mai
         from "admin@job-vacancy.de"
         to "lordmatze@gmail.com"
         subject "Welcome!"
-        render 'registration/registration_email'
+        render 'registration_email'
         content_type :plain
       end
     end
@@ -775,7 +774,7 @@ to do this we need to use enable the `locals` option.
         to email
         subject "Welcome!"
         locals :name => name
-        render 'registration/registration_email'
+        render 'registration_email'
         content_type :plain
       end
     end
@@ -796,7 +795,7 @@ method in our `users` controller:
         deliver(:registration, :registration_email, @user.name)
         redirect('/')
       else
-        render 'users/new'
+        render 'new'
       end
     end
 
@@ -829,7 +828,7 @@ content as hash elements as arguments.
       to email
       subject "Welcome!"
       locals :name => name, :email=> email
-      render 'registration/registration_email'
+      render 'registration_email'
       add_file :filename => 'welcome.pdf', :content => File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |f| f.read}
     end
 
@@ -1041,7 +1040,7 @@ Consider the following code example:
     if user && user.confirmation && user.password == params[:password]
       redirect '/'
     else
-      render '/sessions/new'
+      render 'new'
     end
   end
 
@@ -1327,7 +1326,7 @@ To make this pass, we implement the following code:
   get :confirm, :map => "/confirm/:id/:code" do
     redirect('/') unless @user = User.find_by_id(params[:id])
     redirect('/') unless @user.authenticate(params[:code])
-    render 'users/confirm'
+    render 'confirm'
   end
 
 
@@ -1357,7 +1356,7 @@ Now let's fill out the confirmation mailer:
         subject "Please confirm your account"
         to email
         locals :name => name, :confirmation_link => "#{CONFIRMATION_URL}/#{id}/#{link}"
-        render 'confirmation/confirmation_email'
+        render 'confirmation_email'
       end
     end
 
@@ -1394,7 +1393,7 @@ And call this method to our users controller:
                 @user.confirmation_code)
         redirect('/')
       else
-        render 'users/new'
+        render 'new'
       end
     end
 
@@ -1783,7 +1782,7 @@ Here is the code for our session controller to make the test green:
     JobVacancy::App.controllers :sessions do
 
       get :new, :map => "/login" do
-        render 'sessions/new'
+        render 'new'
       end
 
       post :create do
@@ -1793,7 +1792,7 @@ Here is the code for our session controller to make the test green:
           sign_in(user)
           redirect '/'
         else
-          render '/sessions/new'
+          render 'new'
         end
       end
 
@@ -2071,7 +2070,7 @@ link to the registration form now in the 'session/new' view:
 
 Here we are using the [form_tag](http://www.padrinorb.com/guides/application-helpers#form-helpers) instead of the
 `form_for` tag because we don't want to render information about a certain model. We want to use the information of the
-session form to find a user in our database. So we can use the submitted inputs with `params[:email]` and
+session form to find a user in our database. We can use the submitted inputs with `params[:email]` and
 `params[:password]` in the `:create` action in our action controller. My basic idea is to pass a variable to the
 rendering of method which says if we have an error or not and display the message accordingly. To handle this we are
 using the `:locals` option to create customized params for your views:
@@ -2083,7 +2082,7 @@ using the `:locals` option to create customized params for your views:
     JobVacancy::App.controllers :sessions do
 
       get :new, :map => "/login" do
-        render '/sessions/new', :locals => { :error => false }
+        render 'new', :locals => { :error => false }
       end
 
       post :create do
@@ -2093,7 +2092,7 @@ using the `:locals` option to create customized params for your views:
           sign_in(user)
           redirect '/'
         else
-          render '/sessions/new', :locals => { :error => true }
+          render 'new', :locals => { :error => true }
         end
       end
       ...
@@ -2171,7 +2170,7 @@ Next we need implement the flash messages in our session controller:
           sign_in(user)
           redirect '/'
         else
-          render '/sessions/new', :locals => { :error => true }
+          render 'new', :locals => { :error => true }
         end
       end
       ...
