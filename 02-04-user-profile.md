@@ -506,31 +506,71 @@ Let's create and run the migration:
 
 
 {: lang="bash" }
-$ padrino g migration add_authentity_token_to_user authentity_token:string
-     apply  orms/activerecord
-    create  db/migrate/006_add_authentity_token_to_user.rb
+  $ padrino g migration add_authentity_token_to_user authentity_token:string
+       apply  orms/activerecord
+      create  db/migrate/006_add_authentity_token_to_user.rb
 
-$ padrino rake ar:migrate
-=> Executing Rake ar:migrate ...
-Environment variable PADRINO_ENV is deprecated. Please, use RACK_ENV.
-  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
-   INFO -  Migrating to CreateUsers (1)
-   INFO -  Migrating to CreateJobOffers (2)
-   INFO -  Migrating to AddUserIdToJobOffers (3)
-   INFO -  Migrating to AddRegistrationFieldsToUsers (4)
-   INFO -  Migrating to AddConfirmationCodeAndConfirmationToUsers (5)
-   INFO -  Migrating to AddAuthentityTokenFieldToUsers (6)
-  DEBUG -   (0.0ms)  select sqlite_version(*)
-  DEBUG -   (0.0ms)  begin transaction
-==  AddAuthentityTokenFieldToUsers: migrating =================================
--- change_table(:users)
-  DEBUG -   (0.3ms)  ALTER TABLE "users" ADD "authentity_token" varchar(255)
-   -> 0.0050s
-==  AddAuthentityTokenFieldToUsers: migrated (0.0051s) ========================
+  $ padrino rake ar:migrate
+  => Executing Rake ar:migrate ...
+  Environment variable PADRINO_ENV is deprecated. Please, use RACK_ENV.
+    DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+     INFO -  Migrating to CreateUsers (1)
+     INFO -  Migrating to CreateJobOffers (2)
+     INFO -  Migrating to AddUserIdToJobOffers (3)
+     INFO -  Migrating to AddRegistrationFieldsToUsers (4)
+     INFO -  Migrating to AddConfirmationCodeAndConfirmationToUsers (5)
+     INFO -  Migrating to AddAuthentityTokenFieldToUsers (6)
+    DEBUG -   (0.0ms)  select sqlite_version(*)
+    DEBUG -   (0.0ms)  begin transaction
+  ==  AddAuthentityTokenFieldToUsers: migrating =================================
+  -- change_table(:users)
+    DEBUG -   (0.3ms)  ALTER TABLE "users" ADD "authentity_token" varchar(255)
+     -> 0.0050s
+  ==  AddAuthentityTokenFieldToUsers: migrated (0.0051s) ========================
 
-  DEBUG -   (0.1ms)  INSERT INTO "schema_migrations" ("version") VALUES ('7')
-  DEBUG -   (10.0ms)  commit transaction
-  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+    DEBUG -   (0.1ms)  INSERT INTO "schema_migrations" ("version") VALUES ('7')
+    DEBUG -   (10.0ms)  commit transaction
+    DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+
+
+A way to create random strings in Ruby is to use the [securerandom gem](http://ruby-doc.org/stdlib-1.9.3/libdoc/securerandom/rdoc/SecureRandom.html). By using the `before_create` callback, we create a token for each fresh registered user (if you are in a situation where you already have a bunch of users, you have to create a rake task and generate the tokens for each user):
+
+
+{: lang="ruby" }
+  class User < ActiveRecord::Base
+    ...
+    before_create :generate_authentity_token
+
+    private
+    def generate_authentity_token
+      require 'securerandom'
+      self.authentity_token = SecureRandom.base64(64)
+      SecureRandom
+    end
+  end
+
+
+To test the callback, we can use the `send` method to send our `generate_authentity_token` callback (thanks to [Geoffrey Grosenbach](http://www.oreillynet.com/ruby/blog/2006/10/test_tidbits.html)):
+
+
+{: lang="ruby" }
+
+    require 'spec_helper'
+
+    describe "User Model" do
+      ...
+
+      describe "generate_auth_token" do
+        let(:user_confirmation) { build(:user) }
+
+        it 'generate_auth_token generate token if user is saved' do
+          user.should_receive(:save).and_return(true)
+          user.send(:generate_authentity_token)
+          user.save
+          user.authentity_token.should_not be_empty
+        end
+      end
+    end
 
 
 INFOBOX about cookies
