@@ -493,3 +493,57 @@ end
 
 IMG: simplecov_grouped.png
 
+
+## Remember Me Function
+
+We are currently using the `sign_in` method from the session helper to login a user. But this is only valid for a
+session. What we need is something permanent. Cookies are the perfect choice for this. We could use the `user_id` from
+the user as a unique token, but this can be changed too easily. Creating an unique long secure hash would be the
+perfect choice to do so. When we have created token, we need to save it for each user.
+
+
+Let's create and run the migration:
+
+
+{: lang="bash" }
+$ padrino g migration add_authentity_token_to_user authentity_token:string
+     apply  orms/activerecord
+    create  db/migrate/006_add_authentity_token_to_user.rb
+
+$ padrino rake ar:migrate
+=> Executing Rake ar:migrate ...
+Environment variable PADRINO_ENV is deprecated. Please, use RACK_ENV.
+  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+   INFO -  Migrating to CreateUsers (1)
+   INFO -  Migrating to CreateJobOffers (2)
+   INFO -  Migrating to AddUserIdToJobOffers (3)
+   INFO -  Migrating to AddRegistrationFieldsToUsers (4)
+   INFO -  Migrating to AddConfirmationCodeAndConfirmationToUsers (5)
+   INFO -  Migrating to AddAuthentityTokenFieldToUsers (6)
+  DEBUG -   (0.0ms)  select sqlite_version(*)
+  DEBUG -   (0.0ms)  begin transaction
+==  AddAuthentityTokenFieldToUsers: migrating =================================
+-- change_table(:users)
+  DEBUG -   (0.3ms)  ALTER TABLE "users" ADD "authentity_token" varchar(255)
+   -> 0.0050s
+==  AddAuthentityTokenFieldToUsers: migrated (0.0051s) ========================
+
+  DEBUG -   (0.1ms)  INSERT INTO "schema_migrations" ("version") VALUES ('7')
+  DEBUG -   (10.0ms)  commit transaction
+  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+
+
+INFOBOX about cookies
+
+
+- View/Checkbox
+- Set a cookie in
+- generate tooken
+- explain set_cookie function
+- add screenshot about the cookie in firefox
+
+
+
+
+## Reset Password
+
