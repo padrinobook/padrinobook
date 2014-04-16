@@ -1,8 +1,4 @@
-[![Issues](https://badge.waffle.io/matthias-guenther/padrino-book.png?label=ready)](http://waffle.io/matthias-guenther/padrino-book)
-
-This is a free eBook written in markdown. It describes how I developed an application in
-[Padrino](http://www.padrinorb.com/). Feel free to fork this project and to correct my grammar. I'm not going to do
-premature optimazation until the book is nearly done.
+This is a free eBook written in markdown. It describes how I developed an application in [Padrino](http://www.padrinorb.com/). Feel free to fork this project and to correct my grammar. You can find the official page of the book under [padrinobook](http://padrinobook.com/).
 
 
 ## Current version
@@ -10,28 +6,31 @@ premature optimazation until the book is nearly done.
 I'm using [leanpub](http://leanpub.com/) to generate the current status of this book. You can find the current version
 [here](https://leanpub.com/s/3YUdQuEIT35927tfd5DqSb.pdf).
 
-If you are interested in building this book on you local machine, you have to clone this repository to your local machine
+
+## Building the Book Locally
+
+If you are interested in building this book on you local machine, you to install [gitbook](http://www.gitbook.io/):
 
 
 ```bash
-    git clone git@github.com:matthias-guenther/padrino-book.git
+$ npm install gitbook -g
 ```
 
 
-You can build a PDF on your own machine with the help of [Pandoc](http://johnmacfarlane.net/pandoc/). Please install it
-for your operating system. If you are done with it please run the following [Rake](http://en.wikipedia.org/wiki/Rake_(software))
-task:
+Now you can build the HTML version with:
 
 
 ```bash
-   rake pdf
+$ gitbook serve
 ```
 
 
-## Repository of the job offer app
+And open your browser [localhost:4000](http://localhost:4000) - feel free to read and edit the book.
 
-In this book I'm developing the **job vacancy** application. You can checkout the
-[sources](https://github.com/matthias-guenther/job-vacancy) if you want to see the final result from this book.
+
+## Repository of the Job Vacancy Application
+
+In this book I'm developing the **job vacancy** application. You can checkout the [sources](https://github.com/matthias-guenther/job-vacancy) if you want to see the final result from this book.
 
 
 ## Contribute/Contact
@@ -44,7 +43,7 @@ If you like my work, you can [let me know](http://leanpub.com/padrino) how much 
 don't worry, this book will be free at anytime.
 
 
-## Special thanks
+## Special Thanks
 
 Love you guys and women, you motivated me:
 
@@ -68,8 +67,7 @@ Love you guys and women, you motivated me:
 
 ## License
 
-This software is licensed under the [MIT](http://en.wikipedia.org/wiki/MIT_License) licence.
+This software is licensed under the [MIT](http://en.wikipedia.org/wiki/MIT_License) license.
 
 © Matthias Günther <matthias@wikimatze.de>.
 
-/* vim: set ts=2 sw=2 textwidth=120: */
