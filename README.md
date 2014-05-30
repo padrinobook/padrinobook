@@ -39,7 +39,7 @@ Feature requests, bugs, questions, etc. can be send to <matthias.guenther@wikima
 and create pull requests as you like. I will then add you to the [contributor list](http://leanpub.com/padrino).
 
 
-If you like my work, you can [let me know](http://leanpub.com/padrino) how much money you would spend for this book. And
+If you like my work, you can [let me know](http://leanpub.com/padrinobook) how much money you would spend for this book. And
 don't worry, this book will be free at anytime.
 
 
