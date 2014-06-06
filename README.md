@@ -30,16 +30,16 @@ And open your browser [localhost:4000](http://localhost:4000) - feel free to rea
 
 ## Repository of the Job Vacancy Application
 
-In this book I'm developing the **job vacancy** application. You can checkout the [sources](https://github.com/matthias-guenther/job-vacancy) if you want to see the final result from this book.
+In this book I'm developing the **job vacancy** application. You can checkout the [sources](https://github.com/wikimatze/job-vacancy) if you want to see the final result from this book.
 
 
 ## Contribute/Contact
 
-Feature requests, bugs, questions, etc. can be send to <matthias.guenther@wikimatze.de>. You can even fork this project,
-and create pull requests as you like. I will then add you to the [contributor list](http://leanpub.com/padrino).
+Feature requests, bugs, questions, etc. can be send to <matthias@wikimatze.de>. You can even fork this project,
+and create pull requests as you like. I will then add you to the [contributor list](http://leanpub.com/padrinobook).
 
 
-If you like my work, you can [let me know](http://leanpub.com/padrino) how much money you would spend for this book. And
+If you like my work, you can [let me know](http://leanpub.com/padrinobook) how much money you would spend for this book. And
 don't worry, this book will be free at anytime.
 
 
