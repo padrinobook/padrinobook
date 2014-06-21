@@ -80,6 +80,3 @@ Check that the correct executable is active by exexuting `ruby -v`. The output s
 
 Now you are a ready to hack on with Padrino!
 
-
-%%/* vim: set ts=2 sw=2 textwidth=120: */
-

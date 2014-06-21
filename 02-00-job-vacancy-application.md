@@ -10,6 +10,3 @@ First, we are going to create the app file and folder structure. Then we are add
 the app is complete. First, we will take a look at the basic design of our app. Afterwards, we will
 implement one feature at a time.
 
-
-
-%%/* vim: set ts=2 sw=2 textwidth=120: */

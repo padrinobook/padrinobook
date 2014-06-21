@@ -664,5 +664,3 @@ I> test. The red-green cycle represents the colors that you will see when execut
 I> beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little
 I> mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice by product too.
 
-
-%%/* vim: set ts=2 sw=2 textwidth=120: */

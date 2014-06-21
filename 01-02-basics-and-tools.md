@@ -47,4 +47,3 @@ continuing here.
 In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will, however,
 explain Padrino-specific coding techniques and how to get most parts under test.
 
-%%/* vim: set ts=2 sw=2 textwidth=120: */

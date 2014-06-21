@@ -583,7 +583,5 @@ INFOBOX about cookies
 - add screenshot about the cookie in firefox
 
 
-
-
 ## Reset Password
 

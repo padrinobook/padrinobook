@@ -207,4 +207,3 @@ We will go through each part.
   can use for your asset packaging sinatra-assetpack or sprockets.
 - **tmp**: This directory holds temporary files for intermediate processing like cache, tests, local mails, etc.
 
-%%/* vim: set ts=2 sw=2 textwidth=120: */

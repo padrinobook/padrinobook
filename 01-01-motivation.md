@@ -52,4 +52,3 @@ them without duplicating code.
 
 [Remember](https://speakerdeck.com/daddye/padrino-framework-0-dot-11-and-1-dot-0): "**Be tiny. Be fast. Be a Padrino**"
 
-%%/* vim: set ts=2 sw=2 textwidth=120: */
