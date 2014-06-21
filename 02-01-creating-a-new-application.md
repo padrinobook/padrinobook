@@ -1,4 +1,4 @@
-## Creating a new application
+# Creating a new application
 
 Start with generating a new project with the canonical `padrino` command. In contrast to our "Hello World!" application
 (app) before, we are using new options:
@@ -74,7 +74,7 @@ Later, when *the time comes*, we will add extra gems, for now though we'll grab 
     $ bundle install
 
 
-### Basic Layout Template
+## Basic Layout Template
 
 Lets design our first version of the *index.html* page which is the starter page our app. An early design
 question is: Where to put the *index.html* page? Because we are not working with controllers, the easiest thing is to
@@ -137,7 +137,7 @@ where you put in money to get a coke. In this case, the machine is the *router* 
 to the action "Drop a Coke in the tray".
 
 
-### First Controller And Routing
+## First Controller And Routing
 
 Lets add some basic routes for displaying our home, about, and contact-page. How can we do this? With the help of a
 routing controller. A controller makes data from you app (in our case job offers) available to the view (seeing the
@@ -258,7 +258,7 @@ This command crawls through your app looking for any existing routes and gives y
 REQUEST**, and **PATH**.
 
 
-### App Template With ERB
+## App Template With ERB
 
 Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling
 on our web page. First we need to generate a basic template for all pages we want to create. Lets create
@@ -282,7 +282,7 @@ indicators that you want to execute Ruby code to fetch data that is put into the
 put the content of the called page, like *about.erb* or *contact.erb*,  into the template.
 
 
-### CSS design using Twitter bootstrap
+## CSS design using Twitter bootstrap
 
 The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use. It
 is available from Github at [public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github").
@@ -332,7 +332,7 @@ automatically create a link to this stylesheet. The `javascript_include_tag` doe
 your JavaScript files in the *public/javascripts* directory.
 
 
-### Using Sprockets to Manage the Asset Pipeline
+## Using Sprockets to Manage the Asset Pipeline
 
 [Sprockets](https://github.com/sstephenson/sprockets) are a way to manage serving your assets like CSS, and JavaScript
 compiling all the different files in one summarized file for each type. They make it easy to take advantage to use a
@@ -468,7 +468,7 @@ And finally we need to enable minifying in our production environment:
     end
 
 
-### Navigation
+## Navigation
 
 Next we want to create the top-navigation for our app. So we already implemented the *page* controller with the
 relevant actions. All we need is to put links to them in a navigation header for our basic layout.
@@ -560,7 +560,7 @@ school css](http://www.w3schools.com/css/default.asp "w3c CSS") tutorial. Since 
 don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
 
 
-### Writing Tests
+## Writing Tests
 
 
 Our site does not list static entries of job offers that you write, but other users will be allowed to post job offers

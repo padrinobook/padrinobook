@@ -1,6 +1,6 @@
-## Creation Of The Models
+# Creation Of The Models
 
-### User Model
+## User Model
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
 identification number **id**, a **name**, and an **email**. We can specify the location of the model by appending the
@@ -265,7 +265,7 @@ This is very handy to make sure that you didn't break anything in the existing c
 feature. Run these regression tests frequently and enjoy it to see your app growing feature by feature.
 
 
-### Job Offer Model
+## Job Offer Model
 
 Since we now know how to create the basic model of our users, it's time to create a model for presenting a job offer.
 A job offer consists of the following attributes:
@@ -336,7 +336,7 @@ TBD: Find a way to run ar:migrate for all environments (mainly production and te
 If you run your tests with `padrino rake spec`, everything should be fine.
 
 
-### Creating Connection Between User And Job Offer Model
+## Creating Connection Between User And Job Offer Model
 
 Since we now have created our two main models, it's time to define associations between them. Associations make common
 operations like deleting or updating data in our relational database easier. Just imagine that we have a user
@@ -425,7 +425,7 @@ Finally let's run our migrations:
    $ padrino rake ar:migrate -e test
 
 
-#### Testing our associations in the console
+### Testing our associations in the console
 
 
 To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a
@@ -546,7 +546,7 @@ Ok, we are doing great so far. With users and job offers in place, let's add som
 objects.
 
 
-#### Testing our app with RSpec + Factory Girl
+### Testing our app with RSpec + Factory Girl
 
 When you use data for the tests, you need to decide how to create them. You could, of course, define a set of test data
 with pure SQL and add it to your app. A more convenient solution instead is to use factories and fixtures. Think

@@ -1,4 +1,4 @@
-## Installing Ruby With rbenv
+# Installing Ruby With rbenv
 
 Instead of using the build-in software package for Ruby of your operating system, we will use
 [rbenv](https://github.com/sstephenson/rbenv/ "rbenv") which lets you switch between multiple versions of Ruby.

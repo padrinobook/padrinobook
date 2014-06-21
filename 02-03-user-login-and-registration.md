@@ -1,4 +1,4 @@
-## Registration and Login
+# Registration and Login
 
 In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions
 `new`, `create`, `update`, and `delete`. And you can't forget about security these days it would be nice to to have
@@ -11,7 +11,7 @@ reinventing the wheel. But with that we won't learn the basics and as you will s
 managed in Padrino.
 
 
-### Extending the User Model
+## Extending the User Model
 
 Before we are going to build the controller and the sign-up form for our application we need to specify the data each
 user has.
@@ -66,7 +66,7 @@ Ok, run the migrations:
       $ padrino rake ar:migrate
 
 
-### Validating attributes
+## Validating attributes
 
 Before we are going to implement what we think, we are going to write **pending** specs:
 
@@ -271,7 +271,7 @@ I> recommend you the [Rubular tool](http://rubular.com/) for training and trying
 I> want to use. It make it very easy to build and test your patterns against test data.
 
 
-### Users Controller
+## Users Controller
 
 Since we already have a model for potential users of our platform, it's time to create a controller for them. We are
 creating in a first step our users controller four our sign up form with only one action:
@@ -290,7 +290,7 @@ The new thing about the controller command above is the `get:new` option. This w
 `users/new`.
 
 
-#### Sign Up Form
+### Sign Up Form
 
 The stage is set: We have the model with the tested constraints, and a controller for the user which handles the action.
 Time to create a sign up form for getting new users on our platform. For this case we can use the `form_for` helper.
@@ -354,7 +354,7 @@ This form above will be rendered in the following HTML:
     </form>
 
 
-#### User Controller Signup Actions
+### User Controller Signup Actions
 
 We need to make sure to have the right mappings for the `/login` route in the actions in our controller:
 
@@ -596,7 +596,7 @@ This is now the default delivery address unless it is overwritten in an individu
 email functionality to this point because the *Mailer gem* is already tested.
 
 
-#### Quick Mail Usage
+### Quick Mail Usage
 
 To send a first simple "Hallo" message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb#L86) directly in our user controller:
 
@@ -640,7 +640,7 @@ the mail is send::
     Hallo
 
 
-#### Mailer
+### Mailer
 
 We could go on and parametrized our email example above, but this would mean that we have email code directly into our
 controller code. We can do better by wrapping up the logic into an object and let it handle the action.
@@ -896,7 +896,7 @@ I> MIME types. This means that MIME headers are optional for plain text emails a
 I> read correctly by a clients being able to read MIME encoded messages.
 
 
-#### Sending Email with Confirmation Link
+### Sending Email with Confirmation Link
 
 The basic steps for implementing the logic of email confirmation are the following:
 
@@ -921,7 +921,7 @@ I> platform is going to be floated with billions of users. Another usage of this
 I> chance to change their password and/or stay in contact with them to inform them about updates.
 
 
-### Add Confirmation Code and Confirmation Attributes to the User Model
+## Add Confirmation Code and Confirmation Attributes to the User Model
 
 Create a good migration which fits to the task we want to do:
 
@@ -963,7 +963,7 @@ let's migrate our production and test database to this new event:
     $ padrino ar:migrate -e test
 
 
-#### My Tests are Slow ...
+### My Tests are Slow ...
 
 During writing this book I discovered various strange behavior for my tests because I was writing data into my test
 database. So the tests weren't really reliable because some worked only when the database is fresh with no preexisting
@@ -1074,7 +1074,7 @@ Even if this will be the first application you write, when you've learned someth
 easier, go back and take your time to enhance the style and design of your application.
 
 
-### Controller Method and Action For Password Confirmation
+## Controller Method and Action For Password Confirmation
 
 When we are going to register a new user, we need to create a confirmation code like in the example above. Since this is
 business logic, we will put this method inside our users model. First we will write a failing test:
@@ -1330,7 +1330,7 @@ To make this pass, we implement the following code:
   end
 
 
-#### Mailer Template for Confirmation Email
+### Mailer Template for Confirmation Email
 
 If we are lazy we could add our confirmation email into the registration mailer. But if you think clearly, these are two
 things that have nothing to do with each other. So let's train our memory and create another mailer:
@@ -1398,7 +1398,7 @@ And call this method to our users controller:
     end
 
 
-#### Observer
+### Observer
 
 In the chapter[TBD done find out how to reference to other chapters] we used a callback to build the functionality with
 the confirmation code generation and sending. If you think clearly we have flaws in our design:
@@ -1607,7 +1607,7 @@ and to go on with the book, I removed the test and disabled all observers for th
 [^test]: Got the inspiration from [stackoverflow](http://stackoverflow.com/questions/33048/how-would-you-test-observers-with-rspec-in-a-ruby-on-rails-application)
 
 
-### Sessions
+## Sessions
 
 Now that our users have the possibility to register and confirm on our page, we need to make it possible for our users
 to sign in. For handling login, we need to create a session controller:

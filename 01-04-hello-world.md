@@ -1,4 +1,4 @@
-## Hello world
+# Hello world
 
 The basic layout of our application is displayed on the following image application:
 
@@ -90,7 +90,7 @@ need some sort of package management for Ruby gems.
 Ruby has a nice package manager called [bundler](http://gembundler.com/ "Bundler") which installs all necessary gems in
 the versions you would like to have for your project. This makes it very easy for other developers to work with your
 project even after years. The [Gemfile](http://gembundler.com/gemfile.html "Gemfile") declares the gems that you want to
-install. Bundler takes the content of the Gemfile and will install every package declared in this file. 
+install. Bundler takes the content of the Gemfile and will install every package declared in this file.
 
 
 To install bundler, execute the following command and check the console output:

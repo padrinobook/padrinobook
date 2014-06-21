@@ -1,4 +1,4 @@
-## Tools and Knowledge
+# Tools and Knowledge
 
 I won't tell you which operating system you should use - there is an interesting discussion on
 [hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I'll leave it free for the reader of this book

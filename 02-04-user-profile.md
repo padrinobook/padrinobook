@@ -1,4 +1,4 @@
-## User Profile
+# User Profile
 
 To update a user profile we need the `edit` and `update` action. Let's beginning with writing tests for the `edit`
 section:
@@ -140,7 +140,7 @@ If you now open the browser at http://jobvacancy.de:3000/users/<some-existing-id
 are not logged into the application. Ups, this is huge security issue.
 
 
-### Authorization
+## Authorization
 
 We want our user to be logged in and edit only his profile. In the previous parts of the book we wrote a lot of
 functions for our `sessions_helper.rb` without any tests. Before going on, let's how you can test helpers:
