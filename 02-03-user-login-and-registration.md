@@ -17,10 +17,11 @@ Before we are going to build the controller and the sign-up form for our applica
 user has.
 
 
-{: lang="bash" }
-    Name: String
-    Email: String
-    Password: String
+```bash
+Name: String
+Email: String
+Password: String
+```
 
 
 Recording from chapter "???" we only need to add the `Password` fields to the user table:
@@ -29,41 +30,45 @@ Recording from chapter "???" we only need to add the `Password` fields to the us
 Let's create the migration:
 
 
-{: lang="bash" }
-    $ padrino g migration AddRegistrationFieldsToUsers
+```bash
+$ padrino g migration AddRegistrationFieldsToUsers
 
-    apply  orms/activerecord
-    create  db/migrate/004_add_registration_fields_to_users.rb
+  apply  orms/activerecord
+  create  db/migrate/004_add_registration_fields_to_users.rb
+```
 
 
 And write the fields into the migration file:
 
 
-{: lang="ruby" }
-    # db/migrate/004_add_registration_fields_to_users.rb
+```ruby
+# db/migrate/004_add_registration_fields_to_users.rb
 
-    class AddRegistrationFieldsToUsers < ActiveRecord::Migration
+class AddRegistrationFieldsToUsers < ActiveRecord::Migration
 
-      @fields = [:password]
+  @fields = [:password]
 
-      def self.up
-        change_table :users do |t|
-          @fields.each { |field| t.string field}
-        end
-      end
-
-      def self.down
-        change_table :users do |t|
-          @fields.each { |field| remove_column field}
-        end
-      end
+  def self.up
+    change_table :users do |t|
+      @fields.each { |field| t.string field}
     end
+  end
+
+  def self.down
+    change_table :users do |t|
+      @fields.each { |field| remove_column field}
+    end
+  end
+end
+```
 
 
 Ok, run the migrations:
 
 
-      $ padrino rake ar:migrate
+```bash
+$ padrino rake ar:migrate
+```
 
 
 ## Validating attributes
@@ -71,31 +76,32 @@ Ok, run the migrations:
 Before we are going to implement what we think, we are going to write **pending** specs:
 
 
-{: lang="ruby" }
-    # spec/app/models/user_spec.rb
+```ruby
+# spec/app/models/user_spec.rb
 
-    require 'spec_helper'
+require 'spec_helper'
 
-    describe "User Model" do
-      ...
+describe "User Model" do
+  ...
 
-      pending('no blank name')
-      pending('no blank email')
+  pending('no blank name')
+  pending('no blank email')
 
-      describe "passwords" do
-        pending('no blank password')
-        pending('no blank password_confirmation')
-      end
+  describe "passwords" do
+    pending('no blank password')
+    pending('no blank password_confirmation')
+  end
 
-      describe "when name is already used" do
-        pending('should not be saved')
-      end
+  describe "when name is already used" do
+    pending('should not be saved')
+  end
 
-      describe "email address" do
-        pending('valid')
-        pending('not valid')
-      end
-    end
+  describe "email address" do
+    pending('valid')
+    pending('not valid')
+  end
+end
+```
 
 
 (The *pending* word is optional. It is enough to write pending tests only in the form `it "test this"` and leaving the
@@ -105,66 +111,70 @@ do/end block away).
 Before writing code to pass these specs, we need to add the `password` field to our factory:
 
 
-{: lang="ruby" }
-    # spec/factories.rb
-    # encoding: utf-8
-    FactoryGirl.define do
-    ...
-      factory :user do
-        name  "Matthias Günther"
-        email "matthias.guenther@wikimatze.de"
-        password "octocat"
-      end
-    end
+```ruby
+# spec/factories.rb
+# encoding: utf-8
+FactoryGirl.define do
+...
+  factory :user do
+    name  "Matthias Günther"
+    email "matthias.guenther@wikimatze.de"
+    password "octocat"
+  end
+end
+```
 
 
 Use the encoding property to allow special symbols from Germany - you have to add them in your files where they may
 occur. Let's implement the first pending test that a user can't have an empty name:
 
 
-{: lang="ruby" }
-    # spec/app/models/user_spec.rb
-    ...
+```ruby
+# spec/app/models/user_spec.rb
+...
 
-    it 'have no blank name' do
-      user.name = ""
-      user.save.should be_false
-    end
+it 'have no blank name' do
+  user.name = ""
+  user.save.should be_false
+end
+```
 
 
 If we run the test we get the following error:
 
 
-{: lang="bash" }
-    $ rspec spec
+```bash
+$ rspec spec
 
-    Failures:
+Failures:
 
-      1) User Model have no blank name
-         Failure/Error: user.save.should be_false
-           expected: false value
-                got: true
-         # ./spec/app/models/user_spec.rb:20:in `block (2 levels) in <top (required)>'
+  1) User Model have no blank name
+     Failure/Error: user.save.should be_false
+       expected: false value
+            got: true
+     # ./spec/app/models/user_spec.rb:20:in `block (2 levels) in <top (required)>'
 
-    Finished in 0.42945 seconds
-    10 examples, 1 failure, 5 pending
+Finished in 0.42945 seconds
+10 examples, 1 failure, 5 pending
 
-    Failed examples:
+Failed examples:
 
-    rspec ./spec/app/models/user_spec.rb:18 # User Model have no blank name
+rspec ./spec/app/models/user_spec.rb:18 # User Model have no blank name
+```
 
 
 To make this test pass we need to validate the `email` property in our user model with the help of the
 [presence option](http://guides.rubyonrails.org/active_record_validations_callbacks.html#presence):
 
 
-{: lang="ruby" }
-    # app/models/user.rb
-    class User < ActiveRecord::Base
-      validates :name, :presence => true
+```ruby
+# app/models/user.rb
+class User < ActiveRecord::Base
+  validates :name, :presence => true
 
-      has_many :job_offers
-    end
+  has_many :job_offers
+end
+```
 
 
 As an exercise, Please write the validates for `email` and `password` on your own. Please consider that the
@@ -177,89 +187,94 @@ name. In order to create a second user with we need to have another mail address
 need to extend or factory with the [sequence function](https://github.com/thoughtbot/factory_girl/wiki/Usage#sequences-and-associations):
 
 
-{: lang="ruby" }
-    # spec/factories
-    FactoryGirl.define do
-      sequence(:email){ |n| "matthias.guenther#{n}@wikimatze.de"}
+```ruby
+# spec/factories
+FactoryGirl.define do
+  sequence(:email){ |n| "matthias.guenther#{n}@wikimatze.de"}
 
-      factory :user do
-        name  "Matthias Günther"
-        email
-        password "foo"
-      end
-      ...
-    end
+  factory :user do
+    name  "Matthias Günther"
+    email
+    password "foo"
+  end
+  ...
+end
+```
 
 
 Whenever you build a new `user` fixture the value `email_number` is incremented and gives you so a fresh user
 with a unique email address. You can write a test for this ability in the following way:
 
 
-{: lang="ruby" }
-    # spec/app/models/user_spec.rb
-    describe "when name is already used" do
-      let(:user_second) { build(:user) }
+```ruby
+# spec/app/models/user_spec.rb
+describe "when name is already used" do
+  let(:user_second) { build(:user) }
 
-      it 'should not be saved' do
-         user_second.save.should be_false
-      end
-    end
+  it 'should not be saved' do
+     user_second.save.should be_false
+  end
+end
+```
 
 
 To make the test green you have to use the [uniqueness validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#uniqueness).
 All what it does is to validates that the attribute's value is unique before it gets saved.
 
 
-{: lang="ruby" }
-    # app/models/user.rb
-    class User < ActiveRecord::Base
-      validates :name, :email, :password, :presence => true
-      validates :name, :uniqueness => true
+```ruby
+# app/models/user.rb
+class User < ActiveRecord::Base
+  validates :name, :email, :password, :presence => true
+  validates :name, :uniqueness => true
 
-      has_many :job_offers
-    end
+  has_many :job_offers
+end
+```
 
 
 Now this test is fixed. Next we are going to implement the validation for the email field:
 
 
-{: lang="ruby" }
-    # spec/app/models/user_spec.rb
-    ...
+```ruby
+# spec/app/models/user_spec.rb
+...
 
-    describe "email address" do
-      it 'valid' do
-        addresses = %w[thor@marvel.de hero@movie.com]
-        addresses.each do |email|
-          user_second.email = email
-          user_second.name= email
-          user_second.should be_valid
-        end
-      end
-
-      it 'not valid' do
-        addresses = %w[spamspamspam.de heman,test.com]
-        addresses.each do |email|
-          user_second.email= email
-          user_second.should_not be_valid
-        end
-      end
+describe "email address" do
+  it 'valid' do
+    addresses = %w[thor@marvel.de hero@movie.com]
+    addresses.each do |email|
+      user_second.email = email
+      user_second.name= email
+      user_second.should be_valid
     end
-    ...
+  end
+
+  it 'not valid' do
+    addresses = %w[spamspamspam.de heman,test.com]
+    addresses.each do |email|
+      user_second.email= email
+      user_second.should_not be_valid
+    end
+  end
+end
+...
+```
 
 
 We can test the correctness of the `email` field with a regular expression. First we are going to define a regular
 expression and use the [format validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#format) which takes our regular expression against which the field will be tested.
 
 
-{: lang="ruby" }
-    # app/models/user.rb
-    class User < ActiveRecord::Base
-    ...
-      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-      validates :email, format: { with: VALID_EMAIL_REGEX }
-    ...
-    end
+```ruby
+# app/models/user.rb
+class User < ActiveRecord::Base
+...
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, format: { with: VALID_EMAIL_REGEX }
+...
+end
+```
 
 
 I> ## Regular Expressions
@@ -277,13 +292,14 @@ Since we already have a model for potential users of our platform, it's time to 
 creating in a first step our users controller four our sign up form with only one action:
 
 
-{: lang="bash" }
-    $ padrino g controller Users get:new
-      create  app/controllers/users.rb
-      create  app/helpers/users_helper.rb
-      create  app/views/users
-       apply  tests/rspec
-      create  spec/app/controllers/users_controller_spec.rb
+```bash
+$ padrino g controller Users get:new
+  create  app/controllers/users.rb
+  create  app/helpers/users_helper.rb
+  create  app/views/users
+   apply  tests/rspec
+  create  spec/app/controllers/users_controller_spec.rb
+```
 
 
 The new thing about the controller command above is the `get:new` option. This will create an URL route `:new` to
@@ -298,23 +314,24 @@ This method takes an object as its input and creates a form using the attributes
 save/edit the attributes of the model in our controller. Create a new erb file under the users view:
 
 
-{: lang="ruby" }
-    # app/views/users/new.erb
-    <h1>Registration</h1>
+```erb
+# app/views/users/new.erb
+<h1>Registration</h1>
 
-    <% form_for(@user, '/users/create') do |f| %>
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-      <%= f.label :email %>
-      <%= f.text_field :email %>
-      <%= f.label :password %>
-      <%= f.password_field :password %>
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation %>
-      <p>
-      <%= f.submit "Create", :class => "btn btn-primary" %>
-      </p>
-    <% end %>
+<% form_for(@user, '/users/create') do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation %>
+  <p>
+  <%= f.submit "Create", :class => "btn btn-primary" %>
+  </p>
+<% end %>
+```
 
 
 There is a lot of stuff going on -- let's break it down:
@@ -335,23 +352,25 @@ There is a lot of stuff going on -- let's break it down:
 This form above will be rendered in the following HTML:
 
 
-{: lang="html" }
-    <form method="post" action="/users/create" accept-charset="UTF-8">  <label for="user_name">Name: </label>
-      <input id="user_name" name="user[name]" type="text" />
+```html
+<form method="post" action="/users/create" accept-charset="UTF-8">
+  <label for="user_name">Name: </label>
+  <input id="user_name" name="user[name]" type="text" />
 
-      <label for="user_email">Email: </label>
-      <input id="user_email" name="user[email]" type="text" />
+  <label for="user_email">Email: </label>
+  <input id="user_email" name="user[email]" type="text" />
 
-      <label for="user_password">Password: </label>
-      <input id="user_password" name="user[password]" type="password" />
+  <label for="user_password">Password: </label>
+  <input id="user_password" name="user[password]" type="password" />
 
-      <label for="user_password_confirmation">Password confirmation: </label>
-      <input id="user_password_confirmation" name="user[password_confirmation]" type="password" />
+  <label for="user_password_confirmation">Password confirmation: </label>
+  <input id="user_password_confirmation" name="user[password_confirmation]" type="password" />
 
-      <p>
-      <input class="btn btn-primary" value="Create" type="submit" />
-      </p>
-    </form>
+  <p>
+  <input class="btn btn-primary" value="Create" type="submit" />
+  </p>
+</form>
+```
 
 
 ### User Controller Signup Actions
@@ -359,17 +378,18 @@ This form above will be rendered in the following HTML:
 We need to make sure to have the right mappings for the `/login` route in the actions in our controller:
 
 
-{: lang="ruby" }
-    # app/controllers/users.rb
+```ruby
+# app/controllers/users.rb
 
-    JobVacancy::App.controllers :users do
+JobVacancy::App.controllers :users do
 
-      get :new, :map => "/login" do
-        @user = User.new
-        render 'new'
-      end
+  get :new, :map => "/login" do
+    @user = User.new
+    render 'new'
+  end
 
-    end
+end
+```
 
 
 So far so good, feel free to visit [http://localhost:3000/login](http://localhost:3000/login). Until now we are not
@@ -382,14 +402,15 @@ before we are going to save it. Before doing two steps at a time let's code the 
 registered user without going into error validation.
 
 
-{: lang="ruby" }
-    # app/controllers/users.rb
+```ruby
+# app/controllers/users.rb
 
-    post :create do
-      @user = User.new(params[:user])
-      @user.save
-      redirect('/')
-    end
+post :create do
+  @user = User.new(params[:user])
+  @user.save
+  redirect('/')
+end
+```
 
 
 Let's go through the new parts:
@@ -405,18 +426,19 @@ If you send the form without any inputs, you will see that you are redirected in
 figure out what's wrong, but luckily we have logs:
 
 
-{: lang="bash" }
-    DEBUG -  (0.1ms)  begin transaction
-    DEBUG - User Exists (0.3ms)  SELECT 1 AS one FROM "users" WHERE "users"."name" = '' LIMIT 1
-    DEBUG - User Exists (0.2ms)  SELECT 1 AS one FROM "users" WHERE "users"."email" = '' LIMIT 1
-    DEBUG -  (0.2ms)  rollback transaction
-    DEBUG -     POST (0.0162ms) /users/create - 303 See Other
-    DEBUG - TEMPLATE (0.0004ms) /page/home
-    DEBUG - TEMPLATE (0.0002ms) /application
-    DEBUG -      GET (0.0057ms) / - 200 OK
-    DEBUG -      GET (0.0005ms) application.css?1365616902 - 200 OK
-    DEBUG -      GET (0.0003ms) application.js?1365616902 - 200 OK
-    DEBUG -      GET (0.0017ms) /favicon.ico - 404 Not Found
+```bash
+DEBUG -  (0.1ms)  begin transaction
+DEBUG - User Exists (0.3ms)  SELECT 1 AS one FROM "users" WHERE "users"."name" = '' LIMIT 1
+DEBUG - User Exists (0.2ms)  SELECT 1 AS one FROM "users" WHERE "users"."email" = '' LIMIT 1
+DEBUG -  (0.2ms)  rollback transaction
+DEBUG -     POST (0.0162ms) /users/create - 303 See Other
+DEBUG - TEMPLATE (0.0004ms) /page/home
+DEBUG - TEMPLATE (0.0002ms) /application
+DEBUG -      GET (0.0057ms) / - 200 OK
+DEBUG -      GET (0.0005ms) application.css?1365616902 - 200 OK
+DEBUG -      GET (0.0003ms) application.js?1365616902 - 200 OK
+DEBUG -      GET (0.0017ms) /favicon.ico - 404 Not Found
+```
 
 
 The part with the `rollback transaction` means, that user was not saved. Why? Because he violated the validation of our
@@ -424,11 +446,12 @@ user model. Try to create an `User.new` model in the console and call the `.erro
 like:
 
 
-{: lang="ruby" }
-    => #<ActiveModel::Errors:0x9dea518 @base=#<User id: nil, name: nil, email: nil, created_at: nil,
-        updated_at: nil, password: nil>, messages{:name=>["can't be blank"],
-        :password=>["is too short (minimum is 5 characters)", "can't be blank"],
-        :email=>["can't be blank", "is invalid"]}
+```ruby
+=> #<ActiveModel::Errors:0x9dea518 @base=#<User id: nil, name: nil, email: nil, created_at: nil,
+    updated_at: nil, password: nil>, messages{:name=>["can't be blank"],
+    :password=>["is too short (minimum is 5 characters)", "can't be blank"],
+    :email=>["can't be blank", "is invalid"]}
+```
 
 
 We can use this information to display the errors in our form for the user to let him know what they did wrong. If you
@@ -436,29 +459,31 @@ want a dirty and quick solution, you can use the `form.error_messages`, which si
 form:
 
 
-{: lang="erb" }
-    # views/users/new.erb
+```erb
+# views/users/new.erb
 
-    <% form_for(@user, '/users/create') do |f| %>
-      ...
-      <%= f.error_messages %>
-      ...
-    <% end %>
+<% form_for(@user, '/users/create') do |f| %>
+  ...
+  <%= f.error_messages %>
+  ...
+<% end %>
+```
 
 
 It counts the number of errors (`@user.errors.count`) and is looping through all field with their error messages.
 But this will result in a big box with a bunch of error messages like the following one:
 
 
-{: lang="bash" }
-    5 errors prohibited this User from being saved
-    There were problems with the following fields:
+```bash
+5 errors prohibited this User from being saved
+There were problems with the following fields:
 
-    Name can't be blank
-    Password is too short (minimum is 5 characters)
-    Password can't be blank
-    Email can't be blank
-    Email is invalid
+Name can't be blank
+Password is too short (minimum is 5 characters)
+Password can't be blank
+Email can't be blank
+Email is invalid
+```
 
 
 This isn't something we want to ship to our customers.
@@ -469,25 +494,26 @@ Let's change this by using
 which returns a string containing the error message attached to the method on the object:
 
 
-{: lang="erb" }
-    # views/users/new.erb
+```erb
+# views/users/new.erb
 
-    <% form_for(@user, '/users/create') do |f| %> <%= f.label :name %>
-      <%= f.text_field :name %>
-      <%= error_message_on @user, :name %>
-      <%= f.label :email %>
-      <%= f.text_field :email %>
-      <%= error_message_on @user, :email %>
-      <%= f.label :password %>
-      <%= f.password_field :password %>
-      <%= error_message_on @user, :password %>
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation %>
-      <%= error_message_on @user, :password_confirmation %>
-      <p>
-      <%= f.submit "Create", :class => "btn btn-primary" %>
-      </p>
-    <% end %>
+<% form_for(@user, '/users/create') do |f| %> <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= error_message_on @user, :name %>
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+  <%= error_message_on @user, :email %>
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+  <%= error_message_on @user, :password %>
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation %>
+  <%= error_message_on @user, :password_confirmation %>
+  <p>
+  <%= f.submit "Create", :class => "btn btn-primary" %>
+  </p>
+<% end %>
+```
 
 
 We can do better and make the error text red. Let's add the `:class` at the of the `error_message_on` method with the
@@ -495,46 +521,48 @@ help of the [text-error class from bootstrap](http://twitter.github.io/bootstrap
 `:prepend` option which add text to before displaying the field error:
 
 
-{: lang="erb" }
-    # views/users/new.erb
+```erb
+# views/users/new.erb
 
-    <% form_for(@user, '/users/create') do |f| %>
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-      <%= error_message_on @user, :name, :class => "text-error", :prepend => "The name " %>
-      <%= f.label :email %>
-      <%= f.text_field :email %>
-      <%= error_message_on @user, :email, :class => "text-error", :prepend => "The email " %>
-      <%= f.label :password %>
-      <%= f.password_field :password %>
-      <%= error_message_on @user, :password, :class => "text-error", :prepend => "The password "%>
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation %>
-      <%= error_message_on @user, :password_confirmation, :class => "text-error" %>
-      <p>
-      <%= f.submit "Create", :class => "btn btn-primary" %>
-      </p>
-    <% end %>
+<% form_for(@user, '/users/create') do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= error_message_on @user, :name, :class => "text-error", :prepend => "The name " %>
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+  <%= error_message_on @user, :email, :class => "text-error", :prepend => "The email " %>
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+  <%= error_message_on @user, :password, :class => "text-error", :prepend => "The password "%>
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation %>
+  <%= error_message_on @user, :password_confirmation, :class => "text-error" %>
+  <p>
+  <%= f.submit "Create", :class => "btn btn-primary" %>
+  </p>
+<% end %>
+```
 
 
 If you fill out the form with complete valid parameters and watch your log again, you can see the following log:
 
 
-{: lang="bash" }
-    DEBUG -  (0.2ms)  begin transaction
-    DEBUG - User Exists (0.3ms)  SELECT 1 AS one FROM "users" WHERE "users"."name" = 'Testuser' LIMIT 1
-    DEBUG - User Exists (0.2ms)  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'admin@job-vacancy.de' LIMIT 1
-    DEBUG - SQL (0.2ms)  INSERT INTO "users" ("created_at", "email", "name", "password", "updated_at") VALUES
-    (?, ?, ?, ?, ?)  [["created_at", 2013-04-10 20:09:10 +0200], ["email", "admin@job-vacancy.de"],
-    ["name", "Testuser"], ["password", "example"], ["updated_at", 2013-04-10 20:09:10 +0200]]
-    DEBUG -  (174.1ms)  commit transaction
-    DEBUG -     POST (0.1854ms) /users/create - 303 See Other
-    DEBUG - TEMPLATE (0.0004ms) /page/home
-    DEBUG - TEMPLATE (0.0002ms) /application
-    DEBUG -      GET (0.0058ms) / - 200 OK
-    DEBUG -      GET (0.0006ms) application.css?1365617350 - 200 OK
-    DEBUG -      GET (0.0002ms) application.js?1365617350 - 200 OK
-    DEBUG -      GET (0.0018ms) /favicon.ico - 404 Not Found
+```bash
+DEBUG -  (0.2ms)  begin transaction
+DEBUG - User Exists (0.3ms)  SELECT 1 AS one FROM "users" WHERE "users"."name" = 'Testuser' LIMIT 1
+DEBUG - User Exists (0.2ms)  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'admin@job-vacancy.de' LIMIT 1
+DEBUG - SQL (0.2ms)  INSERT INTO "users" ("created_at", "email", "name", "password", "updated_at") VALUES
+(?, ?, ?, ?, ?)  [["created_at", 2013-04-10 20:09:10 +0200], ["email", "admin@job-vacancy.de"],
+["name", "Testuser"], ["password", "example"], ["updated_at", 2013-04-10 20:09:10 +0200]]
+DEBUG -  (174.1ms)  commit transaction
+DEBUG -     POST (0.1854ms) /users/create - 303 See Other
+DEBUG - TEMPLATE (0.0004ms) /page/home
+DEBUG - TEMPLATE (0.0002ms) /application
+DEBUG -      GET (0.0058ms) / - 200 OK
+DEBUG -      GET (0.0006ms) application.css?1365617350 - 200 OK
+DEBUG -      GET (0.0002ms) application.js?1365617350 - 200 OK
+DEBUG -      GET (0.0018ms) /favicon.ico - 404 Not Found
+```
 
 
 Remember that have an eye on your logs can help you to see what's going on in your back-end when you can't see it in the
@@ -557,21 +585,22 @@ are using SMTP with Gmail. First of all we need to give our application the sett
 configuration file of our application `app.rb`:
 
 
-{: lang="ruby" }
-    # app/app.rb
+```ruby
+# app/app.rb
 
-    module JobVacancy
-      class App < Padrino::Application
-        ...
-        set :delivery_method, :smtp => {
-          :address => 'smtp.gmail.com',
-          :port => 587,
-          :user_name => '<your-gmail-account-address>',
-          :password => '<secret>',
-          :authentication => :plain,
-        }
-      end
-    end
+module JobVacancy
+  class App < Padrino::Application
+    ...
+    set :delivery_method, :smtp => {
+      :address => 'smtp.gmail.com',
+      :port => 587,
+      :user_name => '<your-gmail-account-address>',
+      :password => '<secret>',
+      :authentication => :plain,
+    }
+  end
+end
+```
 
 
 Let's get through all the different options:
@@ -601,23 +630,24 @@ email functionality to this point because the *Mailer gem* is already tested.
 To send a first simple "Hallo" message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb#L86) directly in our user controller:
 
 
-{: lang="ruby" }
-    # app/controllers/users.rb
+```ruby
+# app/controllers/users.rb
 
-    post :create do
-      @user = User.new(params[:user])
-      if @user.save
-        email do
-          from "admin@job-vacancy.de"
-          to "lordmatze@gmail.com"
-          subject "Welcome!"
-          body "hallo"
-        end
-        redirect('/')
-      else
-        render 'new'
-      end
+post :create do
+  @user = User.new(params[:user])
+  if @user.save
+    email do
+      from "admin@job-vacancy.de"
+      to "lordmatze@gmail.com"
+      subject "Welcome!"
+      body "hallo"
     end
+    redirect('/')
+  else
+    render 'new'
+  end
+end
+```
 
 
 Now start the app, go to the URL `http://localhost:3000/login`, and register a fresh user. You can
@@ -625,19 +655,20 @@ check the log if the mail was send or you just "feel" a slow down in your applic
 the mail is send::
 
 
-{: lang="bash" }
-    DEBUG - Sending email to: lordmatze@gmail.com
-    Date: Sun, 14 Apr 2013 09:17:38 +0200
-    From: admin@job-vacancy.de
-    To: lordmatze@gmail.com
-    Message-ID: <516a581243fb3_498a446f81c295e3@mg.mail>
-    Subject: Welcome!
-    Mime-Version: 1.0
-    Content-Type: text/plain;
-     charset=UTF-8
-    Content-Transfer-Encoding: 7bit
+```bash
+DEBUG - Sending email to: lordmatze@gmail.com
+Date: Sun, 14 Apr 2013 09:17:38 +0200
+From: admin@job-vacancy.de
+To: lordmatze@gmail.com
+Message-ID: <516a581243fb3_498a446f81c295e3@mg.mail>
+Subject: Welcome!
+Mime-Version: 1.0
+Content-Type: text/plain;
+charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-    Hallo
+Hallo
+```
 
 
 ### Mailer
@@ -650,10 +681,11 @@ controller code. We can do better by wrapping up the logic into an object and le
 for every purpose we want to use. Let's create the registration mailer:
 
 
-{: lang="bash" }
-    $ padrino g mailer Registration registration_email
-      create  app/mailers/registration.rb
-      create  app/views/mailers/registration
+```bash
+$ padrino g mailer Registration registration_email
+  create  app/mailers/registration.rb
+  create  app/views/mailers/registration
+```
 
 
 Let's break it down:
@@ -667,50 +699,53 @@ Let's break it down:
 Now we let's look into the `registration.rb` file:
 
 
-{: lang="ruby" }
-    # app/mailers/registration.rb
+```ruby
+# app/mailers/registration.rb
 
-    JobVacancy:App.mailer :registration do
-      email :registration_email do
-        # Your mailer goes here
-      end
-    end
+JobVacancy:App.mailer :registration do
+  email :registration_email do
+    # Your mailer goes here
+  end
+end
+```
 
 
 The generated comment `# Your mailer goes here` says what you have to do. So let's remove the code from our `users`
 controller and move it to this place.
 
 
-{: lang="ruby" }
-    # app/mailers/registration.rb
+```ruby
+# app/mailers/registration.rb
 
-    JobVacancy::App.mailer :registration do
-      email :registration_email do
-        from "admin@job-vacancy.de"
-        to "lordmatze@gmail.com"
-        subject "Welcome!"
-        body "Hallo"
-      end
-    end
+JobVacancy::App.mailer :registration do
+  email :registration_email do
+    from "admin@job-vacancy.de"
+    to "lordmatze@gmail.com"
+    subject "Welcome!"
+    body "Hallo"
+  end
+end
+```
 
 
 Now we can use the *deliver* method to call our `:registration` mailer with it's template `:registration_email`:
 
 
-{: lang="ruby" }
-    # app/controller/users.rb
+```ruby
+# app/controller/users.rb
 
-    ...
-    post :create do
-      @user = User.new(params[:user])
-      if @user.save
-        deliver(:registration, :registration_email)
-        redirect('/')
-      else
-        render 'new'
-      end
-    end
-    ...
+...
+post :create do
+  @user = User.new(params[:user])
+  if @user.save
+    deliver(:registration, :registration_email)
+    redirect('/')
+  else
+    render 'new'
+  end
+end
+...
+```
 
 
 I> Difference between Padrino's Mailer methods email and deliver
@@ -730,31 +765,33 @@ Instead of writing only a simple "Hallo" in our email we would like to give more
 template and then use the `render` method in our registration mailer. Let's define the registration template:
 
 
-{: lang="bash" }
-    # app/views/mailers/registration/registration_email.plain.erb
+```bash
+# app/views/mailers/registration/registration_email.plain.erb
 
-    Hi ...,
+Hi ...,
 
-    we are glad to have you on our platform. Feel free to post jobs and find the right people for your application.
+we are glad to have you on our platform. Feel free to post jobs and find the right people for your application.
 
-    Your Job Vacancy!
+Your Job Vacancy!
+```
 
 
 And now we make sure that we are rendering this template in our registration mailer:
 
 
-{: lang="ruby" }
-    # app/mailers/registration.rb
+```ruby
+# app/mailers/registration.rb
 
-    JobVacancy::App.mailer :registration do
-      email :registration_email do
-        from "admin@job-vacancy.de"
-        to "lordmatze@gmail.com"
-        subject "Welcome!"
-        render 'registration_email'
-        content_type :plain
-      end
-    end
+JobVacancy::App.mailer :registration do
+  email :registration_email do
+    from "admin@job-vacancy.de"
+    to "lordmatze@gmail.com"
+    subject "Welcome!"
+    render 'registration_email'
+    content_type :plain
+  end
+end
+```
 
 
 If you are sure that you only want to send plain text mail, you can leave the `plain` extension away but making it
@@ -765,52 +802,55 @@ To make our email more personal we want to add the name of our freshly registere
 to do this we need to use enable the `locals` option.
 
 
-{: lang="ruby" }
-    # app/mailers/registration.rb
+```ruby
+# app/mailers/registration.rb
 
-    JobVacancy::App.mailer :registration do
-      email :registration_email do |name, email|
-        from "admin@job-vacancy.de"
-        to email
-        subject "Welcome!"
-        locals :name => name
-        render 'registration_email'
-        content_type :plain
-      end
-    end
+JobVacancy::App.mailer :registration do
+  email :registration_email do |name, email|
+    from "admin@job-vacancy.de"
+    to email
+    subject "Welcome!"
+    locals :name => name
+    render 'registration_email'
+    content_type :plain
+  end
+end
+```
 
 
 This options enables a hash which we be used in the email template. Now we need to pass the name to the call of our
 method in our `users` controller:
 
 
-{: lang="ruby" }
-    # app/controllers/users.rb
-    ...
+```ruby
+# app/controllers/users.rb
+...
 
-    post :create do
-      @user = User.new(params[:user])
+post :create do
+  @user = User.new(params[:user])
 
-      if @user.save
-        deliver(:registration, :registration_email, @user.name)
-        redirect('/')
-      else
-        render 'new'
-      end
-    end
+  if @user.save
+    deliver(:registration, :registration_email, @user.name)
+    redirect('/')
+  else
+    render 'new'
+  end
+end
+```
 
 
 And update our template with the name variable:
 
 
-{: lang="erb" }
-    # app/views/mailers/registration/registration_email.plain.erb
+```erb
+# app/views/mailers/registration/registration_email.plain.erb
 
-    Hi <%= name %>,
+Hi <%= name %>,
 
-    we are glad to have you on our platform. Feel free to post jobs and find the right people for your application.
+we are glad to have you on our platform. Feel free to post jobs and find the right people for your application.
 
-    Your Job Vacancy!
+Your Job Vacancy!
+```
 
 
 Next we want to add a PDF which explains the main business needs to our page. For this purpose we create add the
@@ -819,18 +859,19 @@ Next we want to add a PDF which explains the main business needs to our page. Fo
 content as hash elements as arguments.
 
 
-{: lang="ruby" }
-    # app/mailers/registration.rb
-    ...
+```ruby
+# app/mailers/registration.rb
+...
 
-    email :registration_email do |name, email|
-      from "admin@job-vacancy.de"
-      to email
-      subject "Welcome!"
-      locals :name => name, :email=> email
-      render 'registration_email'
-      add_file :filename => 'welcome.pdf', :content => File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |f| f.read}
-    end
+email :registration_email do |name, email|
+  from "admin@job-vacancy.de"
+  to email
+  subject "Welcome!"
+  locals :name => name, :email=> email
+  render 'registration_email'
+  add_file :filename => 'welcome.pdf', :content => File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |f| f.read}
+end
+```
 
 
 Please correct me if there is a better way to get to the asset folder but that is all of what I've found.
@@ -841,49 +882,50 @@ get the attachment based as binary code directly into your mail. Please put the 
 `registration` mailer. If the mail will be send you can see something like this in your logs:
 
 
-{: lang="bash" }
-        DEBUG - Sending email to: lordmatze@gmail.com
-      Date: Thu, 18 Apr 2013 18:34:15 +0200
-      From: admin@job-vacancy.de
-      To: lordmatze@gmail.com
-      Message-ID: <5170208754967_70f748e80108323a@mg.mail>
-      Subject: Welcome!
-      Mime-Version: 1.0
-      Content-Type: text/plain
-      Content-Transfer-Encoding: 7bit
+```bash
+  DEBUG - Sending email to: lordmatze@gmail.com
+Date: Thu, 18 Apr 2013 18:34:15 +0200
+From: admin@job-vacancy.de
+To: lordmatze@gmail.com
+Message-ID: <5170208754967_70f748e80108323a@mg.mail>
+Subject: Welcome!
+Mime-Version: 1.0
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-      ----==_mimepart_517020874676e_70f748e8010829d8
-      Date: Thu, 18 Apr 2013 18:34:15 +0200
-      Mime-Version: 1.0
-      Content-Type: text/plain;
-       charset=UTF-8
-      Content-Transfer-Encoding: 7bit
-      Content-ID: <5170208753fd5_70f748e8010831c1@mg.mail>
+----==_mimepart_517020874676e_70f748e8010829d8
+Date: Thu, 18 Apr 2013 18:34:15 +0200
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-ID: <5170208753fd5_70f748e8010831c1@mg.mail>
 
-      Hi Bob,
+Hi Bob,
 
-      we are glad to have you on our platform. Feel free to post jobs and find the right people for your application.
+we are glad to have you on our platform. Feel free to post jobs and find the right people for your application.
 
-      Your Job Vacancy!
+Your Job Vacancy!
 
-      ----==_mimepart_517020874676e_70f748e8010829d8
-      Date: Thu, 18 Apr 2013 18:34:15 +0200
-      Mime-Version: 1.0
-      Content-Type: application/pdf;
-       charset=UTF-8;
-       filename=welcome2.pdf
-      Content-Transfer-Encoding: base64
-      Content-Disposition: attachment;
-       filename=welcome2.pdf
-      Content-ID: <517020874ba76_70f748e80108301@mg.mail>
+----==_mimepart_517020874676e_70f748e8010829d8
+Date: Thu, 18 Apr 2013 18:34:15 +0200
+Mime-Version: 1.0
+Content-Type: application/pdf;
+ charset=UTF-8;
+ filename=welcome2.pdf
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename=welcome2.pdf
+Content-ID: <517020874ba76_70f748e80108301@mg.mail>
 
-      JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0Zp
-      bHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nDPQM1Qo5ypUMABCM0MjBXNL
-      ...
-      # You don't want to read four pages of strange characters ...
-      ...
+JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0Zp
+bHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nDPQM1Qo5ypUMABCM0MjBXNL
+...
+# You don't want to read four pages of strange characters ...
+...
 
-      ----==_mimepart_517020874676e_70f748e8010829d8--
+----==_mimepart_517020874676e_70f748e8010829d8--
+```
 
 
 I> ## MIME?
@@ -926,41 +968,44 @@ I> chance to change their password and/or stay in contact with them to inform th
 Create a good migration which fits to the task we want to do:
 
 
-{: lang="bash" }
-    padrino g migration add_confirmation_code_and_confirmation_to_users
-       apply  orms/activerecord
-      create  db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
+```bash
+$ padrino g migration add_confirmation_code_and_confirmation_to_users
+   apply  orms/activerecord
+  create  db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
+```
 
 
 Now let's add the fields to a migration:
 
 
-{: lang="ruby" }
-    # db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
+```ruby
+# db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
 
-    class addconfirmationcodeandconfirmationtousers < activerecord::migration
-      def self.up
-        change_table :users do
-          t.string :confirmation_code
-          t.boolean :confirmation, :default => false
-        end
-      end
-
-      def self.down
-        change_table :users do
-          remove_column :confirmation_code, :confirmation
-        end
-      end
+class addconfirmationcodeandconfirmationtousers < activerecord::migration
+  def self.up
+    change_table :users do
+      t.string :confirmation_code
+      t.boolean :confirmation, :default => false
     end
+  end
+
+  def self.down
+    change_table :users do
+      remove_column :confirmation_code, :confirmation
+    end
+  end
+end
+```
 
 
 We added the `:default` option which sets the confirmation for every user to false if a new one is registered. now
 let's migrate our production and test database to this new event:
 
 
-{: lang="bash" }
-    $ padrino ar:migrate
-    $ padrino ar:migrate -e test
+```bash
+$ padrino ar:migrate
+$ padrino ar:migrate -e test
+```
 
 
 ### My Tests are Slow ...
@@ -970,59 +1015,62 @@ database. So the tests weren't really reliable because some worked only when the
 entries. One solution would be to clean up the database before each run:
 
 
-{: lang="bash" }
-    $ sqlite3 db/job_vacancy_test.db
-      SQLite version 3.7.13 2012-06-11 02:05:22
-      Enter ".help" for instructions
-      Enter SQL statements terminated with a ";"
-      sqlite> DELETE FROM users;
-      sqlite> .quit
+```bash
+$ sqlite3 db/job_vacancy_test.db
+  SQLite version 3.7.13 2012-06-11 02:05:22
+  Enter ".help" for instructions
+  Enter SQL statements terminated with a ";"
+  sqlite> DELETE FROM users;
+  sqlite> .quit
+```
 
 
 But after this my tests were running very slow:
 
 
-{: lang="bash" }
-    $ rspec spec
-    ...
+```bash
+$ rspec spec
+...
 
-    Finished in 1.61 seconds
-    25 examples, 0 failures
+Finished in 1.61 seconds
+25 examples, 0 failures
+```
 
 
 Running them again make them a little bit faster:
 
 
+```bash
+$ rspec spec
+...
 
-{: lang="bash" }
-    $ rspec spec
-    ...
-
-    Finished in 0.77209 seconds
-    25 examples, 0 failures
+Finished in 0.77209 seconds
+25 examples, 0 failures
+```
 
 
 Why? Because we are hitting the database and our tests slow. Please consider code like the following:
 
 
-{: lang="ruby" }
-    # spec/app/models/user_spec.rb
+```ruby
+# spec/app/models/user_spec.rb
 
-    describe "when name is already used" do
-      it 'should not be saved' do
-        user.save
-        user_second.name = user.name
-        user_second.should_not be_valid
-      end
-    end
+describe "when name is already used" do
+  it 'should not be saved' do
+    user.save
+    user_second.name = user.name
+    user_second.should_not be_valid
+  end
+end
 
-    describe "when email address is already used" do
-      it 'should not save an user with an existing address' do
-        user.save
-        user_second.email = user.email
-        user_second.save.should be_false
-      end
-    end
+describe "when email address is already used" do
+  it 'should not save an user with an existing address' do
+    user.save
+    user_second.email = user.email
+    user_second.save.should be_false
+  end
+end
+```
 
 
 We can use mocks the saving operation away. The benefit of mocks are that you create the environment you want to test
@@ -1032,17 +1080,17 @@ and don't care about all the preconditions to make this test possible.
 Consider the following code example:
 
 
-{: lang="ruby" }
+```ruby
+post :create do
+  user = User.find_by_email(params[:email])
 
-  post :create do
-    user = User.find_by_email(params[:email])
-
-    if user && user.confirmation && user.password == params[:password]
-      redirect '/'
-    else
-      render 'new'
-    end
+  if user && user.confirmation && user.password == params[:password]
+    redirect '/'
+  else
+    render 'new'
   end
+end
+```
 
 
 In order to test the condition `if user && user.confirmation && user.password == params[:password]` to return the
@@ -1053,14 +1101,15 @@ environment by creating a user out of our users factory, setting the attributes 
 database:
 
 
-{: lang="ruby" }
-    it "should redirect if user is correct" do
-      user.confirmation = true
-      User.should_receive(:find_by_email).and_return(user)
-      post "sessions/create", user.attributes
+```ruby
+it "should redirect if user is correct" do
+  user.confirmation = true
+  User.should_receive(:find_by_email).and_return(user)
+  post "sessions/create", user.attributes
 
-      last_response.should be_redirect
-    end
+  last_response.should be_redirect
+end
+```
 
 
 The magic behind mocking is to use the [should_receive](https://github.com/rspec/rspec-mocks#message-expectations) and
@@ -1080,31 +1129,34 @@ When we are going to register a new user, we need to create a confirmation code 
 business logic, we will put this method inside our users model. First we will write a failing test:
 
 
-{: lang="ruby" }
-    # spec/app/models/user_spec.rb
-    ...
+```ruby
+# spec/app/models/user_spec.rb
+...
 
-      describe "confirmation code" do
-        let(:user_confirmation) { build(:user) }
+  describe "confirmation code" do
+    let(:user_confirmation) { build(:user) }
 
-        it 'should not be blank' do
-          user_confirmation.confirmation_code = ""
-          user_confirmation.valid?.should be_false
-        end
-      end
+    it 'should not be blank' do
+      user_confirmation.confirmation_code = ""
+      user_confirmation.valid?.should be_false
+    end
+  end
+...
+```
 
 
 To make this test pass we add the validates presence of ability in our user model:
 
 
-{: lang="ruby" }
-    # app/models/user.rb
+```ruby
+# app/models/user.rb
 
-    class User < ActiveRecord::Base
-      ...
-      validates :confirmation_code, :presence => true
-      ...
-    end
+class User < ActiveRecord::Base
+  ...
+  validates :confirmation_code, :presence => true
+  ...
+end
+```
 
 
 Next we need think of how we can set the `confirmation_code` information to our freshly created user. Instead of
@@ -1114,27 +1166,29 @@ a Ruby binding for the [OpenBSD bcrypt](http://en.wikipedia.org/wiki/OpenBSD_sec
 algorithm. In order to use this in our app we need to add it to our `Gemfile`:
 
 
-{: lang="ruby" }
-    # Gemfile
-    ...
+```ruby
+# Gemfile
+...
 
-    # Security
-    gem 'bcrypt-ruby', '3.0.1', :require => 'bcrypt'
+# Security
+gem 'bcrypt-ruby', '3.0.1', :require => 'bcrypt'
+```
 
 
 Now let's open the console and play around with this Gem:
 
 
-{: lang="bash" }
-    $ padrino c
-    => Loading development console (Padrino v.0.11.1)
-    => Loading Application JobVacancy
-    >> password = "Test11111134543"
-    => "Test11111134543"
-    >> salt = "$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW"
-    => "$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW"
-    >> BCrypt::Engine.hash_secret(password, salt)
-    => "$2a$05$CCCCCCCCCCCCCCCCCCCCC.9APD.dklRtXYdki/E3XrHiCWd/rfAFu"
+```bash
+$ padrino c
+  => Loading development console (Padrino v.0.11.1)
+  => Loading Application JobVacancy
+  >> password = "Test11111134543"
+  => "Test11111134543"
+  >> salt = "$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW"
+  => "$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW"
+  >> BCrypt::Engine.hash_secret(password, salt)
+  => "$2a$05$CCCCCCCCCCCCCCCCCCCCC.9APD.dklRtXYdki/E3XrHiCWd/rfAFu"
+```
 
 
 I> ## What is a Salt?
@@ -1152,34 +1206,35 @@ We could add these methods in the users controller but that isn't something a co
 let's create code for it:
 
 
-{: lang="ruby" }
-    # app/models/user.rb
+```ruby
+# app/models/user.rb
 
-    class User < ActiveRecord::Base
-      ... # The other validations
+class User < ActiveRecord::Base
+  ... # The other validations
 
-      before_save :encrypt_confirmation_code, :if => :registered? # our callback with if condition
+  before_save :encrypt_confirmation_code, :if => :registered? # our callback with if condition
 
-      private
-      def encrypt_confirmation_code
-        self.confirmation_code = set_confirmation_code
-      end
+  private
+  def encrypt_confirmation_code
+    self.confirmation_code = set_confirmation_code
+  end
 
-      def set_confirmation_code
-        require 'bcrypt'
-        salt = BCrypt::Engine.generate_salt
-        confirmation_code = BCrypt::Engine.hash_secret(self.password, salt)
-        normalize_confirmation_code(confirmation_code)
-      end
+  def set_confirmation_code
+    require 'bcrypt'
+    salt = BCrypt::Engine.generate_salt
+    confirmation_code = BCrypt::Engine.hash_secret(self.password, salt)
+    normalize_confirmation_code(confirmation_code)
+  end
 
-      def normalize_confirmation_code(confirmation_code)
-        confirmation_code.gsub("/", "")
-      end
+  def normalize_confirmation_code(confirmation_code)
+    confirmation_code.gsub("/", "")
+  end
 
-      def registered?
-        self.new_record?
-      end
-    end
+  def registered?
+    self.new_record?
+  end
+end
+```
 
 
 We won't test the methods under the private keyword, there is no customized business logic inside these methods.  We
@@ -1198,37 +1253,38 @@ After creating the confirmation code mechanism for our user, we need to implemen
 confirmation code as an input and mark our user as *confirmed*. As always, let's begin with failing tests first:
 
 
-{: lang="ruby" }
-    # spec/app/models/user_spec.rb
-    ...
+```ruby
+# spec/app/models/user_spec.rb
+...
 
-    describe "confirmation code" do
-      let(:user_confirmation) { build(:user) }
+describe "confirmation code" do
+  let(:user_confirmation) { build(:user) }
 
-      it 'should not be blank' do
-        user_confirmation.confirmation_code = ""
-        user_confirmation.valid?.should be_false
-      end
+  it 'should not be blank' do
+    user_confirmation.confirmation_code = ""
+    user_confirmation.valid?.should be_false
+  end
 
-      it 'should authenticate user with correct confirmation code' do
-        user_confirmation.save
-        confirmation_of_saved_user = User.find_by_id(user_confirmation.id)
-        user_confirmation.confirmation_code = confirmation_of_saved_user.confirmation_code
-        user_confirmation.authenticate(user_confirmation.confirmation_code).should be_true
-      end
+  it 'should authenticate user with correct confirmation code' do
+    user_confirmation.save
+    confirmation_of_saved_user = User.find_by_id(user_confirmation.id)
+    user_confirmation.confirmation_code = confirmation_of_saved_user.confirmation_code
+    user_confirmation.authenticate(user_confirmation.confirmation_code).should be_true
+  end
 
-      it 'confirmation should be set true after a user is authenticated' do
-        user_confirmation.save
-        confirmation_of_saved_user = User.find_by_id(user_confirmation.id)
-        user_confirmation.confirmation_code = confirmation_of_saved_user.confirmation_code
-        user_confirmation.authenticate(user_confirmation.confirmation_code).should be_true
-        user_confirmation.confirmation.should be_true
-      end
+  it 'confirmation should be set true after a user is authenticated' do
+    user_confirmation.save
+    confirmation_of_saved_user = User.find_by_id(user_confirmation.id)
+    user_confirmation.confirmation_code = confirmation_of_saved_user.confirmation_code
+    user_confirmation.authenticate(user_confirmation.confirmation_code).should be_true
+    user_confirmation.confirmation.should be_true
+  end
 
-      it 'should not authenticate user with incorrect confirmation code' do
-        user_confirmation.authenticate("wrong").should be_false
-      end
-    end
+  it 'should not authenticate user with incorrect confirmation code' do
+    user_confirmation.authenticate("wrong").should be_false
+  end
+end
+```
 
 
 I> ## Take care of your names!?
@@ -1245,89 +1301,93 @@ I> Lesson learned: Breaks are great!
 Before going on we need to update our `factory` for the test with the confirmation code field::
 
 
-{: lang="ruby" }
-    # spec/factories.rb
+```ruby
+# spec/factories.rb
 
-    # encoding: utf-8
-    FactoryGirl.define do
-      ...
-      sequence(:confirmation_code){ "1" }
-      sequence(:id){ |n| n }
+# encoding: utf-8
+FactoryGirl.define do
+  ...
+  sequence(:confirmation_code){ "1" }
+  sequence(:id){ |n| n }
 
-      factory :user do
-        id
-        name
-        email
-        password "octocat"
-        confirmation_code
-      end
-      ...
-    end
+  factory :user do
+    id
+    name
+    email
+    password "octocat"
+    confirmation_code
+  end
+  ...
+end
+```
 
 
 We are making the `confirmation_code` with the value of 1 static because this make it easier for us to test the code.
 Here is now the code that makes our tests green:
 
 
-{: lang="ruby" }
-    # app/models/user.rb
+```ruby
+# app/models/user.rb
 
-    class User < ActiveRecord::Base
-      ...
+class User < ActiveRecord::Base
+  ...
 
-      def authenticate(confirmation_code)
-        return false unless @user = User.find_by_id(self.id)
+  def authenticate(confirmation_code)
+    return false unless @user = User.find_by_id(self.id)
 
-        if @user.confirmation_code == self.confirmation_code
-          self.confirmation = true
-          self.save
-          true
-        else
-          false
-        end
-      end
-      ...
+    if @user.confirmation_code == self.confirmation_code
+      self.confirmation = true
+      self.save
+      true
+    else
+      false
     end
+  end
+  ...
+end
+```
 
 
-Since our tests of our user model are now green, let's write tests for our /confirm route:
+Since our tests of our user model are now green, let's write tests for our `/confirm` route:
 
 
-{: lang="ruby" }
-    # spec/app/controllers/users_controller.rb
+```ruby
+# spec/app/controllers/users_controller.rb
 
-    describe "GET confirm" do
-    let(:user) { build(:user) }
-      it "render the 'users/confirm' page if user has confirmation code" do
-        user.save
-        get "/confirm/#{user.id}/#{user.confirmation_code.to_s}"
-        last_response.should be_ok
-      end
+describe "GET confirm" do
+let(:user) { build(:user) }
+  it "render the 'users/confirm' page if user has confirmation code" do
+    user.save
+    get "/confirm/#{user.id}/#{user.confirmation_code.to_s}"
+    last_response.should be_ok
+  end
 
-      it "redirect the :confirm if user id is wrong" do
-        get "/confirm/test/#{user.confirmation_code.to_s}"
-        last_response.should be_redirect
-      end
+  it "redirect the :confirm if user id is wrong" do
+    get "/confirm/test/#{user.confirmation_code.to_s}"
+    last_response.should be_redirect
+  end
 
-      it "redirect to :confirm if confirmation id is wrong" do
-        get "/confirm/#{user.id}/test"
-        last_response.should be_redirect
-      end
-    end
+  it "redirect to :confirm if confirmation id is wrong" do
+    get "/confirm/#{user.id}/test"
+    last_response.should be_redirect
+  end
+end
+```
 
 
 To make this pass, we implement the following code:
 
 
-{: lang="ruby" }
-    # app/controllers/users.rb
-    ...
+```ruby
+# app/controllers/users.rb
+...
 
-  get :confirm, :map => "/confirm/:id/:code" do
-    redirect('/') unless @user = User.find_by_id(params[:id])
-    redirect('/') unless @user.authenticate(params[:code])
-    render 'confirm'
-  end
+get :confirm, :map => "/confirm/:id/:code" do
+  redirect('/') unless @user = User.find_by_id(params[:id])
+  redirect('/') unless @user.authenticate(params[:code])
+  render 'confirm'
+end
+```
 
 
 ### Mailer Template for Confirmation Email
@@ -1336,66 +1396,70 @@ If we are lazy we could add our confirmation email into the registration mailer.
 things that have nothing to do with each other. So let's train our memory and create another mailer:
 
 
-{: lang="bash" }
-    $ padrino g mailer Confirmation confirmation_email
-      create  app/mailers/confirmation.rb
-      create  app/views/mailers/confirmation
+```bash
+$ padrino g mailer Confirmation confirmation_email
+  create  app/mailers/confirmation.rb
+  create  app/views/mailers/confirmation
+```
 
 
 Now let's fill out the confirmation mailer:
 
 
-{: lang="ruby" }
-    # app/mailers/confirmation.rb
+```ruby
+# app/mailers/confirmation.rb
 
-    JobVacancy::App.mailer :confirmation do
-      CONFIRMATION_URL = "http://localhost:3000/confirm"
+JobVacancy::App.mailer :confirmation do
+  CONFIRMATION_URL = "http://localhost:3000/confirm"
 
-      email :confirmation_email do |name, email, id, link|
-        from "admin@job-vacancy.de"
-        subject "Please confirm your account"
-        to email
-        locals :name => name, :confirmation_link => "#{CONFIRMATION_URL}/#{id}/#{link}"
-        render 'confirmation_email'
-      end
-    end
+  email :confirmation_email do |name, email, id, link|
+    from "admin@job-vacancy.de"
+    subject "Please confirm your account"
+    to email
+    locals :name => name, :confirmation_link => "#{CONFIRMATION_URL}/#{id}/#{link}"
+    render 'confirmation_email'
+  end
+end
+```
 
 
 Fill the email template with "confirmation-link-life":
 
 
-{: lang="erb" }
-    # app/views/mailers/confirmation/confirmation_email.plain.erb
+```erb
+# app/views/mailers/confirmation/confirmation_email.plain.erb
 
-    Hi <%= name %>,
+Hi <%= name %>,
 
-    to take fully advantage of our platform you have to follow the following link:
+to take fully advantage of our platform you have to follow the following link:
 
-    <%= confirmation_link %>
+<%= confirmation_link %>
 
-    Enjoy the possibility to find the right people for your jobs.
+Enjoy the possibility to find the right people for your jobs.
+```
 
 
 And call this method to our users controller:
 
 
-{: lang="ruby" }
-    # app/controllers/users.rb
+```ruby
+# app/controllers/users.rb
 
-    post :create do
-      @user = User.new(params[:user])
+post :create do
+  @user = User.new(params[:user])
 
-      if @user.save
-        deliver(:registration, :registration_email, @user.name, @user.email)
-        deliver(:confirmation, :confirmation_email, @user.name,
-                @user.email,
-                @user.id,
-                @user.confirmation_code)
-        redirect('/')
-      else
-        render 'new'
-      end
-    end
+  if @user.save
+    deliver(:registration, :registration_email, @user.name, @user.email)
+    deliver(:confirmation, :confirmation_email, @user.name,
+            @user.email,
+            @user.id,
+            @user.confirmation_code)
+    redirect('/')
+  else
+    render 'new'
+  end
+end
+```
 
 
 ### Observer
@@ -1431,12 +1495,13 @@ Here is a rough plan what we want to do:
 Let's create the observer with the name `user_observer` in the models folder
 
 
-{: lang="ruby" }
-    # app/models/user_observer.rb
+```ruby
+# app/models/user_observer.rb
 
-    class UserObserver < ActiveRecord::Observer
-    ... # put in here the private methods of the users model
-    end
+class UserObserver < ActiveRecord::Observer
+... # put in here the private methods of the users model
+end
+```
 
 
 (Sadly, Padrino hasn't a generate command for this but I'm having this on my list to create a pull request for this
@@ -1449,95 +1514,99 @@ where `<action>` is the ActiveRecord trigger method like save, update, delete, s
 To see what we can move out of the user model let's have a look inside this model:
 
 
-{: lang="ruby" }
-    # app/models/user.rb
+```ruby
+# app/models/user.rb
 
-    class User < ActiveRecord::Base
-      ... # The other validations
+class User < ActiveRecord::Base
+  ... # The other validations
 
-      before_save :encrypt_confirmation_code, :if => :registered?
+  before_save :encrypt_confirmation_code, :if => :registered?
 
-      private
-      def encrypt_confirmation_code
-        self.confirmation_code = set_confirmation_code
-      end
+  private
+  def encrypt_confirmation_code
+    self.confirmation_code = set_confirmation_code
+  end
 
-      def set_confirmation_code
-        require 'bcrypt'
-        salt = BCrypt::Engine.generate_salt
-        confirmation_code = BCrypt::Engine.hash_secret(self.password, salt)
-        normalize_confirmation_code(confirmation_code)
-      end
+  def set_confirmation_code
+    require 'bcrypt'
+    salt = BCrypt::Engine.generate_salt
+    confirmation_code = BCrypt::Engine.hash_secret(self.password, salt)
+    normalize_confirmation_code(confirmation_code)
+  end
 
-      def registered?
-        self.new_record?
-      end
+  def registered?
+    self.new_record?
+  end
 
-      def normalize_confirmation_code(confirmation_code)
-        confirmation_code.gsub("/", "")
-      end
-    end
+  def normalize_confirmation_code(confirmation_code)
+    confirmation_code.gsub("/", "")
+  end
+end
+```
 
 
 And refactor the code above into our observer:
 
 
-{: lang="ruby" }
-    # app/models/user_observer.rb
+```ruby
+# app/models/user_observer.rb
 
-    class UserObserver < ActiveRecord::Observer
+class UserObserver < ActiveRecord::Observer
 
-      private
-      def encrypt_confirmation_code(user)
-        user.confirmation_code = set_confirmation_code(user)
-      end
+  private
+  def encrypt_confirmation_code(user)
+    user.confirmation_code = set_confirmation_code(user)
+  end
 
-      def set_confirmation_code(user)
-        require 'bcrypt'
-        salt = BCrypt::Engine.generate_salt
-        confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
-        normalize_confirmation_code(confirmation_code)
-      end
+  def set_confirmation_code(user)
+    require 'bcrypt'
+    salt = BCrypt::Engine.generate_salt
+    confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
+    normalize_confirmation_code(confirmation_code)
+  end
 
-      def normalize_confirmation_code(confirmation_code)
-        confirmation_code.gsub("/", "")
-      end
-    end
+  def normalize_confirmation_code(confirmation_code)
+    confirmation_code.gsub("/", "")
+  end
+end
+```
 
 
 So far so good, but we also need to remove the callback `before_save :encrypt_confirmation_code, :if => :registered?`
 and we need also to transfer this logic:
 
 
-{: lang="ruby" }
-    # app/models/user_observer.rb
+```ruby
+# app/models/user_observer.rb
 
-    class UserObserver < ActiveRecord::Observer
-    ...
-      def before_save(user)
-        if user.new_record?
-          encrypt_confirmation_code(user)
-          JobVacancy.deliver(:registration, :registration_email, user.name, user.email)
-        end
-      end
-    ...
+class UserObserver < ActiveRecord::Observer
+...
+  def before_save(user)
+    if user.new_record?
+      encrypt_confirmation_code(user)
+      JobVacancy.deliver(:registration, :registration_email, user.name, user.email)
     end
+  end
+...
+end
+```
 
 
 If we have a fresh registered user we create an confirmation code and send him an welcome mail. Hmm, but what about the
 confirmation of our user? Right, we need to add an `after_save` method which send the confirmation code to the user:
 
 
-{: lang="ruby" }
-    # app/models/user_observer.rb
-    ...
+```ruby
+# app/models/user_observer.rb
+...
 
-    def after_save(user)
-      JobVacancy.deliver(:confirmation, :confirmation_email, user.name,
-                         user.email,
-                         user.id,
-                         user.confirmation_code) unless user.confirmation
-    end
+def after_save(user)
+  JobVacancy.deliver(:confirmation, :confirmation_email, user.name,
+                     user.email,
+                     user.id,
+                     user.confirmation_code) unless user.confirmation
+end
+```
 
 
 We have cleaned up our design to this time. Before that if a user update his profile a new confirmation code will be
@@ -1552,57 +1621,59 @@ just talks to the model and passing the ball to the right direction after an eve
 The last step we need to do is to register our observer in the `app.rb` and disable the observer for our specs
 
 
-{: lang="ruby" }
-    # app/app.rb.
-    module JobVacancy
-      class App < Padrino::Application
-        ...
-        # Activating the user_observer
-        ActiveRecord::Base.add_observer UserObserver.instance
-        ...
-      end
-    end
+```ruby
+# app/app.rb.
+module JobVacancy
+  class App < Padrino::Application
+    ...
+    # Activating the user_observer
+    ActiveRecord::Base.add_observer UserObserver.instance
+    ...
+  end
+end
 
-    # spec/spec_helper.rb
+# spec/spec_helper.rb
 
-    RSpec.configure do |conf|
-      ...
-      ActiveRecord::Base.observers.disable :all # <-- Turn 'em all off!
-      ...
-    end
+RSpec.configure do |conf|
+  ...
+  ActiveRecord::Base.observers.disable :all # <-- Turn 'em all off!
+  ...
+end
+```
 
 
 If you want to have an observer test[^test], you can use  the following one:
 
 
-{: lang="ruby" }
-    # spec/app/models/user_observer_spec.rb
-    require 'spec_helper'
+```ruby
+# spec/app/models/user_observer_spec.rb
+require 'spec_helper'
 
-    describe "UserObserver" do
-      let(:user) { build(:user)}
-      before do
-        @observer = UserObserver.instance
-        @model = User
-      end
+describe "UserObserver" do
+  let(:user) { build(:user)}
+  before do
+    @observer = UserObserver.instance
+    @model = User
+  end
 
-      it 'creates Mail::Message object before save' do
-        @observer.before_save(user).should be_instance_of(Mail::Message)
-      end
+  it 'creates Mail::Message object before save' do
+    @observer.before_save(user).should be_instance_of(Mail::Message)
+  end
 
-      it 'do not create Mail::Message if user already exist' do
-        @observer.before_save(@model.first).should be_nil
-      end
+  it 'do not create Mail::Message if user already exist' do
+    @observer.before_save(@model.first).should be_nil
+  end
 
-      it 'creates Mail::Message object after save' do
-        @observer.after_save(user).should be_instance_of(Mail::Message)
-      end
+  it 'creates Mail::Message object after save' do
+    @observer.after_save(user).should be_instance_of(Mail::Message)
+  end
 
-    end
+end
+```
 
 
-But during writing this book I became different testing results when using `bundle exec rake spec` and `bundle exec rspec spec`
-and to go on with the book, I removed the test and disabled all observers for the application.
+But during writing this book I became different testing results when using `bundle exec rake spec` and `bundle exec
+rspec spec` and to go on with the book, I removed the test and disabled all observers for the application.
 
 [^test]: Got the inspiration from [stackoverflow](http://stackoverflow.com/questions/33048/how-would-you-test-observers-with-rspec-in-a-ruby-on-rails-application)
 
@@ -1613,85 +1684,90 @@ Now that our users have the possibility to register and confirm on our page, we 
 to sign in. For handling login, we need to create a session controller:
 
 
-{: lang="bash" }
-    $ padrino g controller Sessions new create destroy
-      create  app/controllers/sessions.rb
-      create  app/helpers/sessions_helper.rb
-      create  app/views/sessions
-       apply  tests/rspec
-      create  spec/app/controllers/sessions_controller_spec.rb
+```bash
+$ padrino g controller Sessions new create destroy
+  create  app/controllers/sessions.rb
+  create  app/helpers/sessions_helper.rb
+  create  app/views/sessions
+   apply  tests/rspec
+  create  spec/app/controllers/sessions_controller_spec.rb
+```
 
 
 We made a mistake during the generation - we forget to add the right action for our request. Before making the mistake
 to delete the generated files by hand with a couple of `rm's`, you can run a generator to destroy a controller:
 
 
-{: lang="bash" }
-    $ padrino g controller Sessions -d
-      remove  app/controllers/sessions.rb
-      remove  app/helpers/sessions_helper.rb
-      remove  app/views/sessions
-       apply  tests/rspec
-      remove  spec/app/controllers/sessions_controller_spec.rb
+```bash
+$ padrino g controller Sessions -d
+  remove  app/controllers/sessions.rb
+  remove  app/helpers/sessions_helper.rb
+  remove  app/views/sessions
+   apply  tests/rspec
+  remove  spec/app/controllers/sessions_controller_spec.rb
+```
 
 
 And run the generate command with the correct actions:
 
 
-{: lang="bash" }
-    $ padrino g controller Sessions get:new post:create delete:destroy
-      create  app/controllers/sessions.rb
-      create  app/helpers/sessions_helper.rb
-      create  app/views/sessions
-       apply  tests/rspec
-      create  spec/app/controllers/sessions_controller_spec.rb
+```bash
+$ padrino g controller Sessions get:new post:create delete:destroy
+  create  app/controllers/sessions.rb
+  create  app/helpers/sessions_helper.rb
+  create  app/views/sessions
+   apply  tests/rspec
+  create  spec/app/controllers/sessions_controller_spec.rb
+```
 
 
 Our session controller is naked:
 
 
-{: lang="ruby" }
-    # app/controllers/sessions_controller.rb
+```ruby
+# app/controllers/sessions_controller.rb
 
-    JobVacancy:App.controllers :sessions do
+JobVacancy:App.controllers :sessions do
 
-      get :new, :map => "/login" do
-      end
+  get :new, :map => "/login" do
+  end
 
-      post :create do
-      end
+  post :create do
+  end
 
-      delete :destroy do
-      end
-    end
+  delete :destroy do
+  end
+end
+```
 
 
 So far so good before going on to write our tests first before we start with the implementation:
 
 
-{: lang="ruby" }
-    # spec/app/controllers/sessions_controller_spec.rb
-    require 'spec_helper'
+```ruby
+# spec/app/controllers/sessions_controller_spec.rb
+require 'spec_helper'
 
-    describe "SessionsController" do
-      describe "GET :new" do
-        it "load the login page" do
-        end
-      end
-
-      describe "POST :create" do
-        it "stay on page if user is not found"
-        it "stay on login page if user is not confirmed"
-        it "stay on login page if user has wrong email"
-        it "stay on login page if user has wrong password"
-        it "redirect if user is correct"
-      end
-
-      describe "GET :logout" do
-        it "empty the current session"
-        it "redirect to homepage if user is logging out"
-      end
+describe "SessionsController" do
+  describe "GET :new" do
+    it "load the login page" do
     end
+  end
+
+  describe "POST :create" do
+    it "stay on page if user is not found"
+    it "stay on login page if user is not confirmed"
+    it "stay on login page if user has wrong email"
+    it "stay on login page if user has wrong password"
+    it "redirect if user is correct"
+  end
+
+  describe "GET :logout" do
+    it "empty the current session"
+    it "redirect to homepage if user is logging out"
+  end
+end
+```
 
 
 I>## Test-First development
@@ -1704,65 +1780,66 @@ I> going to do. These tests prevent you from over engineering a problem because 
 Here are now the tests for the `GET :new` and `POST :create` actions of our session controller:
 
 
-{: lang="ruby" }
-    # spec/app/controllers/sessions_controller_spec.rb
+```ruby
+# spec/app/controllers/sessions_controller_spec.rb
 
-    require 'spec_helper'
+require 'spec_helper'
 
-    describe "SessionsController" do
+describe "SessionsController" do
 
-      describe "GET :new" do
-        it "load the login page" do
-          get "/login"
-          last_response.should be_ok
-        end
-      end
-
-      describe "POST :create" do
-        let(:user) { build(:user)}
-        let(:params) { attributes_for(:user)}
-
-        it "stay on page if user is not found" do
-          User.should_receive(:find_by_email).and_return(false)
-          post_create(user.attributes)
-          last_response.should be_ok
-        end
-
-        it "stay on login page if user is not confirmed" do
-          user.confirmation = false
-          User.should_receive(:find_by_email).and_return(user)
-          post_create(user.attributes)
-          last_response.should be_ok
-        end
-
-        it "stay on login page if user has wrong email" do
-          user.email = "fake@google.de"
-          User.should_receive(:find_by_email).and_return(user)
-          post_create(user.attributes)
-          last_response.should be_ok
-        end
-
-        it "stay on login page if user has wrong password" do
-          user.password = "test"
-          User.should_receive(:find_by_email).and_return(user)
-          post_create(user.attributes)
-          last_response.should be_ok
-        end
-
-        it "redirect if user is correct" do
-          user.confirmation = true
-          User.should_receive(:find_by_email).and_return(user)
-          post_create(user.attributes)
-          last_response.should be_redirect
-        end
-      end
-
-      private
-      def post_create(params)
-        post "sessions/create", params
-      end
-
+  describe "GET :new" do
+    it "load the login page" do
+      get "/login"
+      last_response.should be_ok
     end
+  end
+
+  describe "POST :create" do
+    let(:user) { build(:user)}
+    let(:params) { attributes_for(:user)}
+
+    it "stay on page if user is not found" do
+      User.should_receive(:find_by_email).and_return(false)
+      post_create(user.attributes)
+      last_response.should be_ok
+    end
+
+    it "stay on login page if user is not confirmed" do
+      user.confirmation = false
+      User.should_receive(:find_by_email).and_return(user)
+      post_create(user.attributes)
+      last_response.should be_ok
+    end
+
+    it "stay on login page if user has wrong email" do
+      user.email = "fake@google.de"
+      User.should_receive(:find_by_email).and_return(user)
+      post_create(user.attributes)
+      last_response.should be_ok
+    end
+
+    it "stay on login page if user has wrong password" do
+      user.password = "test"
+      User.should_receive(:find_by_email).and_return(user)
+      post_create(user.attributes)
+      last_response.should be_ok
+    end
+
+    it "redirect if user is correct" do
+      user.confirmation = true
+      User.should_receive(:find_by_email).and_return(user)
+      post_create(user.attributes)
+      last_response.should be_redirect
+    end
+  end
+
+  private
+  def post_create(params)
+    post "sessions/create", params
+  end
+
+end
+```
 
 
 We are using **mocking** to make test what we want with the `User.should_receive(:find_by_email).and_return(user)`
@@ -1776,30 +1853,31 @@ preventing our tests from hitting the database and making it faster.
 Here is the code for our session controller to make the test green:
 
 
-{: lang="ruby" }
-    # app/controllers/session.rb
+```ruby
+# app/controllers/session.rb
 
-    JobVacancy::App.controllers :sessions do
+JobVacancy::App.controllers :sessions do
 
-      get :new, :map => "/login" do
-        render 'new'
-      end
+  get :new, :map => "/login" do
+    render 'new'
+  end
 
-      post :create do
-        user = User.find_by_email(params[:email])
+  post :create do
+    user = User.find_by_email(params[:email])
 
-        if user && user.confirmation && user.password == params[:password]
-          sign_in(user)
-          redirect '/'
-        else
-          render 'new'
-        end
-      end
-
-      get :destroy, :map => '/logout' do
-      end
-
+    if user && user.confirmation && user.password == params[:password]
+      sign_in(user)
+      redirect '/'
+    else
+      render 'new'
     end
+  end
+
+  get :destroy, :map => '/logout' do
+  end
+
+end
+```
 
 
 When I started the tests I got some weird error messages of calling a method on a nil object and spend one hour till I
@@ -1808,46 +1886,48 @@ and since we disable sending mails with the `set :delivery_method, :test` settin
 mails. The simple to this problem was to add an option to in the `spec_helper.rb` to disable the observer:
 
 
-{: lang="ruby" }
-    # spec/spec_helper.rb
-    ...
-    RSpec.configure do |conf|
-      conf.before do
-        User.observers.disable :all # <-- turn of user observers for testing reasons, yeah
-      end
-      ...
-    end
+```ruby
+# spec/spec_helper.rb
+...
+RSpec.configure do |conf|
+  conf.before do
+    User.observers.disable :all # <-- turn of user observers for testing reasons, yeah
+  end
+  ...
+end
+```
 
 
 Running our tests:
 
 
-{: lang="bash" }
-    $ rspec spec/app/controllers/sessions_controller_spec.rb
+```bash
+$ rspec spec/app/controllers/sessions_controller_spec.rb
 
-    SessionsController
-      GET :new
-        load the login page
-      POST :create
-        stay on page if user is not found
-        stay on login page if user is not confirmed
-        stay on login page if user has wrong email
-        stay on login page if user has wrong password
-        redirect if user is correct
-      GET :logout
-        empty the current session (PENDING: Not yet implemented)
-        redirect to homepage if user is logging out (PENDING: Not yet implemented)
+SessionsController
+  GET :new
+    load the login page
+  POST :create
+    stay on page if user is not found
+    stay on login page if user is not confirmed
+    stay on login page if user has wrong email
+    stay on login page if user has wrong password
+    redirect if user is correct
+  GET :logout
+    empty the current session (PENDING: Not yet implemented)
+    redirect to homepage if user is logging out (PENDING: Not yet implemented)
 
-    Pending:
-      SessionsController GET :logout empty the current session
-        # Not yet implemented
-        # ./spec/app/controllers/sessions_controller_spec.rb:52
-      SessionsController GET :logout redirect to homepage if user is logging out
-        # Not yet implemented
-        # ./spec/app/controllers/sessions_controller_spec.rb:53
+Pending:
+  SessionsController GET :logout empty the current session
+    # Not yet implemented
+    # ./spec/app/controllers/sessions_controller_spec.rb:52
+  SessionsController GET :logout redirect to homepage if user is logging out
+    # Not yet implemented
+    # ./spec/app/controllers/sessions_controller_spec.rb:53
 
-    Finished in 0.62495 seconds
-    8 examples, 0 failures, 2 pending
+Finished in 0.62495 seconds
+8 examples, 0 failures, 2 pending
+```
 
 
 Before going on with implementing the logout action we need to think what happened after we login. We have to find a
@@ -1856,47 +1936,49 @@ with sessions. When we created the session controller there was the line `create
 let's look into this file:
 
 
-{: lang="ruby" }
-    # app/helpers/sessions_helper.rb
+```ruby
+# app/helpers/sessions_helper.rb
 
-    # Helper methods defined here can be accessed in any controller or view in the application
+# Helper methods defined here can be accessed in any controller or view in the application
 
-    JobVacancy::App.helpers do
-      # def simple_helper_method
-      #  ...
-      # end
-    end
+JobVacancy::App.helpers do
+  # def simple_helper_method
+  #  ...
+  # end
+end
+```
 
 
 Yeah, Padrino is so friendly to print the purpose of this new file and it basically says what we want to do. Let's
 implement the main features:
 
 
-{: lang="ruby" }
-    # app/helpers/session_helper.rb
+```ruby
+# app/helpers/session_helper.rb
 
-    JobVacancy::App.helpers do
-      def current_user=(user)
-        @current_user = user
-      end
+JobVacancy::App.helpers do
+  def current_user=(user)
+    @current_user = user
+  end
 
-      def current_user
-        @current_user ||= User.find_by_id(session[:current_user])
-      end
+  def current_user
+    @current_user ||= User.find_by_id(session[:current_user])
+  end
 
-      def sign_in(user)
-        session[:current_user] = user.id
-        self.current_user = user
-      end
+  def sign_in(user)
+    session[:current_user] = user.id
+    self.current_user = user
+  end
 
-      def sign_out
-        session.delete(:current_user)
-      end
+  def sign_out
+    session.delete(:current_user)
+  end
 
-      def signed_in?
-        !current_user.nil?
-      end
-    end
+  def signed_in?
+    !current_user.nil?
+  end
+end
+```
 
 
 There's a lot of stuff going on in this helper:
@@ -1932,33 +2014,36 @@ I> application `binding.pry` and have full access to all variables.
 Now we are in a position to write tests for our `:destroy` action:
 
 
-{: lang="ruby" }
-    # spec/app/controller/sessions_spec.rb
+```ruby
+# spec/app/controller/sessions_spec.rb
 
-    require 'spec_helper'
+require 'spec_helper'
 
-    describe "SessionsController" do
-      ...
-      describe "GET :logout" do
-        it "empty the current session" do
-          get_logout
-          session[:current_user].should == nil
-          last_response.should be_redirect
-        end
+describe "SessionsController" do
+  ...
+  describe "GET :logout" do
+    it "empty the current session" do
+      get_logout
+      session[:current_user].should == nil
+      last_response.should be_redirect
+    end
 
-        it "redirect to homepage if user is logging out" do
-          get_logout
-          last_response.should be_redirect
-        end
-      end
+    it "redirect to homepage if user is logging out" do
+      get_logout
+      last_response.should be_redirect
+    end
+  end
 
-      private
-      ...
+  private
+  ...
 
-      def get_logout
-          # first arguments are params (like the ones out of an form), the second are environments variables
-        get '/logout', { :name => 'Hans', :password => 'Test123' }, 'rack.session' => { :current_user => 1 }
-      end
+  def get_logout
+      # first arguments are params (like the ones out of an form), the second are environments variables
+    get '/logout', { :name => 'Hans', :password => 'Test123' }, 'rack.session' => { :current_user => 1 }
+  end
+  ...
+end
+```
 
 
 We use the our own `session` method in our tests to have access to the last response of our `rack.session`.
@@ -1967,105 +2052,112 @@ What we need to achieve is to have access to
 definition of this method is part of our `spec_helper.rb` method:
 
 
-{: lang="ruby" }
-    # spec/spec_helper.rb
+```ruby
+# spec/spec_helper.rb
 
-    ...
-    # have access to the session variables
-    def session
-      last_request.env['rack.session']
-    end
+...
+# have access to the session variables
+def session
+  last_request.env['rack.session']
+end
+```
 
 
 And finally the implementation of the code that it make our tests green:
 
 
-{: lang="ruby" }
-    # app/controllers/session.rb
+```ruby
+# app/controllers/session.rb
 
-    JobVacancy::App.controllers :sessions do
-      get :destroy, :map => '/logout' do
-        sign_out
-        redirect '/'
-      end
-    end
+JobVacancy::App.controllers :sessions do
+  get :destroy, :map => '/logout' do
+    sign_out
+    redirect '/'
+  end
+end
+```
 
 
 What we forget due to this point is to make use of the `sign_in(user)` method. Of course we need use this during our
 session `:create` action:
 
 
-{: lang="ruby" }
-    # app/controller/session.rb
+```ruby
+# app/controller/session.rb
 
-    JobVacancy::App.controllers :sessions do
+JobVacancy::App.controllers :sessions do
+  ...
+  post :create do
+    ...
+    if user && user.confirmation && user.password == params[:password]
+      sign_in(user)
+      redirect '/'
+    else
       ...
-      post :create do
-        ...
-        if user && user.confirmation && user.password == params[:password]
-          sign_in(user)
-          redirect '/'
-        else
-          ...
-        end
-      end
-
     end
+  end
+
+end
+```
 
 
 Where can we test now our logic? The main application layout of our application should have a "Login" and "Logout" link
 according to the status of the user:
 
-{: lang="ruby" }
-    # app/views/application.rb
 
-    <!DOCTYPE html>
-    <html lang="en-US">
-      <%= stylesheet_link_tag '../assets/application' %>
-      <%= javascript_include_tag '../assets/application' %>
-    </head>
-    <body>
-      <div class=="container">
-        <div class="row">
-            <nav id="navigation">
-            ...
-            <% if signed_in? %>
-              <%= link_to 'Logout', url_for(:sessions, :destroy) %>
-            <% else %>
-            <div class="span2">
-              <%= link_to 'Login', url_for(:sessions, :new) %>
-            </div>
-            <% end %>
-            </nav>
-          </div>
-          ...
+```erb
+# app/views/application.rb
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <%= stylesheet_link_tag '../assets/application' %>
+  <%= javascript_include_tag '../assets/application' %>
+</head>
+<body>
+  <div class=="container">
+    <div class="row">
+        <nav id="navigation">
+        ...
+        <% if signed_in? %>
+          <%= link_to 'Logout', url_for(:sessions, :destroy) %>
+        <% else %>
+        <div class="span2">
+          <%= link_to 'Login', url_for(:sessions, :new) %>
         </div>
+        <% end %>
+        </nav>
       </div>
-    </body>
+      ...
+    </div>
+  </div>
+</body>
+```
 
 
 With the change above we changed the default "Registration" entry in our header navigation to "Login". We will add the
 link to the registration form now in the 'session/new' view:
 
 
-{: lang="ruby" }
-    # app/views/sessions/new.erb
+```erb
+# app/views/sessions/new.erb
 
-    <h1>Login</h1>
+<h1>Login</h1>
 
-    <% form_tag '/sessions/create' do %>
+<% form_tag '/sessions/create' do %>
 
-      <%= label_tag :email %>
-      <%= text_field_tag :email %>
+  <%= label_tag :email %>
+  <%= text_field_tag :email %>
 
-      <%= label_tag :password %>
-      <%= password_field_tag :password %>
-      <p>
-      <%= submit_tag "Sign up", :class => "btn btn-primary" %>
-      </p>
-    <% end %>
+  <%= label_tag :password %>
+  <%= password_field_tag :password %>
+  <p>
+  <%= submit_tag "Sign up", :class => "btn btn-primary" %>
+  </p>
+<% end %>
+```
 
-    New on this platform? <%= link_to 'Register', url_for(:users, :new) %>
+
+New on this platform? <%= link_to 'Register', url_for(:users, :new) %>
 
 
 Here we are using the [form_tag](http://www.padrinorb.com/guides/application-helpers#form-helpers) instead of the
@@ -2076,49 +2168,51 @@ rendering of method which says if we have an error or not and display the messag
 using the `:locals` option to create customized params for your views:
 
 
-{: lang="ruby" }
-    # app/controllers/sessions.rb
+```ruby
+# app/controllers/sessions.rb
 
-    JobVacancy::App.controllers :sessions do
+JobVacancy::App.controllers :sessions do
 
-      get :new, :map => "/login" do
-        render 'new', :locals => { :error => false }
-      end
+  get :new, :map => "/login" do
+    render 'new', :locals => { :error => false }
+  end
 
-      post :create do
-        user = User.find_by_email(params[:email])
+  post :create do
+    user = User.find_by_email(params[:email])
 
-        if user && user.confirmation && user.password == params[:password]
-          sign_in(user)
-          redirect '/'
-        else
-          render 'new', :locals => { :error => true }
-        end
-      end
-      ...
-
+    if user && user.confirmation && user.password == params[:password]
+      sign_in(user)
+      redirect '/'
+    else
+      render 'new', :locals => { :error => true }
     end
+  end
+  ...
+
+end
+```
 
 
 Now we can simply use the `error` variable in our view:
 
 
-{: lang="ruby" }
-    # app/views/sessions/new.erb
+```ruby
+# app/views/sessions/new.erb
 
-    <h1>Login</h1>
+<h1>Login</h1>
 
-    <% form_tag '/sessions/create' do %>
-      <% if error %>
-        <div class="alert alert-error">
-          <h4>Error</h4>
-          Your Email and/or Password is wrong!
-        </div>
-      <% end %>
-    ...
-    <% end %>
+<% form_tag '/sessions/create' do %>
+  <% if error %>
+    <div class="alert alert-error">
+      <h4>Error</h4>
+      Your Email and/or Password is wrong!
+    </div>
+  <% end %>
+...
+<% end %>
 
-    New on this platform? <%= link_to 'Register', url_for(:users, :new) %>
+New on this platform? <%= link_to 'Register', url_for(:users, :new) %>
+```
 
 
 The last thing we want to is to give the user feedback about what the action he was recently doing. Like that it would
@@ -2131,50 +2225,52 @@ mechanism is build on
 And here is the implementation of the code:
 
 
-{: lang="erb" }
-    # app/views/application.erb
+```erb
+# app/views/application.erb
 
-    <!DOCTYPE html>
-    <html lang="en-US">
-    <head>
-      <title>Job Vacancy - find the best jobs</title>
-      <%= stylesheet_link_tag '../assets/application' %>
-      <%= javascript_include_tag '../assets/application' %>
-    </head>
-    <body>
-      <div class="container">
-        <% if flash[:notice] %>
-          <div class="row" id="flash">
-            <div class="span9 offset3 alert alert-success">
-              <%= flash[:notice] %></p>
-            </div>
-          </div>
-        <% end %>
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <title>Job Vacancy - find the best jobs</title>
+  <%= stylesheet_link_tag '../assets/application' %>
+  <%= javascript_include_tag '../assets/application' %>
+</head>
+<body>
+  <div class="container">
+    <% if flash[:notice] %>
+      <div class="row" id="flash">
+        <div class="span9 offset3 alert alert-success">
+          <%= flash[:notice] %></p>
+        </div>
       </div>
-    </body>
+    <% end %>
+  </div>
+</body>
+```
 
 
 Next we need implement the flash messages in our session controller:
 
 
-{: lang="ruby" }
-    # app/controllers/sessions.rb
+```ruby
+# app/controllers/sessions.rb
 
-    JobVacancy::App.controllers :sessions do
-      ...
-      post :create do
-        user = User.find_by_email(params[:email])
+JobVacancy::App.controllers :sessions do
+  ...
+  post :create do
+    user = User.find_by_email(params[:email])
 
-        if user && user.confirmation && user.password == params[:password]
-          flash[:notice] = "You have successfully logged out."
-          sign_in(user)
-          redirect '/'
-        else
-          render 'new', :locals => { :error => true }
-        end
-      end
-      ...
+    if user && user.confirmation && user.password == params[:password]
+      flash[:notice] = "You have successfully logged out."
+      sign_in(user)
+      redirect '/'
+    else
+      render 'new', :locals => { :error => true }
     end
+  end
+  ...
+end
+```
 
 
 If you now login successfully you will see the message but it will stay there forever. But we don't want to have this
@@ -2182,32 +2278,33 @@ message displayed the whole time, so we will use jQuery's [fadeOut method](http:
 the message. Since we are first writing our own customized JavaScript, let's create the file with the following content:
 
 
-{: lang="erb" }
-    # app/views/application.erb
+```erb
+# app/views/application.erb
 
-    <!DOCTYPE html>
-    <html lang="en-US">
-    <head>
-      <title>Job Vacancy - find the best jobs</title>
-      <%= stylesheet_link_tag '../assets/application' %>
-      <%= javascript_include_tag '../assets/application' %>
-    </head>
-    <body>
-      <div class=="container">
-        <% if flash[:notice] %>
-          <div class="row" id="flash">
-            <div class="span9 offset3 alert alert-success">
-              <%= flash[:notice] %></p>
-            </div>
-            <script type="text/javascript">
-              $(function(){
-                  $("#flash").fadeOut(2000);
-              });
-            </script>
-          </div>
-        <% end %>
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <title>Job Vacancy - find the best jobs</title>
+  <%= stylesheet_link_tag '../assets/application' %>
+  <%= javascript_include_tag '../assets/application' %>
+</head>
+<body>
+  <div class=="container">
+    <% if flash[:notice] %>
+      <div class="row" id="flash">
+        <div class="span9 offset3 alert alert-success">
+          <%= flash[:notice] %></p>
+        </div>
+        <script type="text/javascript">
+          $(function(){
+              $("#flash").fadeOut(2000);
+          });
+        </script>
       </div>
-    </body>
+    <% end %>
+  </div>
+</body>
+```
 
 
 Feel free to add the `flash[:notice]` function when the user has registered and confirmed successfully on our platform.

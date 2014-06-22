@@ -7,9 +7,11 @@ Instead of using the build-in software package for Ruby of your operating system
 First, we need to use [git](http://git-scm.org) to get the current version of rbenv:
 
 
-{: lang="bash" }
-    $ cd $HOME
-    $ git clone git://github.com/sstephenson/rbenv.git .rbenv
+
+```bash
+$ cd $HOME
+$ git clone git://github.com/sstephenson/rbenv.git .rbenv
+```
 
 
 In case you shouldn't want to use git, you can also download the latest version as a zip file from
@@ -20,22 +22,25 @@ You need to add the directory that contains rbenv to your `$PATH` environment va
 replace `.bashrc` with `.bash_profile` in all of the following commands):
 
 
-{: lang="bash" }
-    $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+```bash
+$ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+```
 
 
 To enable auto completion for `rbenv` commands, we need to perform the following command:
 
 
-{: lang="bash" }
-    $ echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+```bash
+$ echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+```
 
 
 Next, we need to restart our shell to enable the last changes:
 
 
-{: lang="bash" }
-    $ exec $SHELL
+```bash
+$ exec $SHELL
+```
 
 
 Basically, there are two ways to install different versions of Ruby: You can compile Ruby on your
@@ -48,18 +53,20 @@ Because we don't want to download and compile different Ruby versions on our own
 [ruby-build](https://github.com/sstephenson/ruby-build "ruby-build") plugin for rbenv:
 
 
-{: lang="bash" }
-    $ mkdir ~/.rbenv/plugins
-    $ cd ~/.rbenv/plugins
-    $ git clone git://github.com/sstephenson/ruby-build.git
+```bash
+$ mkdir ~/.rbenv/plugins
+$ cd ~/.rbenv/plugins
+$ git clone git://github.com/sstephenson/ruby-build.git
+```
 
 
 If you now run `rbenv install` you can see all the different Ruby version you can install and use for different Ruby
 projects. We are going to install `ruby 1.9.3-p392`:
 
 
-{: lang="bash" }
-    $ rbenv install 1.9.3-p392
+```bash
+$ rbenv install 1.9.3-p392
+```
 
 
 This command will take a couple of minutes, so it's best to grab a Raider, which is now known as
@@ -67,15 +74,17 @@ This command will take a couple of minutes, so it's best to grab a Raider, which
 the internal rbenv libraries. The last step is to make Ruby 1.9.3-p392 the current executable on your machine:
 
 
-{: lang="bash" }
-    $ rbenv global 1.9.3-p392
+```bash
+$ rbenv global 1.9.3-p392
+```
 
 
 Check that the correct executable is active by exexuting `ruby -v`. The output should look like:
 
 
-{: lang="bash" }
-    $ 1.9.3-p392 (set by /home/.rbenv/versions)
+```bash
+$ 1.9.3-p392 (set by /home/.rbenv/versions)
+```
 
 
 Now you are a ready to hack on with Padrino!

@@ -4,10 +4,11 @@ Start with generating a new project with the canonical `padrino` command. In con
 (app) before, we are using new options:
 
 
-{: lang="bash" }
-    $ mkdir ~/padrino-projects
-    $ cd ~/padrino_projects
-    $ padrino g project job-vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite
+```bash
+$ mkdir ~/padrino-projects
+$ cd ~/padrino_projects
+$ padrino g project job-vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite
+```
 
 
 Explanation of the fields commands:
@@ -70,8 +71,9 @@ Later, when *the time comes*, we will add extra gems, for now though we'll grab 
 `bundle` by running at the command line:
 
 
-{: lang="bash" }
-    $ bundle install
+```bash
+$ bundle install
+```
 
 
 ## Basic Layout Template
@@ -85,16 +87,17 @@ We are using [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, a
 `public/index.html`:
 
 
-{: lang="html" }
-    <!DOCTYPE html>
-    <html lang="en-US">
-      <head>
-        <title>Start Page</title>
-      </head>
-      <body>
-        <p>Hello, Padrino!</p>
-      </body>
-    </html>
+```bash
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Start Page</title>
+  </head>
+  <body>
+    <p>Hello, Padrino!</p>
+  </body>
+</html>
+```
 
 
 Explanation of the parts:
@@ -114,9 +117,10 @@ dynamic layout. During this chapter, we will se how to add more and more dynamic
 We can take a look at our new page by executing the following command:
 
 
-{: lang="bash" }
-    $ cd job-vacancy
-    $ bundle exec padrino start
+```bash
+$ cd job-vacancy
+$ bundle exec padrino start
+```
 
 
 You should see a message telling you that Padrino has taken the stage, and you should be able to view our created index
@@ -144,19 +148,21 @@ routing controller. A controller makes data from you app (in our case job offers
 details of a job offer). Now let's create a controller in Padrino names page:
 
 
-{: lang="bash" }
-    $ padrino g controller page
+```bash
+$ padrino g controller page
+```
 
 
 The output of this command is:
 
 
-{: lang="bash" }
-    create  app/controllers/page.rb
-    create  app/helpers/page_helper.rb
-    create  app/views/page
-     apply  tests/rspec
-    create  spec/app/controllers/page_controller_spec.rb
+```bash
+create  app/controllers/page.rb
+create  app/helpers/page_helper.rb
+create  app/views/page
+ apply  tests/rspec
+create  spec/app/controllers/page_controller_spec.rb
+```
 
 
 (If you have questions about the output above, please drop me a line - I think it is so clear that it doesn't need any
@@ -166,54 +172,56 @@ explanation about it.)
 Lets take a closer look at our page-controller:
 
 
-{: lang="ruby" }
-    # app/controller/page.rb
+```ruby
+# app/controller/page.rb
 
-    JobVacancy::App.controllers :page do
+JobVacancy::App.controllers :page do
 
-      # get :index, :map => '/foo/bar' do
-      #   session[:foo] = 'bar'
-      #   render 'index'
-      # end
+  # get :index, :map => '/foo/bar' do
+  #   session[:foo] = 'bar'
+  #   render 'index'
+  # end
 
-      # get :sample, :map => '/sample/url', :provides => [:any, :js] do
-      #   case content_type
-      #     when :js then ...
-      #     else ...
-      # end
+  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
+  #   case content_type
+  #     when :js then ...
+  #     else ...
+  # end
 
-      # get :foo, :with => :id do
-      #   'Maps to url '/foo/#{params[:id]}''
-      # end
+  # get :foo, :with => :id do
+  #   'Maps to url '/foo/#{params[:id]}''
+  # end
 
-      # get '/example' do
-      #   'Hello world!'
-      # end
+  # get '/example' do
+  #   'Hello world!'
+  # end
 
-    end
+end
+```
 
 
 The controller above defines for our `JobVacancy` the `:page` controller with no specified routes inside the
 app. Let's change this and define the *about*, *contact*, and *home* actions:
 
 
-{: lang="ruby" }
-    # app/controller/page.rb
+```ruby
+# app/controller/page.rb
 
-    JobVacancy:.App.controllers :page do
-      get :about, :map => '/about' do
-        render :erb, 'about'
-      end
+JobVacancy:.App.controllers :page do
+  get :about, :map => '/about' do
+    render :erb, 'about'
+  end
 
-      get :contact , :map => '/contact' do
-        render :erb, 'contact'
-      end
+  get :contact , :map => '/contact' do
+    render :erb, 'contact'
+  end
 
-      get :home, :map => '/' do
-        render :erb, 'home'
-      end
+  get :home, :map => '/' do
+    render :erb, 'home'
+  end
 
-    end
+end
+```
 
 
 We will go through each line:
@@ -241,21 +249,20 @@ ruby. This makes your programs more efficient.
 To see what routes you have defined for your app just call `padrino rake routes`:
 
 
-{: lang="bash" }
-    $ padrino rake routes
-    => Executing Rake routes ...
+```bash
+$ padrino rake routes
+=> Executing Rake routes ...
+
+  Application: JobVacancy
+  URL                  REQUEST  PATH
+  (:page, :about)        GET    /about
+  (:page, :contact)      GET    /contact
+  (:page, :home)         GET    /
+```
 
 
-{: lang="bash" }
-    Application: JobVacancy
-    URL                  REQUEST  PATH
-    (:page, :about)        GET    /about
-    (:page, :contact)      GET    /contact
-    (:page, :home)         GET    /
-
-
-This command crawls through your app looking for any existing routes and gives you a nice overview of the **URL (:controller, :explicit_url),
-REQUEST**, and **PATH**.
+This command crawls through your app looking for any existing routes and gives you a nice overview of the **URL
+(:controller, :explicit_url), REQUEST**, and **PATH**.
 
 
 ## App Template With ERB
@@ -265,16 +272,17 @@ on our web page. First we need to generate a basic template for all pages we wan
 *app/views/layouts/application.erb*:
 
 
-{: lang="html" }
-    <!DOCTYPE html>
-    <html lang="en-US">
-      <head>
-        <title>Job Vacancy - find the best jobs</title>
-      </head>
-      <body>
-        <%= yield %>
-      </body>
-    </html>
+```html
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Job Vacancy - find the best jobs</title>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
+```
 
 
 Let's see what is going on with the `<%= yield %>` line. At first you may ask what does the `<>` symbols mean. They are
@@ -294,37 +302,39 @@ Thanks to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we u
 [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb) by executing:
 
 
-{: lang="bash" }
-    $ padrino-gen plugin bootstrap
+```bash
+$ padrino-gen plugin bootstrap
 
-      apply  https://github.com/padrino/padrino-recipes/raw/master/plugins/bootstrap_plugin.rb
-      create    public/stylesheets/bootstrap.css
-      create    public/stylesheets/bootstrap-theme.css
-      create    public/javascripts/bootstrap.js
-      create    public/javascripts/bootstrap.min.js
-      create    public/javascripts/jquery.js
-      create    public/javascripts/jquery-ujs.js
-      create    public/fonts/glyphicons-halflings-regular.eot
-      create    public/fonts/glyphicons-halflings-regular.svg
-      create    public/fonts/glyphicons-halflings-regular.ttf
-      create    public/fonts/glyphicons-halflings-regular.woff
+  apply  https://github.com/padrino/padrino-recipes/raw/master/plugins/bootstrap_plugin.rb
+  create    public/stylesheets/bootstrap.css
+  create    public/stylesheets/bootstrap-theme.css
+  create    public/javascripts/bootstrap.js
+  create    public/javascripts/bootstrap.min.js
+  create    public/javascripts/jquery.js
+  create    public/javascripts/jquery-ujs.js
+  create    public/fonts/glyphicons-halflings-regular.eot
+  create    public/fonts/glyphicons-halflings-regular.svg
+  create    public/fonts/glyphicons-halflings-regular.ttf
+  create    public/fonts/glyphicons-halflings-regular.woff
+```
 
 
 Next we need to include the style sheet in our app template for the whole app:
 
 
-{: lang="bash" }
-    <!DOCTYPE html>
-    <html lang="en-US">
-      <head>
-        <title>Job Vacancy - find the best jobs</title>
-        <%= stylesheet_link_tag 'bootstrap', 'bootstrap-theme' %>
-        <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
-      </head>
-      <body>
-        <%= yield %>
-      </body>
-    </html>
+```html
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Job Vacancy - find the best jobs</title>
+    <%= stylesheet_link_tag 'bootstrap', 'bootstrap-theme' %>
+    <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
+```
 
 
 The `stylesheet_link_tag` points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will
@@ -354,52 +364,56 @@ To implement Sprockets in Padrino there the following strategies:
 We are using the **padrino-sprockets** gem. Let's add it to our Gemfile and run `bundle install`:
 
 
-{: lang="ruby" }
-    # Gemfile
-    gem 'padrino-sprockets', :require => ['padrino/sprockets'], :git => 'git://github.com/nightsailer/padrino-sprockets.git'
+```ruby
+# Gemfile
+gem 'padrino-sprockets', :require => ['padrino/sprockets'], :git => 'git://github.com/nightsailer/padrino-sprockets.git'
+```
 
 Next we need to move all our assets from the public folder in the assets folder:
 
 
-{: lang="bash" }
-    $ cd <path-to-your-padrino-app>
-    $ mkdir -p app/assets
-    $ cd public
-    $ mv -v fonts images javascripts stylesheets ../app/assets
+```bash
+$ cd <path-to-your-padrino-app>
+$ mkdir -p app/assets
+$ cd public
+$ mv -v fonts images javascripts stylesheets ../app/assets
+```
 
 Now we have to register Padrino-Sprockets in this application:
 
 
-{: lang="ruby" }
-    # app/app.rb
-    module JobVacancy
-      class App < Padrino::Application
-        ...
-        register Padrino::Sprockets
-        sprockets
-        ...
-      end
-    end
+```ruby
+# app/app.rb
+module JobVacancy
+  class App < Padrino::Application
+    ...
+    register Padrino::Sprockets
+    sprockets
+    ...
+  end
+end
+```
 
 
-Next we need create an application.css file and add the following to determine the order of the loaded CSS files:
+Next we need create an application.css file and add the following to determine the order of the loaded CSS files in
+`app/assets/stylesheets/application.css`:
 
 
-{: lang="ruby" }
-    # app/assets/stylesheets/application.css
-    /*
-     * This is a manifest file that'll automatically include all the stylesheets available in this directory
-     * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
-     * the top of the compiled file, but it's generally better to create a new file per style scope.
-     * require_self: Puts the CSS contained within this file at the precise location (puts this command
-     * at the top of the generated css file
-     * require_tree . means, that requiring all stylesheets from the current directory.
-     *
-     *= require_self
-     *= require bootstrap
-     *= require bootstrap-theme
-     *= require site
-    */
+```javascript
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ * require_self: Puts the CSS contained within this file at the precise location (puts this command
+ * at the top of the generated css file
+ * require_tree . means, that requiring all stylesheets from the current directory.
+ *
+ *= require_self
+ *= require bootstrap
+ *= require bootstrap-theme
+ *= require site
+*/
+```
 
 
 First we are loading the `bootstrap` default css, then `bootstrap-theme`, and finally our customized `site` CSS. The
@@ -407,19 +421,18 @@ First we are loading the `bootstrap` default css, then `bootstrap-theme`, and fi
 check the order of the loaded CSS as a comment above your application without ever have to look into the source of it.
 
 
-Next let's have a look into our JavaScript files:
+Next let's have a look into our JavaScript file `app/assets/javascript/application.js`:
 
+```javascript
 
-{: lang="javascript" }
-    # app/assets/javascript/application.js
-
-    // This is a manifest file that'll be compiled into including all the files listed below.
-    // Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
-    // be included in the compiled file accessible from http://example.com/assets/application.js
-    // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-    // the compiled file.
-    //
-    //= require_tree .
+// This is a manifest file that'll be compiled into including all the files listed below.
+// Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
+// be included in the compiled file accessible from http://example.com/assets/application.js
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// the compiled file.
+//
+//= require_tree .
+```
 
 
 The interesting thing here is the `require_tree .` option. This option tells Sprockets to include all
@@ -429,16 +442,18 @@ JavaScript files in the assets folder with no specific order.
 Now, we can clean up the include statements in our application template:
 
 
-{: lang="erb" }
-    # app/views/application.erb
 
-    <!DOCTYPE html>
-    <html lang="en-US">
-    <head>
-      <title>Job Vacancy - find the best jobs</title>
-      <%= stylesheet_link_tag '/assets/application' %>
-      <%= javascript_include_tag '/assets/application' %>
-    </head>
+```erb
+# app/views/application.erb
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <title>Job Vacancy - find the best jobs</title>
+  <%= stylesheet_link_tag '/assets/application' %>
+  <%= javascript_include_tag '/assets/application' %>
+</head>
+```
 
 
 Now we want to enable compression for our CSS and JavaScript files. For CSS compression Padrino Sprockets is using
@@ -446,26 +461,29 @@ Now we want to enable compression for our CSS and JavaScript files. For CSS comp
 [Uglifier](https://github.com/lautis/uglifier). We need to add these these Gems in our `Gemfiles`:
 
 
-{: lang="ruby" }
-    # Gemfile
-    ...
-    gem 'padrino-sprockets', :require => 'padrino/sprockets', :git => 'git://github.com/nightsailer/padrino-sprockets.git'
-    gem 'uglifier', '2.1.1'
-    gem 'yui-compressor', '0.9.6'
+```ruby
+# Gemfile
+...
+gem 'padrino-sprockets', :require => 'padrino/sprockets', :git => 'git://github.com/nightsailer/padrino-sprockets.git'
+gem 'uglifier', '2.1.1'
+gem 'yui-compressor', '0.9.6'
+```
 
 
 And finally we need to enable minifying in our production environment:
 
 
-{: lang="ruby" }
-    # app/app.rb
-    module JobVacancy
-      class App < Padrino::Application
-        ...
-        register Padrino::Sprockets
-        sprockets :minify => (Padrino.env == :production)
-      end
-    end
+```ruby
+# app/app.rb
+
+module JobVacancy
+  class App < Padrino::Application
+    ...
+    register Padrino::Sprockets
+    sprockets :minify => (Padrino.env == :production)
+  end
+end
+```
 
 
 ## Navigation
@@ -474,42 +492,43 @@ Next we want to create the top-navigation for our app. So we already implemented
 relevant actions. All we need is to put links to them in a navigation header for our basic layout.
 
 
-{: lang="html" }
-    <!DOCTYPE html>
-    <html lang="en-US">
-      <head>
-        <title>Job Vacancy - find the best jobs</title>
-        <%= stylesheet_link_tag 'bootstrap', 'bootstrap-theme' %>
-        <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
-        <%= stylesheet_link_tag '/stylesheets/site.css' %>
-    </head>
-    <body>
-      <div class="container">
-        <div class="row">
-          <div class="span12 offset3">
-            <span id="header">Job Vacancy Board</span>
+```html
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Job Vacancy - find the best jobs</title>
+    <%= stylesheet_link_tag 'bootstrap', 'bootstrap-theme' %>
+    <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
+    <%= stylesheet_link_tag '/stylesheets/site.css' %>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="span12 offset3">
+        <span id="header">Job Vacancy Board</span>
+      </div>
+      <div class="row">
+        <nav id="navigation">
+          <div class="span2 offset4">
+            <%= link_to 'Home', url_for(:page, :home) %>
           </div>
-          <div class="row">
-            <nav id="navigation">
-              <div class="span2 offset4">
-                <%= link_to 'Home', url_for(:page, :home) %>
-              </div>
-              <div class="span2">
-                <%= link_to 'About', url_for(:page, :about) %>
-              </div>
-              <div class="span2">
-                <%= link_to 'Contact', url_for(:page, :contact) %>
-              </div>
-            </nav>
+          <div class="span2">
+            <%= link_to 'About', url_for(:page, :about) %>
           </div>
-          <div class="row">
-            <div class="span9 offset3 site">
-              <%= yield %>
-            </div>
+          <div class="span2">
+            <%= link_to 'Contact', url_for(:page, :contact) %>
           </div>
+        </nav>
+      </div>
+      <div class="row">
+        <div class="span9 offset3 site">
+          <%= yield %>
         </div>
       </div>
-    </body>
+    </div>
+  </div>
+</body>
+```
 
 
 Explanation of the new parts:
@@ -525,35 +544,35 @@ Explanation of the new parts:
 Now that the we provide links to other parts of the app, lets add some sugar-candy styling:
 
 
-{: lang="css" }
-    # app/assets/stylesheets/site.css
+```javascript
+# app/assets/stylesheets/site.css
 
-    body {
-      font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana, sans-serif;
-      text-align: justify;
-    }
+body {
+  font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana, sans-serif;
+  text-align: justify;
+}
 
-    #header {
-      font-family: Lato;
-      font-size: 40px;
-      font-weight: bold;
-    }
+#header {
+  font-family: Lato;
+  font-size: 40px;
+  font-weight: bold;
+}
 
-    #navigation {
-      padding-top: 20px;
-    }
+#navigation {
+  padding-top: 20px;
+}
 
-    h1 {
-      font-family: Lato;
-      font-size: 30px;
-      margin-bottom: 20px;
-    }
+h1 {
+  font-family: Lato;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
 
-    .site {
-      padding: 20px;
-      line-height: 1.8em;
-    }
-
+.site {
+  padding: 20px;
+  line-height: 1.8em;
+}
+```
 
 I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c
 school css](http://www.w3schools.com/css/default.asp "w3c CSS") tutorial. Since we are using the asset pipeline, we
@@ -573,53 +592,53 @@ Remember when we created the *page-controller* with `padrino g controller page` 
 corresponding spec file *spec/app/controller/page_controller_spec.rb* which has the following content:
 
 
-{: lang="ruby" }
-    require 'spec_helper'
+```ruby
+require 'spec_helper'
 
-    describe "PageController" do
-      before do
-        get "/"
-      end
+describe "PageController" do
+  before do
+    get "/"
+  end
 
-      it "returns hello world" do
-        last_response.body.should == "Hello World"
-      end
-    end
+  it "returns hello world" do
+    last_response.body.should == "Hello World"
+  end
+end
+```
 
 
 Let's update that file and write some basic tests to make sure that everything is working as expected. Replace the specs
 in the file with the following code:
 
 
-{: lang="ruby" }
-    require 'spec_helper'
+```ruby
+require 'spec_helper'
 
-    describe "PageController" do
+describe "PageController" do
+  describe "GET #about" do
 
-      describe "GET #about" do
-
-        it "renders the :about view" do
-          get '/about'
-          last_response.should be_ok
-        end
-      end
-
-      describe "GET #contact" do
-
-        it "renders the :contact view" do
-          get '/contact'
-          last_response.should be_ok
-        end
-      end
-
-      describe "GET #home" do
-        it "renders :home view" do
-          get '/'
-          last_response.should be_ok
-        end
-      end
-
+    it "renders the :about view" do
+      get '/about'
+      last_response.should be_ok
     end
+  end
+
+  describe "GET #contact" do
+    it "renders the :contact view" do
+      get '/contact'
+      last_response.should be_ok
+    end
+  end
+
+  describe "GET #home" do
+    it "renders :home view" do
+      get '/'
+      last_response.should be_ok
+    end
+  end
+
+end
+```
 
 
 Let's explain the interesting parts:
@@ -634,11 +653,12 @@ Let's explain the interesting parts:
 Now let's run the tests with `rspec spec/app/controllers/page_controller_spec.rb` and see what's going on:
 
 
-{: lang="bash" }
-    ...
+```bash
+...
 
-    Finished in 0.21769 seconds
-    3 examples, 0 failures
+Finished in 0.21769 seconds
+3 examples, 0 failures
+```
 
 
 Cool, all tests passed! We didn't exactly use behavior-driven development until now, but will do so in the next parts.
@@ -647,20 +667,16 @@ Note: It's possible your tests did not pass due to a Padrino error in which a co
 app generation that looks something like 'NameError: undefined local variable' so check your `spec_helper.rb` file and
 make sure the following matches:
 
-    def app(app = nil, &blk) # note the comma right after nil
 
-Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was ommited during the initial
-app generation that looks something like 'NameError: undefined local variable' so check your `spec_helper.rb` file and
-make sure the following matches:
-
-
-    def app(app = nil, &blk) # note the comma right after nil
+```ruby
+def app(app = nil, &blk) # note the comma right after nil
+```
 
 
-I> ## Red-Green Cycle
-I>
-I> In behavior-driven development (BDD) it is important to write a failing test first and then the code that satisfies the
-I> test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then
-I> beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little
-I> mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice by product too.
+> Red-Green Cycle
+>
+> In behavior-driven development (BDD) it is important to write a failing test first and then the code that satisfies the
+> test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then
+> beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little
+> mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice by product too.
 
