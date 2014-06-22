@@ -147,11 +147,10 @@ $ bundle exec padrino start
 
 
 Instead of writing `start`, we can also use the `s` alias. Now, fire up your browser with the URL
-*http://localhost:3000* and see the `Hello World` Greeting being printed.
+<http://localhost:3000> and see the `Hello World` Greeting being printed.
 
 
 Congratulations! You've built your first Padrino app.
-
 
 
 ## Directory structure of Padrino

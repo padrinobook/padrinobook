@@ -392,7 +392,7 @@ end
 ```
 
 
-So far so good, feel free to visit [http://localhost:3000/login](http://localhost:3000/login). Until now we are not
+So far so good, feel free to visit <http://localhost:3000/login>. Until now we are not
 saving the inputs of the user. And what about the mistakes a user makes during his input? How can we display any
 mistakes a user is making and preserve the things he already typed in?
 
@@ -650,7 +650,7 @@ end
 ```
 
 
-Now start the app, go to the URL `http://localhost:3000/login`, and register a fresh user. You can
+Now start the app, go to the URL <http://localhost:3000/login>, and register a fresh user. You can
 check the log if the mail was send or you just "feel" a slow down in your application because it takes a while before
 the mail is send::
 
@@ -1998,7 +1998,7 @@ I>
 I> When you request an URL in your browser you are using the HTTP/HTTPS protocol. This protocol is stateless that means
 I> that it doesn't save the state in which you are in your application. Web applications implement states with one of
 I> the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g.
-I> http://localhost:3000/login?user=test&password=test).
+I> <http://localhost:3000/login?user=test&password=test>).
 I>
 I> We are going to use cookies to save if a user is logged in and saving the user-Id in our session cookies under the
 I> `:current_user` key.

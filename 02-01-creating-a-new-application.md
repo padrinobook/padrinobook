@@ -124,8 +124,7 @@ $ bundle exec padrino start
 
 
 You should see a message telling you that Padrino has taken the stage, and you should be able to view our created index
-page by visiting [http://localhost:3000/index.html](http://localhost:3000/index.html "index.html") in your
-browser.
+page by visiting <http://localhost:3000/index.html> in your browser.
 
 
 But hey, you might ask "Why do we use the `bundle exec` command - isn't just `padrino start` enough?" The reason for
@@ -233,7 +232,7 @@ We will go through each line:
   functions, which is passed to another function as an argument.
 - `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the *about*
   action (in the form of a Ruby symbol[^symbol]), and is finally mapped to the explicit URL */about*. When you start
-  your server with `bundle exec padrino s` and visit the URL `http.//localhost:3000/about`, you can see the rendered
+  your server with `bundle exec padrino s` and visit the URL <http://localhost:3000/about>, you can see the rendered
   output of this request.
 - `render :erb, 'about'` - This action tells us that we want to render an the *erb* file *about* for the corresponding
   controller which is `page` in our case. This file is

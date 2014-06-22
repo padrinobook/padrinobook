@@ -395,7 +395,7 @@ Finally, we need to provider the edit link in the header navigation:
 
 
 There is one last thing we forget: Say you are logged in and wants to edit a user with a wrong id, like
-http://localhost:3000/users/padrino/edit. You'll get a `ActiveRecord::RecordNotFound` exception because we are using
+<http://localhost:3000/users/padrino/edit>. You'll get a `ActiveRecord::RecordNotFound` exception because we are using
 the Active Record's plain `find` method in the users controller. Let's catch the exception and return a `nil` user
 instead:
 
