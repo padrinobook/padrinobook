@@ -10,4 +10,5 @@ I’d like to acknowledge a long list of people who helped me over the years to 
 ![Sebastian Günther - Thanks for correcting the first chapter of the book.\label{fig:sebastian_guenther}](https://pbs.twimg.com/profile_images/645803898/me.png)
 ![Florian Gilcher - Helps me improving my first nasty code and transforms it to the next better level.\label{fig:florian_gilcher}](https://pbs.twimg.com/profile_images/2902714965/86f0a67b9b1f1e5e5d1f443580842ddb.png)
 ![Ross Timson - You helped me to focus more on the important things in the book and get away from using to many extensions..\label{fig:ross_timson}](https://pbs.twimg.com/profile_images/3320588708/9237d8d056e9ce2fa737ea7ab2de345b.jpeg)
+![Sumeet Singh - Several grammar fixes.\label{fig:sumeet_singh}](https://pbs.twimg.com/profile_images/3209761332/b1c8a94696b29a43aa3309759ddf6919.jpeg)
 
