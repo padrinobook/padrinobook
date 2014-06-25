@@ -1,4 +1,1499 @@
-# Registration and Login
+# Job Vacancy Application
+
+There are more IT jobs out there than there are skilled people available. It would be great if we could have the
+possibility to offer a platform where users can easily post new jobs vacancies to recruit people for their company.
+Now our job is to build this software using Padrino. We will apply [**K.I.S.S**](http://en.wikipedia.org/wiki/KISS_principle) principle to obtain a very easy
+and extensible design.
+
+
+First, we are going to create the app file and folder structure. Then we are adding feature by feature until
+the app is complete. First, we will take a look at the basic design of our app. Afterwards, we will
+implement one feature at a time.
+
+
+## Creating a new application
+
+Start with generating a new project with the canonical `padrino` command. In contrast to our "Hello World!" application
+(app) before, we are using new options:
+
+
+```bash
+$ mkdir ~/padrino-projects
+$ cd ~/padrino_projects
+$ padrino g project job-vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite
+```
+
+
+Explanation of the fields commands:
+
+
+- **g**: Is shortcut for `generate`.
+- **-d activerecord**: We are using [Active Record](https://rubygems.org/gems/activerecord "Active Record") as the orm
+  library (*Object Relational Mapper*).
+- **-t rspec**: We are using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing
+  framework.
+- **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous
+  [jQuery](http://jquery.com/ "jQuery") library.
+- **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*)
+  markup for writing HTML templates. An alternative is [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com/
+  "Slim"), but to keep the project as simple as possible, we stick with ERB. Feel free to use them if you like to.
+- **-a sqlite**: Our ORM[^orm] database adapter is [SQLite](http://www.sqlite.org/ "SQLite"). It is easy to install
+  because the whole database is saved in a text file.
+
+
+Since we are using RSpec for testing, we will use its' built-in mock extensions
+[rspec-mocks](https://github.com/rspec/rspec-mocks "rspec mocks") for writing tests later. In case you want to use
+another mocking library like [rr](https://rubygems.org/gems/rr "rr") or [mocha](http://gofreerange.com/mocha/docs/
+"mocha"), feel free to add it with the **-m** option.
+
+
+You can use a vast array of other options when generating your new Padrino app, this table shows the currently available
+options:
+
+
+- `orm`: Available options are: `activerecord, couchrest,  datamapper, mongoid, mongomatic,
+  ohm, ripple`, and `sequel`. The command line alias is `-d`.
+- `test`: Availabe options are: `bacon, cucumber, minitest, riot, rspec, should`, and `testspec`. The command line
+  alias is `-t`.
+- `script`: Available options are: `dojo, extcore, jquery, mootools, prototype`, and `rightjs`. The command line alias
+  is `-s`.
+- `renderer`: Available options are: `erb, haml, liquid`, and `slim`. The command line alias is `-e`.
+- `stylesheet`: Available options are: `compass, less, sass`, and `scss`. The command line alias is `-c`.
+- `mock`: Available options are: `mocha` and `rr`.
+
+
+The default value of each option is none. So to in order to use them you have to specify the option you want to use.
+
+
+Besides the `project` option for generating new Padrino apps, the following table illustrates the other generators
+available:
+
+
+- `admin`: A very nice built-in admin dashboard.
+- `admin_page`: Creates for an existing model the CRUD operation for the admin interface.
+- `app`: You can define other apps to be mounted in your main app.
+- `controller`: A controller takes date from the models and puts them into view that are rendered.
+- `mailer`: Creating new mailers within your app.
+- `migration`: Migrations simplify changing the database schema.
+- `model`: Models describe data objects of your application.
+- `project`: Generates a completely new app from the scratch.
+- `plugin`: Creating new Padrino projects based on a template file - it's like a list of commands.
+
+
+Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using
+`bundle` by running at the command line:
+
+
+```bash
+$ bundle install
+```
+
+
+### Basic Layout Template
+
+Lets design our first version of the *index.html* page which is the starter page our app. An early design
+question is: Where to put the *index.html* page? Because we are not working with controllers, the easiest thing is to
+put the *index.html* directly under the public folder in the project.
+
+
+We are using [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, and add the following code into
+`public/index.html`:
+
+
+```bash
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Start Page</title>
+  </head>
+  <body>
+    <p>Hello, Padrino!</p>
+  </body>
+</html>
+```
+
+
+Explanation of the parts:
+
+
+- `<!DOCTYPE html>` - The *document type* tells the browser which HTML version should be used for rendering the content
+  correctly.
+- `<head>...</head>` - Specifying meta information like title, description, and other things, this is also the place to
+  where to add CSS and JavaScript files.
+- `<body>...</body>` - In this section the main content of the page is displayed.
+
+
+Plain static content - this used to be the way websites were created in the beginning of the web. Today, apps provide
+dynamic layout. During this chapter, we will se how to add more and more dynamic parts to our app.
+
+
+We can take a look at our new page by executing the following command:
+
+
+```bash
+$ cd job-vacancy
+$ bundle exec padrino start
+```
+
+
+You should see a message telling you that Padrino has taken the stage, and you should be able to view our created index
+page by visiting <http://localhost:3000/index.html> in your browser.
+
+
+But hey, you might ask "Why do we use the `bundle exec` command - isn't just `padrino start` enough?" The reason for
+this is that we use bundler to load exactly those Ruby gems that we specified in the Gemfile. I recommend that you use
+`bundle exec` for all following commands, but to focus on Padrino, I will skip this command on the following parts of
+the book.
+
+
+You may have thought it a little odd that we had to manually requests the index.html in the URL when viewing our start
+page.  This is because our app currently has no idea about **routing**. Routing is the process to recognize requeste
+URLs and to forward these requests to actions of controllers. With other words: A router is like a like vending machine
+where you put in money to get a coke. In this case, the machine is the *router* which *routes* your input "Want a coke"
+to the action "Drop a Coke in the tray".
+
+
+### First Controller And Routing
+
+Lets add some basic routes for displaying our home, about, and contact-page. How can we do this? With the help of a
+routing controller. A controller makes data from you app (in our case job offers) available to the view (seeing the
+details of a job offer). Now let's create a controller in Padrino names page:
+
+
+```bash
+$ padrino g controller page
+```
+
+
+The output of this command is:
+
+
+```bash
+create  app/controllers/page.rb
+create  app/helpers/page_helper.rb
+create  app/views/page
+ apply  tests/rspec
+create  spec/app/controllers/page_controller_spec.rb
+```
+
+
+(If you have questions about the output above, please drop me a line - I think it is so clear that it doesn't need any
+explanation about it.)
+
+
+Lets take a closer look at our page-controller:
+
+
+```ruby
+# app/controller/page.rb
+
+JobVacancy::App.controllers :page do
+
+  # get :index, :map => '/foo/bar' do
+  #   session[:foo] = 'bar'
+  #   render 'index'
+  # end
+
+  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
+  #   case content_type
+  #     when :js then ...
+  #     else ...
+  # end
+
+  # get :foo, :with => :id do
+  #   'Maps to url '/foo/#{params[:id]}''
+  # end
+
+  # get '/example' do
+  #   'Hello world!'
+  # end
+
+end
+```
+
+
+The controller above defines for our `JobVacancy` the `:page` controller with no specified routes inside the
+app. Let's change this and define the *about*, *contact*, and *home* actions:
+
+
+```ruby
+# app/controller/page.rb
+
+JobVacancy:.App.controllers :page do
+  get :about, :map => '/about' do
+    render :erb, 'about'
+  end
+
+  get :contact , :map => '/contact' do
+    render :erb, 'contact'
+  end
+
+  get :home, :map => '/' do
+    render :erb, 'home'
+  end
+
+end
+```
+
+
+We will go through each line:
+
+
+- `JobVacancy::App.controller :page` - Define the namespace *page* for our JobVacancy app. Typically, the controller name
+  will also be part of the route.
+- `do ... end` - This expression defines a block in Ruby. Think of it as a method without a name, also called anonymous
+  functions, which is passed to another function as an argument.
+- `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the *about*
+  action (in the form of a Ruby symbol[^symbol]), and is finally mapped to the explicit URL */about*. When you start
+  your server with `bundle exec padrino s` and visit the URL <http://localhost:3000/about>, you can see the rendered
+  output of this request.
+- `render :erb, 'about'` - This action tells us that we want to render an the *erb* file *about* for the corresponding
+  controller which is `page` in our case. This file is
+  actually located at `app/views/page/about.erb` file. Normally the views are placed under
+  *app/views/<controller-name>/<action-name>.<ending>*  Instead of using an ERB templates, you could also use `:haml`,
+  or another template language. If you are lazy, you can leave the option for the rendering option completely out and
+  leave the matching completely for Padrino.
+
+
+[^symbol]: Unlike strings, symbols of the same name are initialized and exist in memory only once during a session of
+ruby. This makes your programs more efficient.
+
+To see what routes you have defined for your app just call `padrino rake routes`:
+
+
+```bash
+$ padrino rake routes
+=> Executing Rake routes ...
+
+  Application: JobVacancy
+  URL                  REQUEST  PATH
+  (:page, :about)        GET    /about
+  (:page, :contact)      GET    /contact
+  (:page, :home)         GET    /
+```
+
+
+This command crawls through your app looking for any existing routes and gives you a nice overview of the **URL
+(:controller, :explicit_url), REQUEST**, and **PATH**.
+
+
+## App Template With ERB
+
+Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling
+on our web page. First we need to generate a basic template for all pages we want to create. Lets create
+*app/views/layouts/application.erb*:
+
+
+```html
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Job Vacancy - find the best jobs</title>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
+```
+
+
+Let's see what is going on with the `<%= yield %>` line. At first you may ask what does the `<>` symbols mean. They are
+indicators that you want to execute Ruby code to fetch data that is put into the template. Here, the `yield` command will
+put the content of the called page, like *about.erb* or *contact.erb*,  into the template.
+
+
+## CSS design using Twitter bootstrap
+
+The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use. It
+is available from Github at [public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github").
+
+
+Padrino itself also provides built-in templates for common tasks done on web app. These
+[padrino-recipes](https://github.com/padrino/padrino-recipes) help you saving time by not reinventing the wheel.
+Thanks to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his
+[bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb) by executing:
+
+
+```bash
+$ padrino-gen plugin bootstrap
+
+  apply  https://github.com/padrino/padrino-recipes/raw/master/plugins/bootstrap_plugin.rb
+  create    public/stylesheets/bootstrap.css
+  create    public/stylesheets/bootstrap-theme.css
+  create    public/javascripts/bootstrap.js
+  create    public/javascripts/bootstrap.min.js
+  create    public/javascripts/jquery.js
+  create    public/javascripts/jquery-ujs.js
+  create    public/fonts/glyphicons-halflings-regular.eot
+  create    public/fonts/glyphicons-halflings-regular.svg
+  create    public/fonts/glyphicons-halflings-regular.ttf
+  create    public/fonts/glyphicons-halflings-regular.woff
+```
+
+
+Next we need to include the style sheet in our app template for the whole app:
+
+
+```html
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Job Vacancy - find the best jobs</title>
+    <%= stylesheet_link_tag 'bootstrap', 'bootstrap-theme' %>
+    <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
+```
+
+
+The `stylesheet_link_tag` points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will
+automatically create a link to this stylesheet. The `javascript_include_tag` does the same as `stylesheet_link_tag` for
+your JavaScript files in the *public/javascripts* directory.
+
+
+## Using Sprockets to Manage the Asset Pipeline
+
+[Sprockets](https://github.com/sstephenson/sprockets) are a way to manage serving your assets like CSS, and JavaScript
+compiling all the different files in one summarized file for each type. They make it easy to take advantage to use a
+preprocessor to write your assests with [Sass](http://sass-lang.com/), [Coffesscript](http://coffeescript.org/), or
+[LESS](http://lesscss.org/).
+
+
+To implement Sprockets in Padrino there the following strategies:
+
+
+- [rake-pipeline](https://github.com/livingsocial/rake-pipeline): Define filters that transforms directory trees.
+- [grunt](http://gruntjs.com/): Set a task to compile and manage assets in JavaScript.
+- [sinatra-assetpack](https://github.com/rstacruz/sinatra-assetpack): Let's you define you assets transparently in
+  Sinatra.
+- [padrino-sprockets](https://github.com/nightsailer/padrino-sprockets): Integrate sprockets with Padrino in the Rails
+  way.
+
+
+We are using the **padrino-sprockets** gem. Let's add it to our Gemfile and run `bundle install`:
+
+
+```ruby
+# Gemfile
+gem 'padrino-sprockets', :require => ['padrino/sprockets'], :git => 'git://github.com/nightsailer/padrino-sprockets.git'
+```
+
+Next we need to move all our assets from the public folder in the assets folder:
+
+
+```bash
+$ cd <path-to-your-padrino-app>
+$ mkdir -p app/assets
+$ cd public
+$ mv -v fonts images javascripts stylesheets ../app/assets
+```
+
+Now we have to register Padrino-Sprockets in this application:
+
+
+```ruby
+# app/app.rb
+module JobVacancy
+  class App < Padrino::Application
+    ...
+    register Padrino::Sprockets
+    sprockets
+    ...
+  end
+end
+```
+
+
+Next we need create an application.css file and add the following to determine the order of the loaded CSS files in
+`app/assets/stylesheets/application.css`:
+
+
+```javascript
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ * require_self: Puts the CSS contained within this file at the precise location (puts this command
+ * at the top of the generated css file
+ * require_tree . means, that requiring all stylesheets from the current directory.
+ *
+ *= require_self
+ *= require bootstrap
+ *= require bootstrap-theme
+ *= require site
+*/
+```
+
+
+First we are loading the `bootstrap` default css, then `bootstrap-theme`, and finally our customized `site` CSS. The
+`require_self` loads the file itself, to define the order that the files are loaded. This is helpful if you want to
+check the order of the loaded CSS as a comment above your application without ever have to look into the source of it.
+
+
+Next let's have a look into our JavaScript file `app/assets/javascript/application.js`:
+
+```javascript
+
+// This is a manifest file that'll be compiled into including all the files listed below.
+// Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
+// be included in the compiled file accessible from http://example.com/assets/application.js
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// the compiled file.
+//
+//= require_tree .
+```
+
+
+The interesting thing here is the `require_tree .` option. This option tells Sprockets to include all
+JavaScript files in the assets folder with no specific order.
+
+
+Now, we can clean up the include statements in our application template:
+
+
+
+```erb
+# app/views/application.erb
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <title>Job Vacancy - find the best jobs</title>
+  <%= stylesheet_link_tag '/assets/application' %>
+  <%= javascript_include_tag '/assets/application' %>
+</head>
+```
+
+
+Now we want to enable compression for our CSS and JavaScript files. For CSS compression Padrino Sprockets is using
+[YUI compressor](https://github.com/sstephenson/ruby-yui-compressor) and for JS compression the
+[Uglifier](https://github.com/lautis/uglifier). We need to add these these Gems in our `Gemfiles`:
+
+
+```ruby
+# Gemfile
+...
+gem 'padrino-sprockets', :require => 'padrino/sprockets', :git => 'git://github.com/nightsailer/padrino-sprockets.git'
+gem 'uglifier', '2.1.1'
+gem 'yui-compressor', '0.9.6'
+```
+
+
+And finally we need to enable minifying in our production environment:
+
+
+```ruby
+# app/app.rb
+
+module JobVacancy
+  class App < Padrino::Application
+    ...
+    register Padrino::Sprockets
+    sprockets :minify => (Padrino.env == :production)
+  end
+end
+```
+
+
+### Navigation
+
+Next we want to create the top-navigation for our app. So we already implemented the *page* controller with the
+relevant actions. All we need is to put links to them in a navigation header for our basic layout.
+
+
+```html
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Job Vacancy - find the best jobs</title>
+    <%= stylesheet_link_tag 'bootstrap', 'bootstrap-theme' %>
+    <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
+    <%= stylesheet_link_tag '/stylesheets/site.css' %>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="span12 offset3">
+        <span id="header">Job Vacancy Board</span>
+      </div>
+      <div class="row">
+        <nav id="navigation">
+          <div class="span2 offset4">
+            <%= link_to 'Home', url_for(:page, :home) %>
+          </div>
+          <div class="span2">
+            <%= link_to 'About', url_for(:page, :about) %>
+          </div>
+          <div class="span2">
+            <%= link_to 'Contact', url_for(:page, :contact) %>
+          </div>
+        </nav>
+      </div>
+      <div class="row">
+        <div class="span9 offset3 site">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+```
+
+
+Explanation of the new parts:
+
+
+- `link_to` - Is a helper for creating links. The first argument is the name for the link and the second is for the URL
+  (href) to which the link points to.
+- `url_for` - This helper return the link which can be used as the second parameter for the `link_to` function. It
+  specifies the `<:controller>, <:action>` which will be executed. You can use in your helper in your whole app to
+  create clean and encapsulated URLs.
+
+
+Now that the we provide links to other parts of the app, lets add some sugar-candy styling:
+
+
+```javascript
+# app/assets/stylesheets/site.css
+
+body {
+  font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana, sans-serif;
+  text-align: justify;
+}
+
+#header {
+  font-family: Lato;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+#navigation {
+  padding-top: 20px;
+}
+
+h1 {
+  font-family: Lato;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.site {
+  padding: 20px;
+  line-height: 1.8em;
+}
+```
+
+I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c
+school css](http://www.w3schools.com/css/default.asp "w3c CSS") tutorial. Since we are using the asset pipeline, we
+don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
+
+
+## Writing Tests
+
+
+Our site does not list static entries of job offers that you write, but other users will be allowed to post job offers
+from the internet to our site. We need to add this behavior to our site. To be on the sure side, we will implement this
+behavior by writing tests first, then the code. We use the [RSpec](http://rspec.info/ "RSpec") testing framework for
+this.
+
+
+Remember when we created the *page-controller* with `padrino g controller page` ? Thereby, Padrino created a
+corresponding spec file *spec/app/controller/page_controller_spec.rb* which has the following content:
+
+
+```ruby
+require 'spec_helper'
+
+describe "PageController" do
+  before do
+    get "/"
+  end
+
+  it "returns hello world" do
+    last_response.body.should == "Hello World"
+  end
+end
+```
+
+
+Let's update that file and write some basic tests to make sure that everything is working as expected. Replace the specs
+in the file with the following code:
+
+
+```ruby
+require 'spec_helper'
+
+describe "PageController" do
+  describe "GET #about" do
+
+    it "renders the :about view" do
+      get '/about'
+      last_response.should be_ok
+    end
+  end
+
+  describe "GET #contact" do
+    it "renders the :contact view" do
+      get '/contact'
+      last_response.should be_ok
+    end
+  end
+
+  describe "GET #home" do
+    it "renders :home view" do
+      get '/'
+      last_response.should be_ok
+    end
+  end
+
+end
+```
+
+
+Let's explain the interesting parts:
+
+
+- `spec_helper` - Is a file to load commonly used functions to setup the tests.
+- `describe block` - This block describes the context for our tests. Think of it as way to group related tests.
+- `get ...` - This command executes a HTTP GET to the provided address.
+- `last_response` - The response object returns the header and body of the HTTP request.
+
+
+Now let's run the tests with `rspec spec/app/controllers/page_controller_spec.rb` and see what's going on:
+
+
+```bash
+...
+
+Finished in 0.21769 seconds
+3 examples, 0 failures
+```
+
+
+Cool, all tests passed! We didn't exactly use behavior-driven development until now, but will do so in the next parts.
+
+Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was ommited during the initial
+app generation that looks something like 'NameError: undefined local variable' so check your `spec_helper.rb` file and
+make sure the following matches:
+
+
+```ruby
+def app(app = nil, &blk) # note the comma right after nil
+```
+
+
+> Red-Green Cycle
+>
+> In behavior-driven development (BDD) it is important to write a failing test first and then the code that satisfies the
+> test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then
+> beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little
+> mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice by product too.
+
+
+## Creation Of The Models
+
+### User Model
+
+There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
+identification number **id**, a **name**, and an **email**. We can specify the location of the model by appending the
+end of the generate command with `-a app` as follows:
+
+
+```bash
+$ padrino g model user name:string email:string -a app
+
+   apply  orms/activerecord
+   apply  tests/rspec
+  create  app/models/user.rb
+  create  spec/app/models/user_spec.rb
+  create  db/migrate/001_create_users.rb
+```
+
+
+Wow, it created a quite a bunch of files for us. Let's examine each of them:
+
+
+**user.rb**
+
+
+```ruby
+# app/models/user.rb
+
+class User < ActiveRecord::Base
+end
+```
+
+
+All we have is an empty class which inherits from
+[ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). `ActvieRecord` provides a simple
+object-relational-mapper from our models to corresponding database tables. You can also define relations between
+models through associations.
+
+
+```ruby
+# spec/app/models/user_spec.rb
+
+require 'spec_helper'
+
+describe "User Model" do
+  let(:user) { User.new }
+  it 'can be created' do
+    user.should_not be_nil
+  end
+end
+```
+
+
+As you can see, the generator created already a test for us, which basically checks if the model can be created. What
+would happen if you run the tests for this model? Let the code speak of it's own and run the tests, that's what they are
+made for after all:
+
+
+```bash
+$ rspec spec/app/models
+
+User Model
+  can be created (FAILED - 1)
+
+Failures:
+
+  1) User Model can be created
+     Failure/Error: let(:user) { User.new }
+     ActiveRecord::StatementInvalid:
+       Could not find table 'users'
+     # ./spec/app/models/user_spec.rb:4:in `new'
+     # ./spec/app/models/user_spec.rb:4:in `block (2 levels) in <top (required)>'
+     # ./spec/app/models/user_spec.rb:6:in `block (2 levels) in <top (required)>'
+
+Finished in 0.041 seconds
+1 example, 1 failure
+
+Failed examples:
+```
+
+
+Executing the test resulted in an error. However, it very explicitly told us the reason: The *user* table does not exist
+yet. And how do we create one? Here, migrations enter the stage.
+
+
+Migrations helps you to change the database in an ordered manner. Let's have a look at our first migration:
+
+
+```ruby
+# db/migrate/001_create_users.rb
+
+class CreateUsers < ActiveRecord::Migration
+  def self.up
+    create_table :users do |t|
+      t.string :name
+      t.string :email
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :users
+  end
+end
+```
+
+
+This code will create a `users` table with the `name` and `email` attributes. The `id` attribute will be created
+automatically unless you specify to use a different attribute as the unique key to a database entry. By the way, the
+convention to name tables of models in the plural form comes from [Ruby On Rails](http://rubyonrails.org/). Now we need
+to run this migration:
+
+
+```bash
+$ padrino rake ar:migrate
+
+=> Executing Rake ar:migrate ...
+  DEBUG -  (0.1ms)  select sqlite_version(*)
+  DEBUG -  (143.0ms)  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL)
+  DEBUG -  (125.2ms)  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  DEBUG -  (0.2ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+   INFO - Migrating to CreateUsers (1)
+  DEBUG -  (0.1ms)  begin transaction
+  ...
+```
+
+
+Since we are working in the development environment, Padrino automatically created the development database for us:
+
+
+```bash
+$ ls db/
+  job_vacancy_development.db  job_vacancy_test.db  migrate  schema.rb
+```
+
+
+Now let's start [sqlite3](http://www.sqlite.org/), connect to the database, and see if the users table was created
+properly:
+
+
+```bash
+$ sqlite3 db/job_vacancy_development.db
+
+SQLite version 3.7.13 2012-06-11 02:05:22
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite> .tables
+schema_migrations  users
+sqlite> .schema users
+CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
+sqlite> .exit
+```
+
+
+Let's have a look on the `config/database.rb` file to understand more about the different databases:
+
+
+```ruby
+ActiveRecord::Base.configurations[:development] = {
+  :adapter => 'sqlite3',
+  :database => Padrino.root('db', 'job_vacancy_development.db')
+}
+
+ActiveRecord::Base.configurations[:production] = {
+  :adapter => 'sqlite3',
+  :database => Padrino.root('db', 'job_vacancy_production.db')
+}
+
+ActiveRecord::Base.configurations[:test] = {
+  :adapter => 'sqlite3',
+  :database => Padrino.root('db', 'job_vacancy_test.db')
+}
+```
+
+
+As you can see, each of the different environments  *development*, *production*, and *test* have their own database.
+Lets's be sure that all databases are created:
+
+
+```bash
+$ padrino rake ar:create:all
+
+bundle exec padrino rake ar:create:all
+=> Executing Rake ar:create:all ...
+/home/elex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db already exists
+/home/helex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db already exists
+/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_production.db already exists
+/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
+/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
+```
+
+
+Alright, now we are ready to re-execute the tests again.
+
+
+```bash
+$ rspec spec/app/models
+
+User Model
+  can be created (FAILED - 1)
+
+Failures:
+
+  1) User Model can be created
+     Failure/Error: let(:user) { User.new }
+     ActiveRecord::StatementInvalid:
+       Could not find table 'users'
+     # ./spec/app/models/user_spec.rb:4:in `new'
+     # ./spec/app/models/user_spec.rb:4:in `block (2 levels) in <top (required)>'
+     # ./spec/app/models/user_spec.rb:6:in `block (2 levels) in <top (required)>'
+
+Finished in 0.04847 seconds
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./spec/app/models/user_spec.rb:5 # User Model can be created
+```
+
+
+But why are the tests still failing? Because the migration for the *user* table was not executed for the test
+environment. Let's fix this with the following command:
+
+
+```bash
+$ padrino rake ar:migrate -e test
+=> Executing Rake ar:migrate ...
+==  CreateUsers: migrating ====================================================
+-- create_table(:users)
+   -> 0.0030s
+==  CreateUsers: migrated (0.0032s) ===========================================
+```
+
+
+Finally the test passes:
+
+
+```bash
+$ rspec spec/app/models
+
+User Model
+  can be created
+
+Finished in 0.05492 seconds
+1 example, 0 failures
+```
+
+
+How can we run all the tests in our application and see if everything is working? Just execute `padrino rake spec`
+to run all tests in the `spec/` folder:
+
+
+```bash
+$ padrino rake spec
+=> Executing Rake spec ...
+/home/helex/.rbenv/versions/1.9.3-p392/bin/ruby -S rspec ./spec/app/models/user_spec.rb -fs --color
+
+User Model
+  can be created
+
+Finished in 0.05589 seconds
+1 example, 0 failures
+/home/helex/.rbenv/versions/1.9.3-p392/bin/ruby -S rspec ./spec/app/controllers/page_controller_spec.rb -fs --color
+
+PageController
+  GET #about
+    renders the :about view
+  GET #contact
+    renders the :contact view
+  GET #home
+    renders the :home view
+
+Finished in 0.20325 seconds
+3 examples, 0 failures
+```
+
+
+This is very handy to make sure that you didn't break anything in the existing codebase when you are working on a new
+feature. Run these regression tests frequently and enjoy it to see your app growing feature by feature.
+
+
+## Job Offer Model
+
+Since we now know how to create the basic model of our users, it's time to create a model for presenting a job offer.
+A job offer consists of the following attributes:
+
+
+- title: The name of the job position.
+- location: The geographical location of the job.
+- description: Details about the position.
+- contact: An email address of the contact person.
+- time-start: The earliest entry date for this position.
+- time-end: A job offer isn't valid forever.
+
+
+Let's run the Padrino command to create the model for us. As you see, we once again run `-a app` at the end of our
+generation.  Without specifying location, a new folder called `models` is created in the main directory.
+
+
+```bash
+$ padrino g model job_offer title:string location:string description:text contact:string time_start:date time_end:date -a app
+   apply  orms/activerecord
+   apply  tests/rspec
+   create  app/models/job_offer.rb
+   create  spec/app/models/job_offer_spec.rb
+   create  db/migrate/002_create_job_offers.rb
+```
+
+
+Perhaps your forgot to add `-a app` to specify the app directory when running the generation. You can delete a model in
+Padrino by running:
+
+
+```
+$ padrino g model job_offer -d
+```
+
+
+Keep in mind that you will need to manually delete the now empty `models` folder or with the `$ rmdir models` unix/linux
+command.
+
+
+Next, we need to run our new database migration so that our database has the right scheme:
+
+
+```bash
+$ bundle exec padrino rake ar:migrate
+  => Executing Rake ar:migrate ...
+    DEBUG -  (0.4ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+     INFO - Migrating to CreateUsers (1)
+     INFO - Migrating to CreateJobOffers (2)
+    DEBUG -  (0.3ms)  select sqlite_version(*)
+    DEBUG -  (0.2ms)  begin transaction
+  ==  CreateJobOffers: migrating ================================================
+  -- create_table(:job_offers)
+  ...
+```
+
+
+In order to run our tests, we also need to run our migrations for the test environment:
+
+
+```bash
+$ padrino rake ar:migrate -e test
+  => Executing Rake ar:migrate ...
+  ==  CreateJobOffers: migrating ================================================
+  -- create_table(:job_offers)
+     -> 0.0302s
+  ==  CreateJobOffers: migrated (0.0316s) =======================================
+```
+
+
+TBD: Find a way to run ar:migrate for all environments (mainly production and test)
+
+
+If you run your tests with `padrino rake spec`, everything should be fine.
+
+
+## Creating Connection Between User And Job Offer Model
+
+Since we now have created our two main models, it's time to define associations between them. Associations make common
+operations like deleting or updating data in our relational database easier. Just imagine that we have a user
+in our app that added many job offers in our system. Now this customer decides that he wants to cancel
+his account. We decide that all his job offers should also disappear in the system. One solution would be to delete
+the user, remember his id, and delete all job offers entries that originate from this id. This manual effort
+disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete
+automatically all corresponding jobs for this user".
+
+
+We will quickly browse through the associations.
+
+
+**has_many**
+
+
+This association is the most commonly used one. It does exactly as it tells us: One object has many other objects.
+We define the association between the user and the job offers as shown in the following expression:
+
+
+```ruby
+# app/models/user.rb
+
+class User < ActiveRecord::Base
+  has_many :job_offers
+end
+```
+
+
+**belongs_to**
+
+
+The receiving object of the *has_many* relationship defines that it belongs to exactly one object, and therefore:
+
+
+```ruby
+# app/models/job_offer.rb
+
+class JobOffer < ActiveRecord::Base
+  belongs_to :user
+end
+```
+
+
+**Migrate after associate**
+
+
+Whenever you modify your models, remember that you need to run migrations too. Because we added the associations
+manually, we also need to write the migrations. Luckily, Padrino helps us with this task a bit. We know that the
+job offer is linked to a user via the user's id. This foreign key relationship results in adding an extra
+column `user_id` to the `job_offers table`. For this change, we can use the following command to create a migration:
+
+
+```bash
+$ padrino g migration AddUserIdToJobOffers user_id:integer
+  apply  orms/activerecord
+  create  db/migrate/003_add_user_id_to_job_offers.rb
+```
+
+
+Let's take a look at the created migration:
+
+
+```ruby
+class AddUserIdToJobOffers < ActiveRecord::Migration
+  def self.up
+    change_table :joboffers do |t|
+      t.integer :user_id
+    end
+  end
+
+  def self.down
+    change_table :joboffers do |t|
+      t.remove :user_id
+    end
+  end
+end
+```
+
+
+Can you see the small bug? This migration won't work, you have to change `joboffers` to `job_offers`. For the time
+being, generators can help you to write code, but not prevent you from thinking.
+
+
+Finally let's run our migrations:
+
+
+```bash
+$ padrino rake ar:migrate
+$ padrino rake ar:migrate -e test
+```
+
+
+#### Testing our associations in the console
+
+
+To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a
+different approach and use the Padrino console this time.  All you have to do is to run the following command:
+
+
+```bash
+$ padrino c
+  => Loading development console (Padrino v.0.11.1)
+  => Loading Application JobVacancy
+  >>
+```
+
+
+Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki/Interactive_Ruby_Shell), the
+*Interactive Ruby* shell. This allows you to execute Ruby commands and immediately see it's response.
+
+
+Let's run the shell to create a user with job offers:
+
+
+```bash
+user = User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
+  => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther", created_at: nil, updated_at: nil>
+  >> user.name
+  => "Matthias Günther"
+```
+
+
+This creates a user object in our session. If we want to add an entry permanently into the database, you have to use
+*create* method:
+
+
+```bash
+User.create(:name => 'Matthias Günther', :email => 'matthias.guenther')
+DEBUG -  (0.2ms)  begin transaction
+  DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES (?, ?, ?, ?)
+  [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias.guenther"], ["name", "Matthias Günther"],
+  ["updated_at", 2012-12-26 08:32:51 +0100]]
+    DEBUG -  (342.0ms)  commit transaction
+=> #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51",
+    updated_at: "2012-12-26 08:32:51">
+  >>
+```
+
+
+Please note that now you have an entry in your development database `db/job_vacancy_development.db`. To see this,
+connect to the database and execute a 'SELECT' statement::
+
+
+```bash
+$ sqlite3 db/job_vacancy_development.db
+  SQLite version 3.7.13 2012-06-11 02:05:22
+  Enter ".help" for instructions
+  Enter SQL statements terminated with a ";"
+  sqlite> SELECT * FROM users;
+  1|Matthias Günther|matthias.guenther|2012-12-26 08:32:51.323349|2012-12-26 08:32:51.323349
+  sqlite>.exit
+```
+
+
+Since we have an user, it's time to some job offers too:
+
+
+```bash
+$ padrino c
+=> Loading development console (Padrino v.0.10.7)
+=> Loading Application JobVacancy
+ JobOffer.create(:title => 'Padrino Engineer',
+   :location => 'Berlin',
+   :description => 'Come to this great place',
+   :contact => 'recruter@padrino-company.org',
+   :time_start => '2013/01/01',
+   :time_end => '2013/03/01',
+   :user_id => 1)
+ ...
+   => #<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
+   contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
+   10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>
+```
+
+
+And now let's create a second one for our first user:
+
+
+```bash
+>> JobOffer.create(:title => 'Padrino Engineer 2',
+    :location => 'Berlin',
+    :description => 'Come to this great place',
+    :contact => 'recruter@padrino-company.org',
+    :time_start => '2013/01/01',
+    :time_end => '2013/03/01',
+    :user_id => 1)
+  ...
+    => #<JobOffer id: 2, title: "Padrino Engineer 2", location: "Berlin", description: "Come to this great place",
+    contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
+    10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>
+```
+
+
+Now it's time to test our association between the user and the job-offer model. We will use the `find_by_id` method
+to get the user from our database, and the `job_offers` method to get all the job-offers from the user.
+
+
+```bash
+>> user = User.find_by_id(1)
+  DEBUG - User Load (0.6ms)  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51", updated_at:
+  "2012-12-26 08:32:51">
+>> user.job_offers
+  DEBUG - JobOffer Load (0.6ms)  SELECT "job_offers".* FROM "job_offers" WHERE "job_offers"."user_id" = 1
+  => [#<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
+  contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
+  10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>, #<JobOffer id: 2, title: "Padrino Engineer 2", location:
+  "Berlin", description: "Come to this great place", contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
+  time_end: "2013-03-01", created_at: "2012-12-26 10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>]
+```
+
+
+Here you can see the advantage of using associations: When you declare them, you automatically get methods for accessing
+the data you want.
+
+
+Ok, we are doing great so far. With users and job offers in place, let's add some tests to create and associate these
+objects.
+
+
+### Testing our app with RSpec + Factory Girl
+
+When you use data for the tests, you need to decide how to create them. You could, of course, define a set of test data
+with pure SQL and add it to your app. A more convenient solution instead is to use factories and fixtures. Think
+of factories as producers for you data. You are telling the factory that you need 10 users that should have different
+names and emails. This kind of mass object creation which are called fixtures in testing, can easily be done with
+[Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines it's own language to create fixtures in
+an `ActiveRecord`-like way, but with a much cleaner syntax.
+
+
+What do we need to use Factory Girl in our app? Right, we first we need to add a gem to our `Gemfile`:
+
+
+```ruby
+# Gemfile
+...
+gem 'factory_girl', '4.2.0', :group => 'test'
+```
+
+
+If you pay a closer look into the `Gemfile`, you can see that we have several gems with the `:group` option:
+
+
+```ruby
+# Gemfile
+...
+gem 'rspec' , '2.13.0', :group => 'test'
+gem 'factory_girl', '4.2.0', :group => 'test'
+gem 'rack-test', '0.6.2', :require => 'rack/test', :group => 'test'
+```
+
+
+Luckily we can use the `:group <name> do ... end` syntax to cleanup  to get rid of several `:group => 'test'` lines in
+our `Gemfile`:
+
+
+```ruby
+# Gemfile
+
+group :test do
+  gem 'rspec' , '2.13.0'
+  gem 'factory_girl', '4.2.0'
+  gem 'rack-test', '0.6.2', :require => 'rack/test'
+end
+```
+
+
+Execute `bundle` and the new gem will be installed.
+
+
+Next we need to define a *factory* to include all the fixtures of our models:
+
+
+```ruby
+# spec/factories.rb
+
+# encoding: utf-8
+FactoryGirl.define do
+
+  factory :user do
+    name "Matthias Günther"
+    email "matthias.guenther@wikimatze.de"
+  end
+
+end
+```
+
+
+I want to add myself as a test user. Since I'm German, I want to use special symbols, called umlauts, from my language.
+To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for
+the definition for user model. To make our factory available in all our tests, we just have to *require* our factory
+in the `spec_helper.rb`:
+
+
+```ruby
+# spec/spec_helper.rb
+
+PADRINO_ENV = 'test' unless defined?(PADRINO_ENV)
+require File.expand_path(File.dirname(__FILE__) + "/../config/boot")
+require File.dirname(__FILE__) + "/factories"
+...
+```
+
+
+Now we have everything at hand to create a user with the factory while testing our app:
+
+
+```ruby
+# spec/app/models/user_spec.rb
+
+require 'spec_helper'
+
+describe "User Model" do
+  let(:user) { FactoryGirl.build(:user) }
+  let(:job_offer) { {:title => 'Padrino Engineer', :location => 'Berlin', :description => 'Come to this great place'} }
+  it 'can be created' do
+    user.should_not be_nil
+  end
+
+  it 'fresh user should have no offers' do
+    user.job_offers.size.should == 0
+  end
+
+  it 'have job-offers' do
+    user.job_offers.build(job_offer)
+    user.job_offers.size.should == 1
+  end
+
+end
+```
+
+
+The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient
+expressions. Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create a `user`
+fixture. The job offer that we are adding for the tests is defined as an attribute hash - you map the attributes (keys)
+to their values. If you run the tests, they will pass.
+
+
+The `build` method that we use to create the user will only add the test object in memory. If you want to permanently
+add fixtures to the database, you have to use `create` instead. Play with it, and see that the same test using `create`
+instead of `build` takes much longer because it hits the database.
+
+
+We can improve our test by creating a factory for our job offer too and cleaning the `user_spec.rb` file:
+
+
+```ruby
+# spec/factories.rb
+
+...
+factory :user do
+  name "Matthias Günther"
+  email "matthias.guenther@wikimatze.de"
+end
+
+factory :job_offer do
+  title "Padrino Engineer"
+  location "Berlin"
+  description "We want you ..."
+  contact "recruter@awesome.de"
+  time_start "0/01/2013"
+  time_end "01/03/2013"
+end
+...
+```
+
+
+And now we modify our `user_spec`:
+
+
+```ruby
+# spec/user_spec.rb
+
+require 'spec_helper'
+
+describe "User Model" do
+  let(:user) { FactoryGirl.build(:user) }
+  it 'can be created' do
+    user.should_not be_nil
+  end
+
+  it 'fresh user should have no offers' do
+    user.job_offers.size.should == 0
+  end
+
+  it 'has job-offers' do
+    user.job_offers.build(FactoryGirl.attributes_for(:job_offer))
+    user.job_offers.size.should == 1
+  end
+
+end
+```
+
+
+As you see, the job fixtures us created with FactoryGirls' `attributes_for` method. This method  takes a symbol as an
+input and returns the attributes of the fixture as a hash.
+
+
+Now, our tests are looking fine and they are still green. But we can do even better. We can remove the `FactoryGirl`
+expressions if we add make the following change to our `spec_helper.rb`:
+
+
+```ruby
+# spec/spec_helper.rb
+
+RSpec.configure do |conf|
+  conf.include Rack::Test::Methods
+  conf.include FactoryGirl::Syntax::Methods
+end
+```
+
+
+Now we can change our test to:
+
+
+```ruby
+# spec/app/models/user_spec.rb
+
+require 'spec_helper'
+
+describe "User Model" do
+  let(:user) { build(:user) }
+  it 'can be created' do
+    user.should_not be_nil
+  end
+
+  it 'fresh user should have no offers' do
+    user.job_offers.size.should == 0
+  end
+
+  it 'has job-offers' do
+    user.job_offers.build(attributes_for(:job_offer))
+    user.job_offers.size.should == 1
+  end
+
+end
+```
+
+
+## Registration and Login
 
 In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions
 `new`, `create`, `update`, and `delete`. And you can't forget about security these days it would be nice to to have
@@ -11,7 +1506,7 @@ reinventing the wheel. But with that we won't learn the basics and as you will s
 managed in Padrino.
 
 
-## Extending the User Model
+### Extending the User Model
 
 Before we are going to build the controller and the sign-up form for our application we need to specify the data each
 user has.
@@ -71,7 +1566,7 @@ $ padrino rake ar:migrate
 ```
 
 
-## Validating attributes
+### Validating attributes
 
 Before we are going to implement what we think, we are going to write **pending** specs:
 
@@ -306,7 +1801,7 @@ The new thing about the controller command above is the `get:new` option. This w
 `users/new`.
 
 
-### Sign Up Form
+#### Sign Up Form
 
 The stage is set: We have the model with the tested constraints, and a controller for the user which handles the action.
 Time to create a sign up form for getting new users on our platform. For this case we can use the `form_for` helper.
@@ -578,7 +2073,7 @@ I> [SQL injection](http://en.wikipedia.org/wiki/SQL_injection) attacks. SQL inje
 I> injected into input fields in order to drop tables or getting access on user related data.
 
 
-### Emails
+#### Emails
 
 Padrino uses the [Padrino Mail gem](https://rubygems.org/gems/padrino-mailer) for sending mail. For simplification, we
 are using SMTP with Gmail. First of all we need to give our application the settings for setting mails in the main
@@ -625,7 +2120,7 @@ This is now the default delivery address unless it is overwritten in an individu
 email functionality to this point because the *Mailer gem* is already tested.
 
 
-### Quick Mail Usage
+#### Quick Mail Usage
 
 To send a first simple "Hallo" message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb#L86) directly in our user controller:
 
@@ -963,7 +2458,7 @@ I> platform is going to be floated with billions of users. Another usage of this
 I> chance to change their password and/or stay in contact with them to inform them about updates.
 
 
-## Add Confirmation Code and Confirmation Attributes to the User Model
+### Add Confirmation Code and Confirmation Attributes to the User Model
 
 Create a good migration which fits to the task we want to do:
 
@@ -1008,7 +2503,7 @@ $ padrino ar:migrate -e test
 ```
 
 
-### My Tests are Slow ...
+#### My Tests are Slow ...
 
 During writing this book I discovered various strange behavior for my tests because I was writing data into my test
 database. So the tests weren't really reliable because some worked only when the database is fresh with no preexisting
@@ -1390,7 +2885,7 @@ end
 ```
 
 
-### Mailer Template for Confirmation Email
+#### Mailer Template for Confirmation Email
 
 If we are lazy we could add our confirmation email into the registration mailer. But if you think clearly, these are two
 things that have nothing to do with each other. So let's train our memory and create another mailer:
@@ -2310,4 +3805,98 @@ the message. Since we are first writing our own customized JavaScript, let's cre
 Feel free to add the `flash[:notice]` function when the user has registered and confirmed successfully on our platform.
 If you have problems you can check
 [my commit](https://github.com/matthias-guenther/job-vacancy/commit/f7233bf2edc7da89f02adf7f030a090fc74b3f2d).
+
+
+### Remember Me Function
+
+We are currently using the `sign_in` method from the session helper to login a user. But this is only valid for a
+session. What we need is something permanent. Cookies are the perfect choice for this. We could use the `user_id` from
+the user as a unique token, but this can be changed too easily. Creating an unique long secure hash would be the
+perfect choice to do so. When we have created token, we need to save it for each user.
+
+
+Let's create and run the migration:
+
+
+```bash
+$ padrino g migration add_authentity_token_to_user authentity_token:string
+     apply  orms/activerecord
+    create  db/migrate/006_add_authentity_token_to_user.rb
+
+$ padrino rake ar:migrate
+=> Executing Rake ar:migrate ...
+Environment variable PADRINO_ENV is deprecated. Please, use RACK_ENV.
+  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+   INFO -  Migrating to CreateUsers (1)
+   INFO -  Migrating to CreateJobOffers (2)
+   INFO -  Migrating to AddUserIdToJobOffers (3)
+   INFO -  Migrating to AddRegistrationFieldsToUsers (4)
+   INFO -  Migrating to AddConfirmationCodeAndConfirmationToUsers (5)
+   INFO -  Migrating to AddAuthentityTokenFieldToUsers (6)
+  DEBUG -   (0.0ms)  select sqlite_version(*)
+  DEBUG -   (0.0ms)  begin transaction
+==  AddAuthentityTokenFieldToUsers: migrating =================================
+-- change_table(:users)
+  DEBUG -   (0.3ms)  ALTER TABLE "users" ADD "authentity_token" varchar(255)
+   -> 0.0050s
+==  AddAuthentityTokenFieldToUsers: migrated (0.0051s) ========================
+
+  DEBUG -   (0.1ms)  INSERT INTO "schema_migrations" ("version") VALUES ('7')
+  DEBUG -   (10.0ms)  commit transaction
+  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+```
+
+
+A way to create random strings in Ruby is to use the [securerandom gem](http://ruby-doc.org/stdlib-1.9.3/libdoc/securerandom/rdoc/SecureRandom.html). By using the `before_create` callback, we create a token for each fresh registered user (if you are in a situation where you already have a bunch of users, you have to create a rake task and generate the tokens for each user):
+
+
+```ruby
+class User < ActiveRecord::Base
+  ...
+  before_create :generate_authentity_token
+
+  private
+  def generate_authentity_token
+    require 'securerandom'
+    self.authentity_token = SecureRandom.base64(64)
+    SecureRandom
+  end
+end
+```
+
+
+To test the callback, we can use the `send` method to send our `generate_authentity_token` callback (thanks to [Geoffrey Grosenbach](http://www.oreillynet.com/ruby/blog/2006/10/test_tidbits.html)):
+
+
+```ruby
+require 'spec_helper'
+
+describe "User Model" do
+  ...
+
+  describe "generate_auth_token" do
+    let(:user_confirmation) { build(:user) }
+
+    it 'generate_auth_token generate token if user is saved' do
+      user.should_receive(:save).and_return(true)
+      user.send(:generate_authentity_token)
+      user.save
+      user.authentity_token.should_not be_empty
+    end
+  end
+end
+```
+
+
+INFOBOX about cookies
+
+
+- View/Checkbox
+- Set a cookie in
+- generate tooken
+- explain set_cookie function
+- add screenshot about the cookie in firefox
+
+
+## Reset Password
 
