@@ -1772,13 +1772,16 @@ end
 ```
 
 
-I> ## Regular Expressions
-I>
-I> [Regular expressions](http://en.wikipedia.org/wiki/Regular_expression) are your first tool when you
-I> need to match certain parts (or whole) strings against a predefined pattern. The drawback of using them is that
-I> you have to learn a formal language to define your patterns. I can highly
-I> recommend you the [Rubular tool](http://rubular.com/) for training and trying out the expression you
-I> want to use. It make it very easy to build and test your patterns against test data.
+\begin{aside}
+\heading{Regular Expressions}
+
+[Regular expressions](http://en.wikipedia.org/wiki/Regular_expression) are your first tool when you
+need to match certain parts (or whole) strings against a predefined pattern. The drawback of using them is that
+you have to learn a formal language to define your patterns. I can highly
+recommend you the [Rubular tool](http://rubular.com/) for training and trying out the expression you
+want to use. It make it very easy to build and test your patterns against test data.
+
+\end{aside}
 
 
 ## Users Controller
@@ -2064,13 +2067,16 @@ Remember that have an eye on your logs can help you to see what's going on in yo
 front-end of your app.
 
 
-I> ## What are VALUES (?, ?, ?, ?, ?) in a SQL insert query?
-I>
-I> These form of inserting data in your database is known as parameterized queries. A parameterized query is a query
-I> in which placeholders are used for parameters and the
-I> parameter values are supplied at execution time. The most important reason to use parameterized queries is to avoid
-I> [SQL injection](http://en.wikipedia.org/wiki/SQL_injection) attacks. SQL injection means that SQL statements are
-I> injected into input fields in order to drop tables or getting access on user related data.
+\begin{aside}
+\heading{What are VALUES (?, ?, ?, ?, ?) in a SQL insert query?}
+
+These form of inserting data in your database is known as parameterized queries. A parameterized query is a query
+in which placeholders are used for parameters and the
+parameter values are supplied at execution time. The most important reason to use parameterized queries is to avoid
+[SQL injection](http://en.wikipedia.org/wiki/SQL_injection) attacks. SQL injection means that SQL statements are
+injected into input fields in order to drop tables or getting access on user related data.
+
+\end{aside}
 
 
 #### Emails
@@ -2243,17 +2249,20 @@ end
 ```
 
 
-I> Difference between Padrino's Mailer methods email and deliver
-I>
-I> The [email](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#email-instance_method) method is
-I> has the parameters `mail_attributes = {}, &block`. That means the you write emails directly
-I> `JobVacancy.email(:to => '...', :from => '...', :subject => '...', :body => '...')` or use the block syntax
-I> `JobVacancy.email do ... end`. In comparison to this is the
-I> [deliver](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#deliver-instance_method) method.
-I> It has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer
-I> for them. If you want to use very simple mails in your application, prefer to use the email method. But if you
-I> have templates with a much more complex layout in different formats (plain, HTML), the deliver method is the
-I> best fit.
+\begin{aside}
+\heading{Difference between Padrino's Mailer methods email and deliver}
+
+The [email](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#email-instance_method) method is
+has the parameters `mail_attributes = {}, &block`. That means the you write emails directly
+`JobVacancy.email(:to => '...', :from => '...', :subject => '...', :body => '...')` or use the block syntax
+`JobVacancy.email do ... end`. In comparison to this is the
+[deliver](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#deliver-instance_method) method.
+It has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer
+for them. If you want to use very simple mails in your application, prefer to use the email method. But if you
+have templates with a much more complex layout in different formats (plain, HTML), the deliver method is the
+best fit.
+
+\end{aside}
 
 
 Instead of writing only a simple "Hallo" in our email we would like to give more input. First we need to write an
@@ -2423,14 +2432,17 @@ bHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nDPQM1Qo5ypUMABCM0MjBXNL
 ```
 
 
-I> ## MIME?
-I>
-I> MIME stands for "Multipurpose Internet Mail Extensions" and they specify additional attributes to email headers like
-I> the content type and define transfer encodings which can be used to present a higher encoded file (e.g. 8-bit)
-I> with the 7-bit ASCII character set. This makes it possible to put non-English characters in the message header like
-I> the subject. The goal of the MIME definition was that existing email servers had nothing to change in order to use
-I> MIME types. This means that MIME headers are optional for plain text emails and so even none MIME messages can be
-I> read correctly by a clients being able to read MIME encoded messages.
+\begin{aside}
+\heading{MIME?}
+
+MIME stands for "Multipurpose Internet Mail Extensions" and they specify additional attributes to email headers like
+the content type and define transfer encodings which can be used to present a higher encoded file (e.g. 8-bit)
+with the 7-bit ASCII character set. This makes it possible to put non-English characters in the message header like
+the subject. The goal of the MIME definition was that existing email servers had nothing to change in order to use
+MIME types. This means that MIME headers are optional for plain text emails and so even none MIME messages can be
+read correctly by a clients being able to read MIME encoded messages.
+
+\end{aside}
 
 
 ### Sending Email with Confirmation Link
@@ -2451,11 +2463,14 @@ The basic steps for implementing the logic of email confirmation are the followi
 - protect our controller methods and views to prevent security issues.
 
 
-I> ## Why Confirmation Mail
-I>
-I> Check that the user actually signed up for the account and actually wants it. This also helps you from spamming your
-I> platform is going to be floated with billions of users. Another usage of this information is to give your users a
-I> chance to change their password and/or stay in contact with them to inform them about updates.
+\begin{aside}
+\heading{Why Confirmation Mail}
+
+Check that the user actually signed up for the account and actually wants it. This also helps you from spamming your
+platform is going to be floated with billions of users. Another usage of this information is to give your users a
+chance to change their password and/or stay in contact with them to inform them about updates.
+
+\end{aside}
 
 
 ### Add Confirmation Code and Confirmation Attributes to the User Model
@@ -2686,13 +2701,17 @@ $ padrino c
 ```
 
 
-I> ## What is a Salt?
-I> Salts are used in cryptography as random data to be put as addition to normal password to create a encrypted with the
-I> help of a one-way function. A one-way function output by some input string very easily but the other way round is
-I> very difficult for the computer to compute the original string from the output.
-I> Salts make it more difficult for hackers to get the password via rainbow tables attacks. Rainbow tables are a huge
-I> list of precomputed hashes for widely used password. If a hacker gets access to a password hash he then just
-I> compare this hash with the entries. If he finds after which he was searching he got the password for the user.
+\begin{aside}
+\heading{What is a Salt?}
+
+Salts are used in cryptography as random data to be put as addition to normal password to create a encrypted with the
+help of a one-way function. A one-way function output by some input string very easily but the other way round is
+very difficult for the computer to compute the original string from the output.
+Salts make it more difficult for hackers to get the password via rainbow tables attacks. Rainbow tables are a huge
+list of precomputed hashes for widely used password. If a hacker gets access to a password hash he then just
+compare this hash with the entries. If he finds after which he was searching he got the password for the user.
+
+\end{aside}
 
 
 We could add these methods in the users controller but that isn't something a controller should do. We better use a
@@ -2737,11 +2756,14 @@ will even not test the difficult looking `set_confirmation_code` method because 
 inside, and BCrypt is well tested.
 
 
-I> ## Why making callbacks private?
-I>
-I> It is good practice to make your callbacks private so that they can called only from inside the model and no other
-I> object can use these methods. Our `confirmation_code` method is public available but that is no problem, because it
-I> just generates an random string.
+\begin{aside}
+\heading{Why making callbacks private?}
+
+It is good practice to make your callbacks private so that they can called only from inside the model and no other
+object can use these methods. Our `confirmation_code` method is public available but that is no problem, because it
+just generates an random string.
+
+\end{aside}
 
 
 After creating the confirmation code mechanism for our user, we need to implement a authenticate which takes the
@@ -2782,15 +2804,18 @@ end
 ```
 
 
-I> ## Take care of your names!?
-I>
-I> During writing this chapter I lost a whole hour because I had method with the same name as the `confirmation_code`
-I> field. When I wanted to check `@user.confirmation_code` it always called the `confirmation_code` method which return
-I> a new confirmation code. I was thinking for a long time that it returned the attribute and was wondering what's going
-I> on. A couple of [pry](http://pryrepl.org/) sessions showed me nothing since I'm expected to be right. After I went
-I> to the toilet I started another pry session and out of sudden I discovered my naming problem.
-I>
-I> Lesson learned: Breaks are great!
+\begin{aside}
+\heading{Take care of your names!?}
+
+During writing this chapter I lost a whole hour because I had method with the same name as the `confirmation_code`
+field. When I wanted to check `@user.confirmation_code` it always called the `confirmation_code` method which return
+a new confirmation code. I was thinking for a long time that it returned the attribute and was wondering what's going
+on. A couple of [pry](http://pryrepl.org/) sessions showed me nothing since I'm expected to be right. After I went
+to the toilet I started another pry session and out of sudden I discovered my naming problem.
+
+Lesson learned: Breaks are great!
+
+\end{aside}
 
 
 Before going on we need to update our `factory` for the test with the confirmation code field::
@@ -2967,16 +2992,19 @@ the confirmation code generation and sending. If you think clearly we have flaws
 2. Our user model is blown up with authentication code.
 
 
-I> ## Observers vs. Callbacks
-I>
-I> [Observers](http://en.wikipedia.org/wiki/Observer_pattern) are a design pattern where an object has a list of its
-I> dependents called observers, and notifies them automatically if its state has changed by calling one of their methods.
-I> Observers means to be decoupling responsibility. They can
-I> serve as a connection point between your models and some other functionality of another subsystem. Observers "lives"
-I> longer in your application and can be attached/detached at any time.
-I> Callbacks life shorter - you pass it to a function to be called only once.
-I> Rule of the thumb: When you use callbacks with code that isn't directly related to your model, you better put this
-I> into an observer.
+\begin{aside}
+\heading{Observers vs. Callbacks}
+
+[Observers](http://en.wikipedia.org/wiki/Observer_pattern) are a design pattern where an object has a list of its
+dependents called observers, and notifies them automatically if its state has changed by calling one of their methods.
+Observers means to be decoupling responsibility. They can
+serve as a connection point between your models and some other functionality of another subsystem. Observers "lives"
+longer in your application and can be attached/detached at any time.
+Callbacks life shorter - you pass it to a function to be called only once.
+Rule of the thumb: When you use callbacks with code that isn't directly related to your model, you better put this
+into an observer.
+
+\end{aside}
 
 
 Here is a rough plan what we want to do:
@@ -3265,11 +3293,14 @@ end
 ```
 
 
-I>## Test-First development
-I>
-I> Is a term from [Extreme Programming (XP)](http://en.wikipedia.org/wiki/Extreme_programming) and means that you first
-I> write down your tests before writing any code to solve it. This forces you to really think about what you are
-I> going to do. These tests prevent you from over engineering a problem because you has to make these tests green.
+\begin{aside}
+\heading{Test-First development}
+
+Is a term from [Extreme Programming (XP)](http://en.wikipedia.org/wiki/Extreme_programming) and means that you first
+write down your tests before writing any code to solve it. This forces you to really think about what you are
+going to do. These tests prevent you from over engineering a problem because you has to make these tests green.
+
+\end{aside}
 
 
 Here are now the tests for the `GET :new` and `POST :create` actions of our session controller:
@@ -3488,22 +3519,24 @@ There's a lot of stuff going on in this helper:
   be available for authenticated users.
 
 
-I>## Why Sessions and how does sign_out work?
-I>
-I> When you request an URL in your browser you are using the HTTP/HTTPS protocol. This protocol is stateless that means
-I> that it doesn't save the state in which you are in your application. Web applications implement states with one of
-I> the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g.
-I> <http://localhost:3000/login?user=test&password=test>).
-I>
-I> We are going to use cookies to save if a user is logged in and saving the user-Id in our session cookies under the
-I> `:current_user` key.
-I>
-I> What the delete method does is the following: It will look into the last request in your application inside the
-I> session information hash and delete the `current_user` key. And the sentence in code
-I> `browser.last_request.env['rack.session'].delete(:current_user)`. If you want to explore more of the internal of an
-I> application I highly recommend you the [Pry](https://github.com/pry/pry). You can throw in at any part of your
-I> application `binding.pry` and have full access to all variables.
+\begin{aside}
+\heading{Why Sessions and how does sign\_out work?}
 
+When you request an URL in your browser you are using the HTTP/HTTPS protocol. This protocol is stateless that means
+that it doesn't save the state in which you are in your application. Web applications implement states with one of
+the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g.
+<http://localhost:3000/login?user=test&password=test>).
+
+We are going to use cookies to save if a user is logged in and saving the user-Id in our session cookies under the
+`:current_user` key.
+
+What the delete method does is the following: It will look into the last request in your application inside the
+session information hash and delete the `current_user` key. And the sentence in code
+`browser.last_request.env['rack.session'].delete(:current_user)`. If you want to explore more of the internal of an
+application I highly recommend you the [Pry](https://github.com/pry/pry). You can throw in at any part of your
+application `binding.pry` and have full access to all variables.
+
+\end{aside}
 
 
 Now we are in a position to write tests for our `:destroy` action:
