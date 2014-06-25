@@ -8,3 +8,5 @@ extra conveniences that Rails offers, this is where Padrino comes in as it provi
 true to Sinatra's philosophy of being simple and lightweight. In order to understand the mantra of the Padrino webpage:
 "Padrino is a full-stack ruby framework built upon Sinatra" you have to read on.
 
+\input{chapters/test.md}
+
