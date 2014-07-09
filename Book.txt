@@ -2,7 +2,6 @@ cover
 frontmatter:
 maketitle
 tableofcontents
-preface.md
-contributors.md
 mainmatter:
-01-00-introduction.md
+introduction_and_setup.md
+job_vacancy_application.md
