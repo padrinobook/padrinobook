@@ -1,4 +1,4 @@
-![PadrinoBook - The Guide To Master The Elegant Ruby Web Framework](https://raw.githubusercontent.com/wikimatze/padrinobook/master/images/logo.png "PadrinoBook - The Guide To Master The Elegant Ruby Web Framework")
+![PadrinoBook - The Guide To Master The Elegant Ruby Web Framework](https://raw.githubusercontent.com/wikimatze/padrinobook/softcover/images/logo.png "PadrinoBook - The Guide To Master The Elegant Ruby Web Framework")
 
 This book describes how I developed an application in [Padrino](http://www.padrinorb.com/). Feel free to fork this project and to correct my grammar. You can find the official page of the book under [padrinobook](http://padrinobook.com/).
 
