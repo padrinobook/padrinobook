@@ -1,0 +1,9 @@
+{
+    "plugins": ["piwik"],
+    "pluginsConfig": {
+        "piwik": {
+            "URL": "padrinobook.com/piwik/",
+        "siteId": 1
+        }
+    }
+}

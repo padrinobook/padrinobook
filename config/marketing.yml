@@ -1,0 +1,48 @@
+---
+prices:
+  -
+    code: ebooks
+    name: "HTML & Ebook"
+    description:
+      |
+        * Optimized for computer screens, Kindle, and iPad
+        * Incredibly awesome content
+    media:
+      - ebooks
+    price: 3500
+
+  -
+    code: all
+    name: "HTML, Ebook, and Screencasts"
+    description:
+      |
+        * Includes 10 hours of video screencasts
+        * Ebooks inclded in PDF/EPUB/MOBI formats
+    media:
+      - ebooks
+      - media/screencasts
+    price: 12500
+
+authors:
+  - name: "Matthias Günther"
+    gravatar_email: "matthias@padrinobook.com"
+    contact_email: "matthias@padrinobook.com"
+    bio:
+      |
+        Matthias is an Open Sourcer by heart, loves giving presentations about [Vim](http://www.vim.org/), and is writing this book about [Padrino](http://www.padrinorb.com/). Why? Because he wants learn something other than [Rails](http://rubyonrails.org/), something light weight, flexible, powerful, and fast. These are the strenghts of Padrino. Matthias is writting this book with much [help of the community](https://github.com/wikimatze/padrinobook/issues?page=1&state=closed) and is [contributing](https://github.com/padrino/padrino-framework/contributors) to Padrino.
+
+faq:
+  -
+    question: "Is this book finished?"
+    answer: "No and I'm still working on it."
+  -
+    question: "How do I contact you?"
+    answer: "If you have any questions, or need some help, please drop me an email at: matthias@padrinobook.com, I’ll be happy to help you."
+  -
+    question: "I found a typo or have suggestion, can I contribute?"
+    answer: "No problem, go to [repository of the book](https://github.com/wikimatze/PadrinoBook)."
+
+marketing_content: "I'm writing this book with much [help of the community](https://github.com/wikimatze/padrinobook/issues?page=1&state=closed). Instead of waiting until the book is finished you can [see the source](https://github.com/wikimatze/padrinobook), [watch the online version](http://padrinobook.com/book/), join the [mailing list](http://eepurl.com/Wskif), post [pull request](https://github.com/wikimatze/padrinobook/pulls), visit the [fanpage](http://facebook.com/padrinobook), or propose additional chapters via [padrinobook on twitter](https://twitter.com/padrinobook). You can contact me via mail <a href=\"&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#109;&#97;&#116;&#116;&#104;&#105;&#97;&#115;&#64;&#112;&#97;&#100;&#114;&#105;&#110;&#111;&#98;&#111;&#111;&#107;&#46;&#99;&#111;&#109;\">&#109;&#97;&#116;&#116;&#104;&#105;&#97;&#115;&#64;&#112;&#97;&#100;&#114;&#105;&#110;&#111;&#98;&#111;&#111;&#107;&#46;&#99;&#111;&#109;</a>."
+
+contact_email: 'matthias@padrinobook.com'
+hide_custom_domain_footer: false

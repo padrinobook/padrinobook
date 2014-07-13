@@ -1,2 +1,0 @@
-% Padrino - The Elegant Ruby Web Framework
-% Matthias Günther <matthias.guenther@wikimatze.de>

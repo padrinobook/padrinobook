@@ -1,0 +1,11 @@
+---
+slug: padrinobook
+filename: padrinobook
+title: PadrinoBook
+subtitle: The Guide To Master The Elegant Ruby Web Framework
+description: If you want to go into web development with ease and no boundaries to which components you want to use, then dig into Padrino. Padrino is super interesting, but there aren't a lot of docs available. This book is a practical approach to learn Padrino to craft web applications with fun and joy.
+author: Matthias Günther
+copyright: 2014
+uuid: f79cdae0-95c3-43eb-90bf-fb59b4d4dfe3
+pdf_preview_page_range: 1..30
+epub_mobi_preview_chapter_range: 0..30
