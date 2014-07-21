@@ -589,12 +589,17 @@ end
 ```
 
 
-INFOBOX about cookies
+\begin{aside}
+\heading{Cookies}
+
+HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol) and a cookie is a way to save information sent from a website and store them in the browser. Each time the user visits the site again, the browser sends the information back to server and notifies the server about the identity of the user. A cookies can consists of the following components: name, value, expiry date, path (scope of the cookie), domain (valid for which domain), needs the cookie be used for a secure connection or if (or not) the cookie can be accessed by other.ways (like JavaScript to steal the cookie).
+
+\end{aside}
 
 
 - View/Checkbox
 - Set a cookie in
-- generate tooken
+- generate token
 - explain set_cookie function
 - add screenshot about the cookie in firefox
 
