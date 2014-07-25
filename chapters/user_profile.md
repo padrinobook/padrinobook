@@ -512,8 +512,7 @@ IMG: simplecov_grouped.png
 
 We are currently using the `sign_in` method from the session helper to login a user. But this is only valid for a
 session. What we need is something permanent. Cookies are the perfect choice for this. We could use the `user_id` from
-the user as a unique token, but this can be changed too easily. Creating an unique long secure hash would be the
-perfect choice to do so. When we have created token, we need to save it for each user.
+the user as a unique token, but this can be changed too easily. Creating an unique long [secure hash](http://en.wikipedia.org/wiki/Secure_Hash_Algorithm) would be the perfect choice. When we have created token, we need to save it for each user.
 
 
 Let's create and run the migration:
@@ -548,10 +547,20 @@ Environment variable PADRINO_ENV is deprecated. Please, use RACK_ENV.
 ```
 
 
-A way to create random strings in Ruby is to use the [securerandom gem](http://ruby-doc.org/stdlib-1.9.3/libdoc/securerandom/rdoc/SecureRandom.html). By using the `before_create` callback, we create a token for each fresh registered user (if you are in a situation where you already have a bunch of users, you have to create a rake task and generate the tokens for each user):
+\begin{aside}
+\heading{Cookies}
+
+HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol) and a cookie is a way to save information sent from a website and store them in the browser. Each time the user visits the site again, the browser sends the information back to server and notifies the server about the identity of the user. A cookies can consists of the following components: name, value, expiry date, path (scope of the cookie), domain (valid for which domain), needs the cookie be used for a secure connection or if (or not) the cookie can be accessed by other.ways (like JavaScript to steal the cookie).
+
+\end{aside}
+
+
+A way to create random strings in Ruby is to use the [securerandom gem](http://ruby-doc.org/stdlib-1.9.3/libdoc/securerandom/rdoc/SecureRandom.html). By using the `before_create` callback, we create a token for each registered user (if you are in a situation where you already have a bunch of users and you now decide to create hashs for them, you have to create a migration script and migrate the existing user base):
 
 
 ```ruby
+# models/user.rb
+
 class User < ActiveRecord::Base
   ...
   before_create :generate_authentity_token
@@ -560,13 +569,12 @@ class User < ActiveRecord::Base
   def generate_authentity_token
     require 'securerandom'
     self.authentity_token = SecureRandom.base64(64)
-    SecureRandom
   end
 end
 ```
 
 
-To test the callback, we can use the `send` method to send our `generate_authentity_token` callback (thanks to [Geoffrey Grosenbach](http://www.oreillynet.com/ruby/blog/2006/10/test_tidbits.html)):
+To test the callback, we can use the `send` method to send our `generate_authentity_token` callback (thanks to [Geoffrey Grosenbach](http://www.oreillynet.com/ruby/blog/2006/10/test_tidbits.html) for this hint):
 
 
 ```ruby
@@ -589,12 +597,7 @@ end
 ```
 
 
-\begin{aside}
-\heading{Cookies}
 
-HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol) and a cookie is a way to save information sent from a website and store them in the browser. Each time the user visits the site again, the browser sends the information back to server and notifies the server about the identity of the user. A cookies can consists of the following components: name, value, expiry date, path (scope of the cookie), domain (valid for which domain), needs the cookie be used for a secure connection or if (or not) the cookie can be accessed by other.ways (like JavaScript to steal the cookie).
-
-\end{aside}
 
 
 - View/Checkbox
