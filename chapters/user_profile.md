@@ -521,7 +521,7 @@ Let's create and run the migration:
 ```bash
 $ padrino g migration add_authentity_token_to_user authentity_token:string
      apply  orms/activerecord
-    create  db/migrate/006_add_authentity_token_to_user.rb
+    create  db/migrate/006_add_authentity_token_to_users.rb
 
 $ padrino rake ar:migrate
 => Executing Rake ar:migrate ...
@@ -574,7 +574,7 @@ end
 ```
 
 
-To test the callback, we can use the `send` method to send our `generate_authentity_token` callback (thanks to [Geoffrey Grosenbach](http://www.oreillynet.com/ruby/blog/2006/10/test_tidbits.html) for this hint):
+To test the callback, we can use the `send` method to create our `generate_authentity_token` callback (thanks to [Geoffrey Grosenbach](http://www.oreillynet.com/ruby/blog/2006/10/test_tidbits.html) for this hint):
 
 
 ```ruby
@@ -597,13 +597,29 @@ end
 ```
 
 
+Next it's time to create the checkbox on the login page with help of the [check_box_tag](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#check_box_tag-instance_method):
 
 
+```erb
+# views/sessions/new.erb
 
-- View/Checkbox
+<h1>Login</h1>
+
+  ...
+  <label class="checkbox">
+    <%= check_box_tag :remember_me, :val %> Remember me
+  </label>
+
+```
+
 - Set a cookie in
-- generate token
+
+
+
+
 - explain set_cookie function
+
+
 - add screenshot about the cookie in firefox
 
 
