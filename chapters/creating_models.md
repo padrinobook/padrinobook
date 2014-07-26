@@ -2,9 +2,7 @@
 
 ### User Model
 
-There are many different ways how to develop a user entity for your system. A user in our system will have an *unique*
-identification number **id**, a **name**, and an **email**. We can specify the location of the model by appending the
-end of the generate command with `-a app` as follows:
+There are many different ways how to develop a user entity for your system. A user in our system will have an *unique* identification number **id**, a **name**, and an **email**. We can specify the location of the model by appending the end of the generate command with `-a app` as follows:
 
 
 ```bash
@@ -31,10 +29,7 @@ end
 ```
 
 
-All we have is an empty class which inherits from
-[ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). `ActvieRecord` provides a simple
-object-relational-mapper from our models to corresponding database tables. You can also define relations between
-models through associations.
+All we have is an empty class which inherits from [ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). `ActvieRecord` provides a simple object-relational-mapper from our models to corresponding database tables. You can also define relations between models through associations.
 
 
 ```ruby
@@ -51,9 +46,7 @@ end
 ```
 
 
-As you can see, the generator created already a test for us, which basically checks if the model can be created. What
-would happen if you run the tests for this model? Let the code speak of it's own and run the tests, that's what they are
-made for after all:
+As you can see, the generator created already a test for us, which checks if the model can be created. What would happen if you run the tests for this model? Let the code speak of it's own and run the tests, that's what they are made for after all:
 
 
 ```bash
@@ -79,8 +72,7 @@ Failed examples:
 ```
 
 
-Executing the test resulted in an error. However, it very explicitly told us the reason: The *user* table does not exist
-yet. And how do we create one? Here, migrations enter the stage.
+Executing the test resulted in an error. It very explicitly told us the reason: The *user* table does not exist yet. And how do we create one? Here, migrations enter the stage.
 
 
 Migrations helps you to change the database in an ordered manner. Let's have a look at our first migration:
@@ -105,10 +97,7 @@ end
 ```
 
 
-This code will create a `users` table with the `name` and `email` attributes. The `id` attribute will be created
-automatically unless you specify to use a different attribute as the unique key to a database entry. By the way, the
-convention to name tables of models in the plural form comes from [Ruby On Rails](http://rubyonrails.org/). Now we need
-to run this migration:
+This code will create a `users` table with the `name` and `email` attributes. The `id` attribute will be created automatically unless you specify to use a different attribute as the unique key to a database entry. By the way, the convention to name tables of models in the plural form comes from [Ruby On Rails](http://rubyonrails.org/). Now we need to run this migration:
 
 
 ```bash
@@ -134,8 +123,7 @@ $ ls db/
 ```
 
 
-Now let's start [sqlite3](http://www.sqlite.org/), connect to the database, and see if the users table was created
-properly:
+Now let's start [sqlite3](http://www.sqlite.org/), connect to the database, and see if the users table was created properly:
 
 
 ```bash
@@ -173,8 +161,7 @@ ActiveRecord::Base.configurations[:test] = {
 ```
 
 
-As you can see, each of the different environments  *development*, *production*, and *test* have their own database.
-Lets's be sure that all databases are created:
+As you can see, each of the different environments  *development*, *production*, and *test* have their own database.  Lets's be sure that all databases are created:
 
 
 ```bash
@@ -218,8 +205,7 @@ rspec ./spec/app/models/user_spec.rb:5 # User Model can be created
 ```
 
 
-But why are the tests still failing? Because the migration for the *user* table was not executed for the test
-environment. Let's fix this with the following command:
+But why are the tests still failing? Because the migration for the *user* table was not executed for the test environment. Let's fix this with the following command:
 
 
 ```bash
@@ -246,8 +232,7 @@ Finished in 0.05492 seconds
 ```
 
 
-How can we run all the tests in our application and see if everything is working? Just execute `padrino rake spec`
-to run all tests in the `spec/` folder:
+How can we run all the tests in our application and see if everything is working? Execute `padrino rake spec` to run all tests in the `spec/` folder:
 
 
 ```bash
@@ -275,14 +260,12 @@ Finished in 0.20325 seconds
 ```
 
 
-This is very handy to make sure that you didn't break anything in the existing codebase when you are working on a new
-feature. Run these regression tests frequently and enjoy it to see your app growing feature by feature.
+This is very handy to make sure that you didn't break anything in the existing codebase when you are working on a new feature. Run these regression tests frequently and enjoy it to see your app growing feature by feature.
 
 
 ### Job Offer Model
 
-Since we now know how to create the basic model of our users, it's time to create a model for presenting a job offer.
-A job offer consists of the following attributes:
+Since we now know how to create the basic model of our users, it's time to create a model for presenting a job offer.  A job offer consists of the following attributes:
 
 
 - title: The name of the job position.
@@ -293,8 +276,7 @@ A job offer consists of the following attributes:
 - time-end: A job offer isn't valid forever.
 
 
-Let's run the Padrino command to create the model for us. As you see, we once again run `-a app` at the end of our
-generation.  Without specifying location, a new folder called `models` is created in the main directory.
+Let's run the Padrino command to create the model for us. As you see, we once again run `-a app` at the end of our generation.  Without specifying location, a new folder called `models` is created in the main directory.
 
 
 ```bash
@@ -307,8 +289,7 @@ $ padrino g model job_offer title:string location:string description:text contac
 ```
 
 
-Perhaps your forgot to add `-a app` to specify the app directory when running the generation. You can delete a model in
-Padrino by running:
+Perhaps your forgot to add `-a app` to specify the app directory when running the generation. You can delete a model in Padrino by running:
 
 
 ```
@@ -316,8 +297,7 @@ $ padrino g model job_offer -d
 ```
 
 
-Keep in mind that you will need to manually delete the now empty `models` folder or with the `$ rmdir models` unix/linux
-command.
+Keep in mind that you will need to manually delete the now empty `models` folder or with the `$ rmdir models` unix/linux command.
 
 
 Next, we need to run our new database migration so that our database has the right scheme:
@@ -358,13 +338,7 @@ If you run your tests with `padrino rake spec`, everything should be fine.
 
 ### Creating Connection Between User And Job Offer Model
 
-Since we now have created our two main models, it's time to define associations between them. Associations make common
-operations like deleting or updating data in our relational database easier. Just imagine that we have a user
-in our app that added many job offers in our system. Now this customer decides that he wants to cancel
-his account. We decide that all his job offers should also disappear in the system. One solution would be to delete
-the user, remember his id, and delete all job offers entries that originate from this id. This manual effort
-disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete
-automatically all corresponding jobs for this user".
+Since we now have created our two main models, it's time to define associations between them. Associations make common operations like deleting or updating data in our relational database easier. Imagine that we have a user in our app that added many job offers in our system. Now this customer decides that he wants to cancel his account. We decide that all his job offers should also disappear in the system. One solution would be to delete the user, remember his id, and delete all job offers entries that originate from this id. This manual effort disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete automatically all corresponding jobs for this user".
 
 
 We will quickly browse through the associations.
@@ -373,8 +347,7 @@ We will quickly browse through the associations.
 **has_many**
 
 
-This association is the most commonly used one. It does exactly as it tells us: One object has many other objects.
-We define the association between the user and the job offers as shown in the following expression:
+This association is the most commonly used one. It does exactly as it tells us: One object has many other objects.  We define the association between the user and the job offers as shown in the following expression:
 
 
 ```ruby
@@ -404,10 +377,7 @@ end
 **Migrate after associate**
 
 
-Whenever you modify your models, remember that you need to run migrations too. Because we added the associations
-manually, we also need to write the migrations. Luckily, Padrino helps us with this task a bit. We know that the
-job offer is linked to a user via the user's id. This foreign key relationship results in adding an extra
-column `user_id` to the `job_offers table`. For this change, we can use the following command to create a migration:
+Whenever you modify your models, remember that you need to run migrations too. Because we added the associations manually, we also need to write the migrations. Luckily, Padrino helps us with this task a bit. We know that the job offer is linked to a user via the user's id. This foreign key relationship results in adding an extra column `user_id` to the `job_offers table`. For this change, we can use the following command to create a migration:
 
 
 ```bash
@@ -437,8 +407,7 @@ end
 ```
 
 
-Can you see the small bug? This migration won't work, you have to change `joboffers` to `job_offers`. For the time
-being, generators can help you to write code, but not prevent you from thinking.
+Can you see the small bug? This migration won't work, you have to change `joboffers` to `job_offers`. For the time being, generators can help you to write code, but not prevent you from thinking.
 
 
 Finally let's run our migrations:
@@ -453,8 +422,7 @@ $ padrino rake ar:migrate -e test
 ### Testing Associations in the Console
 
 
-To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a
-different approach and use the Padrino console this time.  All you have to do is to run the following command:
+To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a different approach and use the Padrino console this time.  All you have to do is to run the following command:
 
 
 ```bash
@@ -465,8 +433,7 @@ $ padrino c
 ```
 
 
-Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki/Interactive_Ruby_Shell), the
-*Interactive Ruby* shell. This allows you to execute Ruby commands and immediately see it's response.
+Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki/Interactive_Ruby_Shell), the *Interactive Ruby* shell. This allows you to execute Ruby commands and immediately see it's response.
 
 
 Let's run the shell to create a user with job offers:
@@ -480,8 +447,7 @@ user = User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
 ```
 
 
-This creates a user object in our session. If we want to add an entry permanently into the database, you have to use
-*create* method:
+This creates a user object in our session. If we want to add an entry permanently into the database, you have to use *create* method:
 
 
 ```bash
@@ -497,8 +463,7 @@ DEBUG -  (0.2ms)  begin transaction
 ```
 
 
-Please note that now you have an entry in your development database `db/job_vacancy_development.db`. To see this,
-connect to the database and execute a 'SELECT' statement::
+Please note that now you have an entry in your development database `db/job_vacancy_development.db`. To see this, connect to the database and execute a 'SELECT' statement::
 
 
 ```bash
@@ -551,8 +516,7 @@ And now let's create a second one for our first user:
 ```
 
 
-Now it's time to test our association between the user and the job-offer model. We will use the `find_by_id` method
-to get the user from our database, and the `job_offers` method to get all the job-offers from the user.
+Now it's time to test our association between the user and the job-offer model. We will use the `find_by_id` method to get the user from our database, and the `job_offers` method to get all the job-offers from the user.
 
 
 ```bash
@@ -570,22 +534,15 @@ to get the user from our database, and the `job_offers` method to get all the jo
 ```
 
 
-Here you can see the advantage of using associations: When you declare them, you automatically get methods for accessing
-the data you want.
+Here you can see the advantage of using associations: When you declare them, you automatically get methods for accessing the data you want.
 
 
-Ok, we are doing great so far. With users and job offers in place, let's add some tests to create and associate these
-objects.
+Ok, we are doing great so far. With users and job offers in place, let's add some tests to create and associate these objects.
 
 
 ### Testing With RSpec + Factory Girl
 
-When you use data for the tests, you need to decide how to create them. You could, of course, define a set of test data
-with pure SQL and add it to your app. A more convenient solution instead is to use factories and fixtures. Think
-of factories as producers for you data. You are telling the factory that you need 10 users that should have different
-names and emails. This kind of mass object creation which are called fixtures in testing, can easily be done with
-[Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines it's own language to create fixtures in
-an `ActiveRecord`-like way, but with a much cleaner syntax.
+When you use data for the tests, you need to decide how to create them. You could define a set of test data with pure SQL and add it to your app. A more convenient solution instead is to use factories and fixtures. Think of factories as producers for you data. You are telling the factory that you need 10 users that should have different names and emails. This kind of mass object creation which are called fixtures in testing, can easily be done with [Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines it's own language to create fixtures in an `ActiveRecord`-like way, but with a much cleaner syntax.
 
 
 What do we need to use Factory Girl in our app? Right, we first we need to add a gem to our `Gemfile`:
@@ -610,8 +567,7 @@ gem 'rack-test', '0.6.2', :require => 'rack/test', :group => 'test'
 ```
 
 
-Luckily we can use the :group <name> do ... end syntax to cleanup  to get rid of several :group => 'test' lines in
-our `Gemfile`:
+Luckily we can use the :group <name> do ... end syntax to cleanup  to get rid of several :group => 'test' lines in our `Gemfile`:
 
 
 ```ruby
@@ -631,7 +587,6 @@ Execute `bundle` and the new gem will be installed.
 Next we need to define a *factory* to include all the fixtures of our models:
 
 
-
 ```ruby
 # spec/factories.rb
 
@@ -647,10 +602,7 @@ end
 ```
 
 
-I want to add myself as a test user. Since I'm German, I want to use special symbols, called umlauts, from my language.
-To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for
-the definition for user model. To make our factory available in all our tests, we just have to *require* our factory
-in the `spec_helper.rb`:
+I want to add myself as a test user. Since I'm German, I want to use special symbols, called umlauts, from my language.  To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for the definition for user model. To make our factory available in all our tests, we have to *require* our factory in the `spec_helper.rb`:
 
 
 ```ruby
@@ -691,15 +643,10 @@ end
 ```
 
 
-The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient
-expressions. Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create a `user`
-fixture. The job offer that we are adding for the tests is defined as an attribute hash - you map the attributes (keys)
-to their values. If you run the tests, they will pass.
+The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient expressions. Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create a `user` fixture. The job offer that we are adding for the tests is defined as an attribute hash - you map the attributes (keys) to their values. If you run the tests, they will pass.
 
 
-The `build` method that we use to create the user will only add the test object in memory. If you want to permanently
-add fixtures to the database, you have to use `create` instead. Play with it, and see that the same test using `create`
-instead of `build` takes much longer because it hits the database.
+The `build` method that we use to create the user will only add the test object in memory. If you want to permanently add fixtures to the database, you have to use `create` instead. Play with it, and see that the same test using `create` instead of `build` takes much longer because it hits the database.
 
 
 We can improve our test by creating a factory for our job offer too and cleaning the `user_spec.rb` file:
@@ -753,12 +700,10 @@ end
 ```
 
 
-As you see, the job fixtures us created with FactoryGirls' `attributes_for` method. This method  takes a symbol as an
-input and returns the attributes of the fixture as a hash.
+As you see, the job fixtures us created with FactoryGirls' `attributes_for` method. This method  takes a symbol as an input and returns the attributes of the fixture as a hash.
 
 
-Now, our tests are looking fine and they are still green. But we can do even better. We can remove the `FactoryGirl`
-expressions if we add make the following change to our `spec_helper.rb`:
+Now, our tests are looking fine and they are still green. But we can do even better. We can remove the `FactoryGirl` expressions if we add make the following change to our `spec_helper.rb`:
 
 
 ```ruby
