@@ -1358,7 +1358,7 @@ end
 
 ### Observer
 
-In the chapter[TBD done find out how to reference to other chapters] we used a callback to build the functionality with the confirmation code generation and sending. We have flaws in our design:
+The code is working but We have flaws in our design:
 
 
 1. The controller is sending mails but this is not the responsibility of it.
