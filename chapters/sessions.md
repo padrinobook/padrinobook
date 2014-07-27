@@ -64,6 +64,7 @@ Before going on to write our tests first before we start with the implementation
 
 ```ruby
 # spec/app/controllers/sessions_controller_spec.rb
+
 require 'spec_helper'
 
 describe "SessionsController" do
@@ -401,7 +402,7 @@ Where can we test now our logic? The main application layout of our application 
 
 
 ```erb
-# app/views/application.rb
+<%# app/views/application.rb %>
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -433,7 +434,7 @@ With the change above we changed the default "Registration" entry in our header 
 
 
 ```erb
-# app/views/sessions/new.erb
+<%# app/views/sessions/new.erb %>
 
 <h1>Login</h1>
 
@@ -486,7 +487,7 @@ Now we can use the `error` variable in our view:
 
 
 ```ruby
-# app/views/sessions/new.erb
+<%# app/views/sessions/new.erb %>
 
 <h1>Login</h1>
 
@@ -511,7 +512,7 @@ And here is the implementation of the code:
 
 
 ```erb
-# app/views/application.erb
+<%# app/views/application.erb %>
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -562,7 +563,7 @@ If you now login successfully you will see the message but it will stay there fo
 
 
 ```erb
-# app/views/application.erb
+<%# app/views/application.erb %>
 
 <!DOCTYPE html>
 <html lang="en-US">

@@ -18,7 +18,7 @@ Password: String
 ```
 
 
-Recording from chapter "???" we only need to add the `Password` fields to the user table:
+Recording from chapter ~\ref{sec:user_model} we only need to add the `Password` fields to the user table:
 
 
 Let's create the migration:
@@ -106,6 +106,7 @@ Before writing code to pass these specs, we need to add the `password` field to 
 
 ```ruby
 # spec/factories.rb
+
 # encoding: utf-8
 FactoryGirl.define do
 ...
@@ -118,7 +119,7 @@ end
 ```
 
 
-Use the encoding property to allow special symbols from Germany - you have to add them in your files where they may occur. Let's implement the first pending test that a user can't have an empty name:
+Use the encoding property to allow special symbols from Germany - you have to add them in your files where they occur. Let's implement the first pending test that a user can't have an empty name:
 
 
 ```ruby
@@ -129,6 +130,7 @@ it 'have no blank name' do
   user.name = ""
   user.save.should be_false
 end
+...
 ```
 
 
@@ -160,6 +162,7 @@ To make this test pass we need to validate the `email` property in our user mode
 
 ```ruby
 # app/models/user.rb
+
 class User < ActiveRecord::Base
   validates :name, :presence => true
 
@@ -176,6 +179,7 @@ We don't want to have duplicated names in our application. For testing this, we 
 
 ```ruby
 # spec/factories
+
 FactoryGirl.define do
   sequence(:email){ |n| "matthias.guenther#{n}@wikimatze.de"}
 
@@ -194,6 +198,7 @@ Whenever you build a new `user` fixture, the value `email_number` is incremented
 
 ```ruby
 # spec/app/models/user_spec.rb
+
 describe "when name is already used" do
   let(:user_second) { build(:user) }
 
@@ -209,6 +214,7 @@ To make the test green you have to use the [uniqueness validation](http://guides
 
 ```ruby
 # app/models/user.rb
+
 class User < ActiveRecord::Base
   validates :name, :email, :password, :presence => true
   validates :name, :uniqueness => true
@@ -250,6 +256,7 @@ We can test the correctness of the `email` field with a regular expression. Firs
 
 ```ruby
 # app/models/user.rb
+
 class User < ActiveRecord::Base
 ...
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -291,7 +298,8 @@ The stage is set: We have the model with the tested constraints, and a controlle
 
 
 ```erb
-# app/views/users/new.erb
+<%# app/views/users/new.erb %>
+
 <h1>Registration</h1>
 
 <% form_for(@user, '/users/create') do |f| %>
@@ -420,7 +428,7 @@ We can use this information to display the errors in our form for the user to le
 
 
 ```erb
-# views/users/new.erb
+<%# views/users/new.erb %>
 
 <% form_for(@user, '/users/create') do |f| %>
   ...
@@ -452,7 +460,7 @@ Let's change this by using [error\_message\_on method](http://www.padrinorb.com/
 
 
 ```erb
-# views/users/new.erb
+<% views/users/new.erb %>
 
 <% form_for(@user, '/users/create') do |f| %> <%= f.label :name %>
   <%= f.text_field :name %>
@@ -477,7 +485,7 @@ We can do better and make the error text red. Let's add the `:class` at the of t
 
 
 ```erb
-# views/users/new.erb
+<%# views/users/new.erb %>
 
 <% form_for(@user, '/users/create') do |f| %>
   <%= f.label :name %>
@@ -549,6 +557,7 @@ module JobVacancy
       :password => '<secret>',
       :authentication => :plain,
     }
+    ...
   end
 end
 ```
@@ -669,7 +678,7 @@ end
 ```
 
 
-Now we can use the *deliver* method to call our `:registration` mailer with it's template `:registration_email`:
+Now we can use the `deliver` method to call our `:registration` mailer with it's template `:registration_email`:
 
 
 ```ruby
@@ -701,7 +710,7 @@ Instead of writing only a simple "Hallo" in our email we would like to give more
 
 
 ```erb
-# app/views/mailers/registration/registration_email.plain.erb
+<%# app/views/mailers/registration/registration_email.plain.erb %>
 
 Hi ...,
 
@@ -775,7 +784,7 @@ And update our template with the name variable:
 
 
 ```erb
-# app/views/mailers/registration/registration_email.plain.erb
+<%# app/views/mailers/registration/registration_email.plain.erb %>
 
 Hi <%= name %>,
 
@@ -999,6 +1008,8 @@ Consider the following code example:
 
 
 ```ruby
+# app/controllers/users.rb
+
 post :create do
   user = User.find_by_email(params[:email])
 
@@ -1015,6 +1026,8 @@ In order to test the condition `if user && user.confirmation && user.password ==
 
 
 ```ruby
+# spec/app/controllers/users_controller_spec.rb
+
 it "should redirect if user is correct" do
   user.confirmation = true
   User.should_receive(:find_by_email).and_return(user)
@@ -1321,7 +1334,7 @@ Fill the email template with "confirmation-link-life":
 
 
 ```erb
-# app/views/mailers/confirmation/confirmation_email.plain.erb
+<%# app/views/mailers/confirmation/confirmation_email.plain.erb %>
 
 Hi <%= name %>,
 
@@ -1524,6 +1537,7 @@ If you want to have an observer test[^test], you can use  the following one:
 
 ```ruby
 # spec/app/models/user_observer_spec.rb
+
 require 'spec_helper'
 
 describe "UserObserver" do

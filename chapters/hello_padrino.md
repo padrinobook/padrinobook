@@ -115,6 +115,8 @@ Let's open the file `app/app.rb` (think of it as the root controller of your app
 
 
 ```ruby
+# app/app.rb
+
 module HelloWorld
   class App < Padrino::Application
 
@@ -138,7 +140,7 @@ $ bundle exec padrino start
 Instead of writing `start`, we can also use the `s` alias. Now, fire up your browser with the URL <http://localhost:3000> and see the `Hello World` Greeting being printed.
 
 
-Congratulations! You've built your first Padrino app.
+Congratulations, you've built your first Padrino app!
 
 
 ### Directory Structure of Padrino

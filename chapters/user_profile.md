@@ -5,6 +5,7 @@ To update a user profile we need the `edit` and `update` action. Let's beginning
 
 ```ruby
 # spec/app/controller/users_controller_spec.rb
+
 ...
 describe "GET edit" do
   let(:user) { build(:user) }
@@ -48,8 +49,8 @@ And the tests for the put action:
 
 ```ruby
 # spec/app/controller/users_controller_spec.rb
-...
 
+...
 describe "PUT update" do
   let(:user) { build(:user) }
 
@@ -82,6 +83,7 @@ Making this test pass took me a while. The HTTP specification only understands G
 
 ```ruby
 # app/controllers/users.rb
+
 ...
 put :update, :map => '/users/:id' do
   @user = User.find_by_id(params[:id])
@@ -99,6 +101,7 @@ put :update, :map => '/users/:id' do
     render 'edit'
   end
 end
+...
 ```
 
 
@@ -109,7 +112,7 @@ And finally the edit form:
 
 
 ```erb
-# app/views/users/edit.erb
+<%# app/views/users/edit.erb %>
 
 <% form_for(@user, "/users/#{@user.id}") do |f| %>
   <h2>Edit your profile</h2>
@@ -286,6 +289,7 @@ What we need to do now for our test is to to mock a request and set the user id 
 
 ```ruby
 # spec/app/helpers/sessions_helper_spec.rb
+
 require 'spec_helper'
 
 describe SessionsHelper do
@@ -545,6 +549,8 @@ To test the callback, we can use the `send` method to create our `generate_authe
 
 
 ```ruby
+# spec/models/user_spec.rb
+
 require 'spec_helper'
 
 describe "User Model" do
@@ -568,7 +574,7 @@ Next it's time to create the checkbox on the login page with help of the [check_
 
 
 ```erb
-# views/sessions/new.erb
+<%# views/sessions/new.erb %>
 
 <h1>Login</h1>
 
@@ -580,8 +586,6 @@ Next it's time to create the checkbox on the login page with help of the [check_
 ```
 
 - Set a cookie in
-
-
 
 
 - explain set_cookie function

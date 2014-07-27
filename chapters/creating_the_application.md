@@ -216,6 +216,8 @@ Although we are now able to put content (albeit static) on our site, it would be
 
 
 ```erb
+<%# app/views/layouts/application.erb %>
+
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -228,7 +230,7 @@ Although we are now able to put content (albeit static) on our site, it would be
 ```
 
 
-Let's see what is going on with the <%= yield %> line. At first you may ask what does the <> symbols mean. They are indicators that you want to execute Ruby code to fetch data that is put into the template. Here, the `yield` command will put the content of the called page, like *about.erb* or *contact.erb*,  into the template.
+Let's see what is going on with the `<%= yield %>` line. At first you may ask what does the `<>` symbols mean. They are indicators that you want to execute Ruby code to fetch data that is put into the template. Here, the `yield` command will put the content of the called page, like *about.erb* or *contact.erb*,  into the template.
 
 
 ### CSS Design Using Twitter Bootstrap
@@ -260,6 +262,8 @@ Next we need to include the style sheet in our app template for the whole app:
 
 
 ```erb
+<%# app/views/layouts/application.erb %>
+
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -296,6 +300,7 @@ We are using the **padrino-sprockets** gem. Let's add it to our Gemfile and run 
 
 ```ruby
 # Gemfile
+
 gem 'padrino-sprockets', :require => ['padrino/sprockets'], :git => 'git://github.com/nightsailer/padrino-sprockets.git'
 ```
 
@@ -314,6 +319,7 @@ Now we have to register Padrino-Sprockets in this application:
 
 ```ruby
 # app/app.rb
+
 module JobVacancy
   class App < Padrino::Application
     ...
@@ -325,11 +331,12 @@ end
 ```
 
 
-Next we need create an application.css file and add the following to determine the order of the loaded CSS files in
-`app/assets/stylesheets/application.css`:
+Next we need create an application.css file and add the following to determine the order of the loaded CSS files in `app/assets/stylesheets/application.css`:
 
 
 ```javascript
+/* app/assets/stylesheets/application.css */
+
 /*
  * This is a manifest file that'll automatically include all the stylesheets available in this directory
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
@@ -353,6 +360,8 @@ Next let's have a look into our JavaScript file `app/assets/javascript/applicati
 
 
 ```javascript
+/* app/assets/javascript/application.js */
+
 // This is a manifest file that'll be compiled into including all the files listed below.
 // Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
 // be included in the compiled file accessible from http://example.com/assets/application.js
@@ -370,9 +379,8 @@ JavaScript files in the assets folder with no specific order.
 Now, we can clean up the include statements in our application template:
 
 
-
 ```erb
-# app/views/application.erb
+<%# app/views/layouts/application.erb %>
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -393,6 +401,7 @@ Now we want to enable compression for our CSS and JavaScript files. For CSS comp
 gem 'padrino-sprockets', :require => 'padrino/sprockets', :git => 'git://github.com/nightsailer/padrino-sprockets.git'
 gem 'uglifier', '2.1.1'
 gem 'yui-compressor', '0.9.6'
+...
 ```
 
 
@@ -407,6 +416,7 @@ module JobVacancy
     ...
     register Padrino::Sprockets
     sprockets :minify => (Padrino.env == :production)
+    ...
   end
 end
 ```
@@ -418,6 +428,8 @@ Next we want to create the top-navigation for our app. We already implemented th
 
 
 ```erb
+<%# app/views/layouts/application.erb %>
+
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -467,7 +479,7 @@ Now that the we provide links to other parts of the app, lets add some sugar-can
 
 
 ```css
-# app/assets/stylesheets/site.css
+/* app/assets/stylesheets/site.css */
 
 body {
   font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana, sans-serif;
@@ -504,10 +516,12 @@ I will not explain anything at this point about CSS. If you still don't know how
 Our site does not list static entries of job offers that you write, but other users will be allowed to post job offers from the Internet to our site. We need to add this behavior to our site. To be on the sure side, we will implement this behavior by writing tests first, then the code. We use the [RSpec](http://rspec.info/ "RSpec") testing framework for this.
 
 
-Remember when we created the *page-controller* with `padrino g controller page` ? Thereby, Padrino created a corresponding spec file *spec/app/controller/page_controller_spec.rb* which has the following content:
+Remember when we created the *page-controller* with `padrino g controller page` ? Thereby, Padrino created a corresponding spec file `spec/app/controller/page_controller_spec.rb` which has the following content:
 
 
 ```ruby
+# spec/app/controller/page_controller_spec.rb
+
 require 'spec_helper'
 
 describe "PageController" do
@@ -526,6 +540,8 @@ Let's update that file and write some basic tests to make sure that everything i
 
 
 ```ruby
+# spec/app/controller/page_controller_spec.rb
+
 require 'spec_helper'
 
 describe "PageController" do
@@ -577,7 +593,7 @@ Finished in 0.21769 seconds
 
 Cool, all tests passed! We didn't exactly use behavior-driven development until now.
 
-Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was omitted during the initial app generation that looks something like 'NameError: undefined local variable' so check your `spec_helper.rb` file and make sure the following matches:
+Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was omitted during the initial app generation that looks something like 'NameError: undefined local variable' check your `spec_helper.rb` file and make sure the following matches:
 
 
 ```ruby
@@ -588,10 +604,7 @@ def app(app = nil, &blk) # note the comma right after nil
 \begin{aside}
 \heading{Red-Green Cycle}
 
-In behavior-driven development (BDD) it is important to write a failing test first and then the code that satisfies the
-test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then
-beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little
-mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice by product too.
+In behavior-driven development (BDD) it is important to write a failing test first and then the code that satisfies the test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice by product too.
 
 \end{aside}
 

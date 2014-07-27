@@ -1,6 +1,8 @@
 ## Creating Models
 
 ### User Model
+\label{sec:user_model}
+
 
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique* identification number **id**, a **name**, and an **email**. We can specify the location of the model by appending the end of the generate command with `-a app` as follows:
 
@@ -391,6 +393,8 @@ Let's take a look at the created migration:
 
 
 ```ruby
+# db/migrate/003_add_user_id_to_job_offers.rb
+
 class AddUserIdToJobOffers < ActiveRecord::Migration
   def self.up
     change_table :joboffers do |t|
@@ -552,6 +556,7 @@ What do we need to use Factory Girl in our app? Right, we first we need to add a
 # Gemfile
 ...
 gem 'factory_girl', '4.2.0', :group => 'test'
+...
 ```
 
 
@@ -564,6 +569,7 @@ If you pay a closer look into the `Gemfile`, you can see that we have several ge
 gem 'rspec' , '2.13.0', :group => 'test'
 gem 'factory_girl', '4.2.0', :group => 'test'
 gem 'rack-test', '0.6.2', :require => 'rack/test', :group => 'test'
+...
 ```
 
 
@@ -572,12 +578,13 @@ Luckily we can use the :group <name> do ... end syntax to cleanup  to get rid of
 
 ```ruby
 # Gemfile
-
+...
 group :test do
   gem 'rspec' , '2.13.0'
   gem 'factory_girl', '4.2.0'
   gem 'rack-test', '0.6.2', :require => 'rack/test'
 end
+...
 ```
 
 
