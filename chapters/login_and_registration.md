@@ -362,19 +362,20 @@ end
 ```
 
 
-Feel free to visit <http://localhost:3000/login>. Until now we are not saving the inputs of the user. And what about the mistakes a user makes during his input? How can we display any mistakes a user is making and preserve the things he already typed in?
-
-
-If you remember of section [TBD HAVE TO LOOK UP WHERE USER CREATE/VALIDATE WAS CALLED] we can use this method for validation before we are going to save it. Before doing two steps at a time let's code the `create` action which saves the new registered user without going into error validation.
+Feel free to visit <http://localhost:3000/login>. Until now we are not saving the inputs of the user. And what about the mistakes a user makes during his input? How can we display any mistakes a user is making and preserve the things he already typed in? Before doing two steps at a time let's code the `create` action which saves the new registered user without going into error validation.
 
 
 ```ruby
 # app/controllers/users.rb
 
-post :create do
-  @user = User.new(params[:user])
-  @user.save
-  redirect('/')
+JobVacancy::App.controllers :users do
+  ...
+  post :create do
+    @user = User.new(params[:user])
+    @user.save
+    redirect('/')
+  end
+  ...
 end
 ```
 
