@@ -1550,7 +1550,6 @@ end
 
 But during writing this book I became different testing results when using `bundle exec rake spec` and `bundle exec rspec spec` and to go on with the book, I removed the test and disabled all observers for the application.
 
-<!--
+
 [^test]: Got the inspiration from [stackoverflow](http://stackoverflow.com/questions/33048/how-would-you-test-observers-with-rspec-in-a-ruby-on-rails-application)
--->
 
