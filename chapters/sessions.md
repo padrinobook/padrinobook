@@ -1,7 +1,6 @@
 ## Sessions
 
-Now that our users have the possibility to register and confirm on our page, we need to make it possible for our users
-to sign in. For handling login, we need to create a session controller:
+Now that our users have the possibility to register and confirm on our page, we need to make it possible for our users to sign in. For handling login, we need to create a session controller:
 
 
 ```bash
@@ -14,8 +13,7 @@ $ padrino g controller Sessions new create destroy
 ```
 
 
-We made a mistake during the generation - we forget to add the right action for our request. Before making the mistake
-to delete the generated files by hand with a couple of `rm's`, you can run a generator to destroy a controller:
+We made a mistake during the generation - we forget to add the right action for our request. Before making the mistake to delete the generated files by hand with a couple of `rm's`, you can run a generator to destroy a controller:
 
 
 ```bash
@@ -61,7 +59,7 @@ end
 ```
 
 
-So far so good before going on to write our tests first before we start with the implementation:
+Before going on to write our tests first before we start with the implementation:
 
 
 ```ruby
@@ -93,9 +91,7 @@ end
 \begin{aside}
 \heading{Test-First development}
 
-Is a term from [Extreme Programming (XP)](http://en.wikipedia.org/wiki/Extreme_programming) and means that you first
-write down your tests before writing any code to solve it. This forces you to really think about what you are
-going to do. These tests prevent you from over engineering a problem because you has to make these tests green.
+Is a term from [Extreme Programming (XP)](http://en.wikipedia.org/wiki/Extreme_programming) and means that you first write down your tests before writing any code to solve it. This forces you to really think about what you are going to do. These tests prevent you from over engineering a problem because you has to make these tests green.
 
 \end{aside}
 
@@ -165,12 +161,7 @@ end
 ```
 
 
-We are using **mocking** to make test what we want with the `User.should_receive(:find_by_email).and_return(user)`
-method. I was thinking at the first that mocking is something very difficult but it isn't Read it the method out loud
-ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it
-should return our user object. This method will simulate from calling an actual find method in our application - yeah
-we are mocking the actual call and preventing our tests from hitting the database and making it faster. Actual call and
-preventing our tests from hitting the database and making it faster.
+We are using **mocking** to make test what we want with the `User.should_receive(:find_by_email).and_return(user)` method. I was thinking at the first that mocking is something very difficult but it isn't Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return our user object. This method will simulate from calling an actual find method in our application - yeah we are mocking the actual call and preventing our tests from hitting the database and making it faster. Actual call and preventing our tests from hitting the database and making it faster.
 
 
 Here is the code for our session controller to make the test green:
@@ -203,10 +194,7 @@ end
 ```
 
 
-When I started the tests I got some weird error messages of calling a method on a nil object and spend one hour till I
-found the issue. Do you remember the `UserObserver`? Exactly, this tiny piece of code is also activated for our tests
-and since we disable sending mails with the `set :delivery_method, :test` settings in `app.rb` I never received an
-mails. The simple to this problem was to add an option to in the `spec_helper.rb` to disable the observer:
+When I started the tests I got some weird error messages of calling a method on a nil object and spend one hour till I found the issue. Do you remember the `UserObserver`? Exactly, this tiny piece of code is also activated for our tests and since we disable sending mails with the `set :delivery_method, :test` settings in `app.rb` I never received an mails. The simple to this problem was to add an option to in the `spec_helper.rb` to disable the observer:
 
 
 ```ruby
@@ -253,10 +241,7 @@ Finished in 0.62495 seconds
 ```
 
 
-Before going on with implementing the logout action we need to think what happened after we login. We have to find a
-mechanism to enable the information of the logged in user in all our controllers and views. Of course, we will do it
-with sessions. When we created the session controller there was the line `create  app/helpers/sessions_helper.rb` --
-let's look into this file:
+Before going on with implementing the logout action we need to think what happened after we login. We have to find a mechanism to enable the information of the logged in user in all our controllers and views. We will do it with sessions. When we created the session controller there was the line `create  app/helpers/sessions_helper.rb` -- let's look into this file:
 
 
 ```ruby
@@ -272,8 +257,7 @@ end
 ```
 
 
-Yeah, Padrino is so friendly to print the purpose of this new file and it basically says what we want to do. Let's
-implement the main features:
+Yeah, Padrino prints the purpose of this new file and it says what we want to do. Let's implement the main features:
 
 
 ```ruby
@@ -307,31 +291,22 @@ end
 There's a lot of stuff going on in this helper:
 
 
-- `current_user`: Uses the ||= notation. If the left hand-side isn't initialized, initialize the left hand-side with
-  the right hand-side.
-- `sign_in(user)`: Uses the global [session](http://www.sinatrarb.com/faq.html#sessions) method use the user Id as login
-  information
+- `current_user`: Uses the `||=` notation. If the left hand-side isn't initialized, initialize the left hand-side with the right hand-side.
+- `sign_in(user)`: Uses the global [session](http://www.sinatrarb.com/faq.html#sessions) method use the user Id as login information
 - `sign_out`: Purges the `:current_user` field from our session.
-- `signed_in?`: We will use this small method within our whole application to display special actions which should only
-  be available for authenticated users.
+- `signed_in?`: We will use this small method within our whole application to display special actions which should only be available for authenticated users.
 
 
 \begin{aside}
 \heading{Why Sessions and how does sign\_out work?}
 
-When you request an URL in your browser you are using the HTTP/HTTPS protocol. This protocol is stateless that means
-that it doesn't save the state in which you are in your application. Web applications implement states with one of
-the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g.
-<http://localhost:3000/login?user=test&password=test>).
+When you request an URL in your browser you are using the HTTP/HTTPS protocol. This protocol is stateless that means that it doesn't save the state in which you are in your application. Web applications implement states with one of the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g. <http://localhost:3000/login?user=test&password=test>).
 
-We are going to use cookies to save if a user is logged in and saving the user-Id in our session cookies under the
-`:current_user` key.
 
-What the delete method does is the following: It will look into the last request in your application inside the
-session information hash and delete the `current_user` key. And the sentence in code
-`browser.last_request.env['rack.session'].delete(:current_user)`. If you want to explore more of the internal of an
-application I highly recommend you the [Pry](https://github.com/pry/pry). You can throw in at any part of your
-application `binding.pry` and have full access to all variables.
+We are going to use cookies to save if a user is logged in and saving the user-Id in our session cookies under the `:current_user` key.
+
+
+What the delete method does is the following: It will look into the last request in your application inside the session information hash and delete the `current_user` key. And the sentence in code `browser.last_request.env['rack.session'].delete(:current_user)`. If you want to explore more of the internal of an application I highly recommend you the [Pry](https://github.com/pry/pry). You can throw in at any part of your application `binding.pry` and have full access to all variables.
 
 \end{aside}
 
@@ -371,10 +346,7 @@ end
 ```
 
 
-We use the our own `session` method in our tests to have access to the last response of our `rack.session`.
-What we need to achieve is to have access to
-[Rack's SessionHash](http://rubydoc.info/github/rack/rack/master/Rack/Session/Abstract/SessionHash). The
-definition of this method is part of our `spec_helper.rb` method:
+We use the our own `session` method in our tests to have access to the last response of our `rack.session`.  What we need to achieve is to have access to [Rack's SessionHash](http://rubydoc.info/github/rack/rack/master/Rack/Session/Abstract/SessionHash). The definition of this method is part of our `spec_helper.rb` method:
 
 
 ```ruby
@@ -403,8 +375,7 @@ end
 ```
 
 
-What we forget due to this point is to make use of the `sign_in(user)` method. Of course we need use this during our
-session `:create` action:
+What we forget due to this point is to make use of the `sign_in(user)` method. We need this during our session `:create` action:
 
 
 ```ruby
@@ -426,8 +397,7 @@ end
 ```
 
 
-Where can we test now our logic? The main application layout of our application should have a "Login" and "Logout" link
-according to the status of the user:
+Where can we test now our logic? The main application layout of our application should have a "Login" and "Logout" link according to the status of the user:
 
 
 ```erb
@@ -459,8 +429,7 @@ according to the status of the user:
 ```
 
 
-With the change above we changed the default "Registration" entry in our header navigation to "Login". We will add the
-link to the registration form now in the 'session/new' view:
+With the change above we changed the default "Registration" entry in our header navigation to "Login". We will add the link to the registration form now in the 'session/new' view:
 
 
 ```erb
@@ -485,12 +454,7 @@ link to the registration form now in the 'session/new' view:
 New on this platform? <%= link_to 'Register', url_for(:users, :new) %>
 
 
-Here we are using the [form_tag](http://www.padrinorb.com/guides/application-helpers#form-helpers) instead of the
-`form_for` tag because we don't want to render information about a certain model. We want to use the information of the
-session form to find a user in our database. We can use the submitted inputs with `params[:email]` and
-`params[:password]` in the `:create` action in our action controller. My basic idea is to pass a variable to the
-rendering of method which says if we have an error or not and display the message accordingly. To handle this we are
-using the `:locals` option to create customized params for your views:
+Here we are using the [form_tag](http://www.padrinorb.com/guides/application-helpers#form-helpers) instead of the `form_for` tag because we don't want to render information about a certain model. We want to use the information of the session form to find a user in our database. We can use the submitted inputs with `params[:email]` and `params[:password]` in the `:create` action in our action controller. My basic idea is to pass a variable to the rendering of method which says if we have an error or not and display the message accordingly. To handle this we are using the `:locals` option to create customized params for your views:
 
 
 ```ruby
@@ -518,7 +482,7 @@ end
 ```
 
 
-Now we can simply use the `error` variable in our view:
+Now we can use the `error` variable in our view:
 
 
 ```ruby
@@ -540,11 +504,7 @@ New on this platform? <%= link_to 'Register', url_for(:users, :new) %>
 ```
 
 
-The last thing we want to is to give the user feedback about what the action he was recently doing. Like that it would
-be nice to give feedback of the success of the logged and logged out action. We can do this with short flash messages
-above our application which will fade away after a certain amount of time. To do this we can use Padrino's flash
-mechanism is build on
-[Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash).
+The last thing we want to is to give the user feedback about what the action he was recently doing. Like that it would be nice to give feedback of the success of the logged and logged out action. We can do this with short flash messages above our application which will fade away after a certain amount of time. To do this we can use Padrino's flash mechanism is build on [Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash).
 
 
 And here is the implementation of the code:
@@ -598,9 +558,7 @@ end
 ```
 
 
-If you now login successfully you will see the message but it will stay there forever. But we don't want to have this
-message displayed the whole time, so we will use jQuery's [fadeOut method](http://api.jquery.com/fadeOut/) to get rid of
-the message. Since we are first writing our own customized JavaScript, let's create the file with the following content:
+If you now login successfully you will see the message but it will stay there forever. But we don't want to have this message displayed the whole time, we will use jQuery's [fadeOut method](http://api.jquery.com/fadeOut/) to get rid of the message. Since we are first writing our own customized JavaScript, let's create the file with the following content:
 
 
 ```erb
@@ -632,7 +590,5 @@ the message. Since we are first writing our own customized JavaScript, let's cre
 ```
 
 
-Feel free to add the `flash[:notice]` function when the user has registered and confirmed successfully on our platform.
-If you have problems you can check
-[my commit](https://github.com/matthias-guenther/job-vacancy/commit/f7233bf2edc7da89f02adf7f030a090fc74b3f2d).
+Feel free to add the `flash[:notice]` function when the user has registered and confirmed successfully on our platform. If you have problems you can check [my commit](https://github.com/matthias-guenther/job-vacancy/commit/f7233bf2edc7da89f02adf7f030a090fc74b3f2d).
 

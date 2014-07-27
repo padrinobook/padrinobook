@@ -1,12 +1,9 @@
 ## Tools and Knowledge
 
-I won't tell you which operating system you should use - there is an interesting discussion on
-[hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I'll leave it free for the reader of this book
-which to use, because basically you are reading this book to learn Padrino.
+I won't tell you which operating system you should use - there is an interesting discussion on [hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I'll leave it free for the reader of this book which to use, because you are reading this book to learn Padrino.
 
 
-To actually see a running padrino app, you need a web browser of your choice.  For writing the application, you can
-either use an Integrated Development Environment (IDE) or with a plain text editor.
+To actually see a running padrino app, you need a web browser of your choice.  For writing the application, you can either use an Integrated Development Environment (IDE) or with a plain text editor.
 
 
 Nowadays there are a bunch of Integrated Development Environments (IDEs) out there:
@@ -122,7 +119,6 @@ $ 1.9.3-p392 (set by /home/.rbenv/versions)
 Now you are a ready to hack on with Padrino!
 
 
-
 ### Ruby Knowledge
 
 For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of Ruby before
@@ -136,7 +132,5 @@ continuing here.
   an entertaining and educational way.
 
 
-In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will, however,
-explain Padrino-specific coding techniques and how to get most parts under test.
-
+In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will explain Padrino-specific coding techniques and how to get most parts under test.
 
