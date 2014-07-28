@@ -591,5 +591,5 @@ If you now login successfully you will see the message but it will stay there fo
 ```
 
 
-Feel free to add the `flash[:notice]` function when the user has registered and confirmed successfully on our platform. If you have problems you can check [my commit](https://github.com/matthias-guenther/job-vacancy/commit/f7233bf2edc7da89f02adf7f030a090fc74b3f2d).
+Feel free to add the `flash[:notice]` function when the user has registered and confirmed successfully on our platform. If you have problems you can check [my commit](https://github.com/wikimatze/job-vacancy/commit/f7233bf2edc7da89f02adf7f030a090fc74b3f2d).
 

@@ -309,7 +309,7 @@ end
 ```
 
 
-You can write the other tests as an exercise on your own. In case you have problems with writing them, please check the [spec on GitHub](https://github.com/matthias-guenther/job-vacancy/blob/user-update/spec/app/helpers/sessions_helper_spec.rb).
+You can write the other tests as an exercise on your own. In case you have problems with writing them, please check the [spec on GitHub](https://github.com/wikimatze/job-vacancy/blob/user-update/spec/app/helpers/sessions_helper_spec.rb).
 
 
 We will limit the access of the `edit` and `update` action of the users controller only to users who are logged and if the logged in user is going to edit With the help of a `before .. do` block:
