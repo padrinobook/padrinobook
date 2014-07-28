@@ -318,9 +318,6 @@ The stage is set: We have the model with the tested constraints, and a controlle
 ```
 
 
-There is a lot of stuff going on - let's break it down:
-
-
 - `form_for`: Is part of [Padrino's Form Builder](http://www.padrinorb.com/guides/application-helpers#formbuilders) and allows you to create standard input fields based on a model. The first argument to the function is an object (mostly a model), the second argument is an string (the action to which the form should be sent after a submit), and the third parameter are settings in form of an hash which aren't used in this example. The part `action="/users/create"` says, that we want to use the `create` action to the `users` controller with the `create` action.
 - `f.label` and `f.text`: Will a label and text field for the attributes of your model.
 - `f.password_field`: Constructs a password input, where the input is marked with stars, from the given attribute of the form.
