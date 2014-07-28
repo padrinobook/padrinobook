@@ -215,7 +215,7 @@ Padrino isn't requiring helper to be tested automatically. Since we are planing 
 ```ruby
 # spec/spec_helper.rb
 
-PADRINO_ENV = 'test' unless defined?(PADRINO_ENV)
+RACK_ENV = 'test' unless defined?(RACK_ENV)
 ...
 Dir[File.dirname(__FILE__) + '/../app/helpers/**.rb'].each { |file| require file }
 ...
@@ -496,7 +496,6 @@ $ padrino g migration add_authentity_token_to_user authentity_token:string
 
 $ padrino rake ar:migrate
 => Executing Rake ar:migrate ...
-Environment variable PADRINO_ENV is deprecated. Please, use RACK_ENV.
   DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
    INFO -  Migrating to CreateUsers (1)
    INFO -  Migrating to CreateJobOffers (2)
