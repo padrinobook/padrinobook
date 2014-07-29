@@ -20,6 +20,7 @@ $ padrino g model user name:string email:string -a app
 
 Wow, it created a quite a bunch of files for us. Let's examine each of them:
 
+
 **user.rb**
 
 
@@ -431,7 +432,7 @@ To see whether the migrations were executed, we connected to the sqlite3 databas
 
 ```bash
 $ padrino c
-  => Loading development console (Padrino v.0.11.1)
+  => Loading development console (Padrino v.0.12.2)
   => Loading Application JobVacancy
   >>
 ```
