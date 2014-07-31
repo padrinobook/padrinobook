@@ -584,10 +584,45 @@ Next it's time to create the checkbox on the login page with help of the [check_
 
 ```
 
-- Set a cookie in
+
+If the user click on the *Remember me* checkbox, it's time for our session controller to create a cookie:
 
 
-- explain set_cookie function
+```ruby
+# app/controllers/sessions.rb
+JobVacancy::App.controllers :sessions do
+  ...
+
+  post :create do
+    @user = User.find_by_email(params[:email])
+
+
+    if @user && @user.confirmation && @user.password == params[:password]
+      if (params[:remember_me])
+        require 'securerandom'
+        token = SecureRandom.hex
+        @user.authentity_token = token
+        thirty_days_in_seconds = 30*24*60*60
+        response.set_cookie('permanent_cookie',
+                            :value => { :domain => 'jobvacancy.de',
+                                        :path => '/'} ,
+                                        :max_age => "#{thirty_days_in_seconds}")
+        @user.save
+      end
+
+      flash[:notice] = "You have successfully logged in!"
+      sign_in(@user)
+      redirect '/'
+    else
+      render 'new', :locals => { :error => true }
+    end
+  end
+  ...
+
+end
+```
+
+First, we create a secure random hex value and assign to the `authentity_token` attribute of the user. We then use the [set_cookie](http://apidock.com/rails/Rack/Response/set_cookie) function to generate a cookie for the domain which is valid for thirty days. The rest of the controller is still the same.
 
 
 - add screenshot about the cookie in firefox
