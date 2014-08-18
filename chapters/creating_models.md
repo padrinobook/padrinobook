@@ -432,7 +432,7 @@ To see whether the migrations were executed, we connected to the sqlite3 databas
 
 ```bash
 $ padrino c
-  => Loading development console (Padrino v.0.12.2)
+  => Loading development console (Padrino v.0.12.3)
   => Loading Application JobVacancy
   >>
 ```
