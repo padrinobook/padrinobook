@@ -708,7 +708,7 @@ end
 ```
 
 
-As you see, the job fixtures us created with FactoryGirls' `attributes_for` method. This method  takes a symbol as an input and returns the attributes of the fixture as a hash.
+As you see, the job fixtures are created with FactoryGirls' `attributes_for` method. This method  takes a symbol as an input and returns the attributes of the fixture as a hash.
 
 
 Now, our tests are looking fine and they are still green. But we can do even better. We can remove the `FactoryGirl` expressions if we add make the following change to our `spec_helper.rb`:
