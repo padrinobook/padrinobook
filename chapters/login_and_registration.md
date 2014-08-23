@@ -943,8 +943,8 @@ We added the `:default` option which sets the confirmation for every user to fal
 
 
 ```bash
-$ padrino ar:migrate
-$ padrino ar:migrate -e test
+$ padrino rake ar:migrate
+$ padrino rake ar:migrate -e test
 ```
 
 
