@@ -924,7 +924,7 @@ Now let's add the fields to a migration:
 
 class addconfirmationcodeandconfirmationtousers < activerecord::migration
   def self.up
-    change_table :users do
+    change_table :users do |t|
       t.string :confirmation_code
       t.boolean :confirmation, :default => false
     end
