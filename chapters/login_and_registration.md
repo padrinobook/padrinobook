@@ -1536,7 +1536,7 @@ end
 
 RSpec.configure do |conf|
   ...
-  ActiveRecord::Base.observers.disable :all # <-- Turn 'em all off!
+  conf.ActiveRecord::Base.observers.disable :all # <-- Turn 'em all off!
   ...
 end
 ```
