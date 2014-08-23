@@ -1536,7 +1536,10 @@ end
 
 RSpec.configure do |conf|
   ...
-  conf.ActiveRecord::Base.observers.disable :all # <-- Turn 'em all off!
+conf.before do
+    User.observers.disable :all # <-- turn of user observers for testing reasons
+  end
+
   ...
 end
 ```
