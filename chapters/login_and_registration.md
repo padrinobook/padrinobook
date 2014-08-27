@@ -409,6 +409,19 @@ DEBUG -      GET (0.0003ms) application.js?1365616902 - 200 OK
 DEBUG -      GET (0.0017ms) /favicon.ico - 404 Not Found
 ```
 
+If you want to see the Logs, I use a little trick :)
+-- go into the boot.rb and enter
+
+```ruby
+Padrino::Logger::Config[:development] = { :log_level => :debug, :stream => :to_file }
+```
+
+Then make an alias:
+alias tfdl='tail -f log/development.log'
+
+When you enter tfdl in you shell you will see a nice Log that gets updated as a stream.
+
+
 
 The part with the `rollback transaction` means, that user was not saved. Why? Because he violated the validation of our user model. Try to create an `User.new` model in the console and call the `.errors` method on. You should see something like:
 
@@ -911,7 +924,7 @@ Now let's add the fields to a migration:
 
 class addconfirmationcodeandconfirmationtousers < activerecord::migration
   def self.up
-    change_table :users do
+    change_table :users do |t|
       t.string :confirmation_code
       t.boolean :confirmation, :default => false
     end
@@ -930,8 +943,8 @@ We added the `:default` option which sets the confirmation for every user to fal
 
 
 ```bash
-$ padrino ar:migrate
-$ padrino ar:migrate -e test
+$ padrino rake ar:migrate
+$ padrino rake ar:migrate -e test
 ```
 
 
@@ -1523,7 +1536,10 @@ end
 
 RSpec.configure do |conf|
   ...
-  ActiveRecord::Base.observers.disable :all # <-- Turn 'em all off!
+conf.before do
+    User.observers.disable :all # <-- turn of user observers for testing reasons
+  end
+
   ...
 end
 ```
