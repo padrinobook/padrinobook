@@ -449,10 +449,17 @@ With the change above we changed the default "Registration" entry in our header 
   <%= submit_tag "Sign up", :class => "btn btn-primary" %>
   </p>
 <% end %>
+
+New on this platform? <%= link_to 'Register', url(:users, :new) %>
 ```
 
 
-New on this platform? <%= link_to 'Register', url_for(:users, :new) %>
+\begin{aside}
+\heading{No hard coded urls for controller routes}
+
+The line above with `<% form_tag '/sessions/create' do %>` is not a good solution. If you are changing the mapping inside the controller, you have to change all the hard coded paths manually. A better approach is to reference the controller and action within the `url` method with `url(:sessions, :create)`.
+
+\end{aside}
 
 
 Here we are using the [form_tag](http://www.padrinorb.com/guides/application-helpers#form-helpers) instead of the `form_for` tag because we don't want to render information about a certain model. We want to use the information of the session form to find a user in our database. We can use the submitted inputs with `params[:email]` and `params[:password]` in the `:create` action in our action controller. My basic idea is to pass a variable to the rendering of method which says if we have an error or not and display the message accordingly. To handle this we are using the `:locals` option to create customized params for your views:
@@ -491,7 +498,7 @@ Now we can use the `error` variable in our view:
 
 <h1>Login</h1>
 
-<% form_tag '/sessions/create' do %>
+<% form_tag url(:sessions, :create) do %>
   <% if error %>
     <div class="alert alert-error">
       <h4>Error</h4>
@@ -501,7 +508,7 @@ Now we can use the `error` variable in our view:
 ...
 <% end %>
 
-New on this platform? <%= link_to 'Register', url_for(:users, :new) %>
+New on this platform? <%= link_to 'Register', url(:users, :new) %>
 ```
 
 
