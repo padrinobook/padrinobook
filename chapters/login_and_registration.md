@@ -913,7 +913,7 @@ Create a good migration which fits to the task we want to do:
 
 
 ```bash
-$ padrino g migration add_confirmation_code_and_confirmation_to_users
+$ padrino g migration AddConfirmationCodeAndConfirmationToUsers confirmation_code:string confirmation:boolean
    apply  orms/activerecord
   create  db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
 ```
@@ -929,7 +929,7 @@ class addconfirmationcodeandconfirmationtousers < activerecord::migration
   def self.up
     change_table :users do |t|
       t.string :confirmation_code
-      t.boolean :confirmation, :default => false
+      t.boolean :confirmation, default => false
     end
   end
 
