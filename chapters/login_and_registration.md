@@ -11,7 +11,7 @@ You don't have to reinvent the wheel you can use Padrino's beautiful [Admin inte
 Before we are going to build the controller and the sign-up form for our application we need to specify the data each user has.
 
 
-```bash
+```sh
 Name: String
 Email: String
 Password: String
@@ -24,7 +24,7 @@ Recording from chapter ~\ref{sec:user_model} we only need to add the `Password` 
 Let's create the migration:
 
 
-```bash
+```sh
 $ padrino g migration AddRegistrationFieldsToUsers
 
   apply  orms/activerecord
@@ -60,7 +60,7 @@ end
 Run the migrations:
 
 
-```bash
+```sh
 $ padrino rake ar:migrate
 ```
 
@@ -137,7 +137,7 @@ end
 If we run the test we get the following error:
 
 
-```bash
+```sh
 $ rspec spec
 
 Failures:
@@ -279,7 +279,7 @@ end
 Since we already have a model for potential users of our platform, it's time to create a controller for them. We are creating in a first step our users controller four our sign up form with only one action:
 
 
-```bash
+```sh
 $ padrino g controller Users get:new
   create  app/controllers/users.rb
   create  app/helpers/users_helper.rb
@@ -395,7 +395,7 @@ Let's go through the new parts:
 If you send the form without any inputs, you will see that you are redirected into the root of your app. You can't figure out what's wrong, but luckily we have logs:
 
 
-```bash
+```sh
 DEBUG -  (0.1ms)  begin transaction
 DEBUG - User Exists (0.3ms)  SELECT 1 AS one FROM "users" WHERE "users"."name" = '' LIMIT 1
 DEBUG - User Exists (0.2ms)  SELECT 1 AS one FROM "users" WHERE "users"."email" = '' LIMIT 1
@@ -451,7 +451,7 @@ We can use this information to display the errors in our form for the user to le
 It counts the number of errors `@user.errors.count` and is looping through all field with their error messages. But this will result in a big box with a bunch of error messages like the following one:
 
 
-```bash
+```sh
 5 errors prohibited this User from being saved
 There were problems with the following fields:
 
@@ -520,7 +520,7 @@ We can do better and make the error text red. Let's add the `:class` at the of t
 If you fill out the form with complete valid parameters and watch your log again, you can see the following log:
 
 
-```bash
+```sh
 DEBUG -  (0.2ms)  begin transaction
 DEBUG - User Exists (0.3ms)  SELECT 1 AS one FROM "users" WHERE "users"."name" = 'Testuser' LIMIT 1
 DEBUG - User Exists (0.2ms)  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'admin@job-vacancy.de' LIMIT 1
@@ -619,7 +619,7 @@ end
 Now start the app, go to the URL <http://localhost:3000/login>, and register a fresh user. You can check the log if the mail was send or you "feel" a slow down in your application because it takes a while before the mail is send::
 
 
-```bash
+```sh
 DEBUG - Sending email to: lordmatze@gmail.com
 Date: Sun, 14 Apr 2013 09:17:38 +0200
 From: admin@job-vacancy.de
@@ -643,7 +643,7 @@ We could go on and parametrized our email example above, but this would mean tha
 [Padrino mailer](http://www.padrinorb.com/api/Padrino/Mailer.html) has the `mailer` command to create customized mailer for every purpose we want to use. Let's create the registration mailer:
 
 
-```bash
+```sh
 $ padrino g mailer Registration registration_email
   create  app/mailers/registration.rb
   create  app/views/mailers/registration
@@ -828,7 +828,7 @@ Please correct me if there is a better way to get to the asset folder but that i
 During writing this chapter I experiment with the `content_type` option. If you set the `content_type` to plain you will get the attachment based as binary code directly into your mail. Please put the `content_type :plain` into the `registration` mailer. If the mail will be send you can see something like this in your logs:
 
 
-```bash
+```sh
   DEBUG - Sending email to: lordmatze@gmail.com
 Date: Thu, 18 Apr 2013 18:34:15 +0200
 From: admin@job-vacancy.de
@@ -909,7 +909,7 @@ Check that the user actually signed up for the account and actually wants it. Th
 Create a good migration which fits to the task we want to do:
 
 
-```bash
+```sh
 $ padrino g migration AddConfirmationCodeAndConfirmationToUsers confirmation_code:string confirmation:boolean
    apply  orms/activerecord
   create  db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
@@ -942,7 +942,7 @@ end
 We added the `:default` option which sets the confirmation for every user to false if a new one is registered. now let's migrate our production and test database to this new event:
 
 
-```bash
+```sh
 $ padrino rake ar:migrate
 $ padrino rake ar:migrate -e test
 ```
@@ -953,7 +953,7 @@ $ padrino rake ar:migrate -e test
 During writing this book I discovered various strange behavior for my tests because I was writing data into my test database. The tests weren't really reliable because some worked only when the database is fresh with no preexisting entries. One solution would be to clean up the database before each run:
 
 
-```bash
+```sh
 $ sqlite3 db/job_vacancy_test.db
   SQLite version 3.7.13 2012-06-11 02:05:22
   Enter ".help" for instructions
@@ -966,7 +966,7 @@ $ sqlite3 db/job_vacancy_test.db
 But after this my tests were running very slow:
 
 
-```bash
+```sh
 $ rspec spec
 ...
 
@@ -978,7 +978,7 @@ Finished in 1.61 seconds
 Running them again make them a little bit faster:
 
 
-```bash
+```sh
 $ rspec spec
 ...
 
@@ -1104,7 +1104,7 @@ gem 'bcrypt-ruby', '3.0.1', :require => 'bcrypt'
 Now let's open the console and play around with this Gem:
 
 
-```bash
+```sh
 $ padrino c
   => Loading development console (Padrino v.0.11.1)
   => Loading Application JobVacancy
@@ -1313,7 +1313,7 @@ end
 If we are lazy we could add our confirmation email into the registration mailer. These are two things that have nothing to do with each other, let's create another mailer:
 
 
-```bash
+```sh
 $ padrino g mailer Confirmation confirmation_email
   create  app/mailers/confirmation.rb
   create  app/views/mailers/confirmation

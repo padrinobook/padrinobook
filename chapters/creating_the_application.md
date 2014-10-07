@@ -3,7 +3,7 @@
 Start with generating a new project with the canonical `padrino` command. In contrast to our "Hello World!" application (app) before, we are using new options:
 
 
-```bash
+```sh
 $ mkdir ~/padrino-projects
 $ cd ~/padrino_projects
 $ padrino g project job-vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite
@@ -55,7 +55,7 @@ Besides the `project` option for generating new Padrino apps, the following tabl
 Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using `bundle` by running at the command line:
 
 
-```bash
+```sh
 $ bundle install
 ```
 
@@ -67,7 +67,7 @@ Lets design our first version of the *index.html* page which is the starter page
 We are using [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, and add the following code into `public/index.html`:
 
 
-```bash
+```sh
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -86,7 +86,7 @@ Plain static content - this used to be the way websites were created in the begi
 We can take a look at our new page by executing the following command:
 
 
-```bash
+```sh
 $ cd job-vacancy
 $ bundle exec padrino start
 ```
@@ -106,7 +106,7 @@ You may have thought it a little odd that we had to manually requests the index.
 Lets add some basic routes for displaying our home, about, and contact-page. How can we do this? With the help of a routing controller. A controller makes data from you app (in our case job offers) available to the view (seeing the details of a job offer). Now let's create a controller in Padrino names page:
 
 
-```bash
+```sh
 $ padrino g controller page
 ```
 
@@ -114,7 +114,7 @@ $ padrino g controller page
 The output of this command is:
 
 
-```bash
+```sh
 create  app/controllers/page.rb
 create  app/helpers/page_helper.rb
 create  app/views/page
@@ -195,7 +195,7 @@ We will go through each line:
 To see what routes you have defined for your app, call `padrino rake routes`:
 
 
-```bash
+```sh
 $ padrino rake routes
 => Executing Rake routes ...
 
@@ -241,7 +241,7 @@ The guys at Twitter were kind enough to make their CSS framework **Twitter Boots
 Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes) help you saving time by not reinventing the wheel.  Thanks to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb) by executing:
 
 
-```bash
+```sh
 $ padrino-gen plugin bootstrap
 
   apply  https://github.com/padrino/padrino-recipes/raw/master/plugins/bootstrap_plugin.rb
@@ -307,7 +307,7 @@ gem 'padrino-sprockets', :require => ['padrino/sprockets'], :git => 'git://githu
 Next we need to move all our assets from the public folder in the assets folder:
 
 
-```bash
+```sh
 $ cd <path-to-your-padrino-app>
 $ mkdir -p app/assets
 $ cd public
@@ -583,7 +583,7 @@ Let's explain the interesting parts:
 Now let's run the tests with `rspec spec/app/controllers/page_controller_spec.rb` and see what's going on:
 
 
-```bash
+```sh
 ...
 
 Finished in 0.21769 seconds

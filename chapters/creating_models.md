@@ -7,7 +7,7 @@
 There are many different ways how to develop a user entity for your system. A user in our system will have an *unique* identification number **id**, a **name**, and an **email**. We can specify the location of the model by appending the end of the generate command with `-a app` as follows:
 
 
-```bash
+```sh
 $ padrino g model user name:string email:string -a app
 
    apply  orms/activerecord
@@ -52,7 +52,7 @@ end
 As you can see, the generator created already a test for us, which checks if the model can be created. What would happen if you run the tests for this model? Let the code speak of it's own and run the tests, that's what they are made for after all:
 
 
-```bash
+```sh
 $ rspec spec/app/models
 
 User Model
@@ -103,7 +103,7 @@ end
 This code will create a `users` table with the `name` and `email` attributes. The `id` attribute will be created automatically unless you specify to use a different attribute as the unique key to a database entry. By the way, the convention to name tables of models in the plural form comes from [Ruby On Rails](http://rubyonrails.org/). Now we need to run this migration:
 
 
-```bash
+```sh
 $ padrino rake ar:migrate
 
 => Executing Rake ar:migrate ...
@@ -120,7 +120,7 @@ $ padrino rake ar:migrate
 Since we are working in the development environment, Padrino automatically created the development database for us:
 
 
-```bash
+```sh
 $ ls db/
   job_vacancy_development.db  job_vacancy_test.db  migrate  schema.rb
 ```
@@ -129,7 +129,7 @@ $ ls db/
 Now let's start [sqlite3](http://www.sqlite.org/), connect to the database, and see if the users table was created properly:
 
 
-```bash
+```sh
 $ sqlite3 db/job_vacancy_development.db
 
 SQLite version 3.7.13 2012-06-11 02:05:22
@@ -167,7 +167,7 @@ ActiveRecord::Base.configurations[:test] = {
 As you can see, each of the different environments  *development*, *production*, and *test* have their own database.  Lets's be sure that all databases are created:
 
 
-```bash
+```sh
 $ padrino rake ar:create:all
 
 bundle exec padrino rake ar:create:all
@@ -183,7 +183,7 @@ bundle exec padrino rake ar:create:all
 Alright, now we are ready to re-execute the tests again.
 
 
-```bash
+```sh
 $ rspec spec/app/models
 
 User Model
@@ -211,7 +211,7 @@ rspec ./spec/app/models/user_spec.rb:5 # User Model can be created
 But why are the tests still failing? Because the migration for the *user* table was not executed for the test environment. Let's fix this with the following command:
 
 
-```bash
+```sh
 $ padrino rake ar:migrate -e test
 => Executing Rake ar:migrate ...
 ==  CreateUsers: migrating ====================================================
@@ -224,7 +224,7 @@ $ padrino rake ar:migrate -e test
 Finally the test passes:
 
 
-```bash
+```sh
 $ rspec spec/app/models
 
 User Model
@@ -238,7 +238,7 @@ Finished in 0.05492 seconds
 How can we run all the tests in our application and see if everything is working? Execute `padrino rake spec` to run all tests in the `spec/` folder:
 
 
-```bash
+```sh
 $ padrino rake spec
 => Executing Rake spec ...
 /home/helex/.rbenv/versions/1.9.3-p392/bin/ruby -S rspec ./spec/app/models/user_spec.rb -fs --color
@@ -282,7 +282,7 @@ Since we now know how to create the basic model of our users, it's time to creat
 Let's run the Padrino command to create the model for us. As you see, we once again run `-a app` at the end of our generation.  Without specifying location, a new folder called `models` is created in the main directory.
 
 
-```bash
+```sh
 $ padrino g model job_offer title:string location:string description:text contact:string time_start:date time_end:date -a app
    apply  orms/activerecord
    apply  tests/rspec
@@ -306,7 +306,7 @@ Keep in mind that you will need to manually delete the now empty `models` folder
 Next, we need to run our new database migration so that our database has the right scheme:
 
 
-```bash
+```sh
 $ bundle exec padrino rake ar:migrate
   => Executing Rake ar:migrate ...
     DEBUG -  (0.4ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
@@ -323,7 +323,7 @@ $ bundle exec padrino rake ar:migrate
 In order to run our tests, we also need to run our migrations for the test environment:
 
 
-```bash
+```sh
 $ padrino rake ar:migrate -e test
   => Executing Rake ar:migrate ...
   ==  CreateJobOffers: migrating ================================================
@@ -383,7 +383,7 @@ end
 Whenever you modify your models, remember that you need to run migrations too. Because we added the associations manually, we also need to write the migrations. Luckily, Padrino helps us with this task a bit. We know that the job offer is linked to a user via the user's id. This foreign key relationship results in adding an extra column `user_id` to the `job_offers table`. For this change, we can use the following command to create a migration:
 
 
-```bash
+```sh
 $ padrino g migration AddUserIdToJobOffers user_id:integer
   apply  orms/activerecord
   create  db/migrate/003_add_user_id_to_job_offers.rb
@@ -418,7 +418,7 @@ Can you see the small bug? This migration won't work, you have to change `joboff
 Finally let's run our migrations:
 
 
-```bash
+```sh
 $ padrino rake ar:migrate
 $ padrino rake ar:migrate -e test
 ```
@@ -430,7 +430,7 @@ $ padrino rake ar:migrate -e test
 To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a different approach and use the Padrino console this time.  All you have to do is to run the following command:
 
 
-```bash
+```sh
 $ padrino c
   => Loading development console (Padrino v.0.12.3)
   => Loading Application JobVacancy
@@ -444,7 +444,7 @@ Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki
 Let's run the shell to create a user with job offers:
 
 
-```bash
+```sh
 user = User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
   => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther", created_at: nil, updated_at: nil>
   >> user.name
@@ -455,7 +455,7 @@ user = User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
 This creates a user object in our session. If we want to add an entry permanently into the database, you have to use *create* method:
 
 
-```bash
+```sh
 User.create(:name => 'Matthias Günther', :email => 'matthias.guenther')
 DEBUG -  (0.2ms)  begin transaction
   DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES (?, ?, ?, ?)
@@ -471,7 +471,7 @@ DEBUG -  (0.2ms)  begin transaction
 Please note that now you have an entry in your development database `db/job_vacancy_development.db`. To see this, connect to the database and execute a 'SELECT' statement::
 
 
-```bash
+```sh
 $ sqlite3 db/job_vacancy_development.db
   SQLite version 3.7.13 2012-06-11 02:05:22
   Enter ".help" for instructions
@@ -485,7 +485,7 @@ $ sqlite3 db/job_vacancy_development.db
 Since we have an user, it's time to some job offers too:
 
 
-```bash
+```sh
 $ padrino c
 => Loading development console (Padrino v.0.10.7)
 => Loading Application JobVacancy
@@ -506,7 +506,7 @@ $ padrino c
 And now let's create a second one for our first user:
 
 
-```bash
+```sh
 >> JobOffer.create(:title => 'Padrino Engineer 2',
     :location => 'Berlin',
     :description => 'Come to this great place',
@@ -524,7 +524,7 @@ And now let's create a second one for our first user:
 Now it's time to test our association between the user and the job-offer model. We will use the `find_by_id` method to get the user from our database, and the `job_offers` method to get all the job-offers from the user.
 
 
-```bash
+```sh
 >> user = User.find_by_id(1)
   DEBUG - User Load (0.6ms)  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
   => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51", updated_at:

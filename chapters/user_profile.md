@@ -489,7 +489,7 @@ We are currently using the `sign_in` method from the session helper to login a u
 Let's create and run the migration:
 
 
-```bash
+```sh
 $ padrino g migration AddAuthentityTokenToUsers authentity_token:string
      apply  orms/activerecord
     create  db/migrate/006_add_authentity_token_to_users.rb
@@ -638,7 +638,7 @@ This chapter will be a combination of all the things we have learned so far. Unt
 We are going to create a new controller with the name **Forget Passwords**:
 
 
-```bash
+```sh
 $ padrino g controller forgetPassword new
       create  app/controllers/forget_password.rb
       create  app/helpers/forget_password_helper.rb
@@ -732,7 +732,7 @@ end
 The `save_forget_password_token` will create the `password_reset_token` for the requested password reset. The token should only valid for around one hour, we need to save the `password_reset_sent_date`. Before going on we need to add token and the method in the User model, we need a way to generate a token for the password reset function for the user model:
 
 
-```bash
+```sh
 $ padrino g migration AddPasswordResetTokenToUsers password_reset_token:string password_reset_sent_date:datetime
        apply  orms/activerecord
       create  db/migrate/007_add_password_reset_for_users.rb

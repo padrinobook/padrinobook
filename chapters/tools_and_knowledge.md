@@ -37,7 +37,7 @@ Instead of using the build-in software package for Ruby of your operating system
 First, we need to use [git](http://git-scm.org) to get the current version of rbenv:
 
 
-```bash
+```sh
 $ cd $HOME
 $ git clone git://github.com/sstephenson/rbenv.git .rbenv
 ```
@@ -51,7 +51,7 @@ You need to add the directory that contains rbenv to your `$PATH` environment va
 replace `.bashrc` with `.bash_profile` in all of the following commands):
 
 
-```bash
+```sh
 $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
 ```
 
@@ -59,7 +59,7 @@ $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
 To enable auto completion for `rbenv` commands, we need to perform the following command:
 
 
-```bash
+```sh
 $ echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 ```
 
@@ -67,7 +67,7 @@ $ echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 Next, we need to restart our shell to enable the last changes:
 
 
-```bash
+```sh
 $ exec $SHELL
 ```
 
@@ -82,7 +82,7 @@ Because we don't want to download and compile different Ruby versions on our own
 [ruby-build](https://github.com/sstephenson/ruby-build "ruby-build") plugin for rbenv:
 
 
-```bash
+```sh
 $ mkdir ~/.rbenv/plugins
 $ cd ~/.rbenv/plugins
 $ git clone git://github.com/sstephenson/ruby-build.git
@@ -93,7 +93,7 @@ If you now run `rbenv install` you can see all the different Ruby version you ca
 projects. We are going to install `ruby 1.9.3-p392`:
 
 
-```bash
+```sh
 $ rbenv install 1.9.3-p392
 ```
 
@@ -103,7 +103,7 @@ This command will take a couple of minutes, so it's best to grab a Raider, which
 the internal rbenv libraries. The last step is to make Ruby 1.9.3-p392 the current executable on your machine:
 
 
-```bash
+```sh
 $ rbenv global 1.9.3-p392
 ```
 
@@ -111,7 +111,7 @@ $ rbenv global 1.9.3-p392
 Check that the correct executable is active by exexuting `ruby -v`. The output should look like:
 
 
-```bash
+```sh
 $ 1.9.3-p392 (set by /home/.rbenv/versions)
 ```
 
