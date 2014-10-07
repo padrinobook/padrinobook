@@ -356,14 +356,14 @@ Finally, we need to provider the edit link in the header navigation:
   ...
   <% if signed_in? %>
     <div class="span2">
-      <%= link_to 'Logout', url_for(:sessions, :destroy) %>
+      <%= link_to 'Logout', url(:sessions, :destroy) %>
     </div>
     <div class="span2">
-      <%= link_to 'Edit Profile', url_for(:users, :edit, :id => session[:current_user]) %>
+      <%= link_to 'Edit Profile', url(:users, :edit, :id => session[:current_user]) %>
     </div>
   <% else %>
     <div class="span3">
-      <%= link_to 'Login', url_for(:sessions, :new) %>
+      <%= link_to 'Login', url(:sessions, :new) %>
     </div>
   <% end %>
   ...
@@ -490,18 +490,13 @@ Let's create and run the migration:
 
 
 ```bash
-$ padrino g migration add_authentity_token_to_user authentity_token:string
+$ padrino g migration AddAuthentityTokenToUsers authentity_token:string
      apply  orms/activerecord
     create  db/migrate/006_add_authentity_token_to_users.rb
-
 $ padrino rake ar:migrate
 => Executing Rake ar:migrate ...
   DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
-   INFO -  Migrating to CreateUsers (1)
-   INFO -  Migrating to CreateJobOffers (2)
-   INFO -  Migrating to AddUserIdToJobOffers (3)
-   INFO -  Migrating to AddRegistrationFieldsToUsers (4)
-   INFO -  Migrating to AddConfirmationCodeAndConfirmationToUsers (5)
+  ...
    INFO -  Migrating to AddAuthentityTokenFieldToUsers (6)
   DEBUG -   (0.0ms)  select sqlite_version(*)
   DEBUG -   (0.0ms)  begin transaction
@@ -539,6 +534,7 @@ class User < ActiveRecord::Base
   def generate_authentity_token
     require 'securerandom'
     self.authentity_token = SecureRandom.base64(64)
+    SecureRandom
   end
 end
 ```
