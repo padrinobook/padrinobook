@@ -636,3 +636,339 @@ If you want to see the cookie in your browser, you can install [Web Developer](h
 
 ### Reset Password
 
+This chapter will be a combination of all the things we have learned so far. Until now you should be familiar with the commands of creating new controllers, edit views as well as create migration and new mail templates. Because repetition is good, we will go through the whole procedure again.
+
+
+We are going to create a new controller with the name **Forget Passwords**:
+
+
+```bash
+$ padrino g controller forgetPassword new
+      create  app/controllers/forget_password.rb
+      create  app/helpers/forget_password_helper.rb
+      create  app/views/forget_password
+       apply  tests/rspec
+      create  spec/app/controllers/forget_password_controller_spec.rb
+      create  spec/app/helpers/forget_password_helper_spec.rb
+```
+
+
+We have to create a GET and POST route for the `` route:
+
+
+```ruby
+# app/controllers/forget_password.rb
+
+JobVacancy::App.controllers :forget_password do
+
+  get :new, :map => 'forget_password'  do
+    render 'new'
+  end
+
+  post :create do
+    # have to think about this ...
+  end
+
+end
+```
+
+
+Since the routes are now defined, we can add the *forget password* link on the login page:
+
+
+```erb
+# app/views/sessions/new.erb
+
+...
+<label class="checkbox">
+  <%= check_box_tag :remember_me %> Remember me
+</label>
+<p>
+  <%= link_to 'forget password?', url(:forget_password, :new) %>
+</p>
+...
+
+```
+
+In the `new` action’s view we’ll create a form to allow a user to enter their email address and request that their password is reset. The form looks like this:
+
+
+```erb
+<h2>Forgot Password</h2>
+
+
+<% form_tag url(:forget_password, :create) do %>
+  <%= label_tag :email %>
+  <%= text_field_tag :email %>
+
+  <p>
+    <%= submit_tag "Reset password", :class => "btn btn-primary" %>
+  </p>
+
+<% end %>
+```
+
+Since the template isn't using a model, the `form_tag` is enough for this. The POST information from the forget password form needs to be processed: We will send the instructions how to reset the password by the supplied email address. If the typed in email address is wrong, we don't say if it is valid or not, we don't want to have malicious user to check if a user exists or not.
+
+
+```ruby
+# app/controllers/forget_password.rb
+
+JobVacancy::App.controllers :forget_password do
+  ...
+
+  post :create do
+    user = User.find_by_email(params[:email])
+
+    if user
+      user.save_forget_password_token
+      link = "http://localhost:3000" + url(:forget_password, :edit, :token => user.password_reset_token)
+      deliver(:password_forget, :password_forget_email, user.email, link)
+    end
+
+    render 'success'
+  end
+
+end
+```
+
+
+The `save_forget_password_token` will create the `password_reset_token` for the requested password reset. The token should only valid for around one hour, we need to save the `password_reset_sent_date`. Before going on we need to add token and the method in the User model, we need a way to generate a token for the password reset function for the user model:
+
+
+```bash
+$ padrino g migration AddPasswordResetTokenToUsers password_reset_token:string password_reset_sent_date:datetime
+       apply  orms/activerecord
+      create  db/migrate/007_add_password_reset_for_users.rb
+$ padrino rake ar:migrate
+=> Executing Rake ar:migrate ...
+  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+   INFO -  Migrating to CreateUsers (1)
+   INFO -  Migrating to CreateJobOffers (2)
+   INFO -  Migrating to AddUserIdToJobOffers (3)
+   INFO -  Migrating to AddRegistrationFieldsToUsers (4)
+   INFO -  Migrating to AddConfirmationCodeAndConfirmationToUsers (5)
+   INFO -  Migrating to AddAuthentityTokenFieldToUsers (6)
+   INFO -  Migrating to AddPasswordResetTokenToUsers (7)
+  DEBUG -   (0.0ms)  select sqlite_version(*)
+  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+```
+
+
+Due to this point it is not enough have only this migration, we need to set default value and say that the `password_reset_token` as well as the `password_reset_sent_date` can be null:
+
+
+```ruby
+# db/migrate/007_add_password_reset_token_to_users.rb
+
+class AddPasswordResetTokenToUsers < ActiveRecord::Migration
+  def self.up
+    change_table :users do |t|
+      t.string :password_reset_token, default: 0, null: true
+      t.datetime :password_reset_sent_date, default: 0, null: true
+    end
+  end
+
+  def self.down
+    change_table :users do |t|
+      t.remove :password_reset_token
+      t.remove :password_reset_sent_date
+    end
+  end
+end
+```
+
+
+The stage for the `save_forget_password_token` method is set: It takes our `generate_authentity_token` method from chapter (TBD) and use the `Time.now` method to set the send date from the password reset function:
+
+
+```ruby
+# app/models/user.rb
+
+class User < ActiveRecord::Base
+  ...
+  def save_forget_password_token
+    self.password_reset_token = generate_authentity_token
+    self.password_reset_sent_date = Time.now
+    self.save
+  end
+  ...
+
+end
+```
+
+
+But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i98KRaZGIJ1K77n/HqePEbD2KFdI3ldIcbiOoazQ==`. The slash is bad for the routing. We already used the `normalize_confirmation_code` from `app/models/user_observer.rb` to remove such backslashes, and we could easily the same method again. But we don't want to apply [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself). Do you remember the `lib` folder from section (TBD) - this is the place where you can put shared code which can be used by models, controllers, and other components. We create a `normalize_token.rb` file:
+
+
+```ruby
+# lib/StringNormalizer/normalize_token.rb
+
+module StringNormalizer
+  def normalize_token(token)
+    token.gsub("/", "")
+  end
+end
+```
+
+
+And use the method in the `users_observer.rb`
+
+
+```ruby
+# app/models/user_observer.rb
+
+class UserObserver < ActiveRecord::Observer
+  include StringNormalizer
+  ...
+
+  private
+
+  def set_confirmation_code(user)
+    require 'bcrypt'
+    salt = BCrypt::Engine.generate_salt
+    confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
+    normalize_token(confirmation_code)
+  end
+end
+```
+
+
+as well as in `user.rb`:
+
+
+```ruby
+# app/models/user.rb
+
+class User < ActiveRecord::Base
+  include StringNormalizer
+  ...
+
+  private
+  def generate_authentity_token
+    require 'securerandom'
+    self.authentity_token = normalize_token(SecureRandom.base64(64))
+  end
+end
+```
+
+
+We are now ready to create our mailer:
+
+
+```sh
+$ padrino g mailer PasswordForget password_forget_email
+      create  app/mailers/password_forget.rb
+      create  app/views/mailers/password_forget
+```
+
+
+In the mailer we take the user to create the password reset token:
+
+
+```ruby
+# app/mailers/password_forget.rb
+
+JobVacancy::App.mailer :password_forget do
+  email :password_forget_email do |user, link|
+    from "admin@job-vacancy.de"
+    subject "Password reset"
+    to user.email
+    locals :name => user.name, :link => link
+    render 'password_forget/password_forget_email'
+  end
+end
+```
+
+
+The email template contains information and the link for reseting the password:
+
+
+```erb
+# app/views/mailers/password_forget/password_forget_email.plain.erb
+
+Hi <%= name %>,
+
+to reset your password, click on the link below
+
+<%= link %>
+
+If you do not requested a new password, you can ignore this message.
+
+Your Job Vacancy!
+```
+
+
+When the email was send we need to write the `edit` action to handle the link action. The action will take the reset token and check if it
+still valid. If not, it will redirect us to the forget password route.
+
+
+```ruby
+# app/controllers/forget_password.rb
+
+JobVacancy::App.controllers :forget_password do
+  ...
+  get :edit, :map => "/password-reset/:token/edit" do
+    @user = User.find_by_password_reset_token(params[:token])
+    if @user
+      render 'edit'
+    else
+      redirect url(:forget_password, :new)
+    end
+  end
+end
+```
+
+
+In the associated view we use the `form_for` and pass in the `user` model to have access to all validations. Besides we are using then `method:` hash to say which method we want to use for the action:
+
+
+```erb
+# app/views/forget_password/edit.erb
+
+<h2>Reset Password</h2>
+
+<% form_for @user, "/password-reset/#{@user.password_reset_token}", method: :post do |f| %>
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+  <%= error_message_on @user, :password, :class => "text-error", :prepend => "The password "%>
+
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation %>
+  <%= error_message_on @user, :password_confirmation, :class => "text-error" %>
+
+  <p>
+    <%= f.submit "Reset password", :class => "btn btn-primary" %>
+  </p>
+<% end %>
+```
+
+
+We add the `update` action now. First it checks, if the user can be found by the passed token and check, if it is not
+older than one hour. If it is we redirect back to the forget-password action.
+
+
+```ruby
+# app/controllers/forget_password.rb
+
+JobVacancy::App.controllers :forget_password do
+  ...
+
+  post :update, :map => "password-reset/:token" do
+    @user = User.find_by_password_reset_token(params[:token])
+
+    if @user.password_reset_sent_date <= Time.now + (60 * 60)
+      flash[:error] = "Password has expired"
+      redirect url(:forget_password, :new)
+    elsif @user.update_attributes(params[:user])
+      flash[:notice] = "Password has been reseted. Please login with your new password."
+      redirect url(:sessions, :new)
+    else
+      render 'edit'
+    end
+  end
+end
+```
+
+
+- Box: Calling mailers in Padrino and where to put them
