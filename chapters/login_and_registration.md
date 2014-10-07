@@ -1516,6 +1516,9 @@ end
 ```
 
 
+We are not using the single `deliver` method here because our observer does not have access to this it. Instead we have to take `JobVacancy::App.deliver` way to access the mail (it is not documented as I [found out](https://github.com/padrino/padrino-framework/issues/1770)).
+
+
 We have cleaned up our design to this time. Before that if a user update his profile a new confirmation code will be send. We fixed this is with the `unless user.confirmation` line which means as long as the user is not confirmed, send him the confirmation code. We haven't any test for this kind and if you are curious how to do it, feel free to write a test for this and modify the observer code. I haven't found a way to test this - maybe you use the [mock_model](https://www.relishapp.com/rspec/rspec-rails/v/2-4/docs/mocks/mock-model) for your tests! We cleaned up our users controller from sending mail and this is the best solution, because in it's heart a controller talks to the model and passing the ball to the right direction after an event.
 
 
