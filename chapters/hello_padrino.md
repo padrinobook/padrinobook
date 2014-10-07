@@ -15,7 +15,7 @@ Now, get your hands dirty and start coding.
 First of all we need to install the *padrino gem*. We are using the last stable version of Padrino (during the release of this book it is version **0.12.3**). Execute this command.
 
 
-```bash
+```sh
 $ gem install padrino
 ```
 
@@ -23,7 +23,7 @@ $ gem install padrino
 This will install all necessary dependencies and gets you ready to start. Now we will generate a fresh new Padrino project:
 
 
-```bash
+```sh
 $ padrino generate project hello-padrino
 ```
 
@@ -39,7 +39,7 @@ Let's go through each part of this command:
 The console output should look like the following:
 
 
-```bash
+```sh
   create
   create  .gitignore
   create  config.ru
@@ -89,7 +89,7 @@ Ruby has a nice package manager called [bundler](http://gembundler.com/ "Bundler
 To install bundler, execute the following command and check the console output:
 
 
-```bash
+```sh
 $ gem install bundler
   Fetching: bundler-1.3.5.gem (100%)
   Successfully installed bundler-1.3.5
@@ -100,7 +100,7 @@ $ gem install bundler
 Now we have everything we need to run the `bundle` command and install our dependencies:
 
 
-```bash
+```sh
 $ cd hello-padrino
 $ bundle
   Fetching gem metadata from http://rubygems.org/.........
@@ -132,7 +132,7 @@ end
 Now run the app with:
 
 
-```bash
+```sh
 $ bundle exec padrino start
 ```
 
@@ -148,7 +148,7 @@ Congratulations, you've built your first Padrino app!
 Navigating through the various parts of a project is essential. Thus we will go through the basic file structure of the *hello-padrino* project. The app consists of the following parts:
 
 
-```bash
+```sh
 |-- Gemfile
 |-- Gemfile.lock
 |-- app

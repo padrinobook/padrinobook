@@ -3,7 +3,7 @@
 Now that our users have the possibility to register and confirm on our page, we need to make it possible for our users to sign in. For handling login, we need to create a session controller:
 
 
-```bash
+```sh
 $ padrino g controller Sessions new create destroy
   create  app/controllers/sessions.rb
   create  app/helpers/sessions_helper.rb
@@ -16,7 +16,7 @@ $ padrino g controller Sessions new create destroy
 We made a mistake during the generation - we forget to add the right action for our request. Before making the mistake to delete the generated files by hand with a couple of `rm's`, you can run a generator to destroy a controller:
 
 
-```bash
+```sh
 $ padrino g controller Sessions -d
   remove  app/controllers/sessions.rb
   remove  app/helpers/sessions_helper.rb
@@ -29,7 +29,7 @@ $ padrino g controller Sessions -d
 And run the generate command with the correct actions:
 
 
-```bash
+```sh
 $ padrino g controller Sessions get:new post:create delete:destroy
   create  app/controllers/sessions.rb
   create  app/helpers/sessions_helper.rb
@@ -213,7 +213,7 @@ end
 Running our tests:
 
 
-```bash
+```sh
 $ rspec spec/app/controllers/sessions_controller_spec.rb
 
 SessionsController
