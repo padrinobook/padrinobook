@@ -618,6 +618,7 @@ JobVacancy::App.controllers :sessions do
 end
 ```
 
+
 First, we create a secure random hex value and assign to the `authentity_token` attribute of the user. We then use the [set_cookie](http://apidock.com/rails/Rack/Response/set_cookie) function to generate a cookie for the domain which is valid for thirty days. The rest of the controller is still the same.
 
 
@@ -904,11 +905,19 @@ still valid. If not, it will redirect us to the forget password route.
 
 JobVacancy::App.controllers :forget_password do
   ...
+
+
   get :edit, :map => "/password-reset/:token/edit" do
     @user = User.find_by_password_reset_token(params[:token])
-    if @user
+
+    if @user.password_reset_sent_date <= Time.now + (60 * 60)
+      @user.update_attributes({:password_reset_token => 0, :password_reset_sent_date => 0})
+      flash[:error] = "Password reset token has expired."
+      redirect url(:sessions, :new)
+    elsif @user
       render 'edit'
     else
+      @user.update_attributes({:password_reset_token => 0, :password_reset_sent_date => 0})
       redirect url(:forget_password, :new)
     end
   end
@@ -916,7 +925,42 @@ end
 ```
 
 
-In the associated view we use the `form_for` and pass in the `user` model to have access to all validations. Besides we are using then `method:` hash to say which method we want to use for the action:
+The line with `Time.now + (60 * 60)` is not very readable. Rails has the functionality of using words like `1.hour.ago` with the help of [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html) module. Since Padrino is not using `ActiveSupport`, we can use the [Timerizer gem](https://github.com/kylewlacy/timerizer) which adds the functionality for us:
+
+
+```ruby
+# Gemfile
+gem 'timerizer', '0.1.4'
+```
+
+
+And now we can use the new syntax for describing time in a better way:
+
+
+```ruby
+# app/controllers/forget_password.rb
+
+require 'timerizer'
+
+JobVacancy::App.controllers :forget_password do
+  ...
+
+  get :edit, :map => "/password-reset/:token/edit" do
+    @user = User.find_by_password_reset_token(params[:token])
+
+    if @user.password_reset_sent_date < 1.hour.ago
+      ...
+    elsif @user
+      render 'edit'
+    else
+      ...
+    end
+  end
+end
+```
+
+
+In the associated `edit` view we use the `form_for` and pass in the `user` model to have access to all validations. Besides we are using then `method:` hash to say which method we want to use for the action:
 
 
 ```erb
@@ -940,8 +984,8 @@ In the associated view we use the `form_for` and pass in the `user` model to hav
 ```
 
 
-We add the `update` action now. First it checks, if the user can be found by the passed token and check, if it is not
-older than one hour. If it is we redirect back to the forget-password action.
+We add the `update` action now. First it checks, if the user can be found by the passed token and then we use the
+password field validations from the user model:
 
 
 ```ruby
@@ -950,13 +994,12 @@ older than one hour. If it is we redirect back to the forget-password action.
 JobVacancy::App.controllers :forget_password do
   ...
 
+
   post :update, :map => "password-reset/:token" do
     @user = User.find_by_password_reset_token(params[:token])
 
-    if @user.password_reset_sent_date <= Time.now + (60 * 60)
-      flash[:error] = "Password has expired"
-      redirect url(:forget_password, :new)
-    elsif @user.update_attributes(params[:user])
+    if @user.update_attributes(params[:user])
+      @user.update_attributes({:password_reset_token => 0, :password_reset_sent_date => 0})
       flash[:notice] = "Password has been reseted. Please login with your new password."
       redirect url(:sessions, :new)
     else
