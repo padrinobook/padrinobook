@@ -1399,9 +1399,20 @@ The code is working but We have flaws in our design:
 Here is a rough plan what we want to do:
 
 
+- Enable observers in Padrino.
 - Create an observer in the models folder.
 - Register the observer in `app/app.rb`.
 - Attach the observer to the model.
+
+
+First we need to enable the `activerecord gem`:
+
+
+```ruby
+# Gemfile
+...
+gem 'activerecord', '~> 3.2', :require => 'active_record'
+```
 
 
 Let's create the observer with the name `user_observer` in the models folder
@@ -1416,7 +1427,26 @@ end
 ```
 
 
-(Sadly, Padrino hasn't a generate command for this but I'm having this on my list to create a pull request for this feature.)
+(Sadly, Padrino hasn't a generate command so I added a  [pull request](https://github.com/padrino/padrino-framework/pull/1786).)
+
+
+Since the observer is created we need to register it:
+
+
+```ruby
+# app/app.rb
+
+module JobVacancy
+  class App < Padrino::Application
+    use ActiveRecord::ConnectionAdapters::ConnectionManagement
+    ...
+
+    # Activating the user_observer
+    ActiveRecord::Base.add_observer UserObserver.instance
+    ...
+  end
+end
+```
 
 
 We are defining our user observer with extends from the [ActiveRecord::Observer](https://github.com/rails/rails-observers#active-record-observer). Inside this class we can define any callbacks for each action we want to use. The most commons ones are `before_<action>` and `after_<action>` where `<action>` is the ActiveRecord trigger method like save, update, delete, show, or get. To see what we can move out of the user model let's have a look inside this model:
