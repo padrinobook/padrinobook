@@ -424,7 +424,7 @@ The part with the `rollback transaction` means, that user was not saved. Why? Be
 ```
 
 
-We can use this information to display the errors in our form for the user to let him know what they did wrong. If you want a dirty and quick solution, you can use the `form.error_messages`, which can be put at the front of our form:
+We can use this information to display the errors in our form for the user to let him know what what went wrong. In a first try, we use [error\_messages\_for method](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_messages_for-instance_method):
 
 
 ```erb
@@ -432,7 +432,7 @@ We can use this information to display the errors in our form for the user to le
 
 <% form_for(@user, '/users/create') do |f| %>
   ...
-  <%= f.error_messages %>
+  <%= error_messages_for @user %>
   ...
 <% end %>
 ```
