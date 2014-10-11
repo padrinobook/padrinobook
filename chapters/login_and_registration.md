@@ -1,6 +1,6 @@
 ## Login and Registration
 
-In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions `new`, `create`, `update`, and `delete`. And you can't forget about security these days it would be nice to to have something at hand to save atemail the end we would need to find a method of safely storing the password for the user.
+In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions `new`, `create`, `update`, and `delete`. And you can't forget about security these days it would be nice to to have something at hand to save email the end we would need to find a method of safely storing the password for the user.
 
 
 You don't have to reinvent the wheel you can use Padrino's beautiful [Admin interface](http://www.padrinorb.com/guides/padrino-admin) for your user authentication to prevent us from reinventing the wheel. But with that we won't learn the basics and as you will see in this chapter you can make a lot of mistakes. Step into the part of creating users, sending confirmation mails, and understanding how sessions are managed in Padrino.
@@ -112,7 +112,7 @@ FactoryGirl.define do
 ...
   factory :user do
     name  "Matthias Günther"
-    email "matthias.guenther@wikimatze.de"
+    email "matthias@wikimatze.de"
     password "octocat"
   end
 end
@@ -134,7 +134,7 @@ end
 ```
 
 
-If we run the test we get the following error:
+If we run the test, we get the following error:
 
 
 ```sh
@@ -321,7 +321,7 @@ The stage is set: We have the model with the tested constraints, and a controlle
 ```
 
 
-- `form_for`: Is part of [Padrino's Form Builder](http://www.padrinorb.com/guides/application-helpers#formbuilders) and allows you to create standard input fields based on a model. The first argument to the function is an object (mostly a model), the second argument is an string (the action to which the form should be sent after a submit), and the third parameter are settings in form of an hash which aren't used in this example. The part `action="/users/create"` says, that we want to use the `create` action to the `users` controller with the `create` action.
+- `form_for`: Is part of [Padrino's Form Builders](http://www.padrinorb.com/guides/application-helpers#formbuilders) and allows you to create standard input fields based on a model. The first argument to the function is an object (mostly a model), the second argument is an string (the action to which the form should be sent after a submit), and the third parameter are settings in form of an hash which aren't used in this example. The part `action="/users/create"` says, that we want to use the `create` action to the `users` controller with the `create` action.
 - `f.label` and `f.text`: Will a label and text field for the attributes of your model.
 - `f.password_field`: Constructs a password input, where the input is marked with stars, from the given attribute of the form.
 - `f.submit`: Take an string as an caption for the submit button and options as hashes for additional parameter (for `example :class => 'long'`).
@@ -351,7 +351,7 @@ The form will be rendered as the following HTML:
 ```
 
 
-### User Controller Signup Actions
+### User Controller Sign up Actions
 
 We need to make sure to have the right mappings for the `/login` route in the actions in our controller:
 
@@ -466,32 +466,36 @@ Email is invalid
 ```
 
 
-This isn't something we want to ship to our customers.
-
-
-Let's change this by using [error\_message\_on method](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_message_on-instance_method) which returns a string containing the error message attached to the method on the object:
+This isn't something we want to ship to our customers. Let's change this by using [error\_message\_on](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_message_on-instance_method) which returns a string containing the error message attached to the method on the object:[^error_message_on]
 
 
 ```erb
-<% views/users/new.erb %>
+<%# views/users/new.erb %>
 
-<% form_for(@user, '/users/create') do |f| %> <%= f.label :name %>
+<% form_for(@user, '/users/create') do |f| %>
+  <%= f.label :name %>
   <%= f.text_field :name %>
   <%= error_message_on @user, :name %>
+
   <%= f.label :email %>
   <%= f.text_field :email %>
   <%= error_message_on @user, :email %>
+
   <%= f.label :password %>
   <%= f.password_field :password %>
   <%= error_message_on @user, :password %>
+
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %>
   <%= error_message_on @user, :password_confirmation %>
+
   <p>
   <%= f.submit "Create", :class => "btn btn-primary" %>
   </p>
 <% end %>
 ```
+
+[^error_message_on]: Instead of writing `@user` for the `error_message_on` you can also use the symbol notation `:user`.
 
 
 We can do better and make the error text red. Let's add the `:class` at the of the `error_message_on` method with the help of the [text-error class from bootstrap](http://twitter.github.io/bootstrap/base-css.html#forms) and using the `:prepend` option which add text to before displaying the field error:
@@ -504,15 +508,19 @@ We can do better and make the error text red. Let's add the `:class` at the of t
   <%= f.label :name %>
   <%= f.text_field :name %>
   <%= error_message_on @user, :name, :class => "text-error", :prepend => "The name " %>
+
   <%= f.label :email %>
   <%= f.text_field :email %>
   <%= error_message_on @user, :email, :class => "text-error", :prepend => "The email " %>
+
   <%= f.label :password %>
   <%= f.password_field :password %>
   <%= error_message_on @user, :password, :class => "text-error", :prepend => "The password "%>
+
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %>
   <%= error_message_on @user, :password_confirmation, :class => "text-error" %>
+
   <p>
   <%= f.submit "Create", :class => "btn btn-primary" %>
   </p>
@@ -619,7 +627,7 @@ end
 ```
 
 
-Now start the app, go to the URL <http://localhost:3000/login>, and register a fresh user. You can check the log if the mail was send or you "feel" a slow down in your application because it takes a while before the mail is send::
+Now start the app, go to the URL <http://localhost:3000/login>, and register a fresh user. You can check the log if the mail was send or you "feel" a slow down in your application because it takes a while before the mail is send:
 
 
 ```sh
@@ -890,13 +898,13 @@ MIME stands for "Multipurpose Internet Mail Extensions" and they specify additio
 The basic steps for implementing the logic of email confirmation are the following:
 
 
-- we need to add the *confirmation_code* and *confirmation* attributes in our user model
-- create a controller method for our user model that expects a user id and confirmation code, looks up the user, checks the code in the parameter matches the code saved in our database and clears the code after confirmation.
-- create an action that maps to our new controller method (e.g. `/confirm/<user-id>/<code>`).
-- create an mailer template which takes the user as a parameter and use the *confirmation code* of the user to send a mail containing a link to the new route in our controller.
-- create an **observer** for our user model. if the email of the user needs to be modified or a record is created we need to create a confirmation code, set it in the model and clear the confirmation flag. after that we need to trigger our mailer.
-- create a helper method which allows views to check if the current user is confirmed.
-- protect our controller methods and views to prevent security issues.
+- We need to add the *confirmation_code* and *confirmation* attributes in our user model.
+- Create a controller method for our user model that expects a user id and confirmation code, looks up the user, checks the code in the parameter matches the code saved in our database and clears the code after confirmation.
+- Create an action that maps to our new controller method (e.g. `/confirm/<user-id>/<code>`).
+- Create an mailer template which takes the user as a parameter and use the *confirmation code* of the user to send a mail containing a link to the new route in our controller.
+- Create an **observer** for our user model. If the email of the user needs to be modified or a record is created we need to create a confirmation code, set it in the model and clear the confirmation flag. After that we need to trigger our mailer.
+- Create a helper method which allows views to check if the current user is confirmed.
+- Protect our controller methods and views to prevent security issues.
 
 
 \begin{aside}
@@ -942,7 +950,7 @@ end
 ```
 
 
-We added the `:default` option which sets the confirmation for every user to false if a new one is registered. now let's migrate our production and test database to this new event:
+We added the `:default` option which sets the confirmation for every user to false if a new one is registered. Now let's migrate our production and test database to this new event:
 
 
 ```sh
