@@ -637,12 +637,12 @@ We are going to create a new controller with the name **Forget Passwords**:
 
 ```sh
 $ padrino g controller forgetPassword new
-      create  app/controllers/forget_password.rb
-      create  app/helpers/forget_password_helper.rb
-      create  app/views/forget_password
+      create  app/controllers/password_forget.rb
+      create  app/helpers/password_forget_helper.rb
+      create  app/views/password_forget
        apply  tests/rspec
-      create  spec/app/controllers/forget_password_controller_spec.rb
-      create  spec/app/helpers/forget_password_helper_spec.rb
+      create  spec/app/controllers/password_forget_controller_spec.rb
+      create  spec/app/helpers/password_forget_helper_spec.rb
 ```
 
 
@@ -650,11 +650,11 @@ We have to create a GET and POST route for the `` route:
 
 
 ```ruby
-# app/controllers/forget_password.rb
+# app/controllers/password_forget.rb
 
-JobVacancy::App.controllers :forget_password do
+JobVacancy::App.controllers :password_forget do
 
-  get :new, :map => 'forget_password'  do
+  get :new, :map => 'password_forget'  do
     render 'new'
   end
 
@@ -665,7 +665,7 @@ end
 ```
 
 
-Since the routes are now defined, we can add the *forget password* link on the login page:
+Since the routes are now defined, we can add the *password forget* link on the login page:
 
 
 ```erb
@@ -676,7 +676,7 @@ Since the routes are now defined, we can add the *forget password* link on the l
   <%= check_box_tag :remember_me %> Remember me
 </label>
 <p>
-  <%= link_to 'forget password?', url(:forget_password, :new) %>
+  <%= link_to 'forget password?', url(:password_forget, :new) %>
 </p>
 ...
 
@@ -689,7 +689,7 @@ In the `new` action’s view we’ll create a form to allow a user to enter thei
 <h2>Forgot Password</h2>
 
 
-<% form_tag url(:forget_password, :create) do %>
+<% form_tag url(:password_forget, :create) do %>
   <%= label_tag :email %>
   <%= text_field_tag :email %>
 
@@ -703,9 +703,9 @@ Since the template isn't using a model, the `form_tag` is enough for this. The P
 
 
 ```ruby
-# app/controllers/forget_password.rb
+# app/controllers/password_forget.rb
 
-JobVacancy::App.controllers :forget_password do
+JobVacancy::App.controllers :password_forget do
   ...
 
   post :create do
@@ -713,7 +713,7 @@ JobVacancy::App.controllers :forget_password do
 
     if user
       user.save_forget_password_token
-      link = "http://localhost:3000" + url(:forget_password, :edit,
+      link = "http://localhost:3000" + url(:password_forget, :edit,
         :token => user.password_reset_token)
       deliver(:password_forget, :password_forget_email, user.email, link)
     end
@@ -896,9 +896,9 @@ When the email was send we need to write the `edit` action to handle the link ac
 
 
 ```ruby
-# app/controllers/forget_password.rb
+# app/controllers/password_forget.rb
 
-JobVacancy::App.controllers :forget_password do
+JobVacancy::App.controllers :password_forget do
   ...
   get :edit, :map => "/password-reset/:token/edit" do
     @user = User.find_by_password_reset_token(params[:token])
@@ -913,7 +913,7 @@ JobVacancy::App.controllers :forget_password do
     else
       @user.update_attributes({:password_reset_token => 0,
         :password_reset_sent_date => 0})
-      redirect url(:forget_password, :new)
+      redirect url(:password_forget, :new)
     end
   end
 end
@@ -933,11 +933,11 @@ And now we can use the new syntax for describing time in a better way:
 
 
 ```ruby
-# app/controllers/forget_password.rb
+# app/controllers/password_forget.rb
 
 require 'timerizer'
 
-JobVacancy::App.controllers :forget_password do
+JobVacancy::App.controllers :password_forget do
   ...
   get :edit, :map => "/password-reset/:token/edit" do
     @user = User.find_by_password_reset_token(params[:token])
@@ -958,7 +958,7 @@ In the associated `edit` view we use the `form_for` and pass in the `user` model
 
 
 ```erb
-# app/views/forget_password/edit.erb
+# app/views/password_forget/edit.erb
 
 <h2>Reset Password</h2>
 
@@ -984,9 +984,9 @@ We add the `update` action now. First it checks, if the user can be found by the
 
 
 ```ruby
-# app/controllers/forget_password.rb
+# app/controllers/password_forget.rb
 
-JobVacancy::App.controllers :forget_password do
+JobVacancy::App.controllers :password_forget do
   ...
   post :update, :map => "password-reset/:token" do
     @user = User.find_by_password_reset_token(params[:token])
