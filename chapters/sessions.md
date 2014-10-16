@@ -157,7 +157,6 @@ describe "SessionsController" do
   def post_create(params)
     post "sessions/create", params
   end
-
 end
 ```
 
@@ -203,7 +202,7 @@ When I started the tests I got some weird error messages of calling a method on 
 ...
 RSpec.configure do |conf|
   conf.before do
-    User.observers.disable :all # <-- turn of user observers for testing reasons, yeah
+    User.observers.disable :all # <-- turn of user observers for testing reasons
   end
   ...
 end
@@ -248,7 +247,8 @@ Before going on with implementing the logout action we need to think what happen
 ```ruby
 # app/helpers/sessions_helper.rb
 
-# Helper methods defined here can be accessed in any controller or view in the application
+# Helper methods defined here can be accessed in any controller or view in
+# the application
 
 JobVacancy::App.helpers do
   # def simple_helper_method
@@ -339,8 +339,10 @@ describe "SessionsController" do
   ...
 
   def get_logout
-      # first arguments are params (like the ones out of an form), the second are environments variables
-    get '/logout', { :name => 'Hans', :password => 'Test123' }, 'rack.session' => { :current_user => 1 }
+      # first arguments are params (like the ones out of an form), the second
+      # are environments variables
+    get '/logout', { :name => 'Hans', :password => 'Test123' },
+      'rack.session' => { :current_user => 1 }
   end
   ...
 end
@@ -485,7 +487,6 @@ JobVacancy::App.controllers :sessions do
     end
   end
   ...
-
 end
 ```
 
@@ -493,7 +494,7 @@ end
 Now we can use the `error` variable in our view:
 
 
-```ruby
+```erb
 <%# app/views/sessions/new.erb %>
 
 <h1>Login</h1>

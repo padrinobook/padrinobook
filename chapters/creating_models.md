@@ -9,7 +9,6 @@ There are many different ways how to develop a user entity for your system. A us
 
 ```sh
 $ padrino g model user name:string email:string -a app
-
    apply  orms/activerecord
    apply  tests/rspec
   create  app/models/user.rb
@@ -108,9 +107,12 @@ $ padrino rake ar:migrate
 
 => Executing Rake ar:migrate ...
   DEBUG -  (0.1ms)  select sqlite_version(*)
-  DEBUG -  (143.0ms)  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL)
-  DEBUG -  (125.2ms)  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
-  DEBUG -  (0.2ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+  DEBUG -  (143.0ms)  CREATE TABLE "schema_migrations" ("version" varchar(255)
+    NOT NULL)
+  DEBUG -  (125.2ms)  CREATE UNIQUE INDEX "unique_schema_migrations"
+    ON "schema_migrations" ("version")
+  DEBUG -  (0.2ms)  SELECT "schema_migrations"."version"
+    FROM "schema_migrations"
    INFO - Migrating to CreateUsers (1)
   DEBUG -  (0.1ms)  begin transaction
   ...
@@ -138,7 +140,9 @@ Enter SQL statements terminated with a ";"
 sqlite> .tables
 schema_migrations  users
 sqlite> .schema users
-CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
+CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name"
+  varchar(255), "email" varchar(255), "created_at" datetime NOT NULL,
+  "updated_at" datetime NOT NULL);
 sqlite> .exit
 ```
 
@@ -172,11 +176,16 @@ $ padrino rake ar:create:all
 
 bundle exec padrino rake ar:create:all
 => Executing Rake ar:create:all ...
-/home/elex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db already exists
-/home/helex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db already exists
-/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_production.db already exists
-/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
-/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db already exists
+/home/elex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db
+  already exists
+/home/helex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db
+  already exists
+/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_production.db
+  already exists
+/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db
+  already exists
+/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db
+  already exists
 ```
 
 
@@ -241,14 +250,16 @@ How can we run all the tests in our application and see if everything is working
 ```sh
 $ padrino rake spec
 => Executing Rake spec ...
-/home/helex/.rbenv/versions/1.9.3-p392/bin/ruby -S rspec ./spec/app/models/user_spec.rb -fs --color
+/home/helex/.rbenv/versions/1.9.3-p392/bin/ruby
+  -S rspec ./spec/app/models/user_spec.rb -fs --color
 
 User Model
   can be created
 
 Finished in 0.05589 seconds
 1 example, 0 failures
-/home/helex/.rbenv/versions/1.9.3-p392/bin/ruby -S rspec ./spec/app/controllers/page_controller_spec.rb -fs --color
+/home/helex/.rbenv/versions/1.9.3-p392/bin/ruby
+  -S rspec ./spec/app/controllers/page_controller_spec.rb -fs --color
 
 PageController
   GET #about
@@ -283,7 +294,8 @@ Let's run the Padrino command to create the model for us. As you see, we once ag
 
 
 ```sh
-$ padrino g model job_offer title:string location:string description:text contact:string time_start:date time_end:date -a app
+$ padrino g model job_offer title:string location:string \
+  description:text contact:string time_start:date time_end:date -a app
    apply  orms/activerecord
    apply  tests/rspec
    create  app/models/job_offer.rb
@@ -292,15 +304,12 @@ $ padrino g model job_offer title:string location:string description:text contac
 ```
 
 
-Perhaps your forgot to add `-a app` to specify the app directory when running the generation. You can delete a model in Padrino by running:
+If you want to delete a model in Padrino by running:
 
 
 ```
 $ padrino g model job_offer -d
 ```
-
-
-Keep in mind that you will need to manually delete the now empty `models` folder or with the `$ rmdir models` unix/linux command.
 
 
 Next, we need to run our new database migration so that our database has the right scheme:
@@ -309,12 +318,13 @@ Next, we need to run our new database migration so that our database has the rig
 ```sh
 $ bundle exec padrino rake ar:migrate
   => Executing Rake ar:migrate ...
-    DEBUG -  (0.4ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+    DEBUG -  (0.4ms)  SELECT "schema_migrations"."version"
+      FROM "schema_migrations"
      INFO - Migrating to CreateUsers (1)
      INFO - Migrating to CreateJobOffers (2)
     DEBUG -  (0.3ms)  select sqlite_version(*)
     DEBUG -  (0.2ms)  begin transaction
-  ==  CreateJobOffers: migrating ================================================
+  ==  CreateJobOffers: migrating ==============================================
   -- create_table(:job_offers)
   ...
 ```
@@ -326,17 +336,14 @@ In order to run our tests, we also need to run our migrations for the test envir
 ```sh
 $ padrino rake ar:migrate -e test
   => Executing Rake ar:migrate ...
-  ==  CreateJobOffers: migrating ================================================
+  ==  CreateJobOffers: migrating ==============================================
   -- create_table(:job_offers)
      -> 0.0302s
-  ==  CreateJobOffers: migrated (0.0316s) =======================================
+  ==  CreateJobOffers: migrated (0.0316s) =====================================
 ```
 
 
-TBD: Find a way to run ar:migrate for all environments (mainly production and test)
-
-
-If you run your tests with `padrino rake spec`, everything should be fine.
+(TBD: Find a way to run ar:migrate for all environments - mainly production and test
 
 
 ### Creating Connection Between User And Job Offer Model
@@ -432,7 +439,6 @@ To see whether the migrations were executed, we connected to the sqlite3 databas
 
 ```sh
 $ padrino c
-  => Loading development console (Padrino v.0.12.3)
   => Loading Application JobVacancy
   >>
 ```
@@ -446,7 +452,8 @@ Let's run the shell to create a user with job offers:
 
 ```sh
 user = User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
-  => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther", created_at: nil, updated_at: nil>
+  => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther",
+     #created_at: nil, updated_at: nil>
   >> user.name
   => "Matthias Günther"
 ```
@@ -458,11 +465,13 @@ This creates a user object in our session. If we want to add an entry permanentl
 ```sh
 User.create(:name => 'Matthias Günther', :email => 'matthias.guenther')
 DEBUG -  (0.2ms)  begin transaction
-  DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES (?, ?, ?, ?)
-  [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias.guenther"], ["name", "Matthias Günther"],
-  ["updated_at", 2012-12-26 08:32:51 +0100]]
-    DEBUG -  (342.0ms)  commit transaction
-=> #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51",
+  DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at",
+  "email", "name", "updated_at") VALUES (?, ?, ?, ?)
+  [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias.guenther"],
+  ["name", "Matthias Günther"], ["updated_at", 2012-12-26 08:32:51 +0100]]
+  DEBUG -  (342.0ms)  commit transaction
+=> #<User id: 1, name: "Matthias Günther", email: "matthias.guenther",
+   # created_at: "2012-12-26 08:32:51",
     updated_at: "2012-12-26 08:32:51">
   >>
 ```
@@ -473,11 +482,9 @@ Please note that now you have an entry in your development database `db/job_vaca
 
 ```sh
 $ sqlite3 db/job_vacancy_development.db
-  SQLite version 3.7.13 2012-06-11 02:05:22
-  Enter ".help" for instructions
-  Enter SQL statements terminated with a ";"
   sqlite> SELECT * FROM users;
-  1|Matthias Günther|matthias.guenther|2012-12-26 08:32:51.323349|2012-12-26 08:32:51.323349
+  1|Matthias Günther|matthias.guenther
+   |2012-12-26 08:32:51.323349|2012-12-26 08:32:51.323349
   sqlite>.exit
 ```
 
@@ -487,7 +494,6 @@ Since we have an user, it's time to some job offers too:
 
 ```sh
 $ padrino c
-=> Loading development console (Padrino v.0.10.7)
 => Loading Application JobVacancy
  JobOffer.create(:title => 'Padrino Engineer',
    :location => 'Berlin',
@@ -497,9 +503,11 @@ $ padrino c
    :time_end => '2013/03/01',
    :user_id => 1)
  ...
-   => #<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
-   contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
-   10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>
+   => #<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin",
+      # description: "Come to this great place",
+   contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
+   time_end: "2013-03-01", created_at: "2012-12-26 10:12:07",
+   updated_at: "2012-12-26 10:12:07", user_id: 1>
 ```
 
 
@@ -515,9 +523,11 @@ And now let's create a second one for our first user:
     :time_end => '2013/03/01',
     :user_id => 1)
   ...
-    => #<JobOffer id: 2, title: "Padrino Engineer 2", location: "Berlin", description: "Come to this great place",
-    contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
-    10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>
+    => #<JobOffer id: 2, title: "Padrino Engineer 2", location: "Berlin",
+       # description: "Come to this great place",
+    contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
+    time_end: "2013-03-01", created_at: "2012-12-26 10:41:29",
+    updated_at: "2012-12-26 10:41:29", user_id: 1>
 ```
 
 
@@ -526,16 +536,22 @@ Now it's time to test our association between the user and the job-offer model. 
 
 ```sh
 >> user = User.find_by_id(1)
-  DEBUG - User Load (0.6ms)  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
-  => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther", created_at: "2012-12-26 08:32:51", updated_at:
-  "2012-12-26 08:32:51">
+  DEBUG - User Load (0.6ms)  SELECT "users".* FROM "users" WHERE
+  "users"."id" = 1 LIMIT 1
+  => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther",
+     # created_at: "2012-12-26 08:32:51", updated_at: "2012-12-26 08:32:51">
 >> user.job_offers
-  DEBUG - JobOffer Load (0.6ms)  SELECT "job_offers".* FROM "job_offers" WHERE "job_offers"."user_id" = 1
-  => [#<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin", description: "Come to this great place",
-  contact: "recruter@padrino-firm.org", time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
-  10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>, #<JobOffer id: 2, title: "Padrino Engineer 2", location:
-  "Berlin", description: "Come to this great place", contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
-  time_end: "2013-03-01", created_at: "2012-12-26 10:41:29", updated_at: "2012-12-26 10:41:29", user_id: 1>]
+  DEBUG - JobOffer Load (0.6ms)  SELECT "job_offers".* FROM "job_offers" WHERE
+  "job_offers"."user_id" = 1
+  => [#<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin",
+  description: "Come to this great place", contact: "recruter@padrino-firm.org",
+  time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
+  10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>,
+  #<JobOffer id: 2, title: "Padrino Engineer 2", location:
+  "Berlin", description: "Come to this great place",
+  contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
+  time_end: "2013-03-01", created_at: "2012-12-26 10:41:29",
+  updated_at: "2012-12-26 10:41:29", user_id: 1>]
 ```
 
 
@@ -567,9 +583,9 @@ If you pay a closer look into the `Gemfile`, you can see that we have several ge
 ```ruby
 # Gemfile
 ...
-gem 'rspec' , '2.13.0', :group => 'test'
+gem 'rspec' , '2.13.0',      :group => 'test'
 gem 'factory_girl', '4.2.0', :group => 'test'
-gem 'rack-test', '0.6.2', :require => 'rack/test', :group => 'test'
+gem 'rack-test', '0.6.2',    :require  => 'rack/test', :group => 'test'
 ...
 ```
 
@@ -605,7 +621,6 @@ FactoryGirl.define do
     name "Matthias Günther"
     email "matthias.guenther@wikimatze.de"
   end
-
 end
 ```
 
@@ -633,7 +648,9 @@ require 'spec_helper'
 
 describe "User Model" do
   let(:user) { FactoryGirl.build(:user) }
-  let(:job_offer) { {:title => 'Padrino Engineer', :location => 'Berlin', :description => 'Come to this great place'} }
+  let(:job_offer) { {:title => 'Padrino Engineer', :location => 'Berlin',
+    :description => 'Come to this great place'} }
+
   it 'can be created' do
     user.should_not be_nil
   end
@@ -646,7 +663,6 @@ describe "User Model" do
     user.job_offers.build(job_offer)
     user.job_offers.size.should == 1
   end
-
 end
 ```
 
@@ -666,7 +682,7 @@ We can improve our test by creating a factory for our job offer too and cleaning
 ...
 factory :user do
   name "Matthias Günther"
-  email "matthias.guenther@wikimatze.de"
+  email "matthias@padrinobook.com"
 end
 
 factory :job_offer do
@@ -691,6 +707,7 @@ require 'spec_helper'
 
 describe "User Model" do
   let(:user) { FactoryGirl.build(:user) }
+
   it 'can be created' do
     user.should_not be_nil
   end
@@ -703,7 +720,6 @@ describe "User Model" do
     user.job_offers.build(FactoryGirl.attributes_for(:job_offer))
     user.job_offers.size.should == 1
   end
-
 end
 ```
 
@@ -746,7 +762,6 @@ describe "User Model" do
     user.job_offers.build(attributes_for(:job_offer))
     user.job_offers.size.should == 1
   end
-
 end
 ```
 
