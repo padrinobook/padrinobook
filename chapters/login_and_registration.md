@@ -1446,12 +1446,12 @@ Let's create the observer with the name `user_observer` in the models folder
 # app/models/user_observer.rb
 
 class UserObserver < ActiveRecord::Observer
-... # put in here the private methods of the users model
+  ... # put in here the private methods of the users model
 end
 ```
 
 
-(Sadly, Padrino hasn't a generate command so I added a  [pull request](https://github.com/padrino/padrino-framework/pull/1786).)
+(Padrino hasn't a generate command, you can read about a possible command under [github](https://github.com/padrino/padrino-framework/pull/1786).)
 
 
 Since the observer is created we need to register it:
