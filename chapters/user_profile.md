@@ -115,10 +115,8 @@ And finally the edit form:
 ```erb
 <%# app/views/users/edit.erb %>
 
-<% form_for(@user, "/users/#{@user.id}") do |f| %>
-  <h2>Edit your profile</h2>
-
-  <input name="_method" type="hidden" value="put" />
+<h2>Edit your profile</h2>
+<% form_for(@user, "/users/#{@user.id}"), method: :put do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %>
   <%= error_message_on @user, :name, :class => "text-error",
@@ -139,13 +137,24 @@ And finally the edit form:
   <%= error_message_on @user, :password_confirmation, :class => "text-error" %>
 
   <p>
-  <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+    <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
   </p>
 <% end %>
 ```
 
 
+With the form `method: <action>` we can specify the the [HTTP methods](http://www.w3schools.com/tags/ref_httpmethods.asp). So `method: :put` will be translated into:
+
+
+```html
+<input name="_method" type="hidden" value="put" />
+```
+
+
 If you now open the browser at <http://jobvacancy.de:3000/users/<some-existing-id>/edit> you can edit the user even if you are not logged into the application. Ups, this is huge security issue.
+
+
+
 
 
 ### Authorization
