@@ -104,10 +104,6 @@ Now we have everything we need to run the `bundle` command and install our depen
 $ cd hello-padrino
 $ bundle
   Fetching gem metadata from http://rubygems.org/.........
-
-  Using rake ...
-  Using ...
-  Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
 ```
 
 

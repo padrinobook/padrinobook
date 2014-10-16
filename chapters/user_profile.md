@@ -73,7 +73,8 @@ end
 
 private
 def user_params
-  user.attributes.merge({"name" => "Octocat", "created_at" => Time.now, "updated_at" => Time.now})
+  user.attributes.merge({"name" => "Octocat", "created_at" => Time.now,
+    "updated_at" => Time.now})
 end
 ```
 
@@ -120,15 +121,18 @@ And finally the edit form:
   <input name="_method" type="hidden" value="put" />
   <%= f.label :name %>
   <%= f.text_field :name %>
-  <%= error_message_on @user, :name, :class => "text-error", :prepend => "The name " %>
+  <%= error_message_on @user, :name, :class => "text-error",
+    :prepend => "The name " %>
 
   <%= f.label :email %>
   <%= f.text_field :email %>
-  <%= error_message_on @user, :email, :class => "text-error", :prepend => "The email " %>
+  <%= error_message_on @user, :email, :class => "text-error",
+    :prepend => "The email " %>
 
   <%= f.label :password %>
   <%= f.password_field :password %>
-  <%= error_message_on @user, :password, :class => "text-error", :prepend => "The password "%>
+  <%= error_message_on @user, :password, :class => "text-error",
+    :prepend => "The password "%>
 
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %>
@@ -152,12 +156,7 @@ We want our user to be logged in and edit only his profile. In the previous part
 ```ruby
 # app/helpers/page_helper.rb
 
-# Helper methods defined here can be accessed in any controller or view in the application
-
 JobVacancy::App.helpers do
-  # def simple_helper_method
-  #  ...
-  # end
 end
 ```
 
@@ -167,9 +166,6 @@ This syntax is a shortcut for:
 
 ```ruby
 helpers = Module.new do
-  # def simple_helper_method
-  #  ...
-  # end
 end
 
 JobVacancy::App.helpers helpers
@@ -183,12 +179,9 @@ The helpers are an anonymous module and its hard to reference something that is 
 # app/helpers/page_helper.rb
 
 module PageHelper
-  # def simple_helper_method
-  #  ...
-  # end
 end
 
-JobVacancy::App.helpers UsersHelper
+JobVacancy::App.helpers PageHelper
 ```
 
 
@@ -217,7 +210,8 @@ Padrino isn't requiring helper to be tested automatically. Since we are planing 
 
 RACK_ENV = 'test' unless defined?(RACK_ENV)
 ...
-Dir[File.dirname(__FILE__) + '/../app/helpers/**.rb'].each { |file| require file }
+Dir[File.dirname(__FILE__) + '/../app/helpers/**.rb'].each
+  { |file| require file }
 ...
 ```
 
@@ -300,7 +294,8 @@ describe SessionsHelper do
       user = User.first
       browser = Rack::Test::Session.new(JobVacancy::App)
       browser.get '/', {}, 'rack.session' => { :current_user => user.id }
-      @session_helper.should_receive(:last_request).and_return(browser.last_request)
+      @session_helper.should_receive(:last_request).
+        and_return(browser.last_request)
       @session_helper.current_user.should == user
     end
   end
@@ -359,7 +354,8 @@ Finally, we need to provider the edit link in the header navigation:
       <%= link_to 'Logout', url(:sessions, :destroy) %>
     </div>
     <div class="span2">
-      <%= link_to 'Edit Profile', url(:users, :edit, :id => session[:current_user]) %>
+      <%= link_to 'Edit Profile', url(:users, :edit,
+        :id => session[:current_user]) %>
     </div>
   <% else %>
     <div class="span3">
@@ -446,9 +442,9 @@ SimpleCov.start
 And that's all. Next time when you run the tests you can detect lines with the following output:
 
 
-```ruby
-Coverage report generated for RSpec to git-repositories/job-vacancy/coverage. 209 / 252 LOC (82.94%) covered.
-/
+```text
+Coverage report generated for RSpec to git-repositories/job-vacancy/coverage.
+  209 / 252 LOC (82.94%) covered.
 ```
 
 
@@ -495,8 +491,8 @@ $ padrino g migration AddAuthentityTokenToUsers authentity_token:string
     create  db/migrate/006_add_authentity_token_to_users.rb
 $ padrino rake ar:migrate
 => Executing Rake ar:migrate ...
-  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
-  ...
+  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version"
+    FROM "schema_migrations" ...
    INFO -  Migrating to AddAuthentityTokenFieldToUsers (6)
   DEBUG -   (0.0ms)  select sqlite_version(*)
   DEBUG -   (0.0ms)  begin transaction
@@ -508,7 +504,8 @@ $ padrino rake ar:migrate
 
   DEBUG -   (0.1ms)  INSERT INTO "schema_migrations" ("version") VALUES ('7')
   DEBUG -   (10.0ms)  commit transaction
-  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version"
+    FROM "schema_migrations"
 ```
 
 
@@ -534,7 +531,6 @@ class User < ActiveRecord::Base
   def generate_authentity_token
     require 'securerandom'
     self.authentity_token = SecureRandom.base64(64)
-    SecureRandom
   end
 end
 ```
@@ -665,7 +661,6 @@ JobVacancy::App.controllers :forget_password do
   post :create do
     # have to think about this ...
   end
-
 end
 ```
 
@@ -701,7 +696,6 @@ In the `new` action’s view we’ll create a form to allow a user to enter thei
   <p>
     <%= submit_tag "Reset password", :class => "btn btn-primary" %>
   </p>
-
 <% end %>
 ```
 
@@ -719,13 +713,13 @@ JobVacancy::App.controllers :forget_password do
 
     if user
       user.save_forget_password_token
-      link = "http://localhost:3000" + url(:forget_password, :edit, :token => user.password_reset_token)
+      link = "http://localhost:3000" + url(:forget_password, :edit,
+        :token => user.password_reset_token)
       deliver(:password_forget, :password_forget_email, user.email, link)
     end
 
     render 'success'
   end
-
 end
 ```
 
@@ -734,12 +728,14 @@ The `save_forget_password_token` will create the `password_reset_token` for the 
 
 
 ```sh
-$ padrino g migration AddPasswordResetTokenToUsers password_reset_token:string password_reset_sent_date:datetime
+$ padrino g migration AddPasswordResetTokenToUsers
+  password_reset_token:string password_reset_sent_date:datetime
        apply  orms/activerecord
       create  db/migrate/007_add_password_reset_for_users.rb
 $ padrino rake ar:migrate
 => Executing Rake ar:migrate ...
-  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version"
+    FROM "schema_migrations"
    INFO -  Migrating to CreateUsers (1)
    INFO -  Migrating to CreateJobOffers (2)
    INFO -  Migrating to AddUserIdToJobOffers (3)
@@ -748,7 +744,8 @@ $ padrino rake ar:migrate
    INFO -  Migrating to AddAuthentityTokenFieldToUsers (6)
    INFO -  Migrating to AddPasswordResetTokenToUsers (7)
   DEBUG -   (0.0ms)  select sqlite_version(*)
-  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version" FROM "schema_migrations"
+  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version"
+    FROM "schema_migrations"
 ```
 
 
@@ -790,7 +787,6 @@ class User < ActiveRecord::Base
     self.save
   end
   ...
-
 end
 ```
 
@@ -896,8 +892,7 @@ Your Job Vacancy!
 ```
 
 
-When the email was send we need to write the `edit` action to handle the link action. The action will take the reset token and check if it
-still valid. If not, it will redirect us to the forget password route.
+When the email was send we need to write the `edit` action to handle the link action. The action will take the reset token and check if it still valid. If not, it will redirect us to the forget password route.
 
 
 ```ruby
@@ -905,19 +900,19 @@ still valid. If not, it will redirect us to the forget password route.
 
 JobVacancy::App.controllers :forget_password do
   ...
-
-
   get :edit, :map => "/password-reset/:token/edit" do
     @user = User.find_by_password_reset_token(params[:token])
 
     if @user.password_reset_sent_date <= Time.now + (60 * 60)
-      @user.update_attributes({:password_reset_token => 0, :password_reset_sent_date => 0})
+      @user.update_attributes({:password_reset_token => 0,
+        :password_reset_sent_date => 0})
       flash[:error] = "Password reset token has expired."
       redirect url(:sessions, :new)
     elsif @user
       render 'edit'
     else
-      @user.update_attributes({:password_reset_token => 0, :password_reset_sent_date => 0})
+      @user.update_attributes({:password_reset_token => 0,
+        :password_reset_sent_date => 0})
       redirect url(:forget_password, :new)
     end
   end
@@ -925,7 +920,7 @@ end
 ```
 
 
-The line with `Time.now + (60 * 60)` is not very readable. Rails has the functionality of using words like `1.hour.ago` with the help of [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html) module. Since Padrino is not using `ActiveSupport`, we can use the [Timerizer gem](https://github.com/kylewlacy/timerizer) which adds the functionality for us:
+The line with `Time.now + (60 * 60)` is not very readable. Rails has the functionality of using words like `1.hour.ago` with the help of [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html) module. Since Padrino is not using `ActiveSupport`, we use the [Timerizer](https://github.com/kylewlacy/timerizer) gem which adds the functionality for us:
 
 
 ```ruby
@@ -944,7 +939,6 @@ require 'timerizer'
 
 JobVacancy::App.controllers :forget_password do
   ...
-
   get :edit, :map => "/password-reset/:token/edit" do
     @user = User.find_by_password_reset_token(params[:token])
 
@@ -968,10 +962,12 @@ In the associated `edit` view we use the `form_for` and pass in the `user` model
 
 <h2>Reset Password</h2>
 
-<% form_for @user, "/password-reset/#{@user.password_reset_token}", method: :post do |f| %>
+<% form_for @user, "/password-reset/#{@user.password_reset_token}",
+  method: :post do |f| %>
   <%= f.label :password %>
   <%= f.password_field :password %>
-  <%= error_message_on @user, :password, :class => "text-error", :prepend => "The password "%>
+  <%= error_message_on @user, :password, :class => "text-error",
+    :prepend => "The password "%>
 
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %>
@@ -984,8 +980,7 @@ In the associated `edit` view we use the `form_for` and pass in the `user` model
 ```
 
 
-We add the `update` action now. First it checks, if the user can be found by the passed token and then we use the
-password field validations from the user model:
+We add the `update` action now. First it checks, if the user can be found by the passed token and then we use the password field validations from the user model:
 
 
 ```ruby
@@ -993,8 +988,6 @@ password field validations from the user model:
 
 JobVacancy::App.controllers :forget_password do
   ...
-
-
   post :update, :map => "password-reset/:token" do
     @user = User.find_by_password_reset_token(params[:token])
 

@@ -6,7 +6,11 @@ Start with generating a new project with the canonical `padrino` command. In con
 ```sh
 $ mkdir ~/padrino-projects
 $ cd ~/padrino_projects
-$ padrino g project job-vacancy -d activerecord -t rspec -s jquery -e erb -a sqlite
+$ padrino g project job-vacancy -d activerecord \
+  -t rspec \
+  -s jquery \
+  -e erb \
+  -a sqlite
 ```
 
 
@@ -59,7 +63,7 @@ Later, when *the time comes*, we will add extra gems, for now though we'll grab 
 $ bundle install
 ```
 
-### Basic Layout Template
+### Basic Layout
 
 Lets design our first version of the *index.html* page which is the starter page our app. An early design question is: Where to put the *index.html* page? Because we are not working with controllers, the easiest thing is to put the *index.html* directly under the public folder in the project.
 
@@ -67,7 +71,7 @@ Lets design our first version of the *index.html* page which is the starter page
 We are using [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, and add the following code into `public/index.html`:
 
 
-```sh
+```html
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -108,22 +112,12 @@ Lets add some basic routes for displaying our home, about, and contact-page. How
 
 ```sh
 $ padrino g controller page
+  create  app/controllers/page.rb
+  create  app/helpers/page_helper.rb
+  create  app/views/page
+   apply  tests/rspec
+  create  spec/app/controllers/page_controller_spec.rb
 ```
-
-
-The output of this command is:
-
-
-```sh
-create  app/controllers/page.rb
-create  app/helpers/page_helper.rb
-create  app/views/page
- apply  tests/rspec
-create  spec/app/controllers/page_controller_spec.rb
-```
-
-
-(If you have questions about the output above, please let me know.)
 
 
 Lets take a closer look at our page-controller:
@@ -152,7 +146,6 @@ JobVacancy::App.controllers :page do
   # get '/example' do
   #   'Hello world!'
   # end
-
 end
 ```
 
@@ -175,7 +168,6 @@ JobVacancy:.App.controllers :page do
   get :home, :map => '/' do
     render :erb, 'home'
   end
-
 end
 ```
 
@@ -185,14 +177,14 @@ We will go through each line:
 
 - `JobVacancy::App.controller :page` - Define the namespace *page* for our JobVacancy app. Typically, the controller name will also be part of the route.
 - `do ... end` - This expression defines a block in Ruby. Think of it as a method without a name, also called anonymous functions, which is passed to another function as an argument.
-- `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the *about* action (in the form of a Ruby symbol[^symbol]), and is finally mapped to the explicit URL */about*. When you start your server with `bundle exec padrino s` and visit the URL <http://localhost:3000/about>, you can see the rendered output of this request.
-- `render :erb, 'about'` - This action tells us that we want to render the *erb* file *about* for the corresponding controller which is `page` in our case. This file is actually located at `app/views/page/about.erb` file. Normally the views are placed under *app/views/<controller-name>/<action-name>.<ending>*  Instead of using an ERB templates, you could also use `:haml`, or another template language. If you are lazy, you can leave the option for the rendering option completely out and leave the matching completely for Padrino.
+- `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the *about* action (as a symbol[^symbol]), and is finally mapped to the explicit URL */about*. When you start your server with `bundle exec padrino s` and visit the URL <http://localhost:3000/about>, you can see the rendered output of this request.
+- `render :erb, 'about'` - This action tells us that we want to render the *erb* file *about* for the corresponding controller which is `page` in our case. This file is actually located at `app/views/page/about.erb` file. Normally the views are placed under `app/views/<controller-name>/<action-name>.<ending>`. Instead of using an ERB templates, you could also use `:haml`, or another [template engine](https://www.ruby-toolbox.com/categories/template_engines). You can even completely drop the rendering option and leave the matching completely for Padrino.
 
 
 [^symbol]: Unlike strings, symbols of the same name are initialized and exist in memory only once during a session of ruby. This makes your programs more efficient.
 
 
-To see what routes you have defined for your app, call `padrino rake routes`:
+Call the following command to see all defined routes for your application:
 
 
 ```sh
@@ -207,12 +199,9 @@ $ padrino rake routes
 ```
 
 
-This command crawls through your app looking for any existing routes and gives you a nice overview of the **URL (:controller, :explicit_url), REQUEST**, and **PATH**.
+### Application Template
 
-
-### App Template With ERB
-
-Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling on our web page. First we need to generate a basic template for all pages we want to create. Lets create *app/views/layouts/application.erb*:
+Although we are now able to put content (albeit static) on our site, it would be nice to have some sort of basic styling on our web page. First we need to generate a basic template for all pages we want to create:
 
 
 ```erb
@@ -243,18 +232,9 @@ Padrino itself also provides built-in templates for common tasks done on web app
 
 ```sh
 $ padrino-gen plugin bootstrap
-
-  apply  https://github.com/padrino/padrino-recipes/raw/master/plugins/bootstrap_plugin.rb
+  apply  https://github.com/padrino/padrino-recipes/raw/master/plugins/...
   create    public/stylesheets/bootstrap.css
-  create    public/stylesheets/bootstrap-theme.css
-  create    public/javascripts/bootstrap.js
-  create    public/javascripts/bootstrap.min.js
-  create    public/javascripts/jquery.js
-  create    public/javascripts/jquery-ujs.js
-  create    public/fonts/glyphicons-halflings-regular.eot
-  create    public/fonts/glyphicons-halflings-regular.svg
-  create    public/fonts/glyphicons-halflings-regular.ttf
-  create    public/fonts/glyphicons-halflings-regular.woff
+  ...
 ```
 
 
@@ -301,7 +281,8 @@ We are using the **padrino-sprockets** gem. Let's add it to our Gemfile and run 
 ```ruby
 # Gemfile
 
-gem 'padrino-sprockets', :require => ['padrino/sprockets'], :git => 'git://github.com/nightsailer/padrino-sprockets.git'
+gem 'padrino-sprockets', :require => ['padrino/sprockets'],
+  :git => 'git://github.com/nightsailer/padrino-sprockets.git'
 ```
 
 Next we need to move all our assets from the public folder in the assets folder:
@@ -313,6 +294,7 @@ $ mkdir -p app/assets
 $ cd public
 $ mv -v fonts images javascripts stylesheets ../app/assets
 ```
+
 
 Now we have to register Padrino-Sprockets in this application:
 
@@ -338,12 +320,8 @@ Next we need create an application.css file and add the following to determine t
 /* app/assets/stylesheets/application.css */
 
 /*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
- * require_self: Puts the CSS contained within this file at the precise location (puts this command
- * at the top of the generated css file
- * require_tree . means, that requiring all stylesheets from the current directory.
+ * This is a manifest file that'll automatically include all the stylesheets ...
+ * ...
  *
  *= require_self
  *= require bootstrap
@@ -362,18 +340,14 @@ Next let's have a look into our JavaScript file `app/assets/javascript/applicati
 ```javascript
 /* app/assets/javascript/application.js */
 
-// This is a manifest file that'll be compiled into including all the files listed below.
-// Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
-// be included in the compiled file accessible from http://example.com/assets/application.js
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// the compiled file.
+// This is a manifest file that'll be compiled into including all the files ...
+// ...
 //
 //= require_tree .
 ```
 
 
-The interesting thing here is the `require_tree .` option. This option tells Sprockets to include all
-JavaScript files in the assets folder with no specific order.
+The interesting thing here is the `require_tree .` option. This option tells Sprockets to include all JavaScript files in the assets folder with no specific order.
 
 
 Now, we can clean up the include statements in our application template:
@@ -398,7 +372,8 @@ Now we want to enable compression for our CSS and JavaScript files. For CSS comp
 ```ruby
 # Gemfile
 ...
-gem 'padrino-sprockets', :require => 'padrino/sprockets', :git => 'git://github.com/nightsailer/padrino-sprockets.git'
+gem 'padrino-sprockets', :require => 'padrino/sprockets',
+  :git => 'git://github.com/nightsailer/padrino-sprockets.git'
 gem 'uglifier', '2.1.1'
 gem 'yui-compressor', '0.9.6'
 ...
@@ -482,7 +457,8 @@ Now that the we provide links to other parts of the app, lets add some sugar-can
 /* app/assets/stylesheets/site.css */
 
 body {
-  font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana, sans-serif;
+  font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana,
+    sans-serif;
   text-align: justify;
 }
 
@@ -507,6 +483,7 @@ h1 {
   line-height: 1.8em;
 }
 ```
+
 
 I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c school css](http://www.w3schools.com/css/default.asp) tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
 
@@ -566,7 +543,6 @@ describe "PageController" do
       last_response.should be_ok
     end
   end
-
 end
 ```
 
@@ -591,14 +567,9 @@ Finished in 0.21769 seconds
 ```
 
 
-Cool, all tests passed! We didn't exactly use behavior-driven development until now.
+Cool, all tests passed! We didn't exactly use behavior-driven development until now[^note].
 
-Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was omitted during the initial app generation that looks something like 'NameError: undefined local variable' check your `spec_helper.rb` file and make sure the following matches:
-
-
-```ruby
-def app(app = nil, &blk) # note the comma right after nil
-```
+[^note]: Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was omitted during the initial app generation that looks something like 'NameError: undefined local variable' check your `spec_helper.rb` file and make sure the following matches: `def app(app = nil, &blk)`, please  note the comma right after nil.
 
 
 \begin{aside}

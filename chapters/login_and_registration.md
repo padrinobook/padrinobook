@@ -112,7 +112,7 @@ FactoryGirl.define do
 ...
   factory :user do
     name  "Matthias Günther"
-    email "matthias@wikimatze.de"
+    email "matthias@padrinobook.com"
     password "octocat"
   end
 end
@@ -146,7 +146,8 @@ Failures:
      Failure/Error: user.save.should be_false
        expected: false value
             got: true
-     # ./spec/app/models/user_spec.rb:20:in `block (2 levels) in <top (required)>'
+     # ./spec/app/models/user_spec.rb:20:in `block (2 levels)
+     # in <top (required)>'
 
 Finished in 0.42945 seconds
 10 examples, 1 failure, 5 pending
@@ -157,7 +158,7 @@ rspec ./spec/app/models/user_spec.rb:18 # User Model have no blank name
 ```
 
 
-To make this test pass we need to validate the `email` property in our user model with the help of the [presence option](http://guides.rubyonrails.org/active_record_validations_callbacks.html#presence):
+To make this test pass we need to validate the `email` property in our user model with the help of the [presence validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#presence):
 
 
 ```ruby
@@ -181,7 +182,7 @@ We don't want to have duplicated names in our application. For testing this, we 
 # spec/factories
 
 FactoryGirl.define do
-  sequence(:email){ |n| "matthias.guenther#{n}@wikimatze.de"}
+  sequence(:email){ |n| "matthias.guenther#{n}@padrinobook.com"}
 
   factory :user do
     name  "Matthias Günther"
@@ -258,10 +259,10 @@ We can test the correctness of the `email` field with a regular expression. Firs
 # app/models/user.rb
 
 class User < ActiveRecord::Base
-...
+  ...
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, format: { with: VALID_EMAIL_REGEX }
-...
+  ...
 end
 ```
 
@@ -339,13 +340,15 @@ The form will be rendered as the following HTML:
   <input id="user_password" name="user[password]" type="password" />
 
   <label for="user_password_confirmation">Password confirmation: </label>
-  <input id="user_password_confirmation" name="user[password_confirmation]" type="password" />
+  <input id="user_password_confirmation" name="user[password_confirmation]"
+    type="password" />
 
   <p>
   <input class="btn btn-primary" value="Create" type="submit" />
   </p>
 </form>
 ```
+
 
 
 ### User Controller Sign up Actions
@@ -357,12 +360,10 @@ We need to make sure to have the right mappings for the `/login` route in the ac
 # app/controllers/users.rb
 
 JobVacancy::App.controllers :users do
-
   get :new, :map => "/login" do
     @user = User.new
     render 'new'
   end
-
 end
 ```
 
@@ -397,8 +398,10 @@ If you send the form without any inputs, you will see that you are redirected in
 
 ```sh
 DEBUG -  (0.1ms)  begin transaction
-DEBUG - User Exists (0.3ms)  SELECT 1 AS one FROM "users" WHERE "users"."name" = '' LIMIT 1
-DEBUG - User Exists (0.2ms)  SELECT 1 AS one FROM "users" WHERE "users"."email" = '' LIMIT 1
+DEBUG - User Exists (0.3ms)  SELECT 1 AS one FROM "users" WHERE
+  "users"."name" = '' LIMIT 1
+DEBUG - User Exists (0.2ms)  SELECT 1 AS one FROM "users" WHERE
+  "users"."email" = '' LIMIT 1
 DEBUG -  (0.2ms)  rollback transaction
 DEBUG -     POST (0.0162ms) /users/create - 303 See Other
 DEBUG - TEMPLATE (0.0004ms) /page/home
@@ -414,7 +417,8 @@ The part with the `rollback transaction` means, that user was not saved. Why? Be
 
 
 ```ruby
-=> #<ActiveModel::Errors:0x9dea518 @base=#<User id: nil, name: nil, email: nil, created_at: nil,
+=> #<ActiveModel::Errors:0x9dea518 @base=#<User id: nil, name: nil, email: nil,
+   #created_at: nil,
     updated_at: nil, password: nil>, messages{:name=>["can't be blank"],
     :password=>["is too short (minimum is 5 characters)", "can't be blank"],
     :email=>["can't be blank", "is invalid"]}
@@ -438,7 +442,7 @@ We can use this information to display the errors in our form for the user to le
 It counts the number of errors `@user.errors.count` and is looping through all field with their error messages. But this will result in a big box with a bunch of error messages like the following one:
 
 
-```sh
+```text
 5 errors prohibited this User from being saved
 There were problems with the following fields:
 
@@ -491,15 +495,18 @@ We can do better and make the error text red. Let's add the `:class` at the of t
 <% form_for(@user, '/users/create') do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %>
-  <%= error_message_on @user, :name, :class => "text-error", :prepend => "The name " %>
+  <%= error_message_on @user, :name, :class => "text-error",
+    :prepend => "The name " %>
 
   <%= f.label :email %>
   <%= f.text_field :email %>
-  <%= error_message_on @user, :email, :class => "text-error", :prepend => "The email " %>
+  <%= error_message_on @user, :email, :class => "text-error",
+    :prepend => "The email " %>
 
   <%= f.label :password %>
   <%= f.password_field :password %>
-  <%= error_message_on @user, :password, :class => "text-error", :prepend => "The password "%>
+  <%= error_message_on @user, :password, :class => "text-error",
+    :prepend => "The password "%>
 
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %>
@@ -517,11 +524,16 @@ If you fill out the form with complete valid parameters and watch your log again
 
 ```sh
 DEBUG -  (0.2ms)  begin transaction
-DEBUG - User Exists (0.3ms)  SELECT 1 AS one FROM "users" WHERE "users"."name" = 'Testuser' LIMIT 1
-DEBUG - User Exists (0.2ms)  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'admin@job-vacancy.de' LIMIT 1
-DEBUG - SQL (0.2ms)  INSERT INTO "users" ("created_at", "email", "name", "password", "updated_at") VALUES
-(?, ?, ?, ?, ?)  [["created_at", 2013-04-10 20:09:10 +0200], ["email", "admin@job-vacancy.de"],
-["name", "Testuser"], ["password", "example"], ["updated_at", 2013-04-10 20:09:10 +0200]]
+DEBUG - User Exists (0.3ms)  SELECT 1 AS one FROM "users" WHERE
+  "users"."name" = 'Testuser' LIMIT 1
+DEBUG - User Exists (0.2ms)  SELECT 1 AS one FROM "users" WHERE
+  "users"."email" = 'admin@job-vacancy.de' LIMIT 1
+DEBUG - SQL (0.2ms)  INSERT INTO "users"
+("created_at", "email", "name", "password", "updated_at") VALUES
+(?, ?, ?, ?, ?)  [["created_at", 2013-04-10 20:09:10 +0200],
+["email", "admin@job-vacancy.de"],
+["name", "Testuser"], ["password", "example"],
+["updated_at", 2013-04-10 20:09:10 +0200]]
 DEBUG -  (174.1ms)  commit transaction
 DEBUG -     POST (0.1854ms) /users/create - 303 See Other
 DEBUG - TEMPLATE (0.0004ms) /page/home
@@ -594,18 +606,21 @@ To send a first simple "Hallo" message we create an [email block](https://github
 ```ruby
 # app/controllers/users.rb
 
-post :create do
-  @user = User.new(params[:user])
-  if @user.save
-    email do
-      from "admin@job-vacancy.de"
-      to "lordmatze@gmail.com"
-      subject "Welcome!"
-      body "hallo"
+JobVacancy::App.controllers :users do
+  ...
+  post :create do
+    @user = User.new(params[:user])
+    if @user.save
+      email do
+        from "admin@job-vacancy.de"
+        to "lordmatze@gmail.com"
+        subject "Welcome!"
+        body "hallo"
+      end
+      redirect('/')
+    else
+      render 'new'
     end
-    redirect('/')
-  else
-    render 'new'
   end
 end
 ```
@@ -614,7 +629,7 @@ end
 Now start the app, go to the URL <http://localhost:3000/login>, and register a fresh user. You can check the log if the mail was send or you "feel" a slow down in your application because it takes a while before the mail is send:
 
 
-```sh
+```text
 DEBUG - Sending email to: lordmatze@gmail.com
 Date: Sun, 14 Apr 2013 09:17:38 +0200
 From: admin@job-vacancy.de
@@ -719,7 +734,8 @@ Instead of writing only a simple "Hallo" in our email we would like to give more
 
 Hi ...,
 
-we are glad to have you on our platform. Feel free to post jobs and find the right people for your application.
+we are glad to have you on our platform. Feel free to post jobs and find the
+right people for your application.
 
 Your Job Vacancy!
 ```
@@ -793,7 +809,8 @@ And update our template with the name variable:
 
 Hi <%= name %>,
 
-we are glad to have you on our platform. Feel free to post jobs and find the right people for your application.
+we are glad to have you on our platform. Feel free to post jobs and find the
+right people for your application.
 
 Your Job Vacancy!
 ```
@@ -812,7 +829,8 @@ email :registration_email do |name, email|
   subject "Welcome!"
   locals :name => name, :email=> email
   render 'registration_email'
-  add_file :filename => 'welcome.pdf', :content => File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |f| f.read}
+  add_file :filename => 'welcome.pdf', :content =>
+    File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |f| f.read }
 end
 ```
 
@@ -823,7 +841,7 @@ Please correct me if there is a better way to get to the asset folder but that i
 During writing this chapter I experiment with the `content_type` option. If you set the `content_type` to plain you will get the attachment based as binary code directly into your mail. Please put the `content_type :plain` into the `registration` mailer. If the mail will be send you can see something like this in your logs:
 
 
-```sh
+```text
   DEBUG - Sending email to: lordmatze@gmail.com
 Date: Thu, 18 Apr 2013 18:34:15 +0200
 From: admin@job-vacancy.de
@@ -844,7 +862,8 @@ Content-ID: <5170208753fd5_70f748e8010831c1@mg.mail>
 
 Hi Bob,
 
-we are glad to have you on our platform. Feel free to post jobs and find the right people for your application.
+we are glad to have you on our platform. Feel free to post jobs and find the
+right people for your application.
 
 Your Job Vacancy!
 
@@ -892,7 +911,7 @@ The basic steps for implementing the logic of email confirmation are the followi
 
 
 \begin{aside}
-\heading{Why Confirmation Mail}
+\heading{Why Confirmation Mail?}
 
 Check that the user actually signed up for the account and actually wants it. This also helps you from spamming your platform is going to be floated with billions of users. Another usage of this information is to give your users a chance to change their password and/or stay in contact with them to inform them about updates.
 
@@ -905,7 +924,8 @@ Create a good migration which fits to the task we want to do:
 
 
 ```sh
-$ padrino g migration AddConfirmationCodeAndConfirmationToUsers confirmation_code:string confirmation:boolean
+$ padrino g migration AddConfirmationCodeAndConfirmationToUsers
+    confirmation_code:string confirmation:boolean
    apply  orms/activerecord
   create  db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
 ```
@@ -1183,15 +1203,19 @@ describe "confirmation code" do
   it 'should authenticate user with correct confirmation code' do
     user_confirmation.save
     confirmation_of_saved_user = User.find_by_id(user_confirmation.id)
-    user_confirmation.confirmation_code = confirmation_of_saved_user.confirmation_code
-    user_confirmation.authenticate(user_confirmation.confirmation_code).should be_true
+    user_confirmation.confirmation_code =
+      confirmation_of_saved_user.confirmation_code
+    user_confirmation.authenticate(user_confirmation.confirmation_code).
+      should be_true
   end
 
   it 'confirmation should be set true after a user is authenticated' do
     user_confirmation.save
     confirmation_of_saved_user = User.find_by_id(user_confirmation.id)
-    user_confirmation.confirmation_code = confirmation_of_saved_user.confirmation_code
-    user_confirmation.authenticate(user_confirmation.confirmation_code).should be_true
+    user_confirmation.confirmation_code =
+      confirmation_of_saved_user.confirmation_code
+    user_confirmation.authenticate(user_confirmation.confirmation_code).
+      should be_true
     user_confirmation.confirmation.should be_true
   end
 
@@ -1328,7 +1352,8 @@ JobVacancy::App.mailer :confirmation do
     from "admin@job-vacancy.de"
     subject "Please confirm your account"
     to email
-    locals :name => name, :confirmation_link => "#{CONFIRMATION_URL}/#{id}/#{link}"
+    locals :name => name, :confirmation_link =>
+      "#{CONFIRMATION_URL}/#{id}/#{link}"
     render 'confirmation_email'
   end
 end
@@ -1376,7 +1401,7 @@ end
 
 ### Observer
 
-The code is working but We have flaws in our design:
+The code is working but we have flaws in our design:
 
 
 1. The controller is sending mails but this is not the responsibility of it.
@@ -1407,6 +1432,7 @@ First we need to enable the `activerecord gem`:
 # Gemfile
 ...
 gem 'activerecord', '~> 3.2', :require => 'active_record'
+...
 ```
 
 
@@ -1448,11 +1474,10 @@ We are defining our user observer with extends from the [ActiveRecord::Observer]
 
 
 ```ruby
-# app/models/user.rb
+# app/models/user.rb class
 
-class User < ActiveRecord::Base
-  ... # The other validations
-
+User < ActiveRecord::Base
+  ...
   before_save :encrypt_confirmation_code, :if => :registered?
 
   private
@@ -1485,7 +1510,6 @@ And refactor the code above into our observer:
 # app/models/user_observer.rb
 
 class UserObserver < ActiveRecord::Observer
-
   private
   def encrypt_confirmation_code(user)
     user.confirmation_code = set_confirmation_code(user)
@@ -1512,14 +1536,15 @@ We also need to remove the callback `before_save :encrypt_confirmation_code, :if
 # app/models/user_observer.rb
 
 class UserObserver < ActiveRecord::Observer
-...
+  ...
   def before_save(user)
     if user.new_record?
       encrypt_confirmation_code(user)
-      JobVacancy::App.deliver(:registration, :registration_email, user.name, user.email)
+      JobVacancy::App.deliver(:registration, :registration_email, user.name,
+        user.email)
     end
   end
-...
+  ...
 end
 ```
 
@@ -1565,10 +1590,9 @@ end
 
 RSpec.configure do |conf|
   ...
-conf.before do
+  conf.before do
     User.observers.disable :all # <-- turn of user observers for testing reasons
   end
-
   ...
 end
 ```
@@ -1600,7 +1624,6 @@ describe "UserObserver" do
   it 'creates Mail::Message object after save' do
     @observer.after_save(user).should be_instance_of(Mail::Message)
   end
-
 end
 ```
 
