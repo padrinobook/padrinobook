@@ -12,7 +12,7 @@ It is possible that you know this section from several tutorials, which makes yo
 Now, get your hands dirty and start coding.
 
 
-First of all we need to install the *padrino gem*. We are using the last stable version of Padrino (during the release of this book it is version **0.12.3**). Execute this command.
+First of all we need to install the [padrino gem](https://rubygems.org/gems/padrino "Padrino gem"). We are using the last stable version of Padrino (during the release of this book it is version **0.12.3**). Execute this command.
 
 
 ```sh
@@ -83,7 +83,7 @@ $ bundle
 The last line in the console output tells you the next steps you have to perform. Before we start coding our app, we need some sort of package management for Ruby gems.
 
 
-Ruby has a nice package manager called [bundler](http://gembundler.com/ "Bundler") which installs all necessary gems in the versions you would like to have for your project. Other developers know now how to work with your project even after years. The [Gemfile](http://gembundler.com/gemfile.html "Gemfile") declares the gems that you want to install. Bundler takes the content of the Gemfile and will install every package declared in this file.
+Ruby has a nice package manager called [bundler](http://gembundler.com "Bundler") which installs all necessary gems in the versions you would like to have for your project. Other developers know now how to work with your project even after years. The [Gemfile](http://gembundler.com/gemfile.html "Gemfile") declares the gems that you want to install. Bundler takes the content of the Gemfile and will install every package declared in this file.
 
 
 To install bundler, execute the following command and check the console output:
