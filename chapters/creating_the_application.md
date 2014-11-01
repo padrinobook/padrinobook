@@ -20,26 +20,26 @@ Explanation of the fields commands:
 - **g**[^padrino-gen]: Is shortcut for `generate`.
 - **-d activerecord**: We are using [Active Record](https://rubygems.org/gems/activerecord "Active Record") as the orm library (*Object Relational Mapper*).
 - **-t rspec**: We are using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework.
-- **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous [jQuery](http://jquery.com/ "jQuery") library.
-- **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup for writing HTML templates. An alternative is [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com/ "Slim"), but to keep the project as simple as possible, we stick with ERB. Feel free to use them if you like to.
-- **-a sqlite**: Our ORM[^orm] database adapter is [SQLite](http://www.sqlite.org/ "SQLite"). The whole database is saved in a text file.
+- **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous [jQuery](http://jquery.com "jQuery") library.
+- **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup for writing HTML templates. An alternative is [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com "Slim"), but to keep the project as simple as possible, we stick with ERB. Feel free to use them if you like to.
+- **-a sqlite**: Our ORM[^orm] database adapter is [SQLite](http://www.sqlite.org "SQLite"). The whole database is saved in a text file.
 
 
 [^padrino-gen]: Instead of using `padrino g` you can also use `padrino-gen`
 
 
-Since we are using RSpec for testing, we will use its' built-in mock extensions [rspec-mocks](https://github.com/rspec/rspec-mocks "rspec mocks") for writing tests later. In case you want to use another mocking library like [rr](https://rubygems.org/gems/rr "rr") or [mocha](http://gofreerange.com/mocha/docs/ "mocha"), feel free to add it with the **-m** option.
+Since we are using RSpec for testing, we will use its' built-in mock extensions [rspec-mocks](https://github.com/rspec/rspec-mocks "rspec mocks") for writing tests later. In case you want to use another mocking library like [rr](https://rubygems.org/gems/rr "rr") or [mocha](http://gofreerange.com/mocha/docs "mocha"), feel free to add it with the **-m** option.
 
 
 You can use a vast array of other options when generating your new Padrino app, this table shows the currently available options:
 
 
-- `orm`: Available options are: `activerecord, couchrest,  datamapper, mongoid, mongomatic, ohm, ripple`, and `sequel`. The command line alias is `-d`.
-- `test`: Available options are: `bacon, cucumber, minitest, riot, rspec, should`, and `testspec`. The command line alias is `-t`.
-- `script`: Available options are: `dojo, extcore, jquery, mootools, prototype`, and `rightjs`. The command line alias is `-s`.
-- `renderer`: Available options are: `erb, haml, liquid`, and `slim`. The command line alias is `-e`.
-- `stylesheet`: Available options are: `compass, less, sass`, and `scss`. The command line alias is `-c`.
-- `mock`: Available options are: `mocha` and `rr`.
+- `orm`: Available options are: [activerecord](https://github.com/rails/rails/tree/master/activerecord "Active Record"), [couchrest](https://github.com/couchrest/couchrest "couchrest"),  [datamapper](http://datamapper.org "datamapper"), [minirecord](https://github.com/DAddYE/mini_record "minirecord"), [mongoid](https://github.com/mongoid/mongoid "mongoid"), [mongomatic](https://github.com/mongomatic/mongomatic "mongomatic"), [ohm](https://github.com/soveran/ohm "ohm"), [ripple](https://github.com/basho-labs/ripple "ripple"), and [sequel](https://github.com/jeremyevans/sequel "sequel"). The command line alias is `-d`.
+- `test`: Available options are: [bacon](https://github.com/chneukirchen/bacon "bacon"), [cucumber](https://github.com/cucumber/cucumber "cucumber"), [minitest](https://github.com/seattlerb/minitest "minitest"), [riot](http://thumblemonks.github.io/riot "riot"), [rspec](https://github.com/rspec/rspec "rspec"), [shoulda](https://github.com/thoughtbot/shoulda "shoulda"), and [steak](https://github.com/cavalle/steak "steak"). The command line alias is `-t`.
+- `script`: Available options are: [dojo](http://dojotoolkit.org "dojo"), [extcore](http://www.sencha.com/products/extcore "extcore"), [jquery](http://jquery.com "jQuery"), [mootools](http://mootools.net "mootools"), [prototype](http://prototypejs.org/ "prototype"), and [rightjs](http://rightjs.org "rightjs"). The command line alias is `-s`.
+- `renderer`: Available options are: [erb](http://ruby-doc.org/stdlib-2.1.4/libdoc/erb/rdoc/ERB.html "erb"), [haml](http://ruby-doc.org/stdlib-2.1.4/libdoc/erb/rdoc/ERB.html "haml"), [liquid](http://liquidmarkup.org "liquid"), and [slim](http://slim-lang.com "slim"). The command line alias is `-e`.
+- `stylesheet`: Available options are: [compass](http://compass-style.org "compass"), [less](http://lesscss.org "less"), [sass/scss](http://sass-lang.com "sass and scss"). The command line alias is `-c`.
+- `mock`: Available options are: [mocha](http://gofreerange.com/mocha "mocha") and [rr](http://rr.github.io/rr "rr").
 
 
 The default value of each option is none. In order to use them you have to specify the option you want to use.
