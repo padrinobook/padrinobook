@@ -1,9 +1,9 @@
 ## Motivation
 
-Shamelessly I have to tell you that I'm learning Padrino through writing a book about instead of doing a blog post series about it. Besides I want to provide up-to-date documentation for Padrino which is at the moment scattered around the Padrino's web page [padrinorb.com](http://www.padrinorb.com/).
+Shamelessly I have to tell you that I'm learning Padrino through writing a book about instead of doing a blog post series about it. Besides I want to provide up-to-date documentation for Padrino which is at the moment scattered around the Padrino's web page [padrinorb.com](http://www.padrinorb.com "Padrino").
 
 
-Although Padrino borrows many ideas and techniques from it's big brother [Rails](http://rubyonrails.org/) it aims to be more modular and allows you to interchange various components with considerable ease. You will see this when you will the creation of two different application we are going to build throughout the book.
+Although Padrino borrows many ideas and techniques from it's big brother [Rails](http://rubyonrails.org "Rails") it aims to be more modular and allows you to interchange various components with considerable ease. You will see this when you will the creation of two different application we are going to build throughout the book.
 
 
 ### Why Padrino
@@ -12,13 +12,13 @@ Nothing is enabled without explicit choice. You as a programmer know what databa
 
 
 
-Before going any further you may ask: Why should you care about learning and using another web framework? Because you want something that is *easy to use*, *simple to hack*, and *open to any contribution*. If you've done Rails before, you may reach the point where you can't see how things are solved in particular order. In other words: There are many layers between you and the core of you application. You want to have the freedom to chose which layers you want to use in your application. This freedoms comes with the help of the [Sinatra framework](http://www.sinatrarb.com/).
+Before going any further you may ask: Why should you care about learning and using another web framework? Because you want something that is *easy to use*, *simple to hack*, and *open to any contribution*. If you've done Rails before, you may reach the point where you can't see how things are solved in particular order. In other words: There are many layers between you and the core of you application. You want to have the freedom to chose which layers you want to use in your application. This freedoms comes with the help of the [Sinatra framework](http://www.sinatrarb.com "Sinatra").
 
 
 Padrino adds the core values of Rails into Sinatra and gives you the following extras:
 
 
-- `orm`: Choose which adapter you want for a new application. The ones available are: datamapper, sequel, activerecord, mongomapper, mongoid, and couchrest.
+- `orm`: Choose which adapter you want for a new application.
 - `multiple application support`: Split you application into small, more manageble-and-testable parts that are easier to maintain and to test.
 - `admin interface`: Provides an easy way to view, search, and modify data in your application.
 
