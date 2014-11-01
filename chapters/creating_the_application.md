@@ -181,7 +181,7 @@ We will go through each line:
 - `JobVacancy::App.controller :page` - Define the namespace *page* for our JobVacancy app. Typically, the controller name will also be part of the route.
 - `do ... end` - This expression defines a block in Ruby. Think of it as a method without a name, also called anonymous functions, which is passed to another function as an argument.
 - `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the *about* action (as a symbol[^symbol]), and is finally mapped to the explicit URL */about*. When you start your server with `bundle exec padrino s` and visit the URL <http://localhost:3000/about>, you can see the rendered output of this request.
-- `render :erb, 'about'` - This action tells us that we want to render the *erb* file *about* for the corresponding controller which is `page` in our case. This file is actually located at `app/views/page/about.erb` file. Normally the views are placed under `app/views/<controller-name>/<action-name>.<ending>`. Instead of using an ERB templates, you could also use `:haml`, or another [template engine](https://www.ruby-toolbox.com/categories/template_engines). You can even completely drop the rendering option and leave the matching completely for Padrino.
+- `render :erb, 'about'` - This action tells us that we want to render the *erb* file *about* for the corresponding controller which is `page` in our case. This file is actually located at `app/views/page/about.erb` file. Normally the views are placed under `app/views/<controller-name>/<action-name>.<ending>`. Instead of using an ERB templates, you could also use `:haml`, or another [template engine](https://www.ruby-toolbox.com/categories/template_engines "template engine for Ruby"). You can even completely drop the rendering option and leave the matching completely for Padrino.
 
 
 [^symbol]: Unlike strings, symbols of the same name are initialized and exist in memory only once during a session of ruby. This makes your programs more efficient.
@@ -227,10 +227,10 @@ Let's see what is going on with the `<%= yield %>` line. At first you may ask wh
 
 ### CSS Design Using Twitter Bootstrap
 
-The guys at Twitter were kind enough to make their CSS framework **Twitter Bootstrap** available for everyone to use. It is available from Github at [public repository on Github](https://github.com/twitter/bootstrap/ "repository on Github").
+The guys at Twitter were kind enough to make their CSS framework [Twitter Bootstrap](https://github.com/twitter/bootstrap/ "Twitter Bootstrap") available for everyone to use.
 
 
-Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes) help you saving time by not reinventing the wheel.  Thanks to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb) by executing:
+Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes "Padrino recipes") help you saving time by not reinventing the wheel.  Thanks to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb "bootstrap plugin") by executing:
 
 
 ```sh
@@ -266,19 +266,19 @@ The `stylesheet_link_tag` points to the *bootstrap.min.css* in you app *public/s
 
 ### Using Sprockets to Manage the Asset Pipeline
 
-[Sprockets](https://github.com/sstephenson/sprockets) are a way to manage serving your assets like CSS, and JavaScript compiling all the different files in one summarized file for each type. To take advantage to use a preprocessor to write your assets with [Sass](http://sass-lang.com/), [CoffeeScript](http://coffeescript.org/), or [less](http://lesscss.org/).
+[Sprockets](https://github.com/sstephenson/sprockets "Sprockets") are a way to manage serving your assets like CSS, and JavaScript compiling all the different files in one summarized file for each type. To take advantage to use a preprocessor to write your assets with [Sass](http://sass-lang.com "Sass"), [CoffeeScript](http://coffeescript.org "CoffeeScript"), or [less](http://lesscss.org "less").
 
 
 To implement Sprockets in Padrino there the following strategies:
 
 
-- [rake-pipeline](https://github.com/livingsocial/rake-pipeline): Define filters that transforms directory trees.
-- [grunt](http://gruntjs.com/): Set a task to compile and manage assets in JavaScript.
-- [sinatra-assetpack](https://github.com/rstacruz/sinatra-assetpack): Let's you define you assets transparently in Sinatra.
-- [padrino-sprockets](https://github.com/nightsailer/padrino-sprockets): Integrate sprockets with Padrino in the Rails way.
+- [rake-pipeline](https://github.com/livingsocial/rake-pipeline "rake-pipeline"): Define filters that transforms directory trees.
+- [grunt](http://gruntjs.com "grunt"): Set a task to compile and manage assets in JavaScript.
+- [sinatra-assetpack](https://github.com/rstacruz/sinatra-assetpack "sinatra-assetpack"): Let's you define you assets transparently in Sinatra.
+- [padrino-sprockets](https://github.com/nightsailer/padrino-sprockets "padrino-sprockets"): Integrate sprockets with Padrino in the Rails way.
 
 
-We are using the **padrino-sprockets** gem. Let's add it to our Gemfile and run `bundle install`:
+We are using the **padrino-sprockets** gem. Let's add it to our Gemfile (don't forget to run `bundle install`):
 
 
 ```ruby
@@ -292,7 +292,7 @@ Next we need to move all our assets from the public folder in the assets folder:
 
 
 ```sh
-$ cd <path-to-your-padrino-app>
+$ cd job-vacancy
 $ mkdir -p app/assets
 $ cd public
 $ mv -v fonts images javascripts stylesheets ../app/assets
@@ -369,7 +369,7 @@ Now, we can clean up the include statements in our application template:
 ```
 
 
-Now we want to enable compression for our CSS and JavaScript files. For CSS compression Padrino Sprockets is using [YUI compressor](https://github.com/sstephenson/ruby-yui-compressor) and for JS compression the [Uglifier](https://github.com/lautis/uglifier). We need to add these these Gems in our `Gemfiles`:
+Now we want to enable compression for our CSS and JavaScript files. For CSS compression Padrino Sprockets is using [YUI compressor](https://github.com/sstephenson/ruby-yui-compressor "YUI compressor") and for JS compression the [Uglifier](https://github.com/lautis/uglifier "Uglifier"). We need to add these these Gems in our `Gemfiles`:
 
 
 ```ruby
@@ -488,7 +488,7 @@ h1 {
 ```
 
 
-I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c school css](http://www.w3schools.com/css/default.asp) tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
+I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c school css](http://www.w3schools.com/css/default.asp "w3c school css") tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
 
 
 ### Writing Tests
@@ -496,7 +496,7 @@ I will not explain anything at this point about CSS. If you still don't know how
 Our site does not list static entries of job offers that you write, but other users will be allowed to post job offers from the Internet to our site. We need to add this behavior to our site. To be on the sure side, we will implement this behavior by writing tests first, then the code. We use the [RSpec](http://rspec.info/ "RSpec") testing framework for this.
 
 
-Remember when we created the *page-controller* with `padrino g controller page` ? Thereby, Padrino created a corresponding spec file `spec/app/controller/page_controller_spec.rb` which has the following content:
+Remember when we created the *page-controller* with `padrino g controller page`? Thereby, Padrino created a corresponding spec file `spec/app/controller/page_controller_spec.rb` which has the following content:
 
 
 ```ruby
