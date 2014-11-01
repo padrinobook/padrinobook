@@ -31,7 +31,7 @@ end
 ```
 
 
-All we have is an empty class which inherits from [ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html). `ActvieRecord` provides a simple object-relational-mapper from our models to corresponding database tables. You can also define relations between models through associations.
+All we have is an empty class which inherits from [ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html "ActiveRecord::Base"). `ActvieRecord` provides a simple object-relational-mapper from our models to corresponding database tables. You can also define relations between models through associations.
 
 
 ```ruby
@@ -99,7 +99,7 @@ end
 ```
 
 
-This code will create a `users` table with the `name` and `email` attributes. The `id` attribute will be created automatically unless you specify to use a different attribute as the unique key to a database entry. By the way, the convention to name tables of models in the plural form comes from [Ruby On Rails](http://rubyonrails.org/). Now we need to run this migration:
+This code will create a `users` table with the `name` and `email` attributes. The `id` attribute will be created automatically unless you specify to use a different attribute as the unique key to a database entry. By the way, the convention to name tables of models in the plural form comes from [Rails](http://rubyonrails.org "Rails"). Now we need to run this migration:
 
 
 ```sh
@@ -128,7 +128,7 @@ $ ls db/
 ```
 
 
-Now let's start [sqlite3](http://www.sqlite.org/), connect to the database, and see if the users table was created properly:
+Now let's start [sqlite3](http://www.sqlite.org "sqlite3"), connect to the database, and see if the users table was created properly:
 
 
 ```sh
@@ -444,7 +444,7 @@ $ padrino c
 ```
 
 
-Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki/Interactive_Ruby_Shell), the *Interactive Ruby* shell. This allows you to execute Ruby commands and immediately see it's response.
+Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki/Interactive_Ruby_Shell "IRB") (interactive Ruby shell). This allows you to execute Ruby commands and immediately see it's response.
 
 
 Let's run the shell to create a user with job offers:
@@ -563,7 +563,7 @@ Ok, we are doing great so far. With users and job offers in place, let's add som
 
 ### Testing With RSpec + Factory Girl
 
-When you use data for the tests, you need to decide how to create them. You could define a set of test data with pure SQL and add it to your app. A more convenient solution instead is to use factories and fixtures. Think of factories as producers for you data. You are telling the factory that you need 10 users that should have different names and emails. This kind of mass object creation which are called fixtures in testing, can easily be done with [Factory Girl](https://github.com/thoughtbot/factory_girl). Factory Girl defines it's own language to create fixtures in an `ActiveRecord`-like way, but with a much cleaner syntax.
+When you use data for the tests, you need to decide how to create them. You could define a set of test data with pure SQL and add it to your app. A more convenient solution instead is to use factories and fixtures. Think of factories as producers for you data. You are telling the factory that you need 10 users that should have different names and emails. This kind of mass object creation which are called fixtures in testing, can easily be done with [Factory Girl](https://github.com/thoughtbot/factory_girl "Factory Girl"). Factory Girl defines it's own language to create fixtures in an `ActiveRecord`-like way, but with a much cleaner syntax.
 
 
 What do we need to use Factory Girl in our app? Right, we first we need to add a gem to our `Gemfile`:
