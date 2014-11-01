@@ -3,7 +3,7 @@
 In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions `new`, `create`, `update`, and `delete`. And you can't forget about security these days it would be nice to to have something at hand to save email the end we would need to find a method of safely storing the password for the user.
 
 
-You don't have to reinvent the wheel you can use Padrino's beautiful [Admin interface](http://www.padrinorb.com/guides/padrino-admin) for your user authentication to prevent us from reinventing the wheel. But with that we won't learn the basics and as you will see in this chapter you can make a lot of mistakes. Step into the part of creating users, sending confirmation mails, and understanding how sessions are managed in Padrino.
+You don't have to reinvent the wheel you can use Padrino's beautiful [Admin interface](http://www.padrinorb.com/guides/padrino-admin "Padrino admin") for your user authentication to prevent us from reinventing the wheel. But with that we won't learn the basics and as you will see in this chapter you can make a lot of mistakes. Step into the part of creating users, sending confirmation mails, and understanding how sessions are managed in Padrino.
 
 
 ### Extending the User Model
@@ -158,7 +158,7 @@ rspec ./spec/app/models/user_spec.rb:18 # User Model have no blank name
 ```
 
 
-To make this test pass we need to validate the `email` property in our user model with the help of the [presence validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#presence):
+To make this test pass we need to validate the `email` property in our user model with the help of the [presence validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#presence "presence validation"):
 
 
 ```ruby
@@ -175,7 +175,7 @@ end
 As an exercise, Please write the validates for `email` and `password` on your own. Please consider that the `password_confirmation` attribute can be create with the `:confirmation => true` option to the validates `:password` setting.
 
 
-We don't want to have duplicated names in our application. For testing this, we need as second user with the same name. In order to create a second user with we need to have another mail address. In order to write the test for it, we need to extend or factory with the [sequence function](https://github.com/thoughtbot/factory_girl/wiki/Usage#sequences-and-associations):
+We don't want to have duplicated names in our application. For testing this, we need as second user with the same name. In order to create a second user with we need to have another mail address. In order to write the test for it, we need to extend or factory with the [sequence function](https://github.com/thoughtbot/factory_girl/wiki/Usage#sequences-and-associations "sequence functions factory girl"):
 
 
 ```ruby
@@ -210,7 +210,7 @@ end
 ```
 
 
-To make the test green you have to use the [uniqueness validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#uniqueness). All what it does is to validates that the attribute's value is unique before it gets saved.
+To make the test green you have to use the [uniqueness validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#uniqueness "uniqueness validation"). All what it does is to validates that the attribute's value is unique before it gets saved.
 
 
 ```ruby
@@ -255,7 +255,7 @@ end
 ```
 
 
-We can test the correctness of the `email` field with a regular expression. First we are going to define a regular expression and use the [format validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#format) which takes our regular expression against which the field will be tested.
+We can test the correctness of the `email` field with a regular expression. First we are going to define a regular expression and use the [format validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#format "format validation") which takes our regular expression against which the field will be tested.
 
 
 ```ruby
@@ -273,7 +273,7 @@ end
 \begin{aside}
 \heading{Regular Expressions}
 
-[Regular expressions](http://en.wikipedia.org/wiki/Regular_expression) are your first tool when you need to match certain parts (or whole) strings against a predefined pattern. The drawback of using them is that you have to learn a formal language to define your patterns. I can highly recommend you the [Rubular tool](http://rubular.com/) for training and trying out the expression you want to use.
+[Regular expressions](http://en.wikipedia.org/wiki/Regular_expression "Regular expressions") are your first tool when you need to match certain parts (or whole) strings against a predefined pattern. The drawback of using them is that you have to learn a formal language to define your patterns. I can highly recommend you the [Rubular tool](http://rubular.com "Rubular tool") for training and trying out the expression you want to use.
 
 \end{aside}
 
@@ -322,7 +322,7 @@ The stage is set: We have the model with the tested constraints, and a controlle
 ```
 
 
-- `form_for`: Is part of [Padrino's Form Builders](http://www.padrinorb.com/guides/application-helpers#formbuilders) and allows you to create standard input fields based on a model. The first argument to the function is an object (mostly a model), the second argument is an string (the action to which the form should be sent after a submit), and the third parameter are settings in form of an hash which aren't used in this example. The part `action="/users/create"` says, that we want to use the `create` action to the `users` controller with the `create` action.
+- `form_for`: Is part of [Padrino's Form Builders](http://www.padrinorb.com/guides/application-helpers#formbuilders "Padrino's Form Builders") and allows you to create standard input fields based on a model. The first argument to the function is an object (mostly a model), the second argument is an string (the action to which the form should be sent after a submit), and the third parameter are settings in form of an hash which aren't used in this example. The part `action="/users/create"` says, that we want to use the `create` action to the `users` controller with the `create` action.
 - `f.label` and `f.text`: Will a label and text field for the attributes of your model.
 - `f.password_field`: Constructs a password input, where the input is marked with stars, from the given attribute of the form.
 - `f.submit`: Take an string as an caption for the submit button and options as hashes for additional parameter (for `example :class => 'long'`).
@@ -428,7 +428,7 @@ The part with the `rollback transaction` means, that user was not saved. Why? Be
 ```
 
 
-We can use this information to display the errors in our form for the user to let him know what what went wrong. In a first try, we use [error\_messages\_for method](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_messages_for-instance_method):
+We can use this information to display the errors in our form for the user to let him know what what went wrong. In a first try, we use [error\_messages\_for method](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_messages_for-instance_method "error messages for method"):
 
 
 ```erb
@@ -457,7 +457,7 @@ Email is invalid
 ```
 
 
-This isn't something we want to ship to our customers. Let's change this by using [error\_message\_on](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_message_on-instance_method) which returns a string containing the error message attached to the method on the object:[^error_message_on]
+This isn't something we want to ship to our customers. Let's change this by using [error\_message\_on](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_message_on-instance_method "error message on") which returns a string containing the error message attached to the method on the object:[^error_message_on]
 
 
 ```erb
@@ -489,7 +489,7 @@ This isn't something we want to ship to our customers. Let's change this by usin
 [^error_message_on]: Instead of writing `@user` for the `error_message_on` you can also use the symbol notation `:user`.
 
 
-We can do better and make the error text red. Let's add the `:class` at the of the `error_message_on` method with the help of the [text-error class from bootstrap](http://twitter.github.io/bootstrap/base-css.html#forms) and using the `:prepend` option which add text to before displaying the field error:
+We can do better and make the error text red. Let's add the `:class` at the of the `error_message_on` method with the help of the [text-error class from bootstrap](http://twitter.github.io/bootstrap/base-css.html#forms "text-error class from bootstrap") and using the `:prepend` option which add text to before displaying the field error:
 
 
 ```erb
@@ -554,14 +554,14 @@ Remember that have an eye on your logs can help you to see what's going on in yo
 \begin{aside}
 \heading{What are VALUES (?, ?, ?, ?, ?) in a SQL insert query?}
 
-These form of inserting data in your database is known as parameterized queries. A parameterized query is a query in which placeholders are used for parameters and the parameter values are supplied at execution time. The most important reason to use parameterized queries is to avoid [SQL injection](http://en.wikipedia.org/wiki/SQL_injection) attacks. SQL injection means that SQL statements are injected into input fields in order to drop tables or getting access on user related data.
+These form of inserting data in your database is known as parameterized queries. A parameterized query is a query in which placeholders are used for parameters and the parameter values are supplied at execution time. The most important reason to use parameterized queries is to avoid [SQL injection](http://en.wikipedia.org/wiki/SQL_injection "SQL injection") attacks. SQL injection means that SQL statements are injected into input fields in order to drop tables or getting access on user related data.
 
 \end{aside}
 
 
 ### Emails
 
-Padrino uses the [Padrino Mail gem](https://rubygems.org/gems/padrino-mailer) for sending mail. For simplification, we are using SMTP with Gmail. First of all we need to give our application the settings for setting mails in the main configuration file of our application `app.rb`:
+Padrino uses the [Padrino Mailer gem](https://rubygems.org/gems/padrino-mailer "Padrino Mailer gem") for sending mail. For simplification, we are using SMTP with Gmail. First of all we need to give our application the settings for setting mails in the main configuration file of our application `app.rb`:
 
 
 ```ruby
@@ -586,13 +586,13 @@ end
 Let's get through all the different options:
 
 
-- `:delivery_method`: Defines the delivery method. Possible values are [:smtp](http://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) (default), [:sendmail](http://en.wikipedia.org/wiki/Sendmail), `:test` (no mails will be send), and [:file](http://edgeguides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration) (will write the contents of the email in a file).
+- `:delivery_method`: Defines the delivery method. Possible values are [:smtp](http://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol "Simple Mail Transfer Protocol") (default), [:sendmail](http://en.wikipedia.org/wiki/Sendmail "Sendmail"), `:test` (no mails will be send), and [:file](http://edgeguides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration "Action Mailer configuration") (will write the contents of the email in a file).
 - `:address`: The SMTP mail address.
 - `:port`: The port of the mail address.
 - `:user_name`: The name of the SMTP address.
 - `:password`: The password of your SMTP address.
-- `:authentication`: Specify if your mail server requires authentication. The default setting is plain meaning that the password is not encrypted. `:login` will send the password [Base64 encoded](https://en.wikipedia.org/wiki/Base64), [:cram_md5](http://en.wikipedia.org/wiki/CRAM-MD5) is a challenge/response authentication mechanism .
-- `:domain`: This key is set up for [HELO checking](http://en.wikipedia.org/wiki/Anti-spam_techniques#HELO.2FEHLO_checking).
+- `:authentication`: Specify if your mail server requires authentication. The default setting is plain meaning that the password is not encrypted. `:login` will send the password [Base64 encoded](https://en.wikipedia.org/wiki/Base64 "Base64 encoded"), [:cram_md5](http://en.wikipedia.org/wiki/CRAM-MD5 "CRAM-MD5") is a challenge/response authentication mechanism .
+- `:domain`: This key is set up for [HELO checking](http://en.wikipedia.org/wiki/Anti-spam_techniques#HELO.2FEHLO_checking "HELO checking").
 
 
 Prior Padrino *0.10.7* the `:enable_starttls_auto => true` was changeable. This is option is now always on true in *Padrino >= 0.11.1*.
@@ -603,7 +603,7 @@ This is now the default delivery address unless it is overwritten in an individu
 
 #### Quick Mail Usage
 
-To send a first simple "Hallo" message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb#L86) directly in our user controller:
+To send a first simple "Hallo" message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb#L86 "email block") directly in our user controller:
 
 
 ```ruby
@@ -653,7 +653,7 @@ Hallo
 We could go on and parametrized our email example above, but this would mean that we have email code directly into our controller code. We can do better by wrapping up the logic into an object and let it handle the action.
 
 
-[Padrino mailer](http://www.padrinorb.com/api/Padrino/Mailer.html) has the `mailer` command to create customized mailer for every purpose we want to use. Let's create the registration mailer:
+[Padrino mailer](http://www.padrinorb.com/api/Padrino/Mailer.html "Padrino mailer") has the `mailer` command to create customized mailer for every purpose we want to use. Let's create the registration mailer:
 
 
 ```sh
@@ -724,7 +724,7 @@ end
 \begin{aside}
 \heading{Difference between Padrino's Mailer methods email and deliver}
 
-The [email](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#email-instance_method) method is has the parameters `mail_attributes = {}, &block`. That means the you write emails directly `JobVacancy.email(:to => '...', :from => '...', :subject => '...', :body => '...')` or use the block syntax `JobVacancy.email do ... end`. In comparison to this is the [deliver](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#deliver-instance_method) method. It has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer for them. If you want to use very simple mails in your application, prefer to use the email method. But if you have templates with a much more complex layout in different formats (plain, HTML), the deliver method is the best fit.
+The [email](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#email-instance_method "email") method is has the parameters `mail_attributes = {}, &block`. That means the you write emails directly `JobVacancy.email(:to => '...', :from => '...', :subject => '...', :body => '...')` or use the block syntax `JobVacancy.email do ... end`. In comparison to this is the [deliver](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#deliver-instance_method "mail deliver option") method. It has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer for them. If you want to use very simple mails in your application, prefer to use the email method. But if you have templates with a much more complex layout in different formats (plain, HTML), the deliver method is the best fit.
 
 \end{aside}
 
@@ -819,7 +819,7 @@ Your Job Vacancy!
 ```
 
 
-Next we want to add a PDF which explains the main business needs to our page. For this purpose we create add the `welcome.pdf` into the `/app/assets/pdf` folder. We can attach files (images, PDF, video) with the [add_file method](https://github.com/mikel/mail/blob/master/lib/mail/message.rb#L1678) which takes a filename and the content as hash elements as arguments.
+Next we want to add a PDF which explains the main business needs to our page. For this purpose we create add the `welcome.pdf` into the `/app/assets/pdf` folder. We can attach files (images, PDF, video) with the [add_file method](https://github.com/mikel/mail/blob/master/lib/mail/message.rb#L1767 "add file method of action mailer") which takes a filename and the content as hash elements as arguments.
 
 
 ```ruby
@@ -1066,7 +1066,7 @@ end
 ```
 
 
-The magic behind mocking is to use the [should_receive](https://github.com/rspec/rspec-mocks#message-expectations) and [and_return](https://github.com/rspec/rspec-mocks#consecutive-return-values) flow. `Should_receive` says which method should be called and `and_return` what should be returned when the specified method is called. The line size of our tests will remain the same - you only have to write more characters :) but this will speed up your tests in the long term. With the help of mocks you keep your tests fast and robust.
+The magic behind mocking is to use the [should_receive](https://github.com/rspec/rspec-mocks#message-expectations "should receive from RSpec") and [and_return](https://github.com/rspec/rspec-mocks#consecutive-return-values "and_return from RSpec") flow. `Should_receive` says which method should be called and `and_return` what should be returned when the specified method is called. The line size of our tests will remain the same - you only have to write more characters :) but this will speed up your tests in the long term. With the help of mocks you keep your tests fast and robust.
 
 
 Even if this will be the first application you write, when you've learned something new and this will make your life easier, go back and take your time to enhance the style and design of your application.
@@ -1107,7 +1107,7 @@ end
 ```
 
 
-Next we need think of how we can set the `confirmation_code` information to our freshly created user. Instead of creating a confirmation code on our own, we want to encrypt the password by some mechanism. Luckily, we can use [bcrypt gem](https://github.com/codahale/bcrypt-ruby/) to create our confirmation code. It is a Ruby binding for the [OpenBSD bcrypt](http://en.wikipedia.org/wiki/OpenBSD_security_features) password hashing algorithm. In order to use this in our app we need to add it to our `Gemfile`:
+Next we need think of how we can set the `confirmation_code` information to our freshly created user. Instead of creating a confirmation code on our own, we want to encrypt the password by some mechanism. Luckily, we can use [bcrypt](https://github.com/codahale/bcrypt-ruby "bcrypt gem") to create our confirmation code. It is a Ruby binding for the [OpenBSD bcrypt](http://en.wikipedia.org/wiki/OpenBSD_security_features "OpenBSD bcrypt") password hashing algorithm. In order to use this in our app we need to add it to our `Gemfile`:
 
 
 ```ruby
@@ -1143,7 +1143,7 @@ Salts are used in cryptography as random data to be put as addition to normal pa
 \end{aside}
 
 
-We could add these methods in the users controller but that isn't something a controller should do. We better use a [callback](http://guides.rubyonrails.org/active_record_validations_callbacks.html#callbacks-overview). **Callbacks** are methods to run on a certain stage or life cycle of an object. Perfect, that's what we want let's create code for it:
+We could add these methods in the users controller but that isn't something a controller should do. We better use a [callback](http://guides.rubyonrails.org/active_record_validations_callbacks.html#callbacks-overview "callbacks for ActiveRecord validations"). **Callbacks** are methods to run on a certain stage or life cycle of an object. Perfect, that's what we want let's create code for it:
 
 
 ```ruby
@@ -1152,7 +1152,8 @@ We could add these methods in the users controller but that isn't something a co
 class User < ActiveRecord::Base
   ... # The other validations
 
-  before_save :encrypt_confirmation_code, :if => :registered? # our callback with if condition
+  before_save :encrypt_confirmation_code,
+    :if => :registered? # our callback with if condition
 
   private
   def encrypt_confirmation_code
@@ -1232,7 +1233,7 @@ end
 \begin{aside}
 \heading{Take care of your names!?}
 
-During writing this chapter I wasted a lot of time hour because I had method with the same name as the `confirmation_code` field. When I wanted to check `@user.confirmation_code` it always called the `confirmation_code` method which return a new confirmation code. I was thinking for a long time that it returned the attribute and was wondering what's going on. A couple of [pry](http://pryrepl.org/) sessions showed me nothing since I'm expected to be right. After I went to the toilet I started another pry session and out of sudden I discovered my naming problem.
+During writing this chapter I wasted a lot of time hour because I had method with the same name as the `confirmation_code` field. When I wanted to check `@user.confirmation_code` it always called the `confirmation_code` method which return a new confirmation code. I was thinking for a long time that it returned the attribute and was wondering what's going on. A couple of [pry](http://pryrepl.org "pry") sessions showed me nothing since I'm expected to be right. After I went to the toilet I started another pry session and out of sudden I discovered my naming problem.
 
 Lesson learned: Breaks are great!
 
@@ -1414,7 +1415,7 @@ The code is working but we have flaws in our design:
 \begin{aside}
 \heading{Observers vs. Callbacks}
 
-[Observers](http://en.wikipedia.org/wiki/Observer_pattern) are a design pattern where an object has a list of its dependents called observers, and notifies them automatically if its state has changed by calling one of their methods. Observers means to be decoupling responsibility. They can serve as a connection point between your models and some other functionality of another subsystem. Observers "lives" longer in your application and can be attached/detached at any time. Callbacks life shorter - you pass it to a function to be called only once. *Rule of the thumb*: When you use callbacks with code that isn't directly related to your model, you better put this into an observer.
+[Observers](http://en.wikipedia.org/wiki/Observer_pattern "Observers") are a design pattern where an object has a list of its dependents called observers, and notifies them automatically if its state has changed by calling one of their methods. Observers means to be decoupling responsibility. They can serve as a connection point between your models and some other functionality of another subsystem. Observers "lives" longer in your application and can be attached/detached at any time. Callbacks life shorter - you pass it to a function to be called only once. *Rule of the thumb*: When you use callbacks with code that isn't directly related to your model, you better put this into an observer.
 
 \end{aside}
 
@@ -1473,7 +1474,7 @@ end
 ```
 
 
-We are defining our user observer with extends from the [ActiveRecord::Observer](https://github.com/rails/rails-observers#active-record-observer). Inside this class we can define any callbacks for each action we want to use. The most commons ones are `before_<action>` and `after_<action>` where `<action>` is the ActiveRecord trigger method like save, update, delete, show, or get. To see what we can move out of the user model let's have a look inside this model:
+We are defining our user observer with extends from the [ActiveRecord::Observer](https://github.com/rails/rails-observers#active-record-observer "ActiveRecord Observer"). Inside this class we can define any callbacks for each action we want to use. The most commons ones are `before_<action>` and `after_<action>` where `<action>` is the ActiveRecord trigger method like save, update, delete, show, or get. To see what we can move out of the user model let's have a look inside this model:
 
 
 ```ruby
@@ -1572,7 +1573,7 @@ end
 We are not using the single `deliver` method here because our observer does not have access to this it. Instead we have to take `JobVacancy::App.deliver` way to access the mail (it is not documented as I [found out](https://github.com/padrino/padrino-framework/issues/1770)).
 
 
-We have cleaned up our design to this time. Before that if a user update his profile a new confirmation code will be send. We fixed this is with the `unless user.confirmation` line which means as long as the user is not confirmed, send him the confirmation code. We haven't any test for this kind and if you are curious how to do it, feel free to write a test for this and modify the observer code. I haven't found a way to test this - maybe you use the [mock_model](https://www.relishapp.com/rspec/rspec-rails/v/2-4/docs/mocks/mock-model) for your tests! We cleaned up our users controller from sending mail and this is the best solution, because in it's heart a controller talks to the model and passing the ball to the right direction after an event.
+We have cleaned up our design to this time. Before that if a user update his profile a new confirmation code will be send. We fixed this is with the `unless user.confirmation` line which means as long as the user is not confirmed, send him the confirmation code. We haven't any test for this kind and if you are curious how to do it, feel free to write a test for this and modify the observer code. I haven't found a way to test this - maybe you use the [mock_model](https://www.relishapp.com/rspec/rspec-rails/v/2-4/docs/mocks/mock-model "mock_model method for RSpec") for your tests! We cleaned up our users controller from sending mail and this is the best solution, because in it's heart a controller talks to the model and passing the ball to the right direction after an event.
 
 
 The last step we need to do is to register our observer in the `app.rb` and disable the observer for our specs
@@ -1634,5 +1635,5 @@ end
 But during writing this book I became different testing results when using `bundle exec rake spec` and `bundle exec rspec spec` and to go on with the book, I removed the test and disabled all observers for the application.
 
 
-[^test]: Got the inspiration from [stackoverflow](http://stackoverflow.com/questions/33048/how-would-you-test-observers-with-rspec-in-a-ruby-on-rails-application)
+[^test]: Got the inspiration from [stackoverflow](http://stackoverflow.com/questions/33048/how-would-you-test-observers-with-rspec-in-a-ruby-on-rails-application "stackoverflow")
 
