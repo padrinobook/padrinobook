@@ -484,6 +484,7 @@ IMG: simplecov_grouped.png
 
 
 ### Remember Me Function
+\label{sec:remember_me_funcion}
 
 We are currently using the `sign_in` method from the session helper to login a user. But this is only valid for a session. What we need is something permanent. Cookies are the perfect choice for this. We could use the `user_id` from the user as a unique token, but this can be changed too easily. Creating an unique long [secure hash](http://en.wikipedia.org/wiki/Secure_Hash_Algorithm "secure hash") would be the perfect choice. When we have created token, we need to save it for each user.
 
@@ -779,7 +780,7 @@ end
 ```
 
 
-The stage for the `save_forget_password_token` method is set: It takes our `generate_authentity_token` method from chapter (TBD) and use the `Time.now` method to set the send date from the password reset function:
+The stage for the `save_forget_password_token` method is set: It takes our `generate_authentity_token` method from chapter ~\ref{sec:remember_me_funcion} and use the `Time.now` method to set the send date from the password reset function:
 
 
 ```ruby
@@ -797,7 +798,7 @@ end
 ```
 
 
-But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i98KRaZGIJ1K77n/HqePEbD2KFdI3ldIcbiOoazQ==`. The slash is bad for the routing. We already used the `normalize_confirmation_code` from `app/models/user_observer.rb` to remove such backslashes, and we could easily the same method again. But we don't want to apply [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). Do you remember the `lib` folder from section (TBD) - this is the place where you can put shared code which can be used by models, controllers, and other components. We create a `normalize_token.rb` file:
+But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i98KRaZGIJ1K77n/HqePEbD2KFdI3ldIcbiOoazQ==`. The slash is bad for the routing. We already used the `normalize_confirmation_code` from `app/models/user_observer.rb` to remove such backslashes, and we could easily the same method again. But we don't want to apply [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). For this purpose we will create a `lib` folder, which acts as a place for sharing code which can be used by models, controllers, and other components. Inside the directory we create a `normalize_token.rb` file:
 
 
 ```ruby
