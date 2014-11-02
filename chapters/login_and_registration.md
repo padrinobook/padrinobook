@@ -603,7 +603,7 @@ This is now the default delivery address unless it is overwritten in an individu
 
 #### Quick Mail Usage
 
-To send a first simple "Hallo" message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb#L86 "email block") directly in our user controller:
+To send a first simple "Hallo" message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb "email block") directly in our user controller:
 
 
 ```ruby
@@ -819,7 +819,7 @@ Your Job Vacancy!
 ```
 
 
-Next we want to add a PDF which explains the main business needs to our page. For this purpose we create add the `welcome.pdf` into the `/app/assets/pdf` folder. We can attach files (images, PDF, video) with the [add_file method](https://github.com/mikel/mail/blob/master/lib/mail/message.rb#L1767 "add file method of action mailer") which takes a filename and the content as hash elements as arguments.
+Next we want to add a PDF which explains the main business needs to our page. For this purpose we create add the `welcome.pdf` into the `/app/assets/pdf` folder. We can attach files (images, PDF, video) with the [add_file method](https://github.com/mikel/mail/blob/master/lib/mail/message.rb "add file method of action mailer") which takes a filename and the content as hash elements as arguments.
 
 
 ```ruby
