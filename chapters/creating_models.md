@@ -8,12 +8,12 @@ There are many different ways how to develop a user entity for your system. A us
 
 
 ```sh
-$ padrino g model user name:string email:string -a app
-   apply  orms/activerecord
-   apply  tests/rspec
-  create  app/models/user.rb
-  create  spec/app/models/user_spec.rb
-  create  db/migrate/001_create_users.rb
+$ padrino-gen model user name:string email:string -a app
+     apply  orms/activerecord
+     apply  tests/rspec
+    create  app/models/user.rb
+    create  spec/app/models/user_spec.rb
+    create  db/migrate/001_create_users.rb
 ```
 
 
@@ -294,7 +294,7 @@ Let's run the Padrino command to create the model for us. As you see, we once ag
 
 
 ```sh
-$ padrino g model job_offer title:string location:string \
+$ padrino-gen model job_offer title:string location:string \
   description:text contact:string time_start:date time_end:date -a app
    apply  orms/activerecord
    apply  tests/rspec
@@ -308,7 +308,7 @@ If you want to delete a model in Padrino by running:
 
 
 ```
-$ padrino g model job_offer -d
+$ padrino-gen model job_offer -d
 ```
 
 
@@ -388,9 +388,9 @@ Whenever you modify your models, remember that you need to run migrations too. B
 
 
 ```sh
-$ padrino g migration AddUserIdToJobOffers user_id:integer
-  apply  orms/activerecord
-  create  db/migrate/003_add_user_id_to_job_offers.rb
+$ padrino-gen migration AddUserIdToJobOffers user_id:integer
+    apply  orms/activerecord
+    create  db/migrate/003_add_user_id_to_job_offers.rb
 ```
 
 

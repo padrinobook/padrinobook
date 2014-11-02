@@ -6,7 +6,7 @@ Start with generating a new project with the canonical `padrino` command. In con
 ```sh
 $ mkdir ~/padrino-projects
 $ cd ~/padrino_projects
-$ padrino g project job-vacancy -d activerecord \
+$ padrino-gen project job-vacancy -d activerecord \
   -t rspec \
   -s jquery \
   -e erb \
@@ -17,15 +17,11 @@ $ padrino g project job-vacancy -d activerecord \
 Explanation of the fields commands:
 
 
-- **g**[^padrino-gen]: Is shortcut for `generate`.
 - **-d activerecord**: We are using [Active Record](https://rubygems.org/gems/activerecord "Active Record") as the orm library (*Object Relational Mapper*).
 - **-t rspec**: We are using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework.
 - **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous [jQuery](http://jquery.com "jQuery") library.
 - **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup for writing HTML templates. An alternative is [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com "Slim"), but to keep the project as simple as possible, we stick with ERB. Feel free to use them if you like to.
 - **-a sqlite**: Our ORM[^orm] database adapter is [SQLite](http://www.sqlite.org "SQLite"). The whole database is saved in a text file.
-
-
-[^padrino-gen]: Instead of using `padrino g` you can also use `padrino-gen`
 
 
 Since we are using RSpec for testing, we will use its' built-in mock extensions [rspec-mocks](https://github.com/rspec/rspec-mocks "rspec mocks") for writing tests later. In case you want to use another mocking library like [rr](https://rubygems.org/gems/rr "rr") or [mocha](http://gofreerange.com/mocha/docs "mocha"), feel free to add it with the **-m** option.
@@ -114,7 +110,7 @@ Lets add some basic routes for displaying our home, about, and contact-page. How
 
 
 ```sh
-$ padrino g controller page
+$ padrino-gen controller page
   create  app/controllers/page.rb
   create  app/helpers/page_helper.rb
   create  app/views/page
@@ -496,7 +492,7 @@ I will not explain anything at this point about CSS. If you still don't know how
 Our site does not list static entries of job offers that you write, but other users will be allowed to post job offers from the Internet to our site. We need to add this behavior to our site. To be on the sure side, we will implement this behavior by writing tests first, then the code. We use the [RSpec](http://rspec.info/ "RSpec") testing framework for this.
 
 
-Remember when we created the *page-controller* with `padrino g controller page`? Thereby, Padrino created a corresponding spec file `spec/app/controller/page_controller_spec.rb` which has the following content:
+Remember when we created the *page-controller* with `padrino-gen controller page`? Thereby, Padrino created a corresponding spec file `spec/app/controller/page_controller_spec.rb` which has the following content:
 
 
 ```ruby

@@ -31,10 +31,12 @@ $ padrino generate project hello-padrino
 Let's go through each part of this command:
 
 
-- `padrino generate`: Tells Padrino to execute the generator with the specified options. The options can be used to create other **components** for your app, like a **mailing system** or an **admin panel** to manage your database entries. We will handle these things in a future chapter. A shortcut for generate is `g` which we will use in all following examples.
+- `padrino generate`:[^padrino-gen] Tells Padrino to execute the generator with the specified options. The options can be used to create other **components** for your app, like a **mailing system** or an **admin panel** to manage your database entries. We will handle these things in a future chapter. A shortcut for generate is `g` which we will use in all following examples.
 - `project`: Tells Padrino to generate a new app.
 - `hello-padrino`: The name of the new app, which is also the directory name.
 
+
+[^padrino-gen]: You can also use `padrino g` or `padrino-gen` for the `generate` command, which will be used in the rest of this book
 
 The console output should look like the following:
 
