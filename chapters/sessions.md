@@ -4,7 +4,7 @@ Now that our users have the possibility to register and confirm on our page, we 
 
 
 ```sh
-$ padrino g controller Sessions new create destroy
+$ padrino-gen controller Sessions new create destroy
   create  app/controllers/sessions.rb
   create  app/helpers/sessions_helper.rb
   create  app/views/sessions
@@ -17,7 +17,7 @@ We made a mistake during the generation - we forget to add the right action for 
 
 
 ```sh
-$ padrino g controller Sessions -d
+$ padrino-gen controller Sessions -d
   remove  app/controllers/sessions.rb
   remove  app/helpers/sessions_helper.rb
   remove  app/views/sessions
@@ -30,7 +30,7 @@ And run the generate command with the correct actions:
 
 
 ```sh
-$ padrino g controller Sessions get:new post:create delete:destroy
+$ padrino-gen controller Sessions get:new post:create delete:destroy
   create  app/controllers/sessions.rb
   create  app/helpers/sessions_helper.rb
   create  app/views/sessions

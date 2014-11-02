@@ -25,8 +25,7 @@ Let's create the migration:
 
 
 ```sh
-$ padrino g migration AddRegistrationFieldsToUsers
-
+$ padrino-gen migration AddRegistrationFieldsToUsers
   apply  orms/activerecord
   create  db/migrate/004_add_registration_fields_to_users.rb
 ```
@@ -284,7 +283,7 @@ Since we already have a model for potential users of our platform, it's time to 
 
 
 ```sh
-$ padrino g controller Users get:new
+$ padrino-gen controller Users get:new
   create  app/controllers/users.rb
   create  app/helpers/users_helper.rb
   create  app/views/users
@@ -657,7 +656,7 @@ We could go on and parametrized our email example above, but this would mean tha
 
 
 ```sh
-$ padrino g mailer Registration registration_email
+$ padrino-gen mailer Registration registration_email
   create  app/mailers/registration.rb
   create  app/views/mailers/registration
 ```
@@ -927,7 +926,7 @@ Create a good migration which fits to the task we want to do:
 
 
 ```sh
-$ padrino g migration AddConfirmationCodeAndConfirmationToUsers
+$ padrino-gen migration AddConfirmationCodeAndConfirmationToUsers
     confirmation_code:string confirmation:boolean
    apply  orms/activerecord
   create  db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
@@ -1337,7 +1336,7 @@ If we are lazy we could add our confirmation email into the registration mailer.
 
 
 ```sh
-$ padrino g mailer Confirmation confirmation_email
+$ padrino-gen mailer Confirmation confirmation_email
   create  app/mailers/confirmation.rb
   create  app/views/mailers/confirmation
 ```

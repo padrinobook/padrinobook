@@ -493,7 +493,7 @@ Let's create and run the migration:
 
 
 ```sh
-$ padrino g migration AddAuthentityTokenToUsers authentity_token:string
+$ padrino-gen migration AddAuthentityTokenToUsers authentity_token:string
      apply  orms/activerecord
     create  db/migrate/006_add_authentity_token_to_users.rb
 $ padrino rake ar:migrate
@@ -643,13 +643,13 @@ We are going to create a new controller with the name **Forget Passwords**:
 
 
 ```sh
-$ padrino g controller forgetPassword new
-      create  app/controllers/password_forget.rb
-      create  app/helpers/password_forget_helper.rb
-      create  app/views/password_forget
-       apply  tests/rspec
-      create  spec/app/controllers/password_forget_controller_spec.rb
-      create  spec/app/helpers/password_forget_helper_spec.rb
+$ padrino-gen controller forgetPassword new
+    create  app/controllers/password_forget.rb
+    create  app/helpers/password_forget_helper.rb
+    create  app/views/password_forget
+     apply  tests/rspec
+    create  spec/app/controllers/password_forget_controller_spec.rb
+    create  spec/app/helpers/password_forget_helper_spec.rb
 ```
 
 
@@ -735,7 +735,7 @@ The `save_forget_password_token` will create the `password_reset_token` for the 
 
 
 ```sh
-$ padrino g migration AddPasswordResetTokenToUsers
+$ padrino-gen migration AddPasswordResetTokenToUsers
   password_reset_token:string password_reset_sent_date:datetime
        apply  orms/activerecord
       create  db/migrate/007_add_password_reset_for_users.rb
@@ -857,7 +857,7 @@ We are now ready to create our mailer:
 
 
 ```sh
-$ padrino g mailer PasswordReset password_forget_email
+$ padrino-gen mailer PasswordReset password_forget_email
     create  app/mailers/password_reset.rb
     create  app/views/mailers/password_forget
 ```
