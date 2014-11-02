@@ -143,7 +143,7 @@ And finally the edit form:
 ```
 
 
-With the form `method: <action>` we can specify the the [HTTP methods](http://www.w3schools.com/tags/ref_httpmethods.asp). So `method: :put` will be translated into:
+With the form `method: <action>` we can specify the the [HTTP methods](http://www.w3schools.com/tags/ref_httpmethods.asp "HTTP methods"). So `method: :put` will be translated into:
 
 
 ```html
@@ -152,9 +152,6 @@ With the form `method: <action>` we can specify the the [HTTP methods](http://ww
 
 
 If you now open the browser at <http://jobvacancy.de:3000/users/<some-existing-id>/edit> you can edit the user even if you are not logged into the application. Ups, this is huge security issue.
-
-
-
 
 
 ### Authorization
@@ -181,7 +178,7 @@ JobVacancy::App.helpers helpers
 ```
 
 
-The helpers are an anonymous module and its hard to reference something that is anonymous. The solution is to make the module explicit. This is something I learned from [Florian Gilcher](https://twitter.com/Argorak) in his [comment on GitHub](https://github.com/padrino/padrino-framework/issues/930#issuecomment-8448579). Let's transform the `page_helper.rb`:
+The helpers are an anonymous module and its hard to reference something that is anonymous. The solution is to make the module explicit. This is something I learned from [Florian Gilcher](https://twitter.com/Argorak "Florian Gilcher") in his [comment on GitHub](https://github.com/padrino/padrino-framework/issues/930#issuecomment-8448579 "comment on GitHub"). Let's transform the `page_helper.rb`:
 
 
 ```ruby
@@ -268,7 +265,7 @@ Let's go through the new parts:
 
 
 - `before do`: This block contains the `SessionsHelperKlass` class which includes the `SessionsHelper` module. Through this all the methods defined in the `session_helper.rb` file are available for the `@session_helper` instance variable
-- `context`: According to [rspec code](https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L232) `context` is an alias for `describe`. I'm using `describe` to specify the part of the functionality I'm going to test and `context` to test smaller parts of the bigger function.
+- `context`: According to [rspec code](https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb "rspec code") `context` is an alias for `describe`. I'm using `describe` to specify the part of the functionality I'm going to test and `context` to test smaller parts of the bigger function.
 - `#current_user`: Methods I'm going to test have always the # in front of their names.
 
 
@@ -287,7 +284,7 @@ end
 ```
 
 
-What we need to do now for our test is to to mock a request and set the user id of some of our test user in the session hash. To create a new session we will use [Rack::Test::Session](https://github.com/brynary/rack-test/blob/master/lib/rack/test.rb#L25) and mock the `last_request` method call of the `session` method of our `spec_helper`:
+What we need to do now for our test is to to mock a request and set the user id of some of our test user in the session hash. To create a new session we will use [Rack::Test::Session](https://github.com/brynary/rack-test/blob/master/lib/rack/test.rb "Rack::Test::Session") and mock the `last_request` method call of the `session` method of our `spec_helper`:
 
 
 ```ruby
@@ -313,7 +310,7 @@ end
 ```
 
 
-You can write the other tests as an exercise on your own. In case you have problems with writing them, please check the [spec on GitHub](https://github.com/wikimatze/job-vacancy/blob/user-update/spec/app/helpers/sessions_helper_spec.rb).
+You can write the other tests as an exercise on your own. In case you have problems with writing them, please check the [spec on GitHub](https://github.com/wikimatze/job-vacancy/blob/user-update/spec/app/helpers/sessions_helper_spec.rb "spec on GitHub").
 
 
 We will limit the access of the `edit` and `update` action of the users controller only to users who are logged and if the logged in user is going to edit With the help of a `before .. do` block:
@@ -424,9 +421,9 @@ You have now reach a point where you still don't know, which parts of your appli
 We have the following options:
 
 
-- [simplecov](https://github.com/colszowka/simplecov): It will automatically detect the tests you are using Rubies 1.9's [built-in Coverage library](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/coverage/rdoc/Coverage.html) to gather code coverage data.
-- [metric_fu](https://github.com/metricfu/metric_fu/): Create churn, code smells and other coverage tools generate reports about your code.
-- [codeclimate.com](https://codeclimate.com/): Online tool for measuring quality and security for your application.
+- [simplecov](https://github.com/colszowka/simplecov "simplecov"): It will automatically detect the tests you are using Rubies 1.9's [built-in Coverage library](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/coverage/rdoc/Coverage.html "built-in Coverage library") to gather code coverage data.
+- [metric_fu](https://github.com/metricfu/metric_fu "metric_fu"): Create churn, code smells and other coverage tools generate reports about your code.
+- [codeclimate](https://codeclimate.com "codeclimate"): Online tool for measuring quality and security for your application.
 
 
 Since we are only interested in our code coverage for tests, we will use the lightweight `simplecov` method.
@@ -488,7 +485,7 @@ IMG: simplecov_grouped.png
 
 ### Remember Me Function
 
-We are currently using the `sign_in` method from the session helper to login a user. But this is only valid for a session. What we need is something permanent. Cookies are the perfect choice for this. We could use the `user_id` from the user as a unique token, but this can be changed too easily. Creating an unique long [secure hash](http://en.wikipedia.org/wiki/Secure_Hash_Algorithm) would be the perfect choice. When we have created token, we need to save it for each user.
+We are currently using the `sign_in` method from the session helper to login a user. But this is only valid for a session. What we need is something permanent. Cookies are the perfect choice for this. We could use the `user_id` from the user as a unique token, but this can be changed too easily. Creating an unique long [secure hash](http://en.wikipedia.org/wiki/Secure_Hash_Algorithm "secure hash") would be the perfect choice. When we have created token, we need to save it for each user.
 
 
 Let's create and run the migration:
@@ -521,12 +518,12 @@ $ padrino rake ar:migrate
 \begin{aside}
 \heading{Cookies}
 
-HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol) and a cookie is a way to save information sent from a website and store them in the browser. Each time the user visits the site again, the browser sends the information back to server and notifies the server about the identity of the user. A cookies can consists of the following components: name, value, expiry date, path (scope of the cookie), domain (valid for which domain), needs the cookie be used for a secure connection or if (or not) the cookie can be accessed by other.ways (like JavaScript to steal the cookie).
+HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol "stateless protocol") and a cookie is a way to save information sent from a website and store them in the browser. Each time the user visits the site again, the browser sends the information back to server and notifies the server about the identity of the user. A cookies can consists of the following components: name, value, expiry date, path (scope of the cookie), domain (valid for which domain), needs the cookie be used for a secure connection or if (or not) the cookie can be accessed by other.ways (like JavaScript to steal the cookie).
 
 \end{aside}
 
 
-A way to create random strings in Ruby is to use the [securerandom gem](http://ruby-doc.org/stdlib-1.9.3/libdoc/securerandom/rdoc/SecureRandom.html). By using the `before_create` callback, we create a token for each registered user (if you are in a situation where you already have a bunch of users and you now decide to create hashs for them, you have to create a migration script and migrate the existing user base):
+A way to create random strings in Ruby is to use the [securerandom gem](http://ruby-doc.org/stdlib-2.1.4/libdoc/securerandom/rdoc/SecureRandom.html "securerandom gem"). By using the `before_create` callback, we create a token for each registered user (if you are in a situation where you already have a bunch of users and you now decide to create hashs for them, you have to create a migration script and migrate the existing user base):
 
 
 ```ruby
@@ -545,7 +542,7 @@ end
 ```
 
 
-To test the callback, we can use the `send` method to create our `generate_authentity_token` callback (thanks to [Geoffrey Grosenbach](http://www.oreillynet.com/ruby/blog/2006/10/test_tidbits.html) for this hint):
+To test the callback, we can use the `send` method to create our `generate_authentity_token` callback (thanks to [Geoffrey Grosenbach](http://www.oreillynet.com/ruby/blog/2006/10/test_tidbits.html "Geoffrey Grosenbach") for this hint):
 
 
 ```ruby
@@ -570,7 +567,7 @@ end
 ```
 
 
-Next it's time to create the checkbox on the login page with help of the [check_box_tag](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#check_box_tag-instance_method):
+Next it's time to create the checkbox on the login page with help of the [check_box_tag](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#check_box_tag-instance_method "check_box_tag"):
 
 
 ```erb
@@ -624,7 +621,7 @@ end
 ```
 
 
-First, we create a secure random hex value and assign to the `authentity_token` attribute of the user. We then use the [set_cookie](http://apidock.com/rails/Rack/Response/set_cookie) function to generate a cookie for the domain which is valid for thirty days. The rest of the controller is still the same.
+First, we create a secure random hex value and assign to the `authentity_token` attribute of the user. We then use the [set_cookie](http://apidock.com/rails/Rack/Response/set_cookie "set_cook") function to generate a cookie for the domain which is valid for thirty days. The rest of the controller is still the same.
 
 
 When you login the next time into the application, click the remember me you checkboxw. Stop and start the application again, you will be logged in automatically for the next thirty days.
@@ -633,7 +630,7 @@ When you login the next time into the application, click the remember me you che
 ![Figure 2-2. Start page of the app](images/cookies.png)
 
 
-If you want to see the cookie in your browser, you can install [Web Developer](https://addons.mozilla.org/en-US/firefox/addon/web-developer/) extension for [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/) and open the *View cookie information* pane in the *Cookies* tab.
+If you want to see the cookie in your browser, you can install [Web Developer extension](https://addons.mozilla.org/en-US/firefox/addon/web-developer "Web Developer extension") for [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new "Mozilla Firefox") and open the *View cookie information* pane in the *Cookies* tab.
 
 
 ### Reset Password
@@ -800,7 +797,7 @@ end
 ```
 
 
-But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i98KRaZGIJ1K77n/HqePEbD2KFdI3ldIcbiOoazQ==`. The slash is bad for the routing. We already used the `normalize_confirmation_code` from `app/models/user_observer.rb` to remove such backslashes, and we could easily the same method again. But we don't want to apply [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself). Do you remember the `lib` folder from section (TBD) - this is the place where you can put shared code which can be used by models, controllers, and other components. We create a `normalize_token.rb` file:
+But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i98KRaZGIJ1K77n/HqePEbD2KFdI3ldIcbiOoazQ==`. The slash is bad for the routing. We already used the `normalize_confirmation_code` from `app/models/user_observer.rb` to remove such backslashes, and we could easily the same method again. But we don't want to apply [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). Do you remember the `lib` folder from section (TBD) - this is the place where you can put shared code which can be used by models, controllers, and other components. We create a `normalize_token.rb` file:
 
 
 ```ruby
@@ -929,7 +926,7 @@ end
 ```
 
 
-The line with `Time.now + (60 * 60)` is not very readable. Rails has the functionality of using words like `1.hour.ago` with the help of [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html) module. Since Padrino is not using `ActiveSupport`, we use the [Timerizer](https://github.com/kylewlacy/timerizer) gem which adds the functionality for us:
+The line with `Time.now + (60 * 60)` is not very readable. Rails has the functionality of using words like `1.hour.ago` with the help of [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html "ActiveSupport") module. Since Padrino is not using `ActiveSupport`, we use the [Timerizer](https://github.com/kylewlacy/timerizer "timerizer") gem which adds the functionality for us:
 
 
 ```ruby
@@ -1001,8 +998,10 @@ JobVacancy::App.controllers :password_forget do
     @user = User.find_by_password_reset_token(params[:token])
 
     if @user.update_attributes(params[:user])
-      @user.update_attributes({:password_reset_token => 0, :password_reset_sent_date => 0})
-      flash[:notice] = "Password has been reseted. Please login with your new password."
+      @user.update_attributes({:password_reset_token => 0,
+        :password_reset_sent_date => 0})
+      flash[:notice] = "Password has been reseted.
+        Please login with your new password."
       redirect url(:sessions, :new)
     else
       render 'edit'
