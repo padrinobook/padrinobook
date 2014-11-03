@@ -4,6 +4,7 @@ This book describes how I developed an application in [Padrino](http://www.padri
 
 
 # Current version
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/wikimatze/PadrinoBook?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 You can find the current preview version under [softcover.io](https://www.softcover.io/downloads/fd219c19/padrinobook).
 
