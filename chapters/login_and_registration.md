@@ -231,11 +231,14 @@ Now this test is fixed. Next we are going to implement the validation for the em
 # spec/app/models/user_spec.rb
 
 describe "email address" do
+  let(:user_first) { build(:user) }
+  let(:user_second) { build(:user) }
+
   it 'valid' do
     addresses = %w[thor@marvel.de hero@movie.com]
     addresses.each do |email|
-      user_second.email = email
-      user_second.name= email
+      user_first.email = email
+      user_second.email= email
       user_second.should be_valid
     end
   end
