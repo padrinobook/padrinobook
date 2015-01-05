@@ -128,7 +128,7 @@ Use the encoding property to allow special symbols from Germany - you have to ad
 
 it 'have no blank name' do
   user.name = ""
-  user.save.should be_false
+  user.save.should be false
 end
 ...
 ```
@@ -143,7 +143,7 @@ $ rspec spec
 Failures:
 
   1) User Model have no blank name
-     Failure/Error: user.save.should be_false
+     Failure/Error: user.save.should be false
        expected: false value
             got: true
      # ./spec/app/models/user_spec.rb:20:in `block (2 levels) in <top (required)>'
@@ -203,7 +203,7 @@ describe "when name is already used" do
   let(:user_second) { build(:user) }
 
   it 'should not be saved' do
-     user_second.save.should be_false
+     user_second.save.should be false
   end
 end
 ```
@@ -1068,7 +1068,7 @@ When we are going to register a new user, we need to create a confirmation code 
 
     it 'should not be blank' do
       user_confirmation.confirmation_code = ""
-      user_confirmation.valid?.should be_false
+      user_confirmation.valid?.should be false
     end
   end
 ...
@@ -1182,7 +1182,7 @@ describe "confirmation code" do
 
   it 'should not be blank' do
     user_confirmation.confirmation_code = ""
-    user_confirmation.valid?.should be_false
+    user_confirmation.valid?.should be false
   end
 
   it 'should authenticate user with correct confirmation code' do
@@ -1201,7 +1201,7 @@ describe "confirmation code" do
   end
 
   it 'should not authenticate user with incorrect confirmation code' do
-    user_confirmation.authenticate("wrong").should be_false
+    user_confirmation.authenticate("wrong").should be false
   end
 end
 ```
