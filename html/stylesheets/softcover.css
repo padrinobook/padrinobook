@@ -14,6 +14,7 @@ body #book {
   font-size: 230%;
   border-top: 2px solid #333;
   padding-top: 1em;
+  text-align: left;
 }
 
 #book h2 {
@@ -64,7 +65,7 @@ body #book {
 }
 
 #book a.tex {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 #book code {
@@ -104,11 +105,14 @@ body #book {
 #book .code {
   margin-top: 0.2em;
   width: 100%;
-  white-space: pre;
   font-family: "Courier New", Courier, monospace;
   border: 1px solid #999;
   background: #eee;
   margin-bottom: 1em;
+}
+
+#book .code pre {
+  white-space: pre;
 }
 
 #book .codelisting {
@@ -180,7 +184,8 @@ body #book {
 #book .graphics.image.box img {
   border: 1px solid #666;
 }
-#book a .graphics img {
+
+#book a.graphics img {
   display: block;
   margin: 2em auto auto;
 }
@@ -307,13 +312,16 @@ body #book {
 }
 
 #book ol.footnotes a.arrow {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 #book ol.footnotes.nonumbers li {
   list-style-type: none;
 }
 
+#book ul.footnotes.nonumbers li {
+  list-style-type: none;
+}
 
 #book .footnotes .header {
   padding-top: 1em;
@@ -324,7 +332,7 @@ body #book {
 }
 
 #book a.arrow {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 #book a:visited.arrow {
@@ -333,12 +341,12 @@ body #book {
 
 #book a.section  {
   color: #070707;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 #book a.heading {
   color: #000;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 #book a:hover.heading {
@@ -372,7 +380,7 @@ body #book {
 
 #book .highlight pre {
   margin: 10px 0 10px 10px;
-  font-size: 82%;
+  font-size: 80%;
   font-weight: bold;
 }
 
@@ -428,7 +436,23 @@ body #book {
 }
 
 #book .texhtml {
+  font-family: 'CMU Serif', cmr10, LMRoman10-Regular, 'Times New Roman', 'Nimbus Roman No9 L', Times, serif !important;
   line-height: 0.5;
+}
+
+#book .texhtml .texhtmlA {
+  font-size: 70%;
+  line-height: 0;
+  margin-left: -0.36em;
+  margin-right: -0.15em;
+  vertical-align: 0.3em;
+}
+
+#book .texhtml .texhtmlE {
+  margin-left: -0.1667em;
+  vertical-align: -0.5ex;
+  line-height: 0;
+  margin-right: -0.125em;
 }
 
 #book span.break {
@@ -443,3 +467,4 @@ body #book {
 #book span.intersentencespace {
   margin-right: 0.2em;
 }
+
