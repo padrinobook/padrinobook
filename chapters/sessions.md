@@ -417,10 +417,10 @@ Where can we test now our logic? The main application layout of our application 
         <nav id="navigation">
         ...
         <% if signed_in? %>
-          <%= link_to 'Logout', url_for(:sessions, :destroy) %>
+          <%= link_to 'Logout', url(:sessions, :destroy) %>
         <% else %>
         <div class="span2">
-          <%= link_to 'Login', url_for(:sessions, :new) %>
+          <%= link_to 'Login', url(:sessions, :new) %>
         </div>
         <% end %>
         </nav>

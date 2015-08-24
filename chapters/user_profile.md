@@ -362,6 +362,7 @@ Finally, we need to provider the edit link in the header navigation:
     <div class="span2">
       <%= link_to 'Edit Profile', url(:users, :edit,
         :id => session[:current_user]) %>
+      <%= link_to 'Edit Profile', url(:users, :edit, :id => session[:current_user]) %>
     </div>
   <% else %>
     <div class="span3">
@@ -468,6 +469,7 @@ class User < ActiveRecord::Base
   def generate_authentity_token
     require 'securerandom'
     self.authentity_token = SecureRandom.base64(64)
+    SecureRandom
   end
 end
 ```
