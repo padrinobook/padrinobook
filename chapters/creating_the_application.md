@@ -421,13 +421,13 @@ Next we want to create the top-navigation for our app. We already implemented th
       <div class="row">
         <nav id="navigation">
           <div class="span2 offset4">
-            <%= link_to 'Home', url_for(:page, :home) %>
+            <%= link_to 'Home', url(:page, :home) %>
           </div>
           <div class="span2">
-            <%= link_to 'About', url_for(:page, :about) %>
+            <%= link_to 'About', url(:page, :about) %>
           </div>
           <div class="span2">
-            <%= link_to 'Contact', url_for(:page, :contact) %>
+            <%= link_to 'Contact', url(:page, :contact) %>
           </div>
         </nav>
       </div>
@@ -445,8 +445,8 @@ Next we want to create the top-navigation for our app. We already implemented th
 Explanation of the new parts:
 
 
-- `link_to` - Is a helper for creating links. The first argument is the name for the link and the second is for the URL (href) to which the link points to.
-- `url_for` - This helper return the link which can be used as the second parameter for the `link_to` function. It specifies the <:controller>, <:action> which will be executed. You can use in your helper in your whole app to create clean and encapsulated URLs.
+- [link_to](http://www.padrinorb.com/api/Padrino/Helpers/AssetTagHelpers.html#link_to-instance_method) - Is a helper for creating links. The first argument is the name for the link and the second is for the URL (href) to which the link points to.
+- [url](http://www.padrinorb.com/api/Padrino/Routing/InstanceMethods.html#url-instance_method) (or `url_for`) - This helper return the link which can be used as the second parameter for the `link_to` function. It specifies the <:controller>, <:action> which will be executed. You can use in your helper in your whole app to create clean and encapsulated URLs.
 
 
 Now that the we provide links to other parts of the app, lets add some sugar-candy styling:
