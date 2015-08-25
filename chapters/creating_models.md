@@ -42,7 +42,7 @@ require 'spec_helper'
 describe "User Model" do
   let(:user) { User.new }
   it 'can be created' do
-    user.should_not be_nil
+    expect(user).not_to be_nil
   end
 end
 ```
@@ -649,16 +649,16 @@ describe "User Model" do
     :description => 'Come to this great place'} }
 
   it 'can be created' do
-    user.should_not be_nil
+    expect(user).not_to be_nil
   end
 
   it 'fresh user should have no offers' do
-    user.job_offers.size.should == 0
+    expect(user.job_offers.size).to eq 0
   end
 
   it 'have job-offers' do
     user.job_offers.build(job_offer)
-    user.job_offers.size.should == 1
+    expect(user.job_offers.size).to eq 1
   end
 end
 ```
@@ -703,25 +703,17 @@ And now we modify our `user_spec`:
 require 'spec_helper'
 
 describe "User Model" do
-  let(:user) { FactoryGirl.build(:user) }
-
-  it 'can be created' do
-    user.should_not be_nil
-  end
-
-  it 'fresh user should have no offers' do
-    user.job_offers.size.should == 0
-  end
+  ...
 
   it 'has job-offers' do
     user.job_offers.build(FactoryGirl.attributes_for(:job_offer))
-    user.job_offers.size.should == 1
+    expect(user.job_offers.size).to eq 1
   end
 end
 ```
 
 
-As you see, the job fixtures are created with FactoryGirls' `attributes_for` method. This method  takes a symbol as an input and returns the attributes of the fixture as a hash.
+As you see, the job fixtures are created with FactoryGirls' `attributes_for` method. This method takes a symbol as an input and returns the attributes of the fixture as a hash.
 
 
 Now, our tests are looking fine and they are still green. But we can do even better. We can remove the `FactoryGirl` expressions if we add make the following change to our `spec_helper.rb`:
@@ -746,18 +738,11 @@ Now we can change our test to:
 require 'spec_helper'
 
 describe "User Model" do
-  let(:user) { build(:user) }
-  it 'can be created' do
-    user.should_not be_nil
-  end
-
-  it 'fresh user should have no offers' do
-    user.job_offers.size.should == 0
-  end
+  ...
 
   it 'has job-offers' do
     user.job_offers.build(attributes_for(:job_offer))
-    user.job_offers.size.should == 1
+    expect(user.job_offers.size).to eq 1
   end
 end
 ```
