@@ -497,16 +497,17 @@ Remember when we created the *page-controller* with `padrino-gen controller page
 
 ```ruby
 # spec/app/controller/page_controller_spec.rb
-
 require 'spec_helper'
 
-describe "PageController" do
-  before do
-    get "/"
-  end
+RSpec.describe "/page" do
+  pending "add some examples to #{__FILE__}" do
+    before do
+      get "/page"
+    end
 
-  it "returns hello world" do
-    last_response.body.should == "Hello World"
+    it "returns hello world" do
+      expect(last_response.body).to eq "Hello World"
+    end
   end
 end
 ```
@@ -520,26 +521,26 @@ Let's update that file and write some basic tests to make sure that everything i
 
 require 'spec_helper'
 
-describe "PageController" do
+RSpec.describe "PageController" do
   describe "GET #about" do
 
     it "renders the :about view" do
       get '/about'
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
   end
 
   describe "GET #contact" do
     it "renders the :contact view" do
       get '/contact'
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
   end
 
   describe "GET #home" do
     it "renders :home view" do
       get '/'
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
   end
 end
