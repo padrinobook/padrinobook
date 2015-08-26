@@ -12,7 +12,7 @@ It is possible that you know this section from several tutorials, which makes yo
 Now, get your hands dirty and start coding.
 
 
-First of all we need to install the [padrino gem](https://rubygems.org/gems/padrino "Padrino gem"). We are using the last stable version of Padrino (during the release of this book it is version **0.12.4**). Execute this command.
+First of all we need to install the [padrino gem](https://rubygems.org/gems/padrino "Padrino"). We are using the last stable version of Padrino (during the release of this book it is version [0.12.5](https://rubygems.org/gems/padrino/versions/0.12.5 "Padrino 0.12.5")). Execute this command.
 
 
 ```sh
@@ -51,7 +51,6 @@ The console output should look like the following:
   create  public/images
   create  public/javascripts
   create  public/stylesheets
-  create  tmp
   create  .components
   create  app
   create  app/app.rb
@@ -59,8 +58,14 @@ The console output should look like the following:
   create  app/helpers
   create  app/views
   create  app/views/layouts
+  append  config/apps.rb
   create  Gemfile
   create  Rakefile
+  create  bin/hello-padrino
+  create  tmp
+  create  tmp/.keep
+  create  log
+  create  log/.keep
 skipping  orm component...
 skipping  test component...
 skipping  mock component...
@@ -88,14 +93,11 @@ The last line in the console output tells you the next steps you have to perform
 Ruby has a nice package manager called [bundler](http://gembundler.com "Bundler") which installs all necessary gems in the versions you would like to have for your project. Other developers know now how to work with your project even after years. The [Gemfile](http://gembundler.com/gemfile.html "Gemfile") declares the gems that you want to install. Bundler takes the content of the Gemfile and will install every package declared in this file.
 
 
-To install bundler, execute the following command and check the console output:
+To install [bundler 1.10.6](https://rubygems.org/gems/bundler/versions/1.10.6 "Bundle 1.10.6"), execute the following command and check the console output:
 
 
 ```sh
 $ gem install bundler
-  Fetching: bundler-1.3.5.gem (100%)
-  Successfully installed bundler-1.3.5
-  1 gem installed
 ```
 
 
@@ -147,24 +149,27 @@ Navigating through the various parts of a project is essential. Thus we will go 
 
 
 ```sh
-|-- Gemfile
-|-- Gemfile.lock
 |-- app
 |   |-- app.rb
 |   |-- controllers
 |   |-- helpers
 |   `-- views
 |       `-- layouts
+|-- bin
+    |-- hello-padrino
 |-- config
 |   |-- apps.rb
 |   |-- boot.rb
 |   `-- database.rb
 |-- config.ru
+|-- Gemfile
+|-- Gemfile.lock
 |-- public
 |   |-- favicon.ico
 |   |-- images
 |   |-- javascripts
 |   `-- stylesheets
+|-- Rakefile
 `-- tmp
 ```
 
