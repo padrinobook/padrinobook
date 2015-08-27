@@ -6,10 +6,12 @@ Now that our users have the possibility to register and confirm on our page, we 
 ```sh
 $ padrino-gen controller Sessions new create destroy
   create  app/controllers/sessions.rb
-  create  app/helpers/sessions_helper.rb
   create  app/views/sessions
    apply  tests/rspec
   create  spec/app/controllers/sessions_controller_spec.rb
+  create  app/helpers/sessions_helper.rb
+   apply  tests/rspec
+  create  spec/app/helpers/sessions_helper_spec.rb
 ```
 
 
@@ -18,11 +20,14 @@ We made a mistake during the generation - we forget to add the right action for 
 
 ```sh
 $ padrino-gen controller Sessions -d
+
   remove  app/controllers/sessions.rb
-  remove  app/helpers/sessions_helper.rb
   remove  app/views/sessions
    apply  tests/rspec
   remove  spec/app/controllers/sessions_controller_spec.rb
+  remove  app/helpers/sessions_helper.rb
+   apply  tests/rspec
+  remove  spec/app/helpers/sessions_helper_spec.rb
 ```
 
 
@@ -31,11 +36,6 @@ And run the generate command with the correct actions:
 
 ```sh
 $ padrino-gen controller Sessions get:new post:create delete:destroy
-  create  app/controllers/sessions.rb
-  create  app/helpers/sessions_helper.rb
-  create  app/views/sessions
-   apply  tests/rspec
-  create  spec/app/controllers/sessions_controller_spec.rb
 ```
 
 
