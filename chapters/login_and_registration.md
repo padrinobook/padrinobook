@@ -1601,39 +1601,3 @@ RSpec.configure do |conf|
 end
 ```
 
-
-If you want to have an observer test[^test], you can use  the following one:
-
-
-```ruby
-# spec/app/models/user_observer_spec.rb
-
-require 'spec_helper'
-
-describe "UserObserver" do
-  let(:user) { build(:user)}
-  before do
-    @observer = UserObserver.instance
-    @model = User
-  end
-
-  it 'creates Mail::Message object before save' do
-    @observer.before_save(user).should be_instance_of(Mail::Message)
-  end
-
-  it 'do not create Mail::Message if user already exist' do
-    @observer.before_save(@model.first).should be_nil
-  end
-
-  it 'creates Mail::Message object after save' do
-    @observer.after_save(user).should be_instance_of(Mail::Message)
-  end
-end
-```
-
-
-But during writing this book I became different testing results when using `bundle exec rake spec` and `bundle exec rspec spec` and to go on with the book, I removed the test and disabled all observers for the application.
-
-
-[^test]: Got the inspiration from [stackoverflow](http://stackoverflow.com/questions/33048/how-would-you-test-observers-with-rspec-in-a-ruby-on-rails-application "stackoverflow")
-
