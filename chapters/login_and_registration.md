@@ -74,7 +74,7 @@ Before we are going to implement what we think, we are going to write **pending*
 
 require 'spec_helper'
 
-describe "User Model" do
+RSpec.describe "User Model" do
   ...
 
   pending('no blank name')
@@ -127,7 +127,7 @@ Use the encoding property to allow special symbols from Germany - you have to ad
 
 it 'have no blank name' do
   user.name = ""
-  user.save.should be false
+  expect(user.valid?).to be_falsey
 end
 ...
 ```
@@ -142,8 +142,8 @@ $ rspec spec
 Failures:
 
   1) User Model have no blank name
-     Failure/Error: user.save.should be false
-       expected: false value
+     Failure/Error: expect(user.valid?).to be_falsey
+       expected: falsey value
             got: true
      # ./spec/app/models/user_spec.rb:20:in `block (2 levels)
      # in <top (required)>'
@@ -199,17 +199,27 @@ Whenever you build a new `user` fixture, the value `email_number` is incremented
 ```ruby
 # spec/app/models/user_spec.rb
 
-describe "when name is already used" do
-  let(:user_second) { build(:user) }
 
-  it 'should not be saved' do
-     user_second.save.should be false
+RSpec.describe "User Model" do
+  let(:user) { build(:user) }
+  let(:user_second) { build(:user)}
+  ...
+
+
+  describe "when name is already used" do
+    it 'should not be saved' do
+      User.destroy_all
+      user.save
+      user_second.name = user.name
+      user_second.save
+      expect(user_second.valid?).to be_falsey
+    end
   end
 end
 ```
 
 
-To make the test green you have to use the [uniqueness validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#uniqueness "uniqueness validation"). All what it does is to validates that the attribute's value is unique before it gets saved.
+To make the test green you have to use the [uniqueness validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#uniqueness "uniqueness validation") (Note that we the [destroy_all](http://www.rubydoc.info/docs/rails/4.1.7/ActiveRecord%2FAssociations%2FCollectionProxy%3Adestroy_all "destroy_all") to destroy all users in the database and there associations). All what it does is to validates that the attribute's value is unique before it gets saved.
 
 
 ```ruby
@@ -230,27 +240,27 @@ Now this test is fixed. Next we are going to implement the validation for the em
 ```ruby
 # spec/app/models/user_spec.rb
 
-describe "email address" do
-  let(:user_first) { build(:user) }
-  let(:user_second) { build(:user) }
+...
 
+describe "email address" do
   it 'valid' do
-    addresses = %w[thor@marvel.de hero@movie.com]
-    addresses.each do |email|
-      user_first.email = email
+    adresses = %w[thor@marvel.de hero@movie.com]
+    adresses.each do |email|
+      user.email = email
       user_second.email= email
-      user_second.should be_valid
+      expect(user_second.valid?).to be_truthy
     end
   end
 
   it 'not valid' do
-    addresses = %w[spamspamspam.de heman,test.com]
-    addresses.each do |email|
+    adresses = %w[spamspamspam.de heman,test.com]
+    adresses.each do |email|
       user_second.email= email
-      user_second.should_not be_valid
+      expect(user_second.valid?).to be_falsey
     end
   end
 end
+
 ```
 
 
@@ -263,7 +273,7 @@ We can test the correctness of the `email` field with a regular expression. Firs
 class User < ActiveRecord::Base
   ...
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, format: { with: VALID_EMAIL_REGEX }
+  validates :email, :format { with: VALID_EMAIL_REGEX }
   ...
 end
 ```
@@ -419,6 +429,15 @@ The part with the `rollback transaction` means, that user was not saved. Why? Be
 
 
 ```ruby
+>> user = User.new
+=> #<User id: nil, name: nil, email: nil, created_at: nil, password: nil>
+>> user.save
+  DEBUG -   (0.1ms)  begin transaction
+  DEBUG -  User Exists (0.1ms)  SELECT 1 AS one FROM "users" WHERE "users"."name" IS NULL LIMIT 1
+  DEBUG -  User Exists (0.1ms)  SELECT 1 AS one FROM "users" WHERE "users"."email" IS NULL LIMIT 1
+  DEBUG -   (0.0ms)  rollback transaction
+=> false
+>> user.errors
 => #<ActiveModel::Errors:0x9dea518 @base=#<User id: nil, name: nil, email: nil,
    #created_at: nil,
     updated_at: nil, password: nil>, messages{:name=>["can't be blank"],
@@ -541,9 +560,6 @@ DEBUG -     POST (0.1854ms) /users/create - 303 See Other
 DEBUG - TEMPLATE (0.0004ms) /page/home
 DEBUG - TEMPLATE (0.0002ms) /application
 DEBUG -      GET (0.0058ms) / - 200 OK
-DEBUG -      GET (0.0006ms) application.css?1365617350 - 200 OK
-DEBUG -      GET (0.0002ms) application.js?1365617350 - 200 OK
-DEBUG -      GET (0.0018ms) /favicon.ico - 404 Not Found
 ```
 
 
@@ -594,10 +610,10 @@ Let's get through all the different options:
 - `:domain`: This key is set up for [HELO checking](http://en.wikipedia.org/wiki/Anti-spam_techniques#HELO.2FEHLO_checking "HELO checking").
 
 
-Prior Padrino *0.10.7* the `:enable_starttls_auto => true` was changeable. This is option is now always on true in *Padrino >= 0.11.1*.
+Prior Padrino *0.10.7* the `:enable_starttls_auto => true` was changeable. This is option is now always on true in *Padrino >= 0.11.1* so we leave it out.
 
 
-This is now the default delivery address unless it is overwritten in an individual mail definition.  We won't test the email functionality to this point because the *Mailer gem* is already tested.
+This is now the default delivery address unless it is overwritten in an individual mail definition. We won't test the email functionality to this point because the *Mailer gem* is already tested.
 
 
 #### Quick Mail Usage
