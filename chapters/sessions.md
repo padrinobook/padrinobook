@@ -20,7 +20,6 @@ We made a mistake during the generation - we forget to add the right action for 
 
 ```sh
 $ padrino-gen controller Sessions -d
-
   remove  app/controllers/sessions.rb
   remove  app/views/sessions
    apply  tests/rspec
@@ -47,7 +46,26 @@ Our session controller is naked:
 
 JobVacancy:App.controllers :sessions do
 
-  get :new, :map => "/login" do
+  # get :index, :map => '/foo/bar' do
+  #   session[:foo] = 'bar'
+  #   render 'index'
+  # end
+
+  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
+  #   case content_type
+  #     when :js then ...
+  #     else ...
+  # end
+
+  # get :foo, :with => :id do
+  #   'Maps to url '/foo/#{params[:id]}''
+  # end
+
+  # get '/example' do
+  #   'Hello world!'
+  # end
+
+  get :new do
   end
 
   post :create do
