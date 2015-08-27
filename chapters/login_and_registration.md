@@ -739,7 +739,7 @@ end
 \begin{aside}
 \heading{Difference between Padrino's Mailer methods email and deliver}
 
-The [email](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#email-instance_method "email") method is has the parameters `mail_attributes = {}, &block`. That means the you write emails directly `JobVacancy.email(:to => '...', :from => '...', :subject => '...', :body => '...')` or use the block syntax `JobVacancy.email do ... end`. In comparison to this is the [deliver](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#deliver-instance_method "mail deliver option") method. It has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer for them. If you want to use very simple mails in your application, prefer to use the email method. But if you have templates with a much more complex layout in different formats (plain, HTML), the deliver method is the best fit.
+The [email](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#email-instance_method "email") method is has the parameters `mail_attributes = {}, &block`. That means the you write emails directly `JobVacancy.email(:to => '...', :from => '...', :subject => '...', :body => '...')` or use the block syntax `JobVacancy.email do ... end`. In comparison to this is the [deliver](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#deliver-instance_method "deliver method") method. It has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer for them. If you want to use very simple mails in your application, prefer to use the email method. But if you have templates with a much more complex layout in different formats (plain, HTML), the deliver method is the best fit.
 
 \end{aside}
 
@@ -1026,11 +1026,14 @@ Why? Because we are hitting the database and our tests slow. Please consider cod
 ```ruby
 # spec/app/models/user_spec.rb
 
+
 describe "when name is already used" do
   it 'should not be saved' do
+    User.destroy_all
     user.save
     user_second.name = user.name
-    user_second.should_not be_valid
+    user_second.save
+    expect(user_second.valid?).to be_falsey
   end
 end
 
@@ -1038,7 +1041,8 @@ describe "when email address is already used" do
   it 'should not save an user with an existing address' do
     user.save
     user_second.email = user.email
-    user_second.save.should be_false
+    user_second.save
+    expect(user_second.valid?).to be_falsey
   end
 end
 ```
@@ -1096,12 +1100,13 @@ When we are going to register a new user, we need to create a confirmation code 
 # spec/app/models/user_spec.rb
 ...
 
+
   describe "confirmation code" do
     let(:user_confirmation) { build(:user) }
 
     it 'should not be blank' do
       user_confirmation.confirmation_code = ""
-      user_confirmation.valid?.should be false
+      expect(user_confirmation.valid?).to be_falsey
     end
   end
 ...
@@ -1130,7 +1135,7 @@ Next we need think of how we can set the `confirmation_code` information to our 
 ...
 
 # Security
-gem 'bcrypt-ruby', '3.0.1', :require => 'bcrypt'
+gem 'bcrypt-ruby', '~> 3.1', :require => 'bcrypt'
 ```
 
 
@@ -1139,7 +1144,7 @@ Now let's open the console and play around with this Gem:
 
 ```sh
 $ padrino c
-  => Loading development console (Padrino v.0.11.1)
+  => Loading development console (Padrino v.0.12.5)
   => Loading Application JobVacancy
   >> password = "Test11111134543"
   => "Test11111134543"
@@ -1199,7 +1204,7 @@ We won't test the methods under the private keyword, there is no customized busi
 \begin{aside}
 \heading{Why private callbacks?}
 
-It is good practice to make your callbacks private that they can called only from inside the model and no other object can use these methods. Our `confirmation_code` method is public available but that is no problem, because it generates an random string.
+It is good practice to make your callbacks private that they can called only from inside the model and no other object can use these methods. Our `confirmation_code` method is public available but that is no problem, because it generates a random string.
 
 \end{aside}
 
@@ -1214,28 +1219,18 @@ After creating the confirmation code mechanism for our user, we need to implemen
 describe "confirmation code" do
   let(:user_confirmation) { build(:user) }
 
-  it 'should not be blank' do
-    user_confirmation.confirmation_code = ""
-    user_confirmation.valid?.should be false
-  end
 
-  it 'should authenticate user with correct confirmation code' do
+  it 'should authenticate user with correct confirmation code and should be confirmed' do
     user_confirmation.save
     confirmation_of_saved_user = User.find_by_id(user_confirmation.id)
     user_confirmation.confirmation_code =
       confirmation_of_saved_user.confirmation_code
-    user_confirmation.authenticate(user_confirmation.confirmation_code).
-      should be_true
+    expect(user_confirmation.authenticate(user_confirmation.confirmation_code)).to be_truthy
+    expect(user_confirmation.confirmation).to be_truthy
   end
 
-  it 'confirmation should be set true after a user is authenticated' do
-    user_confirmation.save
-    confirmation_of_saved_user = User.find_by_id(user_confirmation.id)
-    user_confirmation.confirmation_code =
-      confirmation_of_saved_user.confirmation_code
-    user_confirmation.authenticate(user_confirmation.confirmation_code).
-      should be_true
-    user_confirmation.confirmation.should be_true
+  it 'should not authenticate user with incorrect confirmation code' do
+    expect(user_confirmation.authenticate("wrong")).to be_falsey
   end
 
   it 'should not authenticate user with incorrect confirmation code' do
@@ -1311,21 +1306,25 @@ Since our tests of our user model are now green, let's write tests for our `/con
 # spec/app/controllers/users_controller.rb
 
 describe "GET confirm" do
-let(:user) { build(:user) }
-  it "render the 'users/confirm' page if user has confirmation code" do
+  let(:user) { build(:user) }
+
+  it "render the '/confirm' page if user has confirmation code" do
     user.save
-    get "/confirm/#{user.id}/#{user.confirmation_code.to_s}"
-    last_response.should be_ok
+    user_confirmed = User.find_by_id(user.id)
+    get "/confirm/#{user_confirmed.id}/#{user_confirmed.confirmation_code.to_s}"
+    expect(last_response).to be_ok
   end
 
-  it "redirect the :confirm if user id is wrong" do
+
+  it "redirect to :confirm if user id is wrong" do
     get "/confirm/test/#{user.confirmation_code.to_s}"
-    last_response.should be_redirect
+    expect(last_response).to be_redirect
   end
 
-  it "redirect to :confirm if confirmation id is wrong" do
-    get "/confirm/#{user.id}/test"
-    last_response.should be_redirect
+
+  it "redirect to :confirm if user id is wrong" do
+    get "/confirm/test/#{user.confirmation_code.to_s}"
+    expect(last_response).to be_redirect
   end
 end
 ```
@@ -1444,17 +1443,6 @@ Here is a rough plan what we want to do:
 - Attach the observer to the model.
 
 
-First we need to enable the `activerecord gem`:
-
-
-```ruby
-# Gemfile
-...
-gem 'activerecord', '~> 3.2', :require => 'active_record'
-...
-```
-
-
 Let's create the observer with the name `user_observer` in the models folder
 
 
@@ -1465,9 +1453,6 @@ class UserObserver < ActiveRecord::Observer
   ... # put in here the private methods of the users model
 end
 ```
-
-
-(Padrino hasn't a generate command, you can read about a possible command under [github](https://github.com/padrino/padrino-framework/pull/1786).)
 
 
 Since the observer is created we need to register it:
