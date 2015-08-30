@@ -34,7 +34,7 @@ And run the generate command with the correct actions:
 
 
 ```sh
-$ padrino-gen controller Sessions get:new post:create delete:destroy
+$ padrino-gen controller Sessions get:new post:create get:destroy
 ```
 
 
@@ -71,37 +71,7 @@ JobVacancy:App.controllers :sessions do
   post :create do
   end
 
-  delete :destroy do
-  end
-end
-```
-
-
-Before going on to write our tests first before we start with the implementation:
-
-
-```ruby
-# spec/app/controllers/sessions_controller_spec.rb
-
-require 'spec_helper'
-
-describe "SessionsController" do
-  describe "GET :new" do
-    it "load the login page" do
-    end
-  end
-
-  describe "POST :create" do
-    it "stay on page if user is not found"
-    it "stay on login page if user is not confirmed"
-    it "stay on login page if user has wrong email"
-    it "stay on login page if user has wrong password"
-    it "redirect if user is correct"
-  end
-
-  describe "GET :logout" do
-    it "empty the current session"
-    it "redirect to homepage if user is logging out"
+  get :destroy do
   end
 end
 ```
@@ -110,12 +80,12 @@ end
 \begin{aside}
 \heading{Test-First development}
 
-Is a term from [Extreme Programming (XP)](http://en.wikipedia.org/wiki/Extreme_programming "Extreme Programming (XP)") and means that you first write down your tests before writing any code to solve it. This forces you to really think about what you are going to do. These tests prevent you from over engineering a problem because you has to make these tests green.
+Is a term from [Extreme Programming (XP)](http://en.wikipedia.org/wiki/Extreme_programming "Extreme Programming (XP)") and means that you first write down your tests before writing any code to solve it. This forces you to really think about what you are going to do. These tests prevent you from over engineering a problem because you have to make these tests green.
 
 \end{aside}
 
 
-Here are now the tests for the `GET :new` and `POST :create` actions of our session controller:
+We write our tests first before the implementation:
 
 
 ```ruby
@@ -180,6 +150,12 @@ end
 
 
 We are using **mocking** to make test what we want with the `User.should_receive(:find_by_email).and_return(user)` method. I was thinking at the first that mocking is something very difficult but it isn't Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return our user object. This method will simulate from calling an actual find method in our application - yeah we are mocking the actual call and preventing our tests from hitting the database and making it faster. Actual call and preventing our tests from hitting the database and making it faster.
+
+
+Example rack_response
+
+
+            got #<Rack::MockResponse:86305750> => #<Rack::MockResponse:0xa49d7ac @original_headers={"Content-Type"=>"text/html;charset=utf-8", "Set-Cookie"=>"yeah=%7B%3Adomain%3D%3E%22jobvacancy.de%22%2C+%3Apath%3D%3E%22%2F%22%7D; max-age=2592000\nrack.session=BAh7CUkiDXRyYWNraW5nBjoGRUZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7AFRJ%0AIi1kYTM5YTNlZTVlNmI0YjBkMzI1NWJmZWY5NTYwMTg5MGFmZDgwNzA5BjsA%0ARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLWRhMzlhM2VlNWU2YjRi%0AMGQzMjU1YmZlZjk1NjAxODkwYWZkODA3MDkGOwBGSSIRY3VycmVudF91c2Vy%0ABjsARmkGSSILX2ZsYXNoBjsARnsGOgtub3RpY2VJIiVZb3UgaGF2ZSBzdWNj%0AZXNzZnVsbHkgbG9nZ2VkIGluIQY7AFRJIg9zZXNzaW9uX2lkBjsAVDA%3D%0A--66a86fdecbfd4e898e7c1e531042748d1b815fa4; path=/; HttpOnly", "Location"=>"http://example.org/", "Content-Length"=>"0", "X-XSS-Protection"=>"1; mode=block", "X-Content-Type-Options"=>"nosniff", "X-Frame-Options"=>"SAMEORIGIN"}, @errors="", @body_string=nil, @status=302, @header={"Content-Type"=>"text/html;charset=utf-8", "Set-Cookie"=>"yeah=%7B%3Adomain%3D%3E%22jobvacancy.de%22%2C+%3Apath%3D%3E%22%2F%22%7D; max-age=2592000\nrack.session=BAh7CUkiDXRyYWNraW5nBjoGRUZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7AFRJ%0AIi1kYTM5YTNlZTVlNmI0YjBkMzI1NWJmZWY5NTYwMTg5MGFmZDgwNzA5BjsA%0ARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLWRhMzlhM2VlNWU2YjRi%0AMGQzMjU1YmZlZjk1NjAxODkwYWZkODA3MDkGOwBGSSIRY3VycmVudF91c2Vy%0ABjsARmkGSSILX2ZsYXNoBjsARnsGOgtub3RpY2VJIiVZb3UgaGF2ZSBzdWNj%0AZXNzZnVsbHkgbG9nZ2VkIGluIQY7AFRJIg9zZXNzaW9uX2lkBjsAVDA%3D%0A--66a86fdecbfd4e898e7c1e531042748d1b815fa4; path=/; HttpOnly", "Location"=>"http://example.org/", "Content-Length"=>"0", "X-XSS-Protection"=>"1; mode=block", "X-Content-Type-Options"=>"nosniff", "X-Frame-Options"=>"SAMEORIGIN"}, @chunked=false, @writer=#<Proc:0xa49d3c4@/home/wm/.rvm/gems/ruby-2.2.1/gems/rack-1.5.5/lib/rack/response.rb:27 (lambda)>, @block=nil, @length=0, @body=[]>
 
 
 Here is the code for our session controller to make the test green:
