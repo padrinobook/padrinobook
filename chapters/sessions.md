@@ -93,12 +93,12 @@ We write our tests first before the implementation:
 
 require 'spec_helper'
 
-describe "SessionsController" do
 
-  describe "GET :new" do
+RSpec.describe "SessionsController" do
+  describe "GET /login" do
     it "load the login page" do
       get "/login"
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
   end
 
@@ -107,49 +107,44 @@ describe "SessionsController" do
     let(:params) { attributes_for(:user)}
 
     it "stay on page if user is not found" do
-      User.should_receive(:find_by_email).and_return(false)
-      post_create(user.attributes)
-      last_response.should be_ok
+      expect(User).to receive(:find_by_email).and_return(false)
+      post 'sessions/create'
+      expect(last_response).to be_ok
     end
 
     it "stay on login page if user is not confirmed" do
       user.confirmation = false
-      User.should_receive(:find_by_email).and_return(user)
-      post_create(user.attributes)
-      last_response.should be_ok
-    end
-
-    it "stay on login page if user has wrong email" do
-      user.email = "fake@google.de"
-      User.should_receive(:find_by_email).and_return(user)
-      post_create(user.attributes)
-      last_response.should be_ok
+      expect(User).to receive(:find_by_email).and_return(user)
+      post 'sessions/create'
+      expect(last_response).to be_ok
     end
 
     it "stay on login page if user has wrong password" do
-      user.password = "test"
-      User.should_receive(:find_by_email).and_return(user)
-      post_create(user.attributes)
-      last_response.should be_ok
+      user.confirmation = true
+      user.password = "fake"
+      expect(User).to receive(:find_by_email).and_return(user)
+      post 'sessions/create', {:password => 'correct'}
+      expect(last_response).to be_ok
     end
 
-    it "redirect if user is correct" do
+    it "redirects to home for confirmed user and correct password" do
       user.confirmation = true
-      User.should_receive(:find_by_email).and_return(user)
-      post_create(user.attributes)
-      last_response.should be_redirect
+      user.password = 'real'
+      expect(User).to receive(:find_by_email).and_return(user)
+      post 'sessions/create', {:password => 'real', :remember_me => false}
+      expect(last_response).to be_redirect
     end
   end
 
-  private
-  def post_create(params)
-    post "sessions/create", params
+  describe "GET /logout" do
+    xit "empty the current session"
+    xit "redirect to homepage if user is logging out"
   end
 end
 ```
 
 
-We are using **mocking** to make test what we want with the `User.should_receive(:find_by_email).and_return(user)` method. I was thinking at the first that mocking is something very difficult but it isn't Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return our user object. This method will simulate from calling an actual find method in our application - yeah we are mocking the actual call and preventing our tests from hitting the database and making it faster. Actual call and preventing our tests from hitting the database and making it faster.
+We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/docs "method stubs") to make test what we want with the `expect(User).to receive(:find_by_email).and_return(false)` method. At first I was thinking at that mocking is something very difficult. Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return false. So we stimulate the actual application call `find_by_email` in our application and preventing our tests from hitting the database and making it faster.
 
 
 Example rack_response
@@ -171,9 +166,9 @@ JobVacancy::App.controllers :sessions do
   end
 
   post :create do
-    user = User.find_by_email(params[:email])
+    @user = User.find_by_email(params[:email])
 
-    if user && user.confirmation && user.password == params[:password]
+    if @user && @user.confirmation && @user.password == params[:password]
       sign_in(user)
       redirect '/'
     else
