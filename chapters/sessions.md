@@ -144,13 +144,13 @@ end
 ```
 
 
-We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/docs "method stubs") to make test what we want with the `expect(User).to receive(:find_by_email).and_return(false)` method. At first I was thinking at that mocking is something very difficult. Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return false. So we stimulate the actual application call `find_by_email` in our application and preventing our tests from hitting the database and making it faster.
+We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/docs "method stubs") to make test what we want with the `expect(User).to receive(:find_by_email).and_return(false)` method. At first I was thinking at that mocking is something very difficult. Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return false. So we stimulate the actual application call `find_by_email` in our application and preventing our tests from hitting the database and making it faster. Beside we are using [xit](https://www.relishapp.com/rspec/rspec-core/v/2-4/docs/pending/pending-examples#temporarily-pending-by-changing-%22it%22-to-%22xit%22 "xit") to temporarily disable tests.
 
 
             got #<Rack::MockResponse:86305750> => #<Rack::MockResponse:0xa49d7ac @original_headers={"Content-Type"=>"text/html;charset=utf-8", "Set-Cookie"=>"yeah=%7B%3Adomain%3D%3E%22jobvacancy.de%22%2C+%3Apath%3D%3E%22%2F%22%7D; max-age=2592000\nrack.session=BAh7CUkiDXRyYWNraW5nBjoGRUZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7AFRJ%0AIi1kYTM5YTNlZTVlNmI0YjBkMzI1NWJmZWY5NTYwMTg5MGFmZDgwNzA5BjsA%0ARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLWRhMzlhM2VlNWU2YjRi%0AMGQzMjU1YmZlZjk1NjAxODkwYWZkODA3MDkGOwBGSSIRY3VycmVudF91c2Vy%0ABjsARmkGSSILX2ZsYXNoBjsARnsGOgtub3RpY2VJIiVZb3UgaGF2ZSBzdWNj%0AZXNzZnVsbHkgbG9nZ2VkIGluIQY7AFRJIg9zZXNzaW9uX2lkBjsAVDA%3D%0A--66a86fdecbfd4e898e7c1e531042748d1b815fa4; path=/; HttpOnly", "Location"=>"http://example.org/", "Content-Length"=>"0", "X-XSS-Protection"=>"1; mode=block", "X-Content-Type-Options"=>"nosniff", "X-Frame-Options"=>"SAMEORIGIN"}, @errors="", @body_string=nil, @status=302, @header={"Content-Type"=>"text/html;charset=utf-8", "Set-Cookie"=>"yeah=%7B%3Adomain%3D%3E%22jobvacancy.de%22%2C+%3Apath%3D%3E%22%2F%22%7D; max-age=2592000\nrack.session=BAh7CUkiDXRyYWNraW5nBjoGRUZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7AFRJ%0AIi1kYTM5YTNlZTVlNmI0YjBkMzI1NWJmZWY5NTYwMTg5MGFmZDgwNzA5BjsA%0ARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLWRhMzlhM2VlNWU2YjRi%0AMGQzMjU1YmZlZjk1NjAxODkwYWZkODA3MDkGOwBGSSIRY3VycmVudF91c2Vy%0ABjsARmkGSSILX2ZsYXNoBjsARnsGOgtub3RpY2VJIiVZb3UgaGF2ZSBzdWNj%0AZXNzZnVsbHkgbG9nZ2VkIGluIQY7AFRJIg9zZXNzaW9uX2lkBjsAVDA%3D%0A--66a86fdecbfd4e898e7c1e531042748d1b815fa4; path=/; HttpOnly", "Location"=>"http://example.org/", "Content-Length"=>"0", "X-XSS-Protection"=>"1; mode=block", "X-Content-Type-Options"=>"nosniff", "X-Frame-Options"=>"SAMEORIGIN"}, @chunked=false, @writer=#<Proc:0xa49d3c4@/home/wm/.rvm/gems/ruby-2.2.1/gems/rack-1.5.5/lib/rack/response.rb:27 (lambda)>, @block=nil, @length=0, @body=[]>
 
 
-Here is the code for our session controller to make the test green:
+Here is the code for our session controller to make the test "green":
 
 
 ```ruby
@@ -201,28 +201,31 @@ Running our tests:
 ```sh
 $ rspec spec/app/controllers/sessions_controller_spec.rb
 
+
 SessionsController
-  GET :new
+  GET /login
     load the login page
   POST :create
     stay on page if user is not found
     stay on login page if user is not confirmed
-    stay on login page if user has wrong email
     stay on login page if user has wrong password
-    redirect if user is correct
-  GET :logout
-    empty the current session (PENDING: Not yet implemented)
-    redirect to homepage if user is logging out (PENDING: Not yet implemented)
+    redirects to home for confirmed user and correct password
+    redirect if user is correct and has remember_me
+  GET /logout
+    empty the current session (PENDING: Temporarily skipped with xit)
+    redirect to homepage if user is logging out (PENDING: Temporarily skipped with xit)
 
-Pending:
-  SessionsController GET :logout empty the current session
-    # Not yet implemented
-    # ./spec/app/controllers/sessions_controller_spec.rb:52
-  SessionsController GET :logout redirect to homepage if user is logging out
-    # Not yet implemented
-    # ./spec/app/controllers/sessions_controller_spec.rb:53
+Pending: (Failures listed here are expected and do not affect your suite's status)
 
-Finished in 0.62495 seconds
+  1) SessionsController GET /logout empty the current session
+     # Temporarily skipped with xit
+     # ./spec/app/controllers/sessions_controller_spec.rb:66
+
+  2) SessionsController GET /logout redirect to homepage if user is logging out
+     # Temporarily skipped with xit
+     # ./spec/app/controllers/sessions_controller_spec.rb:71
+
+Finished in 0.37678 seconds (files took 0.74734 seconds to load)
 8 examples, 0 failures, 2 pending
 ```
 
