@@ -147,9 +147,6 @@ end
 We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/docs "method stubs") to make test what we want with the `expect(User).to receive(:find_by_email).and_return(false)` method. At first I was thinking at that mocking is something very difficult. Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return false. So we stimulate the actual application call `find_by_email` in our application and preventing our tests from hitting the database and making it faster.
 
 
-Example rack_response
-
-
             got #<Rack::MockResponse:86305750> => #<Rack::MockResponse:0xa49d7ac @original_headers={"Content-Type"=>"text/html;charset=utf-8", "Set-Cookie"=>"yeah=%7B%3Adomain%3D%3E%22jobvacancy.de%22%2C+%3Apath%3D%3E%22%2F%22%7D; max-age=2592000\nrack.session=BAh7CUkiDXRyYWNraW5nBjoGRUZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7AFRJ%0AIi1kYTM5YTNlZTVlNmI0YjBkMzI1NWJmZWY5NTYwMTg5MGFmZDgwNzA5BjsA%0ARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLWRhMzlhM2VlNWU2YjRi%0AMGQzMjU1YmZlZjk1NjAxODkwYWZkODA3MDkGOwBGSSIRY3VycmVudF91c2Vy%0ABjsARmkGSSILX2ZsYXNoBjsARnsGOgtub3RpY2VJIiVZb3UgaGF2ZSBzdWNj%0AZXNzZnVsbHkgbG9nZ2VkIGluIQY7AFRJIg9zZXNzaW9uX2lkBjsAVDA%3D%0A--66a86fdecbfd4e898e7c1e531042748d1b815fa4; path=/; HttpOnly", "Location"=>"http://example.org/", "Content-Length"=>"0", "X-XSS-Protection"=>"1; mode=block", "X-Content-Type-Options"=>"nosniff", "X-Frame-Options"=>"SAMEORIGIN"}, @errors="", @body_string=nil, @status=302, @header={"Content-Type"=>"text/html;charset=utf-8", "Set-Cookie"=>"yeah=%7B%3Adomain%3D%3E%22jobvacancy.de%22%2C+%3Apath%3D%3E%22%2F%22%7D; max-age=2592000\nrack.session=BAh7CUkiDXRyYWNraW5nBjoGRUZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7AFRJ%0AIi1kYTM5YTNlZTVlNmI0YjBkMzI1NWJmZWY5NTYwMTg5MGFmZDgwNzA5BjsA%0ARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLWRhMzlhM2VlNWU2YjRi%0AMGQzMjU1YmZlZjk1NjAxODkwYWZkODA3MDkGOwBGSSIRY3VycmVudF91c2Vy%0ABjsARmkGSSILX2ZsYXNoBjsARnsGOgtub3RpY2VJIiVZb3UgaGF2ZSBzdWNj%0AZXNzZnVsbHkgbG9nZ2VkIGluIQY7AFRJIg9zZXNzaW9uX2lkBjsAVDA%3D%0A--66a86fdecbfd4e898e7c1e531042748d1b815fa4; path=/; HttpOnly", "Location"=>"http://example.org/", "Content-Length"=>"0", "X-XSS-Protection"=>"1; mode=block", "X-Content-Type-Options"=>"nosniff", "X-Frame-Options"=>"SAMEORIGIN"}, @chunked=false, @writer=#<Proc:0xa49d3c4@/home/wm/.rvm/gems/ruby-2.2.1/gems/rack-1.5.5/lib/rack/response.rb:27 (lambda)>, @block=nil, @length=0, @body=[]>
 
 
@@ -183,7 +180,7 @@ end
 ```
 
 
-When I started the tests I got some weird error messages of calling a method on a nil object and spend one hour till I found the issue. Do you remember the `UserObserver`? Exactly, this tiny piece of code is also activated for our tests and since we disable sending mails with the `set :delivery_method, :test` settings in `app.rb` I never received an mails. The simple to this problem was to add an option to in the `spec_helper.rb` to disable the observer:
+When I started the tests I got some weird error messages of calling a method `user.save` on a nil object and spend one hour till I found the issue. Do you remember the `UserObserver`? Exactly, this tiny piece of code is also activated for our tests and since we disable sending mails with the `set :delivery_method, :test` settings in `app.rb` I never received an mails. The simple to this problem was to add an option to in the `spec_helper.rb` to disable the observers:
 
 
 ```ruby
@@ -191,7 +188,7 @@ When I started the tests I got some weird error messages of calling a method on 
 ...
 RSpec.configure do |conf|
   conf.before do
-    User.observers.disable :all # <-- turn of user observers for testing reasons
+    ActiveRecord::Base.observers.disable :all
   end
   ...
 end
