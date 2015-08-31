@@ -147,9 +147,6 @@ end
 We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/docs "method stubs") to make test what we want with the `expect(User).to receive(:find_by_email).and_return(false)` method. At first I was thinking at that mocking is something very difficult. Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return false. So we stimulate the actual application call `find_by_email` in our application and preventing our tests from hitting the database and making it faster. Beside we are using [xit](https://www.relishapp.com/rspec/rspec-core/v/2-4/docs/pending/pending-examples#temporarily-pending-by-changing-%22it%22-to-%22xit%22 "xit") to temporarily disable tests.
 
 
-            got #<Rack::MockResponse:86305750> => #<Rack::MockResponse:0xa49d7ac @original_headers={"Content-Type"=>"text/html;charset=utf-8", "Set-Cookie"=>"yeah=%7B%3Adomain%3D%3E%22jobvacancy.de%22%2C+%3Apath%3D%3E%22%2F%22%7D; max-age=2592000\nrack.session=BAh7CUkiDXRyYWNraW5nBjoGRUZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7AFRJ%0AIi1kYTM5YTNlZTVlNmI0YjBkMzI1NWJmZWY5NTYwMTg5MGFmZDgwNzA5BjsA%0ARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLWRhMzlhM2VlNWU2YjRi%0AMGQzMjU1YmZlZjk1NjAxODkwYWZkODA3MDkGOwBGSSIRY3VycmVudF91c2Vy%0ABjsARmkGSSILX2ZsYXNoBjsARnsGOgtub3RpY2VJIiVZb3UgaGF2ZSBzdWNj%0AZXNzZnVsbHkgbG9nZ2VkIGluIQY7AFRJIg9zZXNzaW9uX2lkBjsAVDA%3D%0A--66a86fdecbfd4e898e7c1e531042748d1b815fa4; path=/; HttpOnly", "Location"=>"http://example.org/", "Content-Length"=>"0", "X-XSS-Protection"=>"1; mode=block", "X-Content-Type-Options"=>"nosniff", "X-Frame-Options"=>"SAMEORIGIN"}, @errors="", @body_string=nil, @status=302, @header={"Content-Type"=>"text/html;charset=utf-8", "Set-Cookie"=>"yeah=%7B%3Adomain%3D%3E%22jobvacancy.de%22%2C+%3Apath%3D%3E%22%2F%22%7D; max-age=2592000\nrack.session=BAh7CUkiDXRyYWNraW5nBjoGRUZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7AFRJ%0AIi1kYTM5YTNlZTVlNmI0YjBkMzI1NWJmZWY5NTYwMTg5MGFmZDgwNzA5BjsA%0ARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLWRhMzlhM2VlNWU2YjRi%0AMGQzMjU1YmZlZjk1NjAxODkwYWZkODA3MDkGOwBGSSIRY3VycmVudF91c2Vy%0ABjsARmkGSSILX2ZsYXNoBjsARnsGOgtub3RpY2VJIiVZb3UgaGF2ZSBzdWNj%0AZXNzZnVsbHkgbG9nZ2VkIGluIQY7AFRJIg9zZXNzaW9uX2lkBjsAVDA%3D%0A--66a86fdecbfd4e898e7c1e531042748d1b815fa4; path=/; HttpOnly", "Location"=>"http://example.org/", "Content-Length"=>"0", "X-XSS-Protection"=>"1; mode=block", "X-Content-Type-Options"=>"nosniff", "X-Frame-Options"=>"SAMEORIGIN"}, @chunked=false, @writer=#<Proc:0xa49d3c4@/home/wm/.rvm/gems/ruby-2.2.1/gems/rack-1.5.5/lib/rack/response.rb:27 (lambda)>, @block=nil, @length=0, @body=[]>
-
-
 Here is the code for our session controller to make the test "green":
 
 
@@ -206,11 +203,11 @@ SessionsController
   GET /login
     load the login page
   POST :create
-    stay on page if user is not found
-    stay on login page if user is not confirmed
-    stay on login page if user has wrong password
-    redirects to home for confirmed user and correct password
-    redirect if user is correct and has remember_me
+    stay on page if user is not found (FAILED - 1)
+    stay on login page if user is not confirmed (FAILED - 2)
+    stay on login page if user has wrong password (FAILED - 3)
+    redirects to home for confirmed user and correct password (FAILED - 4)
+    redirect if user is correct and has remember_me (FAILED - 5)
   GET /logout
     empty the current session (PENDING: Temporarily skipped with xit)
     redirect to homepage if user is logging out (PENDING: Temporarily skipped with xit)
@@ -225,9 +222,58 @@ Pending: (Failures listed here are expected and do not affect your suite's statu
      # Temporarily skipped with xit
      # ./spec/app/controllers/sessions_controller_spec.rb:71
 
-Finished in 0.37678 seconds (files took 0.74734 seconds to load)
-8 examples, 0 failures, 2 pending
+
+Failures:
+
+  1) SessionsController POST :create stay on page if user is not found
+     Failure/Error: expect(last_response).to be_ok
+       expected `#<Rack::MockResponse:0xacd2ddc @original_headers={"Content-Type"=>
+       "text/plain", "X-Content-Type-Options"=>"nosniff", "Set-Cookie"=>"rack.
+       session=BAh7CEkiD3Nlc3Npb25faWQGOgZFVEkiRTlkOWJjYWM3YmQ1MDg2ZmFmMzk3%
+       0AMmNmZTE4M2IyMmUyYjQ5YzRiYzNmZjg4ODNmYjcwODZkMTc5NjM4NTJh
+       M2MG%0AOwBGSSIJY3NyZgY7AEZJIiVhM2JhMWZmMjFkNjg1MDMzODczMjFjYWYxNTBi%
+       0AOWVkOAY7AEZJIg10cmFja2luZwY7AEZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7
+       %0AAFRJIi1kYTM5YTNlZTVlNmI0YjBkMzI1NWJmZWY5NTYwMTg5MGFmZDgwNzA5
+       %0ABjsARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLWRhMzlhM2VlNWU2%
+       0AYjRiMGQzMjU1YmZlZjk1NjAxODkwYWZkODA3MDkGOwBG%0A--
+       d6e98e46cbddb5ab1287ac6bc9fba47bcfb2724f; path=/; HttpOnly"},
+       @errors="", @body_string=nil, @status=403, @header={"Content-Type"=>"text/plain"
+       , "X-Content-Type-Options"=>"nosniff", "Set-Cookie"=>
+       "rack.session=BAh7CEkiD3Nlc3Npb25faWQGOgZFVEkiRTlkOWJjYWM3YmQ1MDg2ZmFmMzk3
+       %0AMmNmZTE4M2IyMmUyYjQ5YzRiYzNmZjg4ODNmYjcwODZkMTc5NjM4NTJhM2MG
+       %0AOwBGSSIJY3NyZgY7AEZJIiVhM2JhMWZmMjFkNjg1MDMzODczMjFjYWYxNTBi%
+       0AOWVkOAY7AEZJIg10cmFja2luZwY7AEZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7
+       %0AAFRJIi1kYTM5YTNlZTVlNmI0YjBkMzI1NWJmZWY5NTYwMTg5MGFmZDgwNzA5
+       %0ABjsARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLWRhMzlhM2VlNWU2
+       %0AYjRiMGQzMjU1YmZlZjk1NjAxODkwYWZkODA3MDkGOwBG%0A--
+       d6e98e46cbddb5ab1287ac6bc9fba47bcfb2724f; path=/; HttpOnly",
+       "Content-Length"=>"9"}, @chunked=false,
+       @writer=#<Proc:0xacd2cb0@/home/wm/.rvm/gems/ruby-2.2.1/gems
+       /rack-1.5.5/lib/rack/response.rb:27 (lambda)>, @block=nil,
+       @length=9, @body=["Forbidden"]>.ok?` to return true, got false
+       # ./spec/app/controllers/sessions_controller_spec.rb:18:in `block
+       (3 levels) in <top (required)>'
+...
+
+Finished in 0.38537 seconds (files took 0.74964 seconds to load)
+8 examples, 5 failures, 2 pending
+
+Failed examples:
+
+rspec ./spec/app/controllers/sessions_controller_spec.rb:15 # SessionsController
+  # POST :create stay on page if user is not found
+rspec ./spec/app/controllers/sessions_controller_spec.rb:21 # SessionsController
+  # POST :create stay on login page if user is not confirmed
+rspec ./spec/app/controllers/sessions_controller_spec.rb:28 # SessionsController
+  # POST :create stay on login page if user has wrong password
+rspec ./spec/app/controllers/sessions_controller_spec.rb:36 # SessionsController
+  # POST :create redirects to home for confirmed user and correct password
+rspec ./spec/app/controllers/sessions_controller_spec.rb:44 # SessionsController
+  # POST :create redirect if user is correct and has remember_me
 ```
+
+
+
 
 
 Before going on with implementing the logout action we need to think what happened after we login. We have to find a mechanism to enable the information of the logged in user in all our controllers and views. We will do it with sessions. When we created the session controller there was the line `create  app/helpers/sessions_helper.rb` -- let's look into this file:
