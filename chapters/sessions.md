@@ -292,7 +292,7 @@ end
 ```
 
 
-Before going on with implementing the logout action we need to think what happened after we login. We have to find a mechanism to enable the information of the logged in user in all our controllers and views. We will do it with sessions. When we created the session controller there was the line `create  app/helpers/sessions_helper.rb` -- let's look into this file:
+Before going on with implementing the logout action we need to think what happened after we login. We have to find a mechanism to enable the information of the logged in user in all our controllers and views. We will do it with sessions helper. Let's look into this file:
 
 
 ```ruby
@@ -324,6 +324,10 @@ JobVacancy::App.helpers do
     @current_user ||= User.find_by_id(session[:current_user])
   end
 
+  def current_user?(user)
+    user == current_user
+  end
+
   def sign_in(user)
     session[:current_user] = user.id
     self.current_user = user
@@ -344,7 +348,8 @@ There's a lot of stuff going on in this helper:
 
 
 - `current_user`: Uses the `||=` notation. If the left hand-side isn't initialized, initialize the left hand-side with the right hand-side.
-- `sign_in(user)`: Uses the global [session](http://www.sinatrarb.com/faq.html#sessions "Sinatra session") method use the user Id as login information
+- `current_user?`: Checks if the passed in user is the currently logged in user.
+- `sign_in`: Uses the global [session](http://www.sinatrarb.com/faq.html#sessions "Sinatra session") method use the user Id as login information
 - `sign_out`: Purges the `:current_user` field from our session.
 - `signed_in?`: We will use this small method within our whole application to display special actions which should only be available for authenticated users.
 
@@ -352,14 +357,13 @@ There's a lot of stuff going on in this helper:
 \begin{aside}
 \heading{Why Sessions and how does sign\_out work?}
 
-When you request an URL in your browser you are using the HTTP/HTTPS protocol. This protocol is stateless that means that it doesn't save the state in which you are in your application. Web applications implement states with one of the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g. <http://localhost:3000/login?user=test&password=test>).
+When you request an URL in your browser, you are using the HTTP/HTTPS protocol. This protocol is stateless that means that it doesn't save the state in which you are in your application. Web applications implement states with one of the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g. <http://localhost:3000/login?user=test&password=test>).
 
 
-We are going to use cookies to save if a user is logged in and saving the user-Id in our session cookies under the `:current_user` key.
+We are going to use cookies to save if a user is logged in and saving the user-Id in our session cookies under the `current_user` key.
 
 
-What the delete method does is the following: It will look into the last request in your application inside the session information hash and delete the `current_user` key. And the sentence in code `browser.last_request.env['rack.session'].delete(:current_user)`. If you want to explore more of the internal of an application I highly recommend you [Pry](https://github.com/pry/pry "Pry"). You can throw in at any part of your application `binding.pry` and have full access to all variables.
-
+What the delete method does is the following: It will look into the last request in your application inside the session information hash and delete the `current_user` key. If you want to explore more of the internal of an application I highly recommend you [Pry](https://github.com/pry/pry "Pry"). You can throw in at any part of your application `binding.pry` and have full access to all variables.
 \end{aside}
 
 
@@ -373,29 +377,17 @@ require 'spec_helper'
 
 describe "SessionsController" do
   ...
-  describe "GET :logout" do
+  describe "GET /logout" do
     it "empty the current session" do
-      get_logout
-      session[:current_user].should == nil
-      last_response.should be_redirect
+      get '/logout'
+      expect(session[:current_user]).to be_nil
     end
 
     it "redirect to homepage if user is logging out" do
-      get_logout
-      last_response.should be_redirect
+      get '/logout'
+      expect(last_response).to be_redirect
     end
   end
-
-  private
-  ...
-
-  def get_logout
-      # first arguments are params (like the ones out of an form), the second
-      # are environments variables
-    get '/logout', { :name => 'Hans', :password => 'Test123' },
-      'rack.session' => { :current_user => 1 }
-  end
-  ...
 end
 ```
 
