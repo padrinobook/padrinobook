@@ -163,7 +163,6 @@ JobVacancy::App.controllers :sessions do
     @user = User.find_by_email(params[:email])
 
     if @user && @user.confirmation && @user.password == params[:password]
-      sign_in(user)
       redirect '/'
     else
       render 'new'
@@ -399,7 +398,6 @@ We use the our own `session` method in our tests to have access to the last resp
 # spec/spec_helper.rb
 
 ...
-# have access to the session variables
 def session
   last_request.env['rack.session']
 end
@@ -413,8 +411,10 @@ And finally the implementation of the code that it make our tests green:
 # app/controllers/session.rb
 
 JobVacancy::App.controllers :sessions do
+  ...
   get :destroy, :map => '/logout' do
     sign_out
+    flash[:notice] = "You have successfully logged out."
     redirect '/'
   end
 end
@@ -438,7 +438,6 @@ JobVacancy::App.controllers :sessions do
       ...
     end
   end
-
 end
 ```
 
@@ -502,28 +501,26 @@ New on this platform? <%= link_to 'Register', url(:users, :new) %>
 \begin{aside}
 \heading{No hard coded urls for controller routes}
 
-The line above with `<% form_tag '/sessions/create' do %>` is not a good solution. If you are changing the mapping inside the controller, you have to change all the hard coded paths manually. A better approach is to reference the controller and action within the `url` method with `url(:sessions, :create)`.
-
+The line above with `<% form_tag '/sessions/create' do %>` is not a good solution. If you are changing the mapping inside the controller, you have to change all the hard coded paths manually. A better approach is to reference the controller and action within the `url` method with `url(:sessions, :create)`. Try it out and see if it's working.
 \end{aside}
 
 
-Here we are using the [form_tag](http://www.padrinorb.com/guides/application-helpers#form-helpers "form_tag of Padrino") instead of the `form_for` tag because we don't want to render information about a certain model. We want to use the information of the session form to find a user in our database. We can use the submitted inputs with `params[:email]` and `params[:password]` in the `:create` action in our action controller. My basic idea is to pass a variable to the rendering of method which says if we have an error or not and display the message accordingly. To handle this we are using the `:locals` option to create customized params for your views:
+Here we are using the [form_tag](http://www.padrinorb.com/guides/application-helpers#form-helpers "form_tag of Padrino") instead of the `form_for` tag because we don't want to render information about a certain model. We want to use the information of the session form to find a user in our database. We can use the submitted inputs with `params[:email]` and `params[:password]` in the `:create` action in our sessions controller. The basic idea is to pass a variable to the rendering of method which says if we have an error or not and display the message accordingly. To handle this we are using the `:locals` option to create customized params for your views:
 
 
 ```ruby
 # app/controllers/sessions.rb
 
 JobVacancy::App.controllers :sessions do
-
   get :new, :map => "/login" do
     render 'new', :locals => { :error => false }
   end
 
   post :create do
-    user = User.find_by_email(params[:email])
+    @user = User.find_by_email(params[:email])
 
-    if user && user.confirmation && user.password == params[:password]
-      sign_in(user)
+    if @user && @user.confirmation && @user.password == params[:password]
+      sign_in(@user)
       redirect '/'
     else
       render 'new', :locals => { :error => true }
@@ -556,7 +553,7 @@ New on this platform? <%= link_to 'Register', url(:users, :new) %>
 ```
 
 
-The last thing we want to is to give the user feedback about what the action he was recently doing. Like that it would be nice to give feedback of the success of the logged and logged out action. We can do this with short flash messages above our application which will fade away after a certain amount of time. To do this we can use Padrino's flash mechanism is build on [Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash "Rails flash message implementation").
+The last thing we want to is to give the user feedback about what the recently action. Like that it would be nice to give feedback of the success of the logged and logged out action. We can do this with short flash messages above our application which will fade away after a certain amount of time. To do this we can use Padrino's flash mechanism is build on [Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash "Rails flash message implementation").
 
 
 And here is the implementation of the code:
@@ -574,11 +571,13 @@ And here is the implementation of the code:
 </head>
 <body>
   <div class="container">
-    <% if flash[:notice] %>
+    <% if !flash.empty? %>
       <div class="row" id="flash">
+      <% if flash.key[:notice] %>
         <div class="span9 offset3 alert alert-success">
-          <%= flash[:notice] %></p>
+          <%= flash[:notice] %>
         </div>
+      <% end %>
       </div>
     <% end %>
   </div>
@@ -610,7 +609,7 @@ end
 ```
 
 
-If you now login successfully you will see the message but it will stay there forever. But we don't want to have this message displayed the whole time, we will use jQuery's [fadeOut method](http://api.jquery.com/fadeOut "fadeOut method of jQuery") to get rid of the message. Since we are first writing our own customized JavaScript, let's create the file with the following content:
+If you now login successfully you will see the message but it will stay there forever. But we don't want to have this message displayed the whole time, we will use jQuery's [fadeOut method](http://api.jquery.com/fadeOut "fadeOut method of jQuery") to get rid of the message. Since we are first writing our own customized JavaScript, let's create the inline with the following content:
 
 
 ```erb
@@ -640,7 +639,4 @@ If you now login successfully you will see the message but it will stay there fo
   </div>
 </body>
 ```
-
-
-Feel free to add the `flash[:notice]` function when the user has registered and confirmed successfully on our platform. If you have problems you can check [my commit](https://github.com/wikimatze/job-vacancy/commit/f7233bf2edc7da89f02adf7f030a090fc74b3f2d).
 
