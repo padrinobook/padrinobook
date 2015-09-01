@@ -273,7 +273,23 @@ rspec ./spec/app/controllers/sessions_controller_spec.rb:44 # SessionsController
 ```
 
 
+The part of the tests with `POST :create.to be_ok` are failing because of [Padrinos csrf token](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/FormHelpers/Security "Padrinos csrf token"). To make the tests running, you need to disable them for the test environment:
 
+
+```ruby
+# app/app.rb
+
+module JobVacancy
+  class App < Padrino::Application
+  ...
+
+  configure :test do
+    set :protect_from_csrf, false
+  end
+
+  end
+end
+```
 
 
 Before going on with implementing the logout action we need to think what happened after we login. We have to find a mechanism to enable the information of the logged in user in all our controllers and views. We will do it with sessions. When we created the session controller there was the line `create  app/helpers/sessions_helper.rb` -- let's look into this file:
