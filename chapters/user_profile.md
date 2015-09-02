@@ -7,74 +7,73 @@ To update a user profile we need the `edit` and `update` action. Let's beginning
 # spec/app/controller/users_controller_spec.rb
 
 ...
-describe "GET edit" do
-  let(:user) { build(:user) }
 
-  it "redirects if wrong id" do
-    get "/users/-1/edit"
-    last_response.should be_redirect
+describe "GET /users/:id/edit" do
+  let(:user) { build(:user) }
+  let(:user_second) { build(:user) }
+
+  it "redirects if user is not signed in" do
+    get "/users/-1/edit", {}, { 'rack.session' => { current_user: nil}}
+    expect(last_response).to be_redirect
+    expect(last_response.header['Location']).to include('/login')
+  end
+
+  it "redirects if user is signed in and tries to call a different user" do
+    expect(User).to receive(:find_by_id).and_return(user, user_second)
+    get "/users/2/edit"
+    expect(last_response).to be_redirect
+    expect(last_response.header['Location']).to include('/login')
   end
 
   it "render the view for editing a user" do
-    User.should_receive(:find_by_id).twice.and_return(user)
-    get "/users/#{user.id}/edit"
-    last_response.should be_ok
+    expect(User).to receive(:find_by_id).and_return(user, user, user)
+    get "/users/#{user.id}/edit", {}, { 'rack.session' => { current_user: user } }
+    expect(last_response).to be_ok
+    expect(last_response.body).to include('Edit your profile')
   end
 end
 ```
 
 
-The interesting part above is the `.twice` call. We need to use this because when want to edit a user we need to load this profile and load it again if we are having an input error.
+The interesting part above is the `and_return(user, user_second)` call. This is the way to return different return
+values when a method is called several times - the number of arguments is the number of the functions call.
 
 
-As you can see in the test above we are using namespaced routes an alias for the action.
+As you can see in the test above we are using [namespaced routes](http://www.padrinorb.com/guides/controllers#namespaced-route-aliases "namespaced routes") for the action. Let's look at the implementation:
+
+
+```ruby
+# app/controllers/users.rb
+
+JobVacancy::App.controllers :users do
+  before :edit, :update  do
+    redirect('/login') unless signed_in?
+    @user = User.find_by_id(params[:id])
+    redirect('/login') unless current_user?(@user)
+  end
+  ...
+
+  get :edit, :map => '/users/:id/edit' do
+    @user = User.find_by_id(params[:id])
+    render 'edit'
+  end
+end
+```
+
+
+(Notes about filter and TAD)
+
 
 
 ```ruby
 # app/controllers/user.rb
 
-# using namespaced route alias
 get :edit, :map => '/users/:id/edit' do
   @user = User.find_by_id(params[:id])
   unless @user
     redirect('/')
   end
   render 'edit'
-end
-```
-
-
-And the tests for the put action:
-
-
-```ruby
-# spec/app/controller/users_controller_spec.rb
-
-...
-describe "PUT update" do
-  let(:user) { build(:user) }
-
-  it "redirects and update attributes" do
-    name_before = user.name
-    id = user.id
-    user.save
-    put "users/#{user.id}", :user => user_params
-    last_response.should be_redirect
-    user = User.find(id)
-    user.name.should_not be_eql(name_before)
-  end
-
-  it "stays on the page if the user has made input errors" do
-    User.should_receive(:find_by_id).and_return(user)
-    put "users/#{user_params["id"]}", :user => user_params.merge({"name" => ''})
-    last_response.should be_ok
-  end
-end
-
-private
-def user_params
-  user.attributes.merge({"name" => "Octocat", "created_at" => Time.now,
-    "updated_at" => Time.now})
 end
 ```
 
