@@ -35,8 +35,45 @@ end
 ```
 
 
-The interesting part above is the `and_return(user, user_second)` call. This is the way to return different return
-values when a method is called several times - the number of arguments is the number of the functions call.
+The fist interesting part above is the `and_return(user, user_second)` call. This is the way to return different return
+values when a method is called several times - the number of arguments is the number of the functions call. The second
+this is that we check the `last_response.body` and `last_response.header` for content and header information. A typical
+[Rack::MockResponse](http://www.rubydoc.info/github/rack/rack/Rack/MockResponse "Rack::MockResponse") looks like the
+following:
+
+
+```ruby
+=> #<Rack::MockResponse:0xabd6f00
+ @block=nil,
+ @body=[],
+ @body_string=nil,
+ @chunked=false,
+ @errors="",
+ @header=
+  {"Content-Type"=>"text/html;charset=utf-8",
+   "Location"=>"http://example.org/login",
+   "Content-Length"=>"0",
+   "X-XSS-Protection"=>"1; mode=block",
+   "X-Content-Type-Options"=>"nosniff",
+   "X-Frame-Options"=>"SAMEORIGIN",
+   "Set-Cookie"=>
+    "rack.session=BAh7CEkiD3Nlc3Npb25faWQGOgZFVEkiRTk3ZjI...; path=/; HttpOnly"},
+ @length=0,
+ @original_headers=
+  {"Content-Type"=>"text/html;charset=utf-8",
+   "Location"=>"http://example.org/login",
+   "Content-Length"=>"0",
+   "X-XSS-Protection"=>"1; mode=block",
+   "X-Content-Type-Options"=>"nosniff",
+   "X-Frame-Options"=>"SAMEORIGIN",
+   "Set-Cookie"=>
+    "rack.session=BAh7CEkiD3Nlc3Npb25faWQGOgZFVEkiRTk3ZjI...; path=/; HttpOnly"},
+ @status=302,
+ @writer=
+  #<Proc:0xabd6d0c@/home/wm/.rvm/gems/ruby-2.2.1/
+  # gems/rack-1.5.5/lib/rack/response.rb:27 (lambda)>>
+
+```
 
 
 As you can see in the test above we are using [namespaced routes](http://www.padrinorb.com/guides/controllers#namespaced-route-aliases "namespaced routes") for the action. Let's look at the implementation:
