@@ -103,46 +103,89 @@ evaluated before each requests within the context of the requests and it is poss
 response and request. For the `get :edit` action we are using [namespaced route aliases](http://www.padrinorb.com/guides/controllers#namespaced-route-aliases "namespaced route aliases"). They have the advantage that you can refer to them with the `url_for` method - you can always reference to them and don't have change the actual string for the method.
 
 
-Next let's examine the tests for the `update` action:
-
-Making this test pass took me a while. The HTTP specification only understands GET and POST in the <form> method attribute. How can we solve this? We need to use a hidden form with the form input called `_method` with a `put` value. You will see this right after the controller code.
+Let's write the tests for the `update` action:
 
 
 ```ruby
-# app/controllers/users.rb
+# spec/app/controllers/users_controller_spec.rb
 
 ...
-put :update, :map => '/users/:id' do
-  @user = User.find_by_id(params[:id])
+describe "PUT /users/:id" do
+  let(:user) { build(:user) }
+  let(:user_second) { build(:user) }
 
-  unless @user
-    flash[:error] = "User is not registered in our platform."
-    render 'edit'
+  it "redirects if user is not signed in", :current do
+    put "/users/1", {}, { 'rack.session' => { current_user: nil}}
+    expect(last_response).to be_redirect
+    expect(last_response.header['Location']).to include('/login')
   end
 
-  if @user.update_attributes(params[:user])
-    flash[:notice] = "You have updated your profile."
-    redirect('/')
-  else
-    flash[:error] = "Your profile was not updated."
-    render 'edit'
+  it "redirects if user is signed in and tries to call a different user" do
+    expect(User).to receive(:find_by_id).and_return(user, user_second)
+    put "/users/1"
+    expect(last_response).to be_redirect
+    expect(last_response.header['Location']).to include('/login')
+  end
+
+  it "redirects to /edit if user has valid account changes" do
+    expect(User).to receive(:find_by_id).and_return(user, user, user)
+    put "/users/1"
+    expect(last_response).to be_redirect
+    expect(last_response.header['Location']).to include('/edit')
+  end
+
+  it "redirects to /edit if user has valid account changes" do
+    expect(User).to receive(:find_by_id).and_return(user, user, user)
+    put "/users/1"
+    expect(last_response).to be_redirect
+    expect(last_response.body).to eq 'You have updated your profile.'
+    expect(last_response.header['Location']).to include('/edit')
+  end
+
+  it "redirects to /edit if user has not valid account changes" do
+    user.password = 'real'
+    user.password_confirmation = 'fake'
+    expect(User).to receive(:find_by_id).and_return(user, user, user)
+    put "/users/1"
+    expect(last_response).to be_redirect
+    expect(last_response.body).to eq 'Your profile was not updated.'
+    expect(last_response.header['Location']).to include('/edit')
   end
 end
 ...
 ```
 
 
-Please note that The `update_attributes` method is making a `user.valid?` call before saving. During writing the tests I had huge problems with them and the fixtures. It might occur that they are failing for you too. If this is the case don't spend too much time on it and mark the tests as pending.
+And the implementation:
 
 
-And finally the edit form:
+```ruby
+
+put :update, :map => '/users/:id' do
+  @user = User.find_by_id(params[:id])
+
+  route = url(:users, :edit, :id => @user.id)
+  if @user.update_attributes(params[:user])
+    redirect route, flash[:notice] = "You have updated your profile."
+  else
+    redirect route, flash[:error] = "Your profile was not updated."
+  end
+end
+```
+
+
+Please note that the [update_attributes](http://www.rubydoc.info/docs/rails/2.3.8/ActiveRecord/Base:update_attributes "update_attributes") method is making a [valid?](http://www.rubydoc.info/docs/rails/2.3.8/ActiveResource%2FValidations%3Avalid%3F "valid?") method before the changes are saved.
+
+
+Making this test pass took me a while. The HTTP specification only understands `GET` and `POST` in the `<form>` method attribute. How can we solve this? We need to use a hidden form with the `put` method:
 
 
 ```erb
 <%# app/views/users/edit.erb %>
 
 <h2>Edit your profile</h2>
-<% form_for(@user, "/users/#{@user.id}"), method: :put do |f| %>
+
+<% form_for @user, url(:users, :update, :id => @user.id), method: :put do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %>
   <%= error_message_on @user, :name, :class => "text-error",
@@ -169,15 +212,12 @@ And finally the edit form:
 ```
 
 
-With the form `method: <action>` we can specify the the [HTTP methods](http://www.w3schools.com/tags/ref_httpmethods.asp "HTTP methods"). So `method: :put` will be translated into:
+You can specify the [HTTP methods](http://www.w3schools.com/tags/ref_httpmethods.asp "HTTP methods") with `method: <action>`. So `method: :put` will be translated into:
 
 
 ```html
-<input name="_method" type="hidden" value="put" />
+<input type="hidden" value="put" name="_method"</input>
 ```
-
-
-If you now open the browser at <http://jobvacancy.de:3000/users/<some-existing-id>/edit> you can edit the user even if you are not logged into the application. Ups, this is huge security issue.
 
 
 ### Authorization
