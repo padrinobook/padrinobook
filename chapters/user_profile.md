@@ -1,6 +1,6 @@
 ## User Profile
 
-To update a user profile we need the `edit` and `update` action. Let's beginning with writing tests for the `edit` section:
+To update a user profile we need the `edit` and `update` action. Let's beginning with writing tests for the `edit` action:
 
 
 ```ruby
@@ -102,6 +102,8 @@ We don't want that everybody can edit the profile for other users. Before we are
 evaluated before each requests within the context of the requests and it is possible to define variables, change the
 response and request. For the `get :edit` action we are using [namespaced route aliases](http://www.padrinorb.com/guides/controllers#namespaced-route-aliases "namespaced route aliases"). They have the advantage that you can refer to them with the `url_for` method - you can always reference to them and don't have change the actual string for the method.
 
+
+Next let's examine the tests for the `update` action:
 
 Making this test pass took me a while. The HTTP specification only understands GET and POST in the <form> method attribute. How can we solve this? We need to use a hidden form with the form input called `_method` with a `put` value. You will see this right after the controller code.
 
