@@ -37,7 +37,7 @@ end
 
 The fist interesting part above is the `and_return(user, user_second)` call. This is the way to return different return
 values when a method is called several times - the number of arguments is the number of the functions call. The second
-this is that we check the `last_response.body` and `last_response.header` for content and header information. A typical
+thing is that we check the `last_response.header` and `last_response.body`. A typical
 [Rack::MockResponse](http://www.rubydoc.info/github/rack/rack/Rack/MockResponse "Rack::MockResponse") looks like the
 following:
 
@@ -72,11 +72,10 @@ following:
  @writer=
   #<Proc:0xabd6d0c@/home/wm/.rvm/gems/ruby-2.2.1/
   # gems/rack-1.5.5/lib/rack/response.rb:27 (lambda)>>
-
 ```
 
 
-As you can see in the test above we are using [namespaced routes](http://www.padrinorb.com/guides/controllers#namespaced-route-aliases "namespaced routes") for the action. Let's look at the implementation:
+Let's look at the implementation:
 
 
 ```ruby
@@ -98,21 +97,10 @@ end
 ```
 
 
-(Notes about filter and TAD)
-
-
-
-```ruby
-# app/controllers/user.rb
-
-get :edit, :map => '/users/:id/edit' do
-  @user = User.find_by_id(params[:id])
-  unless @user
-    redirect('/')
-  end
-  render 'edit'
-end
-```
+We don't want that everybody can edit the profile for other users. Before we are going to call these actions we set a
+[before route filter](http://www.padrinorb.com/guides/controllers#route-filters "before route filter"). They are
+evaluated before each requests within the context of the requests and it is possible to define variables, change the
+response and request. For the `get :edit` action we are using [namespaced route aliases](http://www.padrinorb.com/guides/controllers#namespaced-route-aliases "namespaced route aliases"). They have the advantage that you can refer to them with the `url_for` method - you can always reference to them and don't have change the actual string for the method.
 
 
 Making this test pass took me a while. The HTTP specification only understands GET and POST in the <form> method attribute. How can we solve this? We need to use a hidden form with the form input called `_method` with a `put` value. You will see this right after the controller code.
