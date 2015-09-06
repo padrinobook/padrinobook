@@ -374,7 +374,30 @@ end
 ```
 
 
-You can write the other tests as an exercise on your own. In case you have problems with writing them, please check the [spec on GitHub](https://github.com/wikimatze/job-vacancy/blob/user-update/spec/app/helpers/sessions_helper_spec.rb "spec on GitHub").
+Instead of writing `JobVacancy::App` you can also pass `app` in the line `Rack::Test::Session.new(JobVacancy::App)`. The
+`app` is defined in the `spec_helper`:
+
+
+```ruby
+# spec/spec_helper.rb
+...
+
+# You can use this method to custom specify a Rack app
+# you want rack-test to invoke:
+#
+#   app JobVacancy::App
+#   app JobVacancy::App.tap { |a| }
+#   app(JobVacancy::App) do
+#     set :foo, :bar
+#   end
+#
+def app(app = nil, &blk)
+  @app ||= block_given? ? app.instance_eval(&blk) : app
+  @app ||= Padrino.application
+end
+```
+
+You can write the other tests as an exercise on your own. In case you have problems with writing them, please check the [spec on GitHub](https://github.com/wikimatze/job-vacancy/blob/master/spec/app/controllers/sessions_controller_spec.rb "spec on GitHub").
 
 
 We will limit the access of the `edit` and `update` action of the users controller only to users who are logged and if the logged in user is going to edit With the help of a `before .. do` block:
