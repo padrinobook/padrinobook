@@ -528,7 +528,13 @@ And now let's create a second one for our first user:
 ```
 
 
-Now it's time to test our association between the user and the job-offer model. We will use the `find_by_id` method to get the user from our database, and the `job_offers` method to get all the job-offers from the user.
+Now it's time to test our association between the user and the job-offer model. We will use the `find_by_id`[^find_by_id] method to get the user from our database, and the `job_offers` method to get all the job-offers from the user.
+
+
+There is one last thing we forget: Say you are logged in and wants to edit a user with a wrong id, like <http://localhost:3000/users/padrino/edit>. You'll get a `ActiveRecord::RecordNotFound` exception because we are using the Active Record's plain `find` method in the users controller. Let's catch the exception and return a `nil` user instead:
+
+
+[^find_by_id]: This method returns `nil` if the entry cannot be found. A normal `find` method will return a `ActiveRecord::RecordNotFound` for which we then have to write a `begin` ... `rescue` construct.
 
 
 ```sh
