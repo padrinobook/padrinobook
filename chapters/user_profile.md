@@ -342,12 +342,12 @@ end
 Let's go through the new parts:
 
 
-- `before do`: This block contains the `SessionsHelperKlass` class which includes the `SessionsHelper` module. Through this all the methods defined in the `session_helper.rb` file are available for the `@session_helper` instance variable
-- `context`: According to [rspec code](https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb "rspec code") `context` is an alias for `describe`. I'm using `describe` to specify the part of the functionality I'm going to test and `context` to test smaller parts of the bigger function.
+- `before do`: This block contains the `SessionsHelperKlass` class which includes the `SessionsHelper` So the instance variable `@session_helper` can use any methods defined in `session_helper.rb`
 - `#current_user`: Methods I'm going to test have always the # in front of their names.
 
 
-I'm not testing the a) `current_user=(user)` and b) `sign_out` method because a) is a setter method and b) is deleting a key in the session hash.
+
+I'm not testing the `current_user=(user)` because it is a setter method.
 
 
 The most interesting part of the test is the  *"find the user by id from the current session"*. Padrino has access to the session of your variable. We emulate this access in our tests with the `session` method of our `spec_helper.rb` which looks like the following:
