@@ -313,23 +313,27 @@ describe SessionsHelper do
     @session_helper = SessionsHelperKlass.new
   end
 
-  context "#current_user" do
-    it "output the current user if current user is already set"
-    it "find the user by id from the current session"
+  describe "#current_user" do
+    xit "returns the current user if user is set"
+    xit "returns the current user from session"
   end
 
-  context "#current_user?" do
-    it "returns true if current user is logged in"
-    it "returns false if user is not logged in"
+  describe "#current_user?" do
+    xit "returns true if current user is logged in"
+    xit "returns false if user is not logged in"
   end
 
-  context "#sign_in" do
-    it "it sets the current user to the signed in user"
+  describe "#sign_in" do
+    xit "sets the current user to the signed in user"
   end
 
-  context "#signed_in?" do
-    it "return false if user is not logged in"
-    it "return true if user is logged in"
+  describe "#sign_out" do
+    xit "clears the current_user from the session" do
+  end
+
+  describe "#signed_in?" do
+    xit "returns false if user is not logged in"
+    xit "returns true if user is logged in"
   end
 end
 ```
