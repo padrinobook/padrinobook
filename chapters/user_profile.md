@@ -397,41 +397,8 @@ def app(app = nil, &blk)
 end
 ```
 
+
 You can write the other tests as an exercise on your own. In case you have problems with writing them, please check the [spec on GitHub](https://github.com/wikimatze/job-vacancy/blob/master/spec/app/controllers/sessions_controller_spec.rb "spec on GitHub").
-
-
-We will limit the access of the `edit` and `update` action of the users controller only to users who are logged and if the logged in user is going to edit With the help of a `before .. do` block:
-
-
-```ruby
-# app/controllers/users.rb
-
-JobVacancy::App.controllers :users do
-  before :edit, :update  do
-    redirect('/login') unless signed_in?
-    @user = User.find(params[:id])
-    redirect('/login') unless current_user?(@user)
-  end
-...
-end
-```
-
-
-Since we are now having our authorization logic in the before block we don't need the unless test in the edit action anymore:
-
-
-```ruby
-# app/controllers/users.rb
-
-JobVacancy::App.controllers :users do
-  ...
-  get :edit, :map => '/users/:id/edit' do
-    @user = User.find_by_id(params[:id])
-    render 'edit'
-  end
-  ...
-end
-```
 
 
 Finally, we need to provider the edit link in the header navigation:
@@ -457,47 +424,7 @@ Finally, we need to provider the edit link in the header navigation:
     </div>
   <% end %>
   ...
-  </div>
 </nav>
-```
-
-
-There is one last thing we forget: Say you are logged in and wants to edit a user with a wrong id, like <http://localhost:3000/users/padrino/edit>. You'll get a `ActiveRecord::RecordNotFound` exception because we are using the Active Record's plain `find` method in the users controller. Let's catch the exception and return a `nil` user instead:
-
-
-```ruby
-# app/controllers/user.rb
-
-JobVacancy::App.controllers :users do
-  before :edit, :update  do
-    redirect('/login') unless signed_in?
-    begin
-      @user = User.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      @user = nil
-    end
-
-    redirect('/login') unless current_user?(@user)
-  end
-  ...
-end
-```
-
-
-Do we really need to throw an exception? No there is a better way to handle this issue. The `find_by_*` method will always return `nil` if an entry was not found. We can refactor the code above in the following way:
-
-
-```ruby
-# app/controllers/user.rb
-
-JobVacancy::App.controllers :users do
-  before :edit, :update  do
-    redirect('/login') unless signed_in?
-    @user = User.find_by_id(params[:id])
-    redirect('/login') unless current_user?(@user)
-  end
-  ...
-end
 ```
 
 
