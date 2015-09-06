@@ -296,7 +296,7 @@ Dir[File.dirname(__FILE__) + '/../app/helpers/**.rb'].each { |file| require file
 ```
 
 
-Here is the outline of the `sessions_helper_spec.rb`:
+Here is the outline of the tests:
 
 
 ```ruby
@@ -431,7 +431,9 @@ Finally, we need to provider the edit link in the header navigation:
 ### Remember Me Function
 \label{sec:remember_me_funcion}
 
-We are currently using the `sign_in` method from the session helper to login a user. But this is only valid for a session. What we need is something permanent. Cookies are the perfect choice for this. We could use the `user_id` from the user as a unique token, but this can be changed too easily. Creating an unique long [secure hash](http://en.wikipedia.org/wiki/Secure_Hash_Algorithm "secure hash") would be the perfect choice. When we have created token, we need to save it for each user.
+We are currently using the `sign_in` method from the session helper to login a user. But this is only valid for a session. What we need is something permanent.
+[Cookies](https://en.wikipedia.org/wiki/HTTP_cookie "Cookies") are the perfect choice for this. We could use the `user_id` from the user as a unique token,
+but this can be changed too easily. Creating an unique long [secure hash](http://en.wikipedia.org/wiki/Secure_Hash_Algorithm "secure hash") is more secure.
 
 
 Let's create and run the migration:
