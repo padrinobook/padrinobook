@@ -436,7 +436,7 @@ We are currently using the `sign_in` method from the session helper to login a u
 but this can be changed too easily. Creating an unique long [secure hash](http://en.wikipedia.org/wiki/Secure_Hash_Algorithm "secure hash") is more secure.
 
 
-Let's create and run the migration:
+Let's create and run the migration for the authentity token:
 
 
 ```sh
@@ -471,7 +471,7 @@ HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol "
 \end{aside}
 
 
-A way to create random strings in Ruby is to use the [securerandom gem](http://ruby-doc.org/stdlib-2.1.4/libdoc/securerandom/rdoc/SecureRandom.html "securerandom gem"). By using the `before_create` callback, we create a token for each registered user (if you are in a situation where you already have a bunch of users and you now decide to create hashs for them, you have to create a migration script and migrate the existing user base):
+A way to create random strings in Ruby is to use the [SecureRandom class](http://ruby-doc.org/stdlib-2.2.3/libdoc/securerandom/rdoc/SecureRandom.html "securerandom class"). By using the `before_create` callback, we create a token for each registered user (if you are in a situation where you already have a bunch of users and you now decide to create hashs for them, you have to create a migration script and migrate the existing user base):
 
 
 ```ruby
