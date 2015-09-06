@@ -160,6 +160,7 @@ And the implementation:
 
 
 ```ruby
+# app/controllers/users.rb
 
 put :update, :map => '/users/:id' do
   @user = User.find_by_id(params[:id])
@@ -222,7 +223,8 @@ You can specify the [HTTP methods](http://www.w3schools.com/tags/ref_httpmethods
 
 ### Authorization
 
-We want our user to be logged in and edit only his profile. In the previous parts of the book we wrote a lot of functions for our `sessions_helper.rb` without any tests. Before going on, let's how you can test helpers:
+The controller actions are ready and we used many method from the `session_helper.rb`. Before we add now the action for
+signup and registration to the view, it's time to test the helper. A normal helper does look like the following:
 
 
 ```ruby
@@ -244,37 +246,44 @@ JobVacancy::App.helpers helpers
 ```
 
 
-The helpers are an anonymous module and its hard to reference something that is anonymous. The solution is to make the module explicit. This is something I learned from [Florian Gilcher](https://twitter.com/Argorak "Florian Gilcher") in his [comment on GitHub](https://github.com/padrino/padrino-framework/issues/930#issuecomment-8448579 "comment on GitHub"). Let's transform the `page_helper.rb`:
+The helpers are an anonymous module and its hard to reference something that is anonymous. The solution is to make the module explicit. This is something I learned from [Florian](https://twitter.com/Argorak "Florian Gilcher") in his [comment on GitHub](https://github.com/padrino/padrino-framework/issues/930#issuecomment-8448579 "comment on GitHub"). Let's transform the `spec_helper.rb` into this new form:
 
 
 ```ruby
-# app/helpers/page_helper.rb
-
-module PageHelper
-end
-
-JobVacancy::App.helpers PageHelper
-```
-
-
-Now you can include this module in some of your spec and finally test them. Let's apply the learned lesson to our `sessions_helper.rb`:
-
-
-```ruby
-# app/helpers/session_helper.rb
+# app/helpers/sessions_helper.rb
 
 module SessionsHelper
   def current_user=(user)
     @current_user = user
   end
-  ...
+
+  def current_user
+    @current_user ||= User.find_by_id(session[:current_user])
+  end
+
+  def current_user?(user)
+    user == current_user
+  end
+
+  def sign_in(user)
+    session[:current_user] = user.id
+    self.current_user = user
+  end
+
+  def sign_out
+    session.delete(:current_user)
+  end
+
+  def signed_in?
+    !current_user.nil?
+  end
 end
 
 JobVacancy::App.helpers SessionsHelper
 ```
 
 
-Padrino isn't requiring helper to be tested automatically. Since we are planing to be consistence with the folder structure of our app within the tests folder, we need to add all helpers files in `app/helpers/*.rb` in our `spec_helper.rb`:
+Padrino isn't requiring helper to be tested automatically. Since we are planing to be consistence with the folder structure of our app within the tests folder, we need to add all helpers files in `app/helpers/*.rb`. Let's made all helper files availabe in our specs:
 
 
 ```ruby
@@ -282,8 +291,7 @@ Padrino isn't requiring helper to be tested automatically. Since we are planing 
 
 RACK_ENV = 'test' unless defined?(RACK_ENV)
 ...
-Dir[File.dirname(__FILE__) + '/../app/helpers/**.rb'].each
-  { |file| require file }
+Dir[File.dirname(__FILE__) + '/../app/helpers/**.rb'].each { |file| require file }
 ...
 ```
 
