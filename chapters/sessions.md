@@ -379,7 +379,7 @@ describe "SessionsController" do
   describe "GET /logout" do
     it "empty the current session" do
       get '/logout'
-      expect(session[:current_user]).to be_nil
+      expect(last_request.env['rack.session'][:current_user]).to be_nil
     end
 
     it "redirect to homepage if user is logging out" do
@@ -391,17 +391,7 @@ end
 ```
 
 
-We use the our own `session` method in our tests to have access to the last response of our `rack.session`.  What we need to achieve is to have access to [Rack's SessionHash](http://rubydoc.info/github/rack/rack/master/Rack/Session/Abstract/SessionHash "Rack's SessionHash"). The definition of this method is part of our `spec_helper.rb` method:
-
-
-```ruby
-# spec/spec_helper.rb
-
-...
-def session
-  last_request.env['rack.session']
-end
-```
+We use the [last_request method](https://github.com/brynary/rack-test/blob/master/lib/rack/mock_session.rb#L48 "last_request method") to access to [Rack's SessionHash](http://rubydoc.info/github/rack/rack/master/Rack/Session/Abstract/SessionHash "Rack's SessionHash") information.
 
 
 And finally the implementation of the code that it make our tests green:
