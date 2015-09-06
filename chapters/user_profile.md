@@ -328,7 +328,7 @@ describe SessionsHelper do
   end
 
   describe "#sign_out" do
-    xit "clears the current_user from the session" do
+    xit "clears the current_user from the session"
   end
 
   describe "#signed_in?" do
@@ -339,30 +339,10 @@ end
 ```
 
 
-Let's go through the new parts:
+The `before do` block contains the `SessionsHelperKlass` class which includes the `SessionsHelper` So the instance variable `@session_helper` can use any methods defined in `session_helper.rb` and the descibe blocks now contains the names of the method which is tested. I'm not testing the `current_user=(user)` because it is a setter method.
 
 
-- `before do`: This block contains the `SessionsHelperKlass` class which includes the `SessionsHelper` So the instance variable `@session_helper` can use any methods defined in `session_helper.rb`
-- `#current_user`: Methods I'm going to test have always the # in front of their names.
-
-
-
-I'm not testing the `current_user=(user)` because it is a setter method.
-
-
-The most interesting part of the test is the  *"find the user by id from the current session"*. Padrino has access to the session of your variable. We emulate this access in our tests with the `session` method of our `spec_helper.rb` which looks like the following:
-
-
-```ruby
-# spec/spec_helper.rb
-
-def session
-  last_request.env['rack.session']
-end
-```
-
-
-What we need to do now for our test is to to mock a request and set the user id of some of our test user in the session hash. To create a new session we will use [Rack::Test::Session](https://github.com/brynary/rack-test/blob/master/lib/rack/test.rb "Rack::Test::Session") and mock the `last_request` method call of the `session` method of our `spec_helper`:
+What we need to do now for our test is to to mock a request and set the user id of some of our test user in the session hash. To create a new session we will use [Rack::Test::Session](https://github.com/brynary/rack-test/blob/master/lib/rack/test.rb "Rack::Test::Session") and mock the `last_request` method call:
 
 
 ```ruby
@@ -372,15 +352,21 @@ require 'spec_helper'
 
 describe SessionsHelper do
   ...
-  context "#current_user" do
+  describe "#current_user" do
+    it "returns the current user if user is set" do
+      user = User.new
+      @session_helper.current_user = user
+      expect(User).to receive(:find_by_id).never
+      expect(@session_helper.current_user).to eq user
+    end
 
-    it "find the user by id from the current session" do
+    it "returns the current user from session" do
       user = User.first
       browser = Rack::Test::Session.new(JobVacancy::App)
       browser.get '/', {}, 'rack.session' => { :current_user => user.id }
-      @session_helper.should_receive(:last_request).
-        and_return(browser.last_request)
-      @session_helper.current_user.should == user
+      expect(User).to receive(:find_by_id).and_return(user)
+      expect(@session_helper).to receive(:session).and_return(user)
+      expect(@session_helper.current_user).to eq user
     end
   end
   ...
