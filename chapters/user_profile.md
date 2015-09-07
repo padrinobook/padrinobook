@@ -500,7 +500,7 @@ end
 ```
 
 
-To test the callback, we can use the `send` method to create our `generate_authentity_token` callback (thanks to [Geoffrey Grosenbach](http://www.oreillynet.com/ruby/blog/2006/10/test_tidbits.html "Geoffrey Grosenbach") for this hint):
+To test the private callback, we can use the [send method](http://ruby-doc.org/core-2.2.3/Object.html#method-i-send "send method") to create our `generate_authentity_token` callback:
 
 
 ```ruby
@@ -508,24 +508,25 @@ To test the callback, we can use the `send` method to create our `generate_authe
 
 require 'spec_helper'
 
-describe "User Model" do
-  ...
 
-  describe "generate_auth_token" do
+RSpec.describe "User Model" do
+  ...
+  describe "#generate_authentity_token" do
     let(:user_confirmation) { build(:user) }
 
-    it 'generate_auth_token generate token if user is saved' do
-      user.should_receive(:save).and_return(true)
+    it 'generates the authentity_token before user is saved' do
+      expect(user).to receive(:save).and_return(true)
       user.send(:generate_authentity_token)
       user.save
-      user.authentity_token.should_not be_empty
+      expect(user.authentity_token).not_to be_empty
     end
   end
 end
 ```
 
 
-Next it's time to create the checkbox on the login page with help of the [check_box_tag](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#check_box_tag-instance_method "check_box_tag"):
+Next it's time to create the checkbox on the login page with help of the
+[check_box_tag](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#check_box_tag-instance_method "check_box_tag"):
 
 
 ```erb
@@ -537,7 +538,6 @@ Next it's time to create the checkbox on the login page with help of the [check_
   <label class="checkbox">
     <%= check_box_tag :remember_me, :val %> Remember me
   </label>
-
 ```
 
 
@@ -549,12 +549,12 @@ If the user click on the *Remember me* checkbox, it's time for our session contr
 JobVacancy::App.controllers :sessions do
   ...
 
+
   post :create do
     @user = User.find_by_email(params[:email])
 
-
     if @user && @user.confirmation && @user.password == params[:password]
-      if (params[:remember_me])
+      if (params[:remember_me] == "true")
         require 'securerandom'
         token = SecureRandom.hex
         @user.authentity_token = token
@@ -574,21 +574,81 @@ JobVacancy::App.controllers :sessions do
     end
   end
   ...
-
 end
 ```
 
 
-First, we create a secure random hex value and assign to the `authentity_token` attribute of the user. We then use the [set_cookie](http://apidock.com/rails/Rack/Response/set_cookie "set_cook") function to generate a cookie for the domain which is valid for thirty days. The rest of the controller is still the same.
+First, we create a secure random hex value and assign to the `authentity_token` attribute of the user.  We then use the
+[set_cookie](http://www.rubydoc.info/github/rack/rack/Rack/Response#set_cookie-instance_method "set_cook") method to
+generate a cookie which is valid for thirty days.
 
 
-When you login the next time into the application, click the remember me you checkboxw. Stop and start the application again, you will be logged in automatically for the next thirty days.
+When you login the next time into the application, click the remember me you checkboxw. Stop and start the application
+again, you will be logged in automatically for the next thirty days.
 
 
 ![Figure 2-2. Start page of the app](images/cookies.png)
 
 
-If you want to see the cookie in your browser, you can install [Web Developer extension](https://addons.mozilla.org/en-US/firefox/addon/web-developer "Web Developer extension") for [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new "Mozilla Firefox") and open the *View cookie information* pane in the *Cookies* tab.
+If you want to see the cookie in your browser, you can install [Web Developer extension](https://addons.mozilla.org/en-US/firefox/addon/web-developer "Web Developer extension") for [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new "Mozilla Firefox") and open the *View cookie information* pane in the *Cookies* tab. The specs for the `post :create` action:
+
+```ruby
+# spec/app/controllers/sessions_controller_spec.rb
+
+describe "POST :create" do
+  let(:user) { build(:user)}
+  let(:params) { attributes_for(:user)}
+
+  it "stays on login page if user is not found" do
+    expect(User).to receive(:find_by_email) {false}
+    post 'sessions/create'
+    expect(last_response).to be_ok
+  end
+
+  it "stays on login page if user is not confirmed" do
+    user.confirmation = false
+    expect(User).to receive(:find_by_email) {user}
+    post 'sessions/create'
+    expect(last_response).to be_ok
+  end
+
+  it "stays on login page if user has wrong password" do
+    user.confirmation = true
+    user.password = 'correct'
+    expect(User).to receive(:find_by_email) {user}
+    post 'sessions/create', {:password => 'wrong'}
+    expect(last_response).to be_ok
+  end
+
+  it "redirects to home for confirmed user and correct password" do
+    user.confirmation = true
+    user.password = 'correct'
+    expect(User).to receive(:find_by_email) {user}
+    post 'sessions/create', {:password => 'correct', :remember_me => false}
+    expect(last_response).to be_redirect
+  end
+
+  it "redirects if user is correct and has remember_me" do
+    token = 'real'
+    user = double("User")
+    expect(user).to receive(:id) {1}
+    expect(user).to receive(:password) {'real'}
+    expect(user).to receive(:confirmation) {true}
+    expect(user).to receive(:authentity_token=) {token}
+    expect(user).to receive(:save)
+    expect(User).to receive(:find_by_email) {user}
+    expect(SecureRandom).to receive(:hex).at_least(:once) {token}
+
+    post 'sessions/create', {:password => 'real', :remember_me => true}
+    expect(last_response).to be_redirect
+    cookie = last_response['Set-Cookie']
+    expect(cookie).to include('permanent_cookie')
+    expect(cookie).to include('path=/')
+    expect(cookie).to include('domain%3D%3E%22jobvacancy.de')
+    expect(cookie).to include('max-age=2592000')
+  end
+end
+```
 
 
 ### Reset Password
