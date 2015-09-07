@@ -466,12 +466,21 @@ $ padrino rake ar:migrate
 \begin{aside}
 \heading{Cookies}
 
-HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol "stateless protocol") and a cookie is a way to save information sent from a website and store them in the browser. Each time the user visits the site again, the browser sends the information back to server and notifies the server about the identity of the user. A cookies can consists of the following components: name, value, expiry date, path (scope of the cookie), domain (valid for which domain), needs the cookie be used for a secure connection or if (or not) the cookie can be accessed by other.ways (like JavaScript to steal the cookie).
-
+HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol "stateless protocol") and a cookie is a
+way to save information sent from a website and store them in the browser. Each time the user visits the site again, the
+browser sends the information back to server and notifies the server about the identity of the user. A cookies can
+consists of the following components: name, value, expiry date, path (scope of the cookie), domain (valid for which
+domain), needs the cookie be used for a secure connection or if (or not) the cookie can be accessed by other.ways (like
+JavaScript to steal the cookie).
 \end{aside}
 
 
-A way to create random strings in Ruby is to use the [SecureRandom class](http://ruby-doc.org/stdlib-2.2.3/libdoc/securerandom/rdoc/SecureRandom.html "securerandom class"). By using the `before_create` callback, we create a token for each registered user (if you are in a situation where you already have a bunch of users and you now decide to create hashs for them, you have to create a migration script and migrate the existing user base):
+A way to create random strings in Ruby is to use the [SecureRandom class](http://ruby-doc.org/stdlib-2.2.3/libdoc/securerandom/rdoc/SecureRandom.html "securerandom class").
+By using the [before_create callback](http://www.rubydoc.info/docs/rails/ActiveRecord/Callbacks "before_create callback"),
+we create a token for each registered user[^registered_user_note].
+
+
+[^registered_user_note]: If you are in a situation where you already have a bunch of users and you now decide to create hashs for them, you have to create a migration script and migrate the existing user base.
 
 
 ```ruby
