@@ -656,16 +656,17 @@ end
 This chapter will be a combination of all the things we have learned so far. Until now you should be familiar with the commands of creating new controllers, edit views as well as create migration and new mail templates. Because repetition is good, we will go through the whole procedure again.
 
 
-We are going to create a new controller with the name **Forget Passwords**:
+We are going to create a new controller for the password forget feature:
 
 
 ```sh
-$ padrino-gen controller forgetPassword new
+$ padrino-gen controller PasswordForget get:new post:create get:edit post:update
     create  app/controllers/password_forget.rb
-    create  app/helpers/password_forget_helper.rb
     create  app/views/password_forget
      apply  tests/rspec
     create  spec/app/controllers/password_forget_controller_spec.rb
+    create  app/helpers/password_forget_helper.rb
+     apply  tests/rspec
     create  spec/app/helpers/password_forget_helper_spec.rb
 ```
 
