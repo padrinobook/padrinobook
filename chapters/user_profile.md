@@ -671,46 +671,27 @@ $ padrino-gen controller PasswordForget get:new post:create get:edit post:update
 ```
 
 
-We have to create a GET and POST route for the `` route:
+We have to create a `GET` `:action` and map it to `/password_forget`:
 
 
 ```ruby
 # app/controllers/password_forget.rb
 
 JobVacancy::App.controllers :password_forget do
-
   get :new, :map => 'password_forget'  do
     render 'new'
   end
-
-  post :create do
-    # have to think about this ...
-  end
+  ...
 end
 ```
 
 
-Since the routes are now defined, we can add the *password forget* link on the login page:
+In the `new` action’s view we’ll create the form with the [form_tag](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#form_tag-instance_method "form_tag") without a model that allows a user to enter their email address and request that their password is reset. The form looks like this:
 
 
 ```erb
-# app/views/sessions/new.erb
+<%# app/views/password_forget/new.erb %>
 
-...
-<label class="checkbox">
-  <%= check_box_tag :remember_me %> Remember me
-</label>
-<p>
-  <%= link_to 'forget password?', url(:password_forget, :new) %>
-</p>
-...
-
-```
-
-In the `new` action’s view we’ll create a form to allow a user to enter their email address and request that their password is reset. The form looks like this:
-
-
-```erb
 <h2>Forgot Password</h2>
 
 
@@ -724,7 +705,33 @@ In the `new` action’s view we’ll create a form to allow a user to enter thei
 <% end %>
 ```
 
-Since the template isn't using a model, the `form_tag` is enough for this. The POST information from the forget password form needs to be processed: We will send the instructions how to reset the password by the supplied email address. If the typed in email address is wrong, we don't say if it is valid or not, we don't want to have malicious user to check if a user exists or not.
+
+Now it's time to create the `POST` `:create` action:
+
+
+```ruby
+# app/controllers/password_forget.rb
+
+JobVacancy::App.controllers :password_forget do
+  ...
+  post :create do
+    @user = User.find_by_email(params[:email])
+
+    if @user
+      @user.save_forget_password_token
+      link = "http://localhost:3000" + url(:password_forget, :edit,
+        :token => @user.password_reset_token)
+      deliver(:password_reset, :password_reset_email, @user, link)
+    end
+
+    render 'success'
+  end
+  ...
+end
+```
+
+
+The POST information from the forget password form needs to be processed: We will send the instructions how to reset the password by the supplied email address. If the typed in email address is wrong, we don't say if it is valid or not, we don't want to have malicious user to check if a user exists or not.
 
 
 ```ruby
@@ -828,6 +835,7 @@ module StringNormalizer
   end
 end
 ```
+
 
 
 And use the method in the `users_observer.rb`
@@ -1029,5 +1037,22 @@ JobVacancy::App.controllers :password_forget do
 end
 ```
 
+
+Since the routes are now defined, we can add the *password forget* link on the login page:
+
+
+```erb
+# app/views/sessions/new.erb
+
+...
+<label class="checkbox">
+  <%= check_box_tag :remember_me %> Remember me
+</label>
+
+<p>
+  <%= link_to 'forget password?', url(:password_forget, :new) %>
+</p>
+...
+```
 
 - Box: Calling mailers in Padrino and where to put them
