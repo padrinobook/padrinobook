@@ -731,7 +731,7 @@ end
 ```
 
 
-The POST information from the forget password form needs to be processed: We will send the instructions how to reset the password by the supplied email address. If the typed in email address is wrong, we don't say if it is valid or not, we don't want to have malicious user to check if a user exists or not.
+The POST information from the forget password form needs to be processed: We will email instructions on how to reset password to the supplied email address. If the typed in email address is wrong, we don't say if it is valid or not, we don't want to have malicious user to check if a user exists or not.
 
 
 ```ruby
