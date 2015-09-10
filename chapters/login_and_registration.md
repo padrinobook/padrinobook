@@ -1092,6 +1092,7 @@ Even if this will be the first application you write, when you've learned someth
 
 
 ### Controller Method and Action For Password Confirmation
+\label{sec:controller_method_and_action_for_password_confirmation}
 
 When we are going to register a new user, we need to create a confirmation code like in the example above. Since this is business logic, we will put this method inside our users model. First we will write a failing test:
 

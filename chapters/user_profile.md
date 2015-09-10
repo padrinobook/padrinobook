@@ -705,8 +705,7 @@ In the `new` action’s view we’ll create the form with the [form_tag](http://
 <% end %>
 ```
 
-
-Now it's time to create the `POST` `:create` action:
+The idea behind the `POST` `:create` action is the following: We need to process the password-forget email and email instructions on how to reset password to the supplied email address. We don't validate if the email address is correct, we don't want to have malicious user to check if a user exists or not.
 
 
 ```ruby
@@ -731,32 +730,7 @@ end
 ```
 
 
-The POST information from the forget password form needs to be processed: We will email instructions on how to reset password to the supplied email address. If the typed in email address is wrong, we don't say if it is valid or not, we don't want to have malicious user to check if a user exists or not.
-
-
-```ruby
-# app/controllers/password_forget.rb
-
-JobVacancy::App.controllers :password_forget do
-  ...
-
-  post :create do
-    user = User.find_by_email(params[:email])
-
-    if user
-      user.save_forget_password_token
-      link = "http://localhost:3000" + url(:password_forget, :edit,
-        :token => user.password_reset_token)
-      deliver(:password_forget, :password_forget_email, user.email, link)
-    end
-
-    render 'success'
-  end
-end
-```
-
-
-The `save_forget_password_token` will create the `password_reset_token` for the requested password reset. The token should only valid for around one hour, we need to save the `password_reset_sent_date`. Before going on we need to add token and the method in the User model, we need a way to generate a token for the password reset function for the user model:
+The `save_forget_password_token` method will generate a security token for the given user. The token should only valid for around one hour, we need to save the `password_reset_sent_date` as well as the `password_reset_token`. Before going on we need to add token and the method in the `User` model:
 
 
 ```sh
@@ -766,8 +740,6 @@ $ padrino-gen migration AddPasswordResetTokenToUsers
       create  db/migrate/007_add_password_reset_for_users.rb
 $ padrino rake ar:migrate
 => Executing Rake ar:migrate ...
-  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version"
-    FROM "schema_migrations"
    INFO -  Migrating to CreateUsers (1)
    INFO -  Migrating to CreateJobOffers (2)
    INFO -  Migrating to AddUserIdToJobOffers (3)
@@ -781,7 +753,7 @@ $ padrino rake ar:migrate
 ```
 
 
-Due to this point it is not enough have only this migration, we need to set default value and say that the `password_reset_token` as well as the `password_reset_sent_date` can be null:
+Due to this point it is not enough have only this migration, we need to set default value and say that the `password_reset_token` as well as the `password_reset_sent_date` can be `null`:
 
 
 ```ruby
@@ -805,7 +777,9 @@ end
 ```
 
 
-The stage for the `save_forget_password_token` method is set: It takes our `generate_authentity_token` method from chapter ~\ref{sec:remember_me_funcion} and use the `Time.now` method to set the send date from the password reset function:
+The stage for the `save_forget_password_token` method is set: It takes our `generate_authentity_token` method from
+chapter ~\ref{sec:remember_me_funcion} and use the [Time.now](http://ruby-doc.org/core-2.2.0/Time.html#method-c-now "Time.now")
+method to set the send date from the password reset function:
 
 
 ```ruby
@@ -823,14 +797,14 @@ end
 ```
 
 
-But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i98KRaZGIJ1K77n/HqePEbD2KFdI3ldIcbiOoazQ==`. The slash is bad for the routing. We already used the `normalize_confirmation_code` from `app/models/user_observer.rb` to remove such backslashes, and we could easily the same method again. But we don't want to apply [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). For this purpose we will create a `lib` folder, which acts as a place for sharing code which can be used by models, controllers, and other components. Inside the directory we create a `normalize_token.rb` file:
+But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i98KRaZGIJ1K77n/HqePEbD2KFdI3ldIcbiOoazQ==`. The slash (`/`) and plus (`+`) is bad for routing. We already used the `normalize_confirmation_code` from section ~\ref{sec:controller_method_and_action_for_password_confirmation} to remove such backslashes, and we could easily the same method again. But we want to apply [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). For this purpose we will create a `lib` folder, which acts as a place for sharing code which can be used by models, controllers, and other components. Inside the directory we create a `normalize_token.rb` file:
 
 
 ```ruby
 # lib/StringNormalizer/normalize_token.rb
 
 module StringNormalizer
-  def normalize_token(token)
+  def normalize(token)
     token.gsub("/", "")
   end
 end
