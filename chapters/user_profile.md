@@ -222,6 +222,7 @@ You can specify the [HTTP methods](http://www.w3schools.com/tags/ref_httpmethods
 
 
 ### Authorization
+\label{sec:authorization}
 
 The controller actions are ready and we used many method from the `session_helper.rb`. Before we add now the action for
 signup and registration to the view, it's time to test the helper. A normal helper does look like the following:
@@ -811,6 +812,33 @@ end
 ```
 
 
+And the test the `StringNormalizer` is similar to the helper tests in section ~\ref{sec:authorization}:
+
+
+```ruby
+# spec/lib/normalize_token_spec.rb
+
+require 'spec_helper'
+
+RSpec.describe "StringNormalizer" do
+  before do
+    class StringNormalizerClass
+      include StringNormalizer
+    end
+
+    @string_normalizer = StringNormalizerClass.new
+  end
+
+  it "replaces slashes and + signs in strings" do
+    token = 'B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i98KRaZGIJ1K77n/H
+      qePEbD2KFdI3ldIcbiOoazQ=='
+    expected_token = 'B4KPW145dG9qjfsBuDhuNLVCG32etcnEoj5eAFz4M6i98KRaZGIJ1K
+      77nHqePEbD2KFdI3ldIcbiOoazQ=='
+    expect(@string_normalizer.normalize(token)).to eq expected_token
+  end
+end
+```
+
 
 And use the method in the `users_observer.rb`
 
@@ -828,7 +856,7 @@ class UserObserver < ActiveRecord::Observer
     require 'bcrypt'
     salt = BCrypt::Engine.generate_salt
     confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
-    normalize_token(confirmation_code)
+    normalize(confirmation_code)
   end
 end
 ```
@@ -899,7 +927,8 @@ Your Job Vacancy!
 ```
 
 
-When the email was send we need to write the `edit` action to handle the link action. The action will take the reset token and check if it still valid. If not, it will redirect us to the forget password route.
+When the email was send we need to write the `edit` action to handle the link action. The action will take the reset
+token and check if it still valid. If not, it will redirect us to the forget password route.
 
 
 ```ruby
