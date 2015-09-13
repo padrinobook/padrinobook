@@ -923,7 +923,7 @@ The basic steps for implementing the logic of email confirmation are the followi
 - Create a controller method for our user model that expects a user id and confirmation code, looks up the user, checks the code in the parameter matches the code saved in our database and clears the code after confirmation.
 - Create an action that maps to our new controller method (e.g. `/confirm/<user-id>/<code>`).
 - Create an mailer template which takes the user as a parameter and use the *confirmation code* of the user to send a mail containing a link to the new route in our controller.
-- Create an **observer** for our user model. If the email of the user needs to be modified or a record is created we need to create a confirmation code, set it in the model and clear the confirmation flag. After that we need to trigger our mailer.
+- If the email of the user needs to be modified or a new User record is created we need to create a confirmation code, set it in the model and clear the confirmation flag
 - Create a helper method which allows views to check if the current user is confirmed.
 - Protect our controller methods and views to prevent security issues.
 
@@ -1418,7 +1418,7 @@ end
 ```
 
 
-### Observer
+### Registration and Confirmation e-mails
 
 The code is working but we have flaws in our design:
 
@@ -1428,58 +1428,25 @@ The code is working but we have flaws in our design:
 
 
 \begin{aside}
-\heading{Observers vs. Callbacks}
+\heading{Observers vs. Callbacks vs. POROs}
 
-[Observers](http://en.wikipedia.org/wiki/Observer_pattern "Observers") are a design pattern where an object has a list of its dependents called observers, and notifies them automatically if its state has changed by calling one of their methods. Observers means to be decoupling responsibility. They can serve as a connection point between your models and some other functionality of another subsystem. Observers "lives" longer in your application and can be attached/detached at any time. Callbacks life shorter - you pass it to a function to be called only once. *Rule of the thumb*: When you use callbacks with code that isn't directly related to your model, you better put this into an observer.
+[Observers](http://en.wikipedia.org/wiki/Observer_pattern "Observers") are a design pattern where an object has a list of its dependents called observers, and notifies them automatically if its state has changed by calling one of their methods. Observers means to be decoupling responsibility. They can serve as a connection point between your models and some other functionality of another subsystem. Observers "lives" longer in your application and can be attached/detached at any time. [Callbacks](http://guides.rubyonrails.org/active_record_callbacks.html "Callbacks") life shorter - you pass it to a function to be called only once. *Rule of the thumb*: When you use callbacks with code that isn't directly related to your model, you better put this into an observer.
 
+
+The Observer pattern decouples event producers from event consumers but tightly couples models to them - and that make
+it hard to test them and you always have to take them with you.  Besides they add a kind of hidden magic to your code,
+you may forget when you that they are always around you. Better way is to make those calls explicit in your controller.
+That where **Plain Old Ruby Objects** ([PORO](http://blog.steveklabnik.com/posts/2011-09-06-the-secret-to-rails-oo-design "PORO"))
+jump in. They make magic calls explicit and are easier to test.
 \end{aside}
 
 
-Here is a rough plan what we want to do:
-
-
-- Enable observers in Padrino.
-- Create an observer in the models folder.
-- Register the observer in `app/app.rb`.
-- Attach the observer to the model.
-
-
-Let's create the observer with the name `user_observer` in the models folder
+We want to have a class which sends the registration and confirmation email. To see what we can move out of the user
+model let's have a look inside this model:
 
 
 ```ruby
-# app/models/user_observer.rb
-
-class UserObserver < ActiveRecord::Observer
-  ... # put in here the private methods of the users model
-end
-```
-
-
-Since the observer is created we need to register it:
-
-
-```ruby
-# app/app.rb
-
-module JobVacancy
-  class App < Padrino::Application
-    use ActiveRecord::ConnectionAdapters::ConnectionManagement
-    ...
-
-    # Activating the user_observer
-    ActiveRecord::Base.add_observer UserObserver.instance
-    ...
-  end
-end
-```
-
-
-We are defining our user observer with extends from the [ActiveRecord::Observer](https://github.com/rails/rails-observers#active-record-observer "ActiveRecord Observer"). Inside this class we can define any callbacks for each action we want to use. The most commons ones are `before_<action>` and `after_<action>` where `<action>` is the ActiveRecord trigger method like save, update, delete, show, or get. To see what we can move out of the user model let's have a look inside this model:
-
-
-```ruby
-# app/models/user.rb class
+# app/models/user.rb
 
 User < ActiveRecord::Base
   ...
@@ -1508,97 +1475,168 @@ end
 ```
 
 
-And refactor the code above into our observer:
+And refactor the code above into our `UserCompletion` class:
 
 
 ```ruby
-# app/models/user_observer.rb
+# lib/user_completion.rb
 
-class UserObserver < ActiveRecord::Observer
-  private
-  def encrypt_confirmation_code(user)
-    user.confirmation_code = set_confirmation_code(user)
+class UserCompletion
+  require 'bcrypt'
+
+  attr_accessor :user, :app
+
+  def initialize(user, app = JobVacancy::App)
+    @user = user
+    @app ||= app
   end
 
-  def set_confirmation_code(user)
-    require 'bcrypt'
+  def send_registration_mail
+    self.app.deliver(:registration, :registration_email, self.user.name,
+      self.user.email)
+  end
+
+  def send_confirmation_mail
+    self.app.deliver(:confirmation, :confirmation_email, user.name,
+      user.email,
+      user.id,
+      user.confirmation_code)
+  end
+
+  def encrypt_confirmation_code
     salt = BCrypt::Engine.generate_salt
-    confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
-    normalize_confirmation_code(confirmation_code)
+    confirmation_code = BCrypt::Engine.hash_secret(self.user.password, salt)
+    self.user.confirmation_code = normalize(confirmation_code)
   end
 
-  def normalize_confirmation_code(confirmation_code)
+  private
+  def normalize(confirmation_code)
     confirmation_code.gsub("/", "")
   end
 end
 ```
 
 
-We also need to remove the callback `before_save :encrypt_confirmation_code, :if => :registered?` and we need also to transfer this logic:
+We are not using the single `deliver` method here because our file does not have access to this it. Instead we have
+to take `JobVacancy::App.deliver` way to access the mail (it is not documented as I
+[found out](https://github.com/padrino/padrino-framework/issues/1770)).
+
+
+We need to remove the callback `before_save :encrypt_confirmation_code, :if => :registered?` and we need also to
+transfer this logic into the controller:
 
 
 ```ruby
-# app/models/user_observer.rb
+# app/controllers/users.rb
 
-class UserObserver < ActiveRecord::Observer
+JobVacancy::App.controllers :users do
   ...
-  def before_save(user)
-    if user.new_record?
-      encrypt_confirmation_code(user)
-      JobVacancy::App.deliver(:registration, :registration_email, user.name,
-        user.email)
+  post :create do
+    @user = User.new(params[:user])
+    user_completion = UserCompletion.new(@user)
+    user_completion.encrypt_confirmation_code
+
+    if @user && @user.save
+      user_completion.send_registration_mail
+      user_completion.send_confirmation_mail
+      redirect '/', flash[:notice] = "You have been registered.  Please confirm
+        with the mail we've send you recently."
+    else
+      render 'new'
     end
   end
-  ...
 end
 ```
 
 
-If we have a fresh registered user we create an confirmation code and send him an welcome mail. Hmm, but what about the confirmation of our user? Right, we need to add an `after_save` method which send the confirmation code to the user:
+If we have a fresh registered user we create an confirmation code and send him an welcome mail right after the confirmation email.
+
+
+And the tests for the `UserCompletion` class:
 
 
 ```ruby
-# app/models/user_observer.rb
-...
+# spec/lib/user_completion_spec.rb
 
+require 'spec_helper'
 
-def after_save(user)
-  JobVacancy::App.deliver(:confirmation, :confirmation_email, user.name,
-    user.email,
-    user.id,
-    user.confirmation_code) unless user.confirmation
+RSpec.describe "UserCompletion" do
+  describe "user new record" do
+    let(:user) { build(:user)}
+
+    it "encrypts the confirmation code of the user" do
+      salt = "$2a$10$y0Stx1HaYV.sZHuxYLb25."
+      confirmation_code = "$2a$10$y0Stx1HaYV.sZHuxYLb25.zAi0tu1C5N.oKMoPT6NbjtD
+        /.3cg7Au"
+      expected_confirmation_code = "$2a$10$y0Stx1HaYV.sZHuxYLb25.zAi0tu1C5N.oKM
+        oPT6NbjtD.3cg7Au"
+      expect(BCrypt::Engine).to receive(:generate_salt).and_return(salt)
+      expect(BCrypt::Engine).to receive(:hash_secret).with(user.password, salt)
+        .and_return(expected_confirmation_code)
+      @user_completion = UserCompletion.new(user, app(JobVacancy::App))
+      @user_completion.encrypt_confirmation_code
+
+      expect(@user_completion.user.confirmation_code).to eq expected_confirmation_code
+    end
+
+    it "sends registration mail" do
+      expect(app).to receive(:deliver).with(:registration, :registration_email,
+        user.name, user.email)
+
+      @user_completion = UserCompletion.new(user, app)
+      @user_completion.send_registration_mail
+    end
+
+    it "sends confirmation mail" do
+      expect(app).to receive(:deliver).with(:confirmation, :confirmation_email,
+        user.name, user.email, user.id, user.confirmation_code)
+
+      @user_completion = UserCompletion.new(user, app)
+      @user_completion.send_confirmation_mail
+    end
+  end
 end
 ```
 
 
-We are not using the single `deliver` method here because our observer does not have access to this it. Instead we have to take `JobVacancy::App.deliver` way to access the mail (it is not documented as I [found out](https://github.com/padrino/padrino-framework/issues/1770)).
-
-
-We have cleaned up our design to this time. Before that if a user update his profile a new confirmation code will be send. We fixed this is with the `unless user.confirmation` line which means as long as the user is not confirmed, send him the confirmation code. We haven't any test for this kind and if you are curious how to do it, feel free to write a test for this and modify the observer code. I haven't found a way to test this - maybe you use the [mock_model](https://www.relishapp.com/rspec/rspec-rails/v/2-4/docs/mocks/mock-model "mock_model method for RSpec") for your tests! We cleaned up our users controller from sending mail and this is the best solution, because in it's heart a controller talks to the model and passing the ball to the right direction after an event.
-
-
-The last step we need to do is to register our observer in the `app.rb` and disable the observer for our specs
+And the tests for the controller:
 
 
 ```ruby
-# app/app.rb.
-module JobVacancy
-  class App < Padrino::Application
-    ...
-    # Activating the user_observer
-    ActiveRecord::Base.add_observer UserObserver.instance
-    ...
-  end
-end
+# spec/app/controllers/users_controller_spec.rb
 
-# spec/spec_helper.rb
+require 'spec_helper'
 
-RSpec.configure do |conf|
+RSpec.describe "UsersController" do
   ...
-  conf.before do
-    User.observers.disable :all # <-- turn of user observers for testing reasons
+
+  describe "POST /users/create" do
+    let(:user) { build(:user) }
+    before do
+      @user_completion = double(UserCompletion)
+      expect(User).to receive(:new).and_return(user)
+      expect(@user_completion).to receive(:encrypt_confirmation_code)
+    end
+
+    it "redirects to home if user can be saved", :current do
+      expect(user).to receive(:save).and_return(true)
+      expect(UserCompletion).to receive(:new).with(user).and_return(@user_completion)
+      expect(@user_completion).to receive(:send_registration_mail)
+      expect(@user_completion).to receive(:send_confirmation_mail)
+      post "/users/create"
+      expect(last_response).to be_redirect
+      expect(last_response.body).to eq "You have been registered. Please confirm
+        with the mail we've send you recently."
+    end
+
+    it "renders registration page if user cannot be saved" do
+      expect(UserCompletion).to receive(:new).with(user).and_return(@user_completion)
+      expect(user).to receive(:save).and_return(false)
+      post "/users/create"
+      expect(last_response).to be_ok
+      expect(last_response.body).to include 'Registration'
+    end
   end
-  ...
 end
 ```
 
