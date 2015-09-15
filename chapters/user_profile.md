@@ -875,7 +875,7 @@ class User < ActiveRecord::Base
   private
   def generate_authentity_token
     require 'securerandom'
-    self.authentity_token = normalize_token(SecureRandom.base64(64))
+    self.authentity_token = normalize(SecureRandom.base64(64))
   end
 end
 ```
@@ -939,16 +939,13 @@ JobVacancy::App.controllers :password_forget do
   get :edit, :map => "/password-reset/:token/edit" do
     @user = User.find_by_password_reset_token(params[:token])
 
-    if @user.password_reset_sent_date <= Time.now + (60 * 60)
-      @user.update_attributes({:password_reset_token => 0,
-        :password_reset_sent_date => 0})
-      flash[:error] = "Password reset token has expired."
-      redirect url(:sessions, :new)
-    elsif @user
+    if @user && Time.now < @user.password_reset_sent_date + 60 * 60
       render 'edit'
-    else
+    elsif @user && Time.now >= @user.password_reset_sent_date + 60 * 60
       @user.update_attributes({:password_reset_token => 0,
         :password_reset_sent_date => 0})
+      redirect url(:sessions, :new), flash[:error] = 'Password reset token has expired.'
+    else
       redirect url(:password_forget, :new)
     end
   end
@@ -956,7 +953,7 @@ end
 ```
 
 
-The line with `Time.now + (60 * 60)` is not very readable. Rails has the functionality of using words like `1.hour.ago` with the help of [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html "ActiveSupport") module. Since Padrino is not using `ActiveSupport`, we use the [Timerizer](https://github.com/kylewlacy/timerizer "timerizer") gem which adds the functionality for us:
+The line with `@user.password_reset_sent_date + (60 * 60)` is not very readable. Rails has the functionality of using words like `1.hour.ago` with the help of [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html "ActiveSupport") module. Since Padrino is not using `ActiveSupport`, we use the [Timerizer](https://github.com/kylewlacy/timerizer "timerizer") gem:
 
 
 ```ruby
@@ -978,10 +975,10 @@ JobVacancy::App.controllers :password_forget do
   get :edit, :map => "/password-reset/:token/edit" do
     @user = User.find_by_password_reset_token(params[:token])
 
-    if @user.password_reset_sent_date < 1.hour.ago
+    if @user && Time.now < 1.hour.after(@user.password_reset_sent_date)
       ...
-    elsif @user
-      render 'edit'
+    elsif @user && Time.now >= 1.hour.after(@user.password_reset_sent_date)
+      ...
     else
       ...
     end
@@ -990,7 +987,8 @@ end
 ```
 
 
-In the associated `edit` view we use the `form_for` and pass in the `user` model to have access to all validations. Besides we are using then `method:` hash to say which method we want to use for the action:
+In the associated `edit` view we use the `form_for` and pass in the `user` model to have access to all validations.
+Besides we are using then `method:` hash to say which method we want to use for the action:
 
 
 ```erb
@@ -1016,7 +1014,8 @@ In the associated `edit` view we use the `form_for` and pass in the `user` model
 ```
 
 
-We add the `update` action now. First it checks, if the user can be found by the passed token and then we use the password field validations from the user model:
+Next we add the `update` action. First it checks, if the user can be found by the passed token and then we use the
+password field validations from the user model:
 
 
 ```ruby
@@ -1024,15 +1023,15 @@ We add the `update` action now. First it checks, if the user can be found by the
 
 JobVacancy::App.controllers :password_forget do
   ...
+
   post :update, :map => "password-reset/:token" do
     @user = User.find_by_password_reset_token(params[:token])
 
-    if @user.update_attributes(params[:user])
+    if @user && @user.update_attributes(params[:user])
       @user.update_attributes({:password_reset_token => 0,
         :password_reset_sent_date => 0})
-      flash[:notice] = "Password has been reseted.
+      redirect url(:sessions, :new), flash[:notice] = "Password has been reseted.
         Please login with your new password."
-      redirect url(:sessions, :new)
     else
       render 'edit'
     end
