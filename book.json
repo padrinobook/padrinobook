@@ -2,11 +2,14 @@
     "title": "PadrinoBook",
     "description": "PadrinoBook - The Guide To Master The Elegant Ruby Web Framework",
 
-    "plugins": ["piwik"],
+    "plugins": ["piwik", "github"],
     "pluginsConfig": {
         "piwik": {
             "URL": "padrinobook.com/piwik/",
         "siteId": 1
+        },
+        "github": {
+            "url": "https://github.com/wikimatze/PadrinoBook"
         }
     }
 }
