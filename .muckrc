@@ -1,0 +1,25 @@
+#
+# padrinobook
+#
+mux: tmux
+name: padrinobook
+dir: ~/git/PadrinoBook
+
+
+[section]
+vim chapters/user_profile.md
+
+[softcover]
+bundle install --binstubs && bundle exec softcover server
+
+[todo]
+vim ~/ownCloud/notes/padrino-todo.txt
+
+[irc]
+irssi
+
+
+[tmp]
+tmux select-window -t section
+tmux kill-window -t tmp
+
