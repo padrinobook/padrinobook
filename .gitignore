@@ -37,4 +37,4 @@ log/
 bin/*
 node_modules/
 
-
+.mucksrc
