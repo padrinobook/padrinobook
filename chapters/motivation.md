@@ -11,7 +11,6 @@ Although Padrino borrows many ideas and techniques from it's big brother [Rails]
 Nothing is enabled without explicit choice. You as a programmer know what database is best for your application, which Gems don't carry security issues. If you are honest to yourself you can only learn a framework by heart if you go and digg under the hood. Because Padrino is small and you can understand most of the source. There is no need for monkey-patching, almost everything can be changed via an API. Padrino is rack-friendly, a lot of techniques that are common to Ruby can be reused. Having a low stack frame makes it easier for debugging.  The best Rails convenience parts like `I18n` and `active_support` are available for you.
 
 
-
 Before going any further you may ask: Why should you care about learning and using another web framework? Because you want something that is *easy to use*, *simple to hack*, and *open to any contribution*. If you've done Rails before, you may reach the point where you can't see how things are solved in particular order. In other words: There are many layers between you and the core of you application. You want to have the freedom to chose which layers you want to use in your application. This freedoms comes with the help of the [Sinatra framework](http://www.sinatrarb.com "Sinatra").
 
 
