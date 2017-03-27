@@ -125,12 +125,13 @@ For any non-Ruby people, I strongly advise you to check out one of these books a
 continuing here.
 
 
-- [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9 "Programming Ruby") - the
+- [Programming Ruby](https://pragprog.com/book/ruby4/programming-ruby-1-9-2-0 "Programming Ruby") - the
   standard book on Ruby.
-- [Poignant Guide to Ruby](http://www.scribd.com/doc/8545174/Whys-Poignant-Guide-to-Ruby "Poignant Guide To Ruby") -
-  written by the nebulous programmer [why the lucky stiff](http://en.wikipedia.org/wiki/Why_the_lucky_stiff "Stiff") in
+- [Poignant Guide to Ruby](http://poignant.guide/ "Poignant Guide To Ruby") -
+  written by [why the lucky stiff](https://en.wikipedia.org/wiki/Why_the_lucky_stiff "Stiff") in
   an entertaining and educational way.
 
 
-In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will explain Padrino-specific coding techniques and how to get most parts under test.
+In this book, I assume readers having Ruby knowledge and will not be explaining every last detail. I will explain
+Padrino-specific coding techniques and how to get most parts under test.
 
