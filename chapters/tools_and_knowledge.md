@@ -9,8 +9,8 @@ To actually see a running padrino app, you need a web browser of your choice.  F
 Nowadays there are a bunch of Integrated Development Environments (IDEs) out there:
 
 
-- [RubyMine by JetBrains](http://www.jetbrains.com/ruby "RubyMine") - commercial, available for all platforms
-- [Aptana RadRails](http://www.aptana.com/products/radrails "Aptana RadRails") - free, available for all platforms
+- [RubyMine by JetBrains](https://www.jetbrains.com/ruby "RubyMine") - commercial, available for all platforms
+- [Eclipse Dynamic Languages Toolkit](https://projects.eclipse.org/projects/technology.dltk "Aptana RadRails") - free, available for all platforms
 
 
 Here is a list of plain text editors which are a popular choice among Ruby developers:
