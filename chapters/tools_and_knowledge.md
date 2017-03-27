@@ -34,7 +34,7 @@ Instead of using the build-in software package for Ruby of your operating system
 [rbenv](https://github.com/sstephenson/rbenv "rbenv") which lets you switch between multiple versions of Ruby.
 
 
-First, we need to use [git](http://git-scm.org "git") to get the current version of rbenv:
+First, we need to use [git](https://git-scm.org "git") to get the current version of rbenv:
 
 
 ```sh
@@ -44,7 +44,7 @@ $ git clone git://github.com/sstephenson/rbenv.git .rbenv
 
 
 In case you shouldn't want to use git, you can also download the latest version as a zip file from
-[GitHub](http://github.com "GitHub").
+[GitHub](https://github.com "GitHub").
 
 
 You need to add the directory that contains rbenv to your `$PATH` environment variable.  If you are on Mac, you have to
