@@ -1,9 +1,9 @@
 ## Tools and Knowledge
 
-I won't tell you which operating system you should use - there is an interesting discussion on [hackernews](http://news.ycombinator.com/item?id=3786674 "hackernews"). I'll leave it free for the reader of this book which to use, because you are reading this book to learn Padrino.
+I won't tell you which operating system you should use - there is an interesting discussion on [hackernews](https://news.ycombinator.com/item?id=3786674 "hackernews"). I'll leave it free for the reader of this book which to use, because you are reading this book to learn Padrino.
 
 
-To actually see a running padrino app, you need a web browser of your choice.  For writing the application, you can either use an Integrated Development Environment (IDE) or with a plain text editor.
+To actually see a running padrino app, you need a web browser of your choice. For writing the application, you can either use an Integrated Development Environment (IDE) or with a plain text editor.
 
 
 Nowadays there are a bunch of Integrated Development Environments (IDEs) out there:
@@ -16,11 +16,11 @@ Nowadays there are a bunch of Integrated Development Environments (IDEs) out the
 Here is a list of plain text editors which are a popular choice among Ruby developers:
 
 
-- [Emacs](http://www.gnu.org/s/emacs "Emacs") - free, available for all platforms.
-- [Gedit](http://projects.gnome.org/gedit "Gedit") - free, available for Linux and Windows.
-- [Notepad++](http://notepad-plus-plus.org "Notepad ++") - free, available only for Windows.
-- [SublimeText](http://www.sublimetext.com "SublimeText") - commercial, available for all platforms.
-- [Textmate](http://macromates.com "Textmate") - commercial, available only for Mac.
+- [Emacs](https://www.gnu.org/s/emacs "Emacs") - free, available for all platforms.
+- [Gedit](https://wiki.gnome.org/Apps/Gedit "Gedit") - free, available for Linux and Windows.
+- [Notepad++](https://notepad-plus-plus.org "Notepad ++") - free, available only for Windows.
+- [SublimeText](https://www.sublimetext.com/ "SublimeText") - commercial, available for all platforms.
+- [Textmate](https://macromates.com/ "Textmate") - commercial, available only for Mac.
 - [Vim](http://www.vim.org "Vim") - free, available for all platforms.
 
 
