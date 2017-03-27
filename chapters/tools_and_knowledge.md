@@ -90,21 +90,21 @@ $ git clone git://github.com/sstephenson/ruby-build.git
 
 
 If you now run `rbenv install` you can see all the different Ruby version you can install and use for different Ruby
-projects. We are going to install `ruby 1.9.3-p392`:
+projects. We are going to install `ruby 2.4.1`:
 
 
 ```sh
-$ rbenv install 1.9.3-p392
+$ rbenv install 2.4.1
 ```
 
 
 This command will take a couple of minutes, so it's best to grab a Raider, which is now known as
-[Twix](http://en.wikipedia.org/wiki/Twix "Twix").  After everything runs fine, you have to run `rbenv rehash` to rebuild
-the internal rbenv libraries. The last step is to make Ruby 1.9.3-p392 the current executable on your machine:
+[Twix](https://en.wikipedia.org/wiki/Twix "Twix").  After everything runs fine, you have to run `rbenv rehash` to rebuild
+the internal rbenv libraries. The last step is to make Ruby 2.4.1 the current executable on your machine:
 
 
 ```sh
-$ rbenv global 1.9.3-p392
+$ rbenv global 2.4.1
 ```
 
 
@@ -112,7 +112,7 @@ Check that the correct executable is active by exexuting `ruby -v`. The output s
 
 
 ```sh
-$ 1.9.3-p392 (set by /home/.rbenv/versions)
+$ 2.4.1 (set by /home/.rbenv/versions)
 ```
 
 
