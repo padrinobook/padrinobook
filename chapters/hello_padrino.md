@@ -88,10 +88,10 @@ $ bundle
 The last line in the console output tells you the next steps you have to perform. Before we start coding our app, we need some sort of package management for Ruby gems.
 
 
-Ruby has a nice package manager called [bundler](http://gembundler.com "Bundler") which installs all necessary gems in the versions you would like to have for your project. Other developers know now how to work with your project even after years. The [Gemfile](http://gembundler.com/gemfile.html "Gemfile") declares the gems that you want to install. Bundler takes the content of the Gemfile and will install every package declared in this file.
+Ruby has a nice package manager called [bundler](https://bundler.io/ "Bundler") which installs all necessary gems in the versions you would like to have for your project. Other developers know now how to work with your project even after years. The [Gemfile](https://bundler.io/gemfile.html#gemfiles "Gemfile") declares the gems that you want to install. Bundler takes the content of the Gemfile and will install every package declared in this file.
 
 
-To install [bundler 1.10.6](https://rubygems.org/gems/bundler/versions/1.10.6 "Bundle 1.10.6"), execute the following command and check the console output:
+To install [bundler 1.14.6](https://rubygems.org/gems/bundler/versions/1.14.6 "Bundler 1.14.6"), execute the following command and check the console output:
 
 
 ```sh
