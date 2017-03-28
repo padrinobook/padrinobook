@@ -12,7 +12,7 @@ It is possible that you know this section from several tutorials, which makes yo
 Now, get your hands dirty and start coding.
 
 
-First of all we need to install the [padrino gem](https://rubygems.org/gems/padrino "Padrino"). We are using the last stable version of Padrino (during the release of this book it is version [0.12.5](https://rubygems.org/gems/padrino/versions/0.12.5 "Padrino 0.12.5")). Execute this command.
+First of all we need to install the [padrino gem](https://rubygems.org/gems/padrino "Padrino"). We are using the last stable version of Padrino (during the release of this book it is version [0.14.0.1](https://rubygems.org/gems/padrino/versions/0.14.0.1 "Padrino 0.14.0.1")). Execute this command.
 
 
 ```sh
