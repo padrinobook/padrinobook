@@ -30,11 +30,24 @@ Since we are using RSpec for testing, we will use its' built-in mock extensions 
 You can use a vast array of other options when generating your new Padrino app, this table shows the currently available options:
 
 
-- `orm`: Available options are: [activerecord](https://github.com/rails/rails/tree/master/activerecord "Active Record"), [couchrest](https://github.com/couchrest/couchrest "couchrest"),  [datamapper](http://datamapper.org "datamapper"), [minirecord](https://github.com/DAddYE/mini_record "minirecord"), [mongoid](https://github.com/mongoid/mongoid "mongoid"), [mongomatic](https://github.com/mongomatic/mongomatic "mongomatic"), [ohm](https://github.com/soveran/ohm "ohm"), [ripple](https://github.com/basho-labs/ripple "ripple"), and [sequel](https://github.com/jeremyevans/sequel "sequel"). The command line alias is `-d`.
-- `test`: Available options are: [bacon](https://github.com/chneukirchen/bacon "bacon"), [cucumber](https://github.com/cucumber/cucumber "cucumber"), [minitest](https://github.com/seattlerb/minitest "minitest"), [riot](http://thumblemonks.github.io/riot "riot"), [rspec](https://github.com/rspec/rspec "rspec"), [shoulda](https://github.com/thoughtbot/shoulda "shoulda"), and [steak](https://github.com/cavalle/steak "steak"). The command line alias is `-t`.
-- `script`: Available options are: [dojo](http://dojotoolkit.org "dojo"), [extcore](http://www.sencha.com/products/extcore "extcore"), [jquery](http://jquery.com "jQuery"), [mootools](http://mootools.net "mootools"), [prototype](http://prototypejs.org/ "prototype"), and [rightjs](http://rightjs.org "rightjs"). The command line alias is `-s`.
-- `renderer`: Available options are: [erb](http://ruby-doc.org/stdlib-2.1.4/libdoc/erb/rdoc/ERB.html "erb"), [haml](http://ruby-doc.org/stdlib-2.1.4/libdoc/erb/rdoc/ERB.html "haml"), [liquid](http://liquidmarkup.org "liquid"), and [slim](http://slim-lang.com "slim"). The command line alias is `-e`.
-- `stylesheet`: Available options are: [compass](http://compass-style.org "compass"), [less](http://lesscss.org "less"), [sass/scss](http://sass-lang.com "sass and scss"). The command line alias is `-c`.
+- `orm`: Available options are: [activerecord](https://github.com/rails/rails/tree/master/activerecord "Active Record"),
+  [couchrest](https://github.com/couchrest/couchrest "couchrest"), [dynamoid](https://github.com/Dynamoid/Dynamoid "dynamoid"),
+  [datamapper](http://datamapper.org "datamapper"), [minirecord](https://github.com/DAddYE/mini_record "minirecord"),
+  [mongomapper](https://github.com/mongomapper/mongomapper "mongomapper"), [mongoid](https://github.com/mongoid/mongoid "mongoid"),
+  [mongomatic](https://github.com/mongomatic/mongomatic "mongomatic"), [ohm](https://github.com/soveran/ohm "ohm"),
+  [ripple](https://github.com/basho-labs/ripple "ripple"), and [sequel](https://github.com/jeremyevans/sequel "sequel").
+  The command line alias is `-d`.
+- `test`: Available options are: [bacon](https://github.com/chneukirchen/bacon "bacon"), [cucumber](https://github.com/cucumber/cucumber "cucumber"),
+  [minitest](https://github.com/seattlerb/minitest "minitest"), [rspec](https://github.com/rspec/rspec "rspec"),
+  [shoulda](https://github.com/thoughtbot/shoulda "shoulda"), [test-unit](https://github.com/test-unit/test-unit "test-unit"),
+  and [steak](https://github.com/cavalle/steak "steak"). The command line alias is `-t`.
+- `script`: Available options are: [dojo](https://dojotoolkit.org "dojo"), [extcore](https://www.sencha.com/products/extjs/#overview "extcore"),
+  [jquery](https://jquery.com "jQuery"), [mootools](https://mootools.net "mootools"),
+  and [prototype](http://prototypejs.org/ "prototype"). The command line alias is `-s`.
+- `renderer`: Available options are: [erb](https://ruby-doc.org/stdlib-2.1.4/libdoc/erb/rdoc/ERB.html "erb"),
+  [haml](http://haml.info/ "haml"), [liquid](https://shopify.github.io/liquid/ "liquid"),
+  and [slim](http://slim-lang.com "slim"). The command line alias is `-e`.
+- `stylesheet`: Available options are: [compass](http://compass-style.org "compass"), [less](http://lesscss.org "less"), [sass/scss](http://sass-lang.com "sass and scss"), and [scss](http://sass-lang.com/documentation/file.SCSS_FOR_SASS_USERS.html "scss") (which ist just sass with scss syntax). The command line alias is `-c`.
 - `mock`: Available options are: [mocha](http://gofreerange.com/mocha "mocha") and [rr](http://rr.github.io/rr "rr").
 
 
