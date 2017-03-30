@@ -19,9 +19,9 @@ Explanation of the fields commands:
 
 - **-d activerecord**: We are using [Active Record](https://rubygems.org/gems/activerecord "Active Record") as the orm library (*Object Relational Mapper*).
 - **-t rspec**: We are using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework.
-- **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous [jQuery](http://jquery.com "jQuery") library.
-- **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup for writing HTML templates. An alternative is [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com "Slim"), but to keep the project as simple as possible, we stick with ERB. Feel free to use them if you like to.
-- **-a sqlite**: Our ORM[^orm] database adapter is [SQLite](http://www.sqlite.org "SQLite"). The whole database is saved in a text file.
+- **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous [jQuery](https://jquery.com "jQuery") library.
+- **-e erb**: We are using [ERB](https://ruby-doc.org/stdlib-2.4.1/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup for writing HTML templates.
+- **-a sqlite**: Our adapter for the activerecord ORM[^orm] database adapter is [SQLite](http://www.sqlite.org "SQLite"). The whole database is saved in a text file.
 
 
 Since we are using RSpec for testing, we will use its' built-in mock extensions [rspec-mocks](https://github.com/rspec/rspec-mocks "rspec mocks") for writing tests later. In case you want to use another mocking library like [rr](https://rubygems.org/gems/rr "rr") or [mocha](http://gofreerange.com/mocha/docs "mocha"), feel free to add it with the **-m** option.
