@@ -5,7 +5,7 @@ Start with generating a new project with the canonical `padrino` command. In con
 
 ```sh
 $ mkdir ~/padrino-projects
-$ cd ~/padrino_projects
+$ cd ~/padrino-projects
 $ padrino-gen project job-vacancy -d activerecord \
   -t rspec \
   -s jquery \
