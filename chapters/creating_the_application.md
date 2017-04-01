@@ -283,8 +283,9 @@ To implement Sprockets in Padrino there the following strategies:
 
 
 - [rake-pipeline](https://github.com/livingsocial/rake-pipeline "rake-pipeline"): Define filters that transforms directory trees.
-- [grunt](http://gruntjs.com "grunt"): Set a task to compile and manage assets in JavaScript.
-- [sinatra-assetpack](https://github.com/rstacruz/sinatra-assetpack "sinatra-assetpack"): Let's you define you assets transparently in Sinatra.
+- [grunt](https://gruntjs.com "grunt"): Set a task to compile and manage assets in JavaScript.
+- [sinatra-asset-pipeline](https://github.com/kalasjocke/sinatra-asset-pipeline "sinatra-asset-pipeline"): Let's you define you assets transparently in Sinatra.
+- [sprocket-helpers](https://github.com/petebrowne/sprockets-helpers "sprocket-helpers"): Asset path helpers for Sprockets 2.0 applications
 - [padrino-sprockets](https://github.com/nightsailer/padrino-sprockets "padrino-sprockets"): Integrate sprockets with Padrino in the Rails way.
 
 
