@@ -134,7 +134,7 @@ $ ls db/
 ```
 
 
-Now let's start [sqlite3](http://www.sqlite.org "sqlite3"), connect to the database, and see if the users table was created properly:
+Now let's start [sqlite3](https://www.sqlite.org "sqlite3"), connect to the database, and see if the users table was created properly:
 
 
 ```sh
@@ -184,18 +184,10 @@ bundle exec padrino rake ar:create:all
 => Executing Rake ar:create:all ...
 /home/elex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db
   already exists
-/home/helex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db
-  already exists
-/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_production.db
-  already exists
-/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db
-  already exists
-/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db
-  already exists
 ```
 
 
-Alright, now we are ready to re-execute the tests again.
+Now the databases for *production* and *test* have been generated. Time to run the tests again:
 
 
 ```sh
