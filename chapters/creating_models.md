@@ -16,6 +16,8 @@ $ padrino-gen model user name:string email:string -a app
     create  db/migrate/001_create_users.rb
 ```
 
+(If we don't use the `-a` option, the models will be added in the root `models` folder).
+
 
 Wow, it created a quite a bunch of files for us. Let's examine each of them:
 
