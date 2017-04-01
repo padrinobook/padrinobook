@@ -276,7 +276,7 @@ The `stylesheet_link_tag` points to the *bootstrap.min.css* in you app *public/s
 
 ### Using Sprockets to Manage the Asset Pipeline
 
-[Sprockets](https://github.com/sstephenson/sprockets "Sprockets") are a way to manage serving your assets like CSS, and JavaScript compiling all the different files in one summarized file for each type. To take advantage to use a preprocessor to write your assets with [Sass](http://sass-lang.com "Sass"), [CoffeeScript](http://coffeescript.org "CoffeeScript"), or [less](http://lesscss.org "less").
+[Sprockets](https://github.com/rails/sprockets "Sprockets") is a way to manage serving your assets like CSS, and JavaScript compiling all the different files in one summarized file for each type.
 
 
 To implement Sprockets in Padrino there the following strategies:
