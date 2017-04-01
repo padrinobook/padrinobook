@@ -22,7 +22,7 @@ $ padrino-gen model user name:string email:string -a app
 Wow, it created a quite a bunch of files for us. Let's examine each of them:
 
 
-**user.rb**
+**user.rb**:
 
 
 ```ruby
@@ -34,6 +34,9 @@ end
 
 
 All we have is an empty class which inherits from [ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html "ActiveRecord::Base"). `ActvieRecord` provides a simple object-relational-mapper from our models to corresponding database tables. You can also define relations between models through associations.
+
+
+**user_spec.rb**:
 
 
 ```ruby
@@ -76,11 +79,12 @@ Failed examples:
 ```
 
 
-Executing the test resulted in an error. It very explicitly told us the reason: The *user* table does not exist yet. And how do we create one? Here, migrations enter the stage.
+Executing the test resulted in an error. It explicitly told us the reason: The *user* table does not exist yet. And how do we create one? Here, migrations enter the stage.
 
+
+**001_create_users.rb**:
 
 Migrations helps you to change the database in an ordered manner. Let's have a look at our first migration:
-
 
 ```ruby
 # db/migrate/001_create_users.rb
