@@ -460,8 +460,8 @@ Next we want to create the top-navigation for our app. We already implemented th
 Explanation of the new parts:
 
 
-- [link_to](http://www.padrinorb.com/api/Padrino/Helpers/AssetTagHelpers.html#link_to-instance_method) - Is a helper for creating links. The first argument is the name for the link and the second is for the URL (href) to which the link points to.
-- [url](http://www.padrinorb.com/api/Padrino/Routing/InstanceMethods.html#url-instance_method) (or `url_for`) - This helper return the link which can be used as the second parameter for the `link_to` function. It specifies the <:controller>, <:action> which will be executed. You can use in your helper in your whole app to create clean and encapsulated URLs.
+- [link_to](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/AssetTagHelpers#link_to-instance_method "link_to-instance_method") - Is a helper for creating links. The first argument is the name for the link and the second is for the URL (href) to which the link points to.
+- [url](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Routing/InstanceMethods#url-instance_method "url-instance_method") - This helper return the link which can be used as the second parameter for the `link_to` function. It specifies the <:controller>, <:action> which will be executed. You can use in your helper in your whole app to create clean and encapsulated URLs.
 
 
 Now that the we provide links to other parts of the app, lets add some sugar-candy styling:
@@ -469,7 +469,6 @@ Now that the we provide links to other parts of the app, lets add some sugar-can
 
 ```css
 /* app/assets/stylesheets/site.css */
-
 body {
   font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana,
     sans-serif;
