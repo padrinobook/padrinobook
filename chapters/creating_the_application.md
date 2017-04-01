@@ -75,12 +75,13 @@ Later, when *the time comes*, we will add extra gems, for now though we'll grab 
 $ bundle install
 ```
 
+
 ### Basic Layout
 
 Lets design our first version of the *index.html* page which is the starter page our app. An early design question is: Where to put the *index.html* page? Because we are not working with controllers, the easiest thing is to put the *index.html* directly under the public folder in the project.
 
 
-We are using [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, and add the following code into `public/index.html`:
+We are using [HTML5](https://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, and add the following code into `public/index.html`:
 
 
 ```html
@@ -187,7 +188,7 @@ end
 We will go through each line:
 
 
-- `JobVacancy::App.controller :page` - Define the namespace *page* for our JobVacancy app. Typically, the controller name will also be part of the route.
+- `JobVacancy::App.controller :page` - defines the namespace *page* for our JobVacancy app. Typically, the controller name will also be part of the route.
 - `do ... end` - This expression defines a block in Ruby. Think of it as a method without a name, also called anonymous functions, which is passed to another function as an argument.
 - `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the *about* action (as a symbol[^symbol]), and is finally mapped to the explicit URL */about*. When you start your server with `bundle exec padrino s` and visit the URL <http://localhost:3000/about>, you can see the rendered output of this request.
 - `render :erb, 'about'` - This action tells us that we want to render the *erb* file *about* for the corresponding controller which is `page` in our case. This file is actually located at `app/views/page/about.erb` file. Normally the views are placed under `app/views/<controller-name>/<action-name>.<ending>`. Instead of using an ERB templates, you could also use `:haml`, or another [template engine](https://www.ruby-toolbox.com/categories/template_engines "template engine for Ruby"). You can even completely drop the rendering option and leave the matching completely for Padrino.
@@ -236,10 +237,10 @@ Let's see what is going on with the `<%= yield %>` line. At first you may ask wh
 
 ### CSS Design Using Twitter Bootstrap
 
-The guys at Twitter were kind enough to make their CSS framework [Twitter Bootstrap](https://github.com/twitter/bootstrap/ "Twitter Bootstrap") available for everyone to use.
+The guys at Twitter were kind enough to make their CSS framework [Twitter Bootstrap](https://github.com/twbs/bootstrap "Twitter Bootstrap") available for everyone to use.
 
 
-Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes "Padrino recipes") help you saving time by not reinventing the wheel.  Thanks to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb "bootstrap plugin") by executing:
+Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes "Padrino recipes") help you saving time by not reinventing the wheel. Thanks to [@arthur_chiu](https://twitter.com/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb "bootstrap plugin") by executing:
 
 
 ```sh
