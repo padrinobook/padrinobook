@@ -498,7 +498,7 @@ h1 {
 ```
 
 
-I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c school css](http://www.w3schools.com/css/default.asp "w3c school css") tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
+I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c school css](https://www.w3schools.com/css/default.asp "w3c school css") tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
 
 
 ### Writing Tests
@@ -561,7 +561,7 @@ end
 ```
 
 
-Let's explain the interesting parts:
+Let's explain the new things:
 
 
 - `spec_helper` - Is a file to load commonly used functions to setup the tests.
