@@ -284,7 +284,7 @@ Since we now know how to create the basic model of our users, it's time to creat
 - time-end: A job offer isn't valid forever.
 
 
-Let's run the Padrino command to create the model for us. As you see, we once again run `-a app` at the end of our generation.  Without specifying location, a new folder called `models` is created in the main directory.
+Let's run the Padrino command to create the model for us. As you see, we once again run `-a app` at the end of our generation.
 
 
 ```sh
@@ -339,16 +339,17 @@ $ padrino rake ar:migrate -e test
 
 ### Creating Connection Between User And Job Offer Model
 
-Since we now have created our two main models, it's time to define associations between them. Associations make common operations like deleting or updating data in our relational database easier. Imagine that we have a user in our app that added many job offers in our system. Now this customer decides that he wants to cancel his account. We decide that all his job offers should also disappear in the system. One solution would be to delete the user, remember his id, and delete all job offers entries that originate from this id. This manual effort disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete automatically all corresponding jobs for this user".
+It's time to define associations between the user and job offer model. But why should you take care of them? Associations make common operations like deleting or updating data our relational databases easier. Imagine that we have a user in our app that added many job offers in our system. Now this customer decides that he wants to cancel his account. We decide that all his job offers should also disappear in the system. One solution would be to delete the user, remember his id, and delete all job offers entries that originate from this id. This manual effort disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete automatically all corresponding jobs for this user".
+
 
 
 We will quickly browse through the associations.
 
 
-**has_many**
+**has_many**:
 
 
-This association is the most commonly used one. It does exactly as it tells us: One object has many other objects.  We define the association between the user and the job offers as shown in the following expression:
+It does exactly as it tells us: One object has many other objects.
 
 
 ```ruby
@@ -363,7 +364,7 @@ end
 **belongs_to**
 
 
-The receiving object of the *has_many* relationship defines that it belongs to exactly one object, and therefore:
+The receiving object of the *has_many* relationship defines that it belongs to exactly one object:
 
 
 ```ruby
