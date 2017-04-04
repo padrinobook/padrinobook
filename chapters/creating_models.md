@@ -503,26 +503,6 @@ $ padrino c
 ```
 
 
-And now let's create a second one for our first user:
-
-
-```sh
->> JobOffer.create(:title => 'Padrino Engineer 2',
-    :location => 'Berlin',
-    :description => 'Come to this great place',
-    :contact => 'recruter@padrino-company.org',
-    :time_start => '2013/01/01',
-    :time_end => '2013/03/01',
-    :user_id => 1)
-  ...
-    => #<JobOffer id: 2, title: "Padrino Engineer 2", location: "Berlin",
-       # description: "Come to this great place",
-    contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
-    time_end: "2013-03-01", created_at: "2012-12-26 10:41:29",
-    updated_at: "2012-12-26 10:41:29", user_id: 1>
-```
-
-
 Now it's time to test our association between the user and the job-offer model. We will use the `find_by_id`[^find_by_id] method to get the user from our database, and the `job_offers` method to get all the job-offers from the user.
 
 
