@@ -408,18 +408,16 @@ $ padrino c
 ```
 
 
-Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki/Interactive_Ruby_Shell "IRB") (interactive Ruby shell). This allows you to execute Ruby commands and immediately see it's response.
+Now you are in an environment which acts like [IRB](https://en.wikipedia.org/wiki/Interactive_Ruby_Shell "Interactive Ruby Shell") (Interactive Ruby Shell). This allows you to execute Ruby commands and immediately see it's response.
 
 
-Let's run the shell to create a user with job offers:
+Let's run the shell to create a user:
 
 
 ```sh
 user = User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
   => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther",
      #created_at: nil, updated_at: nil>
-  >> user.name
-  => "Matthias Günther"
 ```
 
 
