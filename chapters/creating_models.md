@@ -301,7 +301,7 @@ Next, we need to run our new database migration so that our database has the rig
 
 
 ```sh
-$ bundle exec padrino rake ar:migrate
+$ padrino rake ar:migrate
   => Executing Rake ar:migrate ...
     DEBUG -  (0.4ms)  SELECT "schema_migrations"."version"
       FROM "schema_migrations"
@@ -315,17 +315,7 @@ $ bundle exec padrino rake ar:migrate
 ```
 
 
-In order to run our tests, we also need to run our migrations for the test environment:
-
-
-```sh
-$ padrino rake ar:migrate -e test
-  => Executing Rake ar:migrate ...
-  ==  CreateJobOffers: migrating ==============================================
-  -- create_table(:job_offers)
-     -> 0.0302s
-  ==  CreateJobOffers: migrated (0.0316s) =====================================
-```
+Don't forget to run the migrations also for the test environment with `padrino rake ar:migrate -e test`
 
 
 ### Creating Connection Between User And Job Offer Model
