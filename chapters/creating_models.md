@@ -392,14 +392,13 @@ end
 ```
 
 
-Can you see the small bug? This migration won't work, you have to change `joboffers` to `job_offers`. For the time being, generators can help you to write code, but not prevent you from thinking. Run the migrations.
+Can you see the small bug? This migration won't work, you have to change `joboffers` to `job_offers`. For the time being, generators can help you to write code, but not prevent you from thinking. Run the migrations now!
 
 
 
-### Testing Associations in the Console
+### Testing Associations in the console
 
-
-To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a different approach and use the Padrino console this time.  All you have to do is to run the following command:
+To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a different approach and use the Padrino console this time. All you have to do is to run the following command:
 
 
 ```sh
