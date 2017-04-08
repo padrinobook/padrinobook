@@ -297,15 +297,6 @@ $ padrino-gen model job_offer title:string location:string \
    create  db/migrate/002_create_job_offers.rb
 ```
 
-
-If you want to delete a model in Padrino by running:
-
-
-```
-$ padrino-gen model job_offer -d
-```
-
-
 Next, we need to run our new database migration so that our database has the right scheme:
 
 
