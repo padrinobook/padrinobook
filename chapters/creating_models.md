@@ -357,7 +357,7 @@ end
 ```
 
 
-**Migrate after associate**
+**Migrations after association**:
 
 
 Whenever you modify your models, remember that you need to run migrations too. Because we added the associations manually, we also need to write the migrations. Luckily, Padrino helps us with this task a bit. We know that the job offer is linked to a user via the user's id. This foreign key relationship results in adding an extra column `user_id` to the `job_offers table`. For this change, we can use the following command to create a migration:
@@ -392,16 +392,8 @@ end
 ```
 
 
-Can you see the small bug? This migration won't work, you have to change `joboffers` to `job_offers`. For the time being, generators can help you to write code, but not prevent you from thinking.
+Can you see the small bug? This migration won't work, you have to change `joboffers` to `job_offers`. For the time being, generators can help you to write code, but not prevent you from thinking. Run the migrations.
 
-
-Finally let's run our migrations:
-
-
-```sh
-$ padrino rake ar:migrate
-$ padrino rake ar:migrate -e test
-```
 
 
 ### Testing Associations in the Console
