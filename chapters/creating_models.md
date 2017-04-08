@@ -421,7 +421,11 @@ user = User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
 ```
 
 
-This creates a user object in our session. If we want to add an entry permanently into the database, you have to use *create* method:
+This creates a user object in our session. If we want to add an entry permanently into the database, you can either use
+[save method](https://apidock.com/rails/ActiveRecord/Base/save "save method") on the `user` object to persist
+it to the databasue or use
+[create method](https://apidock.com/rails/ActiveRecord/Base/create/class "create method") to persist a model during it's
+creation:
 
 
 ```sh
