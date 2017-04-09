@@ -442,10 +442,10 @@ DEBUG -  (0.2ms)  begin transaction
 ```
 
 
-Please note that now you have an entry in your development database `db/job_vacancy_development.db`.
+Please note that now you have an entry in your `db/job_vacancy_development.db` database.
 
 
-Since we have an user, it's time to some job offers too:
+Since we have an user, it's time to add a job offer:
 
 
 ```sh
@@ -458,12 +458,6 @@ $ padrino c
    :time_start => '2013/01/01',
    :time_end => '2013/03/01',
    :user_id => 1)
- ...
-   => #<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin",
-      # description: "Come to this great place",
-   contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
-   time_end: "2013-03-01", created_at: "2012-12-26 10:12:07",
-   updated_at: "2012-12-26 10:12:07", user_id: 1>
 ```
 
 
@@ -486,14 +480,7 @@ There is one last thing we forget: Say you are logged in and wants to edit a use
   DEBUG - JobOffer Load (0.6ms)  SELECT "job_offers".* FROM "job_offers" WHERE
   "job_offers"."user_id" = 1
   => [#<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin",
-  description: "Come to this great place", contact: "recruter@padrino-firm.org",
-  time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
-  10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>,
-  #<JobOffer id: 2, title: "Padrino Engineer 2", location:
-  "Berlin", description: "Come to this great place",
-  contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
-  time_end: "2013-03-01", created_at: "2012-12-26 10:41:29",
-  updated_at: "2012-12-26 10:41:29", user_id: 1>]
+  ...]
 ```
 
 
