@@ -439,20 +439,10 @@ DEBUG -  (0.2ms)  begin transaction
 => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther",
    # created_at: "2012-12-26 08:32:51",
     updated_at: "2012-12-26 08:32:51">
-  >>
 ```
 
 
-Please note that now you have an entry in your development database `db/job_vacancy_development.db`. To see this, connect to the database and execute a 'SELECT' statement::
-
-
-```sh
-$ sqlite3 db/job_vacancy_development.db
-  sqlite> SELECT * FROM users;
-  1|Matthias Günther|matthias.guenther
-   |2012-12-26 08:32:51.323349|2012-12-26 08:32:51.323349
-  sqlite>.exit
-```
+Please note that now you have an entry in your development database `db/job_vacancy_development.db`.
 
 
 Since we have an user, it's time to some job offers too:
