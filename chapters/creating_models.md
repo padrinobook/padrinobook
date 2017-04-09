@@ -537,7 +537,8 @@ end
 Execute `bundle` and the new gem will be installed.
 
 
-Next we need to define a *factory* to include all the fixtures of our models:
+Next we need to define a [factory](http://www.rubydoc.info/gems/factory_girl/file/GETTING_STARTED.md#Defining_factories "factory") to
+include all the fixtures of our models:
 
 
 ```ruby
