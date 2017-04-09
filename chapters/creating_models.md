@@ -555,7 +555,10 @@ end
 ```
 
 
-I want to add myself as a test user. Since I'm German, I want to use special symbols, called umlauts, from my language.  To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for the definition for user model. To make our factory available in all our tests, we have to *require* our factory in the `spec_helper.rb`:
+I want to add myself as a test user. Since I'm German, I want to use special symbols, called mutated vowel[^vowel] from the German language.
+To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for the definition for user model. To make our factory available in all our tests, we have to *require* our factory in the `spec_helper.rb`:
+
+[^vowel]: Their name is "Umlaut" in the German language
 
 
 ```ruby
