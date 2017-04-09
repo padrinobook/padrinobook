@@ -501,7 +501,7 @@ What do we need to use Factory Girl in our app? Right, we first we need to add a
 ```ruby
 # Gemfile
 ...
-gem 'factory_girl', '4.2.0', :group => 'test'
+gem 'factory_girl', '4.8.0', :group => 'test'
 ...
 ```
 
@@ -512,9 +512,9 @@ If you pay a closer look into the `Gemfile`, you can see that we have several ge
 ```ruby
 # Gemfile
 ...
-gem 'rspec' , '2.13.0',      :group => 'test'
-gem 'factory_girl', '4.2.0', :group => 'test'
-gem 'rack-test', '0.6.2',    :require  => 'rack/test', :group => 'test'
+gem 'rspec' , '3.5.0',      :group => 'test'
+gem 'factory_girl', '4.8.0', :group => 'test'
+gem 'rack-test', '0.6.3',    :require  => 'rack/test', :group => 'test'
 ...
 ```
 
@@ -526,9 +526,9 @@ Luckily we can use the :group <name> do ... end syntax to cleanup  to get rid of
 # Gemfile
 ...
 group :test do
-  gem 'rspec' , '2.13.0'
-  gem 'factory_girl', '4.2.0'
-  gem 'rack-test', '0.6.2', :require => 'rack/test'
+  gem 'rspec' , '3.5.0'
+  gem 'factory_girl', '4.8.0'
+  gem 'rack-test', '0.6.3', :require => 'rack/test'
 end
 ...
 ```
