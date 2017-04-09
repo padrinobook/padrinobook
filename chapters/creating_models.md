@@ -556,9 +556,14 @@ end
 
 
 I want to add myself as a test user. Since I'm German, I want to use special symbols, called mutated vowel[^vowel] from the German language.
-To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for the definition for user model. To make our factory available in all our tests, we have to *require* our factory in the `spec_helper.rb`:
+To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for the definition of a user model.
+
 
 [^vowel]: Their name is "Umlaut" in the German language
+
+
+To make our factory available in all our tests, we have to *require* our factory in the `spec_helper.rb`:
+
 
 
 ```ruby
@@ -600,10 +605,15 @@ end
 ```
 
 
-The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient expressions. Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create a `user` fixture. The job offer that we are adding for the tests is defined as an attribute hash - you map the attributes (keys) to their values. If you run the tests, they will pass.
+The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient expressions. Instead of using
+`User.create`, we are using [FactoryGirl.build](http://www.rubydoc.info/gems/factory_girl/FactoryGirl/Syntax/Methods#build-instance_method "build method of FactoryGirl") method to temporarily create a `user` fixture. The job offer that we are adding for the tests is defined as an attribute hash
+- you map the attributes (keys) to their values.
 
 
-The `build` method that we use to create the user will only add the test object in memory. If you want to permanently add fixtures to the database, you have to use `create` instead. Play with it, and see that the same test using `create` instead of `build` takes much longer because it hits the database.
+The `build` method that we use to create the user will only add the test object in memory[^memory]. If you want to permanently add fixtures to the database, you have to use [create](http://www.rubydoc.info/gems/factory_girl/FactoryGirl/Syntax/Methods#create-instance_method "create method of FactoryGirl") method instead. Play with it, and see that the same test using `create` instead of `build` takes much longer because it hits the database.
+
+
+[^memory]: but only if the model has no associations, otherwise build will acts like create.
 
 
 We can improve our test by creating a factory for our job offer too and cleaning the `user_spec.rb` file:
@@ -649,7 +659,8 @@ end
 ```
 
 
-As you see, the job fixtures are created with FactoryGirls' `attributes_for` method. This method takes a symbol as an input and returns the attributes of the fixture as a hash.
+As you see, the job fixtures are created with
+[attributes_for](http://www.rubydoc.info/gems/factory_girl/FactoryGirl/Syntax/Methods#attributes_for-instance_method "Factory Girls attributes_for") method. This method takes a symbol as an input and returns the attributes of the fixture as a hash.
 
 
 Now, our tests are looking fine and they are still green. But we can do even better. We can remove the `FactoryGirl` expressions if we add make the following change to our `spec_helper.rb`:
