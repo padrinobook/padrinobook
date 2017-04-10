@@ -3,7 +3,12 @@
 In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions `new`, `create`, `update`, and `delete`. And you can't forget about security these days though would need to find a method of safely storing the password as well as validate our freshly registered users.
 
 
-You don't have to reinvent the wheel you can use Padrino's beautiful [Admin interface](http://www.padrinorb.com/guides/padrino-admin "Padrino admin") for your user authentication to prevent us from reinventing the wheel. But with that we won't learn the basics and as you will see in this chapter you can make a lot of mistakes. Step into the part of creating users, sending confirmation mails, and understanding how sessions are managed in Padrino.
+You don't have to reinvent the wheel you can use Padrino's beautiful [Admin interface](http://www.padrinorb.com/guides/padrino-admin "Padrino admin") for your user authentication. For educational reasons we are going to create our own authentication process consisting of the following parts:
+
+- creating users
+- sending confirmation emails
+- encrypt passwords
+- session management
 
 
 ### Extending the User Model
