@@ -36,7 +36,7 @@ $ padrino-gen migration AddRegistrationFieldsToUsers
 ```
 
 
-And write the fields into the migration file:
+And write the fields into the migration:
 
 
 ```ruby
@@ -62,11 +62,6 @@ end
 
 
 Run the migrations:
-
-
-```sh
-$ padrino rake ar:migrate
-```
 
 
 ### Validating attributes
