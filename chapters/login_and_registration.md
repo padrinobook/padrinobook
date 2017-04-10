@@ -66,7 +66,7 @@ Run the migrations:
 
 ### Validating attributes
 
-Before we are going to implement what we think, we are going to write **pending** specs:
+Before we are going to implement what we think, we are going to write **pending**[^pending] specs:
 
 
 ```ruby
@@ -77,8 +77,8 @@ require 'spec_helper'
 RSpec.describe "User Model" do
   ...
 
-  pending('no blank name')
-  pending('no blank email')
+  pending('has no blank name')
+  pending('has no blank email')
 
   describe "passwords" do
     pending('no blank password')
@@ -97,7 +97,7 @@ end
 ```
 
 
-(The *pending* word is optional. It is enough to write pending tests only in the form `it "test this"` and leaving the do/end block away).
+[^pending]:The *pending* word is optional. It is enough to write pending tests only in the form `it "test this"` and leaving the do/end block away.
 
 
 Before writing code to pass these specs, we need to add the `password` field to our factory:
