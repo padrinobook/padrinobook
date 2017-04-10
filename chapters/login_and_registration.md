@@ -118,14 +118,14 @@ end
 ```
 
 
-Use the encoding property to allow special symbols from Germany - you have to add them in your files where they occur. Let's implement the first pending test that a user can't have an empty name:
+Let's implement the first pending test that a user can't have an empty name:
 
 
 ```ruby
 # spec/app/models/user_spec.rb
 ...
 
-it 'have no blank name' do
+it 'has no blank name' do
   user.name = ""
   expect(user.valid?).to be_falsey
 end
@@ -141,23 +141,17 @@ $ rspec spec
 
 Failures:
 
-  1) User Model have no blank name
+  1) User Model has no blank name
      Failure/Error: expect(user.valid?).to be_falsey
        expected: falsey value
             got: true
      # ./spec/app/models/user_spec.rb:20:in `block (2 levels)
      # in <top (required)>'
-
-Finished in 0.42945 seconds
-10 examples, 1 failure, 5 pending
-
-Failed examples:
-
-rspec ./spec/app/models/user_spec.rb:18 # User Model have no blank name
+     ...
 ```
 
 
-To make this test pass we need to validate the `email` property in our user model with the help of the [presence validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#presence "presence validation"):
+To make this test pass we need to validate the `name` property in our user model with the help of the [presence validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#presence "presence validation"):
 
 
 ```ruby
