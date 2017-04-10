@@ -165,7 +165,10 @@ end
 ```
 
 
-As an exercise, Please write the validates for `email` and `password` on your own. Please consider that the `password_confirmation` attribute can be create with the `:confirmation => true` option to the validates `:password` setting.
+As a homework, please write the validates for `email` and `passwords` part on your own[^login-homework].
+
+
+[^login-homework]: Please consider that the `password_confirmation` attribute can be create with the `:confirmation => true` option to the validates `:password` setting.
 
 
 We don't want to have duplicated names in our application. For testing this, we need as second user with the same name. In order to create a second user with we need to have another mail address. In order to write the test for it, we need to extend or factory with the [sequence function](https://github.com/thoughtbot/factory_girl/wiki/Usage#sequences-and-associations "sequence functions factory girl"):
