@@ -283,7 +283,7 @@ end
 
 ### Users Controller
 
-Since we already have a model for potential users of our platform, it's time to create a controller for them. We are creating in a first step our users controller four our sign up form with only one action:
+Since we already have our data-model for potential users of our platform, it's time to make it accessible for our users with a users controller for signing up.
 
 
 ```sh
@@ -299,9 +299,10 @@ $ padrino-gen controller Users get:new
 The new thing about the controller command above is the `get:new` option. This will create an URL route `:new` to `users/new`.
 
 
-### Sign Up Form
+#### Sign Up Form
 
-The stage is set: We have the model with the tested constraints, and a controller for the user which handles the action.  Time to create a sign up form for getting new users on our platform. For this case we can use the `form_for` helper.  This method takes an object as its input and creates a form using the attributes of the object. We need this to save/edit the attributes of the model in our controller. Create a new erb file under the users view:
+The stage is set: We have the model with the tested constraints, and a controller for the user which handles the action. Time to create a sign up form.
+For this case we can use the [form_for](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/FormHelpers#form_for-instance_method "form_for") helper. This method takes an object as its input and creates a form using the attributes of the object. We need this to save/edit the attributes of the model in our controller. Create a new erb file under the users view:
 
 
 ```erb
