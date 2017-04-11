@@ -80,11 +80,6 @@ RSpec.describe "User Model" do
   pending('has no blank name')
   pending('has no blank email')
 
-  describe "passwords" do
-    pending('no blank password')
-    pending('no blank password_confirmation')
-  end
-
   describe "when name is already used" do
     pending('should not be saved')
   end
@@ -92,6 +87,11 @@ RSpec.describe "User Model" do
   describe "email address" do
     pending('valid')
     pending('not valid')
+  end
+
+  describe "passwords" do
+    pending('no blank password')
+    pending('no blank password_confirmation')
   end
 end
 ```
@@ -171,7 +171,8 @@ As a homework, please write the validates for `email` and `passwords` part on yo
 [^login-homework]: Please consider that the `password_confirmation` attribute can be create with the `:confirmation => true` option to the validates `:password` setting.
 
 
-We don't want to have duplicated names in our application. For testing this, we need as second user with the same name. In order to create a second user with we need to have another mail address. In order to write the test for it, we need to extend or factory with the [sequence function](https://github.com/thoughtbot/factory_girl/wiki/Usage#sequences-and-associations "sequence functions factory girl"):
+We make sure that names in our application are unique. For testing we need create a second user with another mail address in our factory.
+In order to write the test for it, we need to extend or factory with the [sequence function](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#sequences "sequence functions factory girl"):
 
 
 ```ruby
@@ -202,7 +203,6 @@ RSpec.describe "User Model" do
   let(:user_second) { build(:user)}
   ...
 
-
   describe "when name is already used" do
     it 'should not be saved' do
       User.destroy_all
@@ -216,7 +216,7 @@ end
 ```
 
 
-To make the test green you have to use the [uniqueness validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#uniqueness "uniqueness validation") (Note that we the [destroy_all](http://www.rubydoc.info/docs/rails/4.1.7/ActiveRecord%2FAssociations%2FCollectionProxy%3Adestroy_all "destroy_all") to destroy all users in the database and there associations). All what it does is to validates that the attribute's value is unique before it gets saved.
+To make the test green you have to use the [uniqueness validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#uniqueness "uniqueness validation") (Note that we use the [destroy_all](http://www.rubydoc.info/docs/rails/4.1.7/ActiveRecord%2FAssociations%2FCollectionProxy%3Adestroy_all "destroy_all") to destroy all users in the database and there associations). All what it does is to validates that the attribute's value is unique before it gets saved.
 
 
 ```ruby
@@ -231,14 +231,12 @@ end
 ```
 
 
-Now this test is fixed. Next we are going to implement the validation for the email field:
+Next we are going to implement the validation for the email field:
 
 
 ```ruby
 # spec/app/models/user_spec.rb
-
 ...
-
 describe "email address" do
   it 'valid' do
     adresses = %w[thor@marvel.de hero@movie.com]
@@ -257,11 +255,10 @@ describe "email address" do
     end
   end
 end
-
 ```
 
 
-We can test the correctness of the `email` field with a regular expression. First we are going to define a regular expression and use the [format validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#format "format validation") which takes our regular expression against which the field will be tested.
+We can test the correctness of the `email` field with a regular expression. First we are going to define a regular expression and use the [format validation](http://guides.rubyonrails.org/v3.2.13/active_record_validations_callbacks.html#format "format validation") which takes our regular expression against which the field will be tested.
 
 
 ```ruby
@@ -279,7 +276,7 @@ end
 \begin{aside}
 \heading{Regular Expressions}
 
-[Regular expressions](http://en.wikipedia.org/wiki/Regular_expression "Regular expressions") are your first tool when you need to match certain parts (or whole) strings against a predefined pattern. The drawback of using them is that you have to learn a formal language to define your patterns. I can highly recommend you the [Rubular tool](http://rubular.com "Rubular tool") for training and trying out the expression you want to use.
+[Regular expressions](http://en.wikipedia.org/wiki/Regular_expression "Regular expressions") are your first tool when you need to match certain parts (or whole) strings against a predefined pattern. The drawback of using them is that you have to learn a formal language to define your patterns. I can highly recommend you the [Rubular tool](http://rubular.com "Rubular tool") for learning, training and trying out the expression you want to use.
 
 \end{aside}
 
