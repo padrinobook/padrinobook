@@ -163,7 +163,7 @@ To make this test pass we need to validate the `name` property in our user model
 # app/models/user.rb
 
 class User < ActiveRecord::Base
-  validates :name, :presence => true
+  validates :name, presence: true
   ...
 end
 ```
@@ -229,8 +229,8 @@ To make the test green you have to use the [uniqueness validation](http://guides
 # app/models/user.rb
 
 class User < ActiveRecord::Base
-  validates :name, :email, :password, :presence => true
-  validates :name, :uniqueness => true
+  validates :name, :email, :password, presence: true
+  validates :name, uniqueness: true
 
   has_many :job_offers
 end
@@ -275,7 +275,7 @@ We can test the correctness of the `email` field with a regular expression. Firs
 class User < ActiveRecord::Base
   ...
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, :format => { with: VALID_EMAIL_REGEX }
+  validates :email, format: { with: VALID_EMAIL_REGEX }
   ...
 end
 ```
