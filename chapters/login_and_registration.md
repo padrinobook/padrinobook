@@ -368,7 +368,7 @@ The form will be rendered in the following HTML:
 
 ### User Controller Sign up Actions
 
-We need to make sure to have the right mappings for the `/login` route in the actions in our controller:
+We need to make sure to render the `users/new.erb` and user the `user` object route:
 
 
 ```ruby
@@ -383,7 +383,8 @@ end
 ```
 
 
-Feel free to visit <http://localhost:3000/login>. Until now we are not saving the inputs of the user. And what about the mistakes a user makes during his input? How can we display any mistakes a user is making and preserve the things he already typed in? Before doing two steps at a time let's code the `create` action which saves the new registered user without going into error validation.
+Until now we are not saving the inputs of the user. And what about the mistakes a user makes during his input? How can we display any mistakes a user is making and preserve the things he already typed in?
+Before doing two steps at a time let's code the `create` action which saves the new registered user without going into error validation.
 
 
 ```ruby
@@ -403,8 +404,8 @@ end
 
 Let's go through the new parts:
 
-- `User.new(params[:users])`: Will create a new user object based on the information of the form attributes of the `@user` model which which were part of the form from the views/users/new.erb page.
-- `@user.save`: Will save the user in the database.
+- `User.new(params[:users])`: Will create a new user object based on the information of the form attributes of the `user` model which which were part of the form from the `views/users/new.erb page`.
+- `@user.save`: Will persists the user in the database.
 - `redirect`: Will redirect the user to the root directory of our app.
 
 
@@ -428,7 +429,7 @@ DEBUG -      GET (0.0017ms) /favicon.ico - 404 Not Found
 ```
 
 
-The part with the `rollback transaction` means, that user was not saved. Why? Because he violated the validation of our user model. Try to create an `User.new` model in the console and call the `.errors` method on. You should see something like:
+Why was the `rollback transaction` triggered? The validation of our user model had been violated. Try to create an `User.new` model in the console and call the `.errors` method on:
 
 
 ```ruby
@@ -436,8 +437,10 @@ The part with the `rollback transaction` means, that user was not saved. Why? Be
 => #<User id: nil, name: nil, email: nil, created_at: nil, password: nil>
 >> user.save
   DEBUG -   (0.1ms)  begin transaction
-  DEBUG -  User Exists (0.1ms)  SELECT 1 AS one FROM "users" WHERE "users"."name" IS NULL LIMIT 1
-  DEBUG -  User Exists (0.1ms)  SELECT 1 AS one FROM "users" WHERE "users"."email" IS NULL LIMIT 1
+  DEBUG -  User Exists (0.1ms)  SELECT 1 AS one FROM "users"
+    WHERE "users"."name" IS NULL LIMIT 1
+  DEBUG -  User Exists (0.1ms)  SELECT 1 AS one FROM "users"
+    WHERE "users"."email" IS NULL LIMIT 1
   DEBUG -   (0.0ms)  rollback transaction
 => false
 >> user.errors
@@ -449,11 +452,11 @@ The part with the `rollback transaction` means, that user was not saved. Why? Be
 ```
 
 
-We can use this information to display the errors in our form for the user to let him know what what went wrong. In a first try, we use [error\_messages\_for method](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_messages_for-instance_method "error messages for method"):
+We can use this information to display the errors in our form for user feedback. In a first try, we use [error\_messages\_for](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FHelpers%2FFormHelpers%2FErrors:error_messages_for "error messages for method") method:
 
 
 ```erb
-<%# views/users/new.erb %>
+<%# app/views/users/new.erb %>
 
 <% form_for(@user, '/users/create') do |f| %>
   ...
@@ -463,7 +466,7 @@ We can use this information to display the errors in our form for the user to le
 ```
 
 
-It counts the number of errors `@user.errors.count` and is looping through all field with their error messages. But this will result in a big box with a bunch of error messages like the following one:
+It counts the number of errors `@user.errors.count` and is looping through all field with their error messages like the following:
 
 
 ```text
@@ -478,11 +481,11 @@ Email is invalid
 ```
 
 
-This isn't something we want to ship to our customers. Let's change this by using [error\_message\_on](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#error_message_on-instance_method "error message on") which returns a string containing the error message attached to the method on the object:[^error_message_on]
+This isn't something we want to ship to our customers. Let's change this by using [error\_message\_on](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FHelpers%2FFormHelpers%2FErrors:error_message_on  "error message on method") which returns a string containing the error message attached to the method on the object:[^error_message_on]
 
 
 ```erb
-<%# views/users/new.erb %>
+<%# app/views/users/new.erb %>
 
 <% form_for(@user, '/users/create') do |f| %>
   <%= f.label :name %>
@@ -510,7 +513,7 @@ This isn't something we want to ship to our customers. Let's change this by usin
 [^error_message_on]: Instead of writing `@user` for the `error_message_on` you can also use the symbol notation `:user`.
 
 
-We can do better and make the error text red. Let's add the `:class` at the of the `error_message_on` method with the help of the [text-error class from bootstrap](http://twitter.github.io/bootstrap/base-css.html#forms "text-error class from bootstrap") and using the `:prepend` option which add text to before displaying the field error:
+Let's add the `:class` at the of the `error_message_on` method with the help of the [text-error class from bootstrap](http://twitter.github.io/bootstrap/base-css.html#forms "text-error class from bootstrap") and using the `:prepend` option which add text to before displaying the field error:
 
 
 ```erb
@@ -543,7 +546,10 @@ We can do better and make the error text red. Let's add the `:class` at the of t
 ```
 
 
-If you fill out the form with complete valid parameters and watch your log again, you can see the following log:
+Now our error text is red.
+
+
+If you fill out the form with complete valid parameters and watch your log again:
 
 
 ```sh
@@ -566,14 +572,14 @@ DEBUG -      GET (0.0058ms) / - 200 OK
 ```
 
 
-Remember that have an eye on your logs can help you to see what's going on in your back-end when you can't see it in the front-end of your app.
+Remember to have an eye into your logs to detect possible back-end problems.
+
 
 
 \begin{aside}
 \heading{What are VALUES (?, ?, ?, ?, ?) in a SQL insert query?}
 
-These form of inserting data in your database is known as parameterized queries. A parameterized query is a query in which placeholders are used for parameters and the parameter values are supplied at execution time. The most important reason to use parameterized queries is to avoid [SQL injection](http://en.wikipedia.org/wiki/SQL_injection "SQL injection") attacks. SQL injection means that SQL statements are injected into input fields in order to drop tables or getting access on user related data.
-
+These form of inserting data in your database is known as parameterized queries. A parameterized query is a query in which placeholders are used for parameters and the parameter values are supplied at execution time. The most important reason to use parameterized queries is to avoid [SQL injection](https://en.wikipedia.org/wiki/SQL_injection "SQL injection") attacks. SQL injection means that SQL statements are injected into input fields in order to get access/delete user data.
 \end{aside}
 
 
