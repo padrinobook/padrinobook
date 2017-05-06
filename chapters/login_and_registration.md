@@ -7,6 +7,7 @@ In traditional frameworks you would generate a user with a `user` model and a `u
 You don't have to reinvent the wheel you can use Padrino's beautiful [Admin interface](http://www.padrinorb.com/guides/padrino-admin "Padrino admin") for your user authentication. For educational reasons we are going to create our own authentication process consisting of the following parts:
 
 - creating users
+- creating views and routes
 - sending confirmation emails
 - encrypt passwords
 - session management
@@ -291,7 +292,7 @@ end
 
 ### Users Controller
 
-Since we already have our data-model for potential users of our platform, it's time to make it accessible for our users with a users controller for signing up.
+Since we already have our data-model for new potential users of our platform, it's time to make it accessible for our users with a users controller for signing up.
 
 
 ```sh
@@ -363,7 +364,6 @@ The form will be rendered as the following HTML:
   </p>
 </form>
 ```
-
 
 
 ### User Controller Sign up Actions
