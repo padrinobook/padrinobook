@@ -746,7 +746,7 @@ end
 \begin{aside}
 \heading{Difference between Padrino's Mailer methods email and deliver}
 
-The [email](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#email-instance_method "email") method is has the parameters `mail_attributes = {}, &block`. That means the you write emails directly `JobVacancy.email(:to => '...', :from => '...', :subject => '...', :body => '...')` or use the block syntax `JobVacancy.email do ... end`. In comparison to this is the [deliver](http://www.padrinorb.com/api/Padrino/Mailer/Helpers/ClassMethods.html#deliver-instance_method "deliver method") method. It has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer for them. If you want to use very simple mails in your application, prefer to use the email method. But if you have templates with a much more complex layout in different formats (plain, HTML), the deliver method is the best fit.
+The [email](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FMailer%2FHelpers%2FClassMethods:email "email helper method") method has the parameters `mail_attributes = {}, &block`. That means the you write emails directly `JobVacancy.email(to: '...', from: '...', subject: '...', body:  '...')` or use the block syntax `JobVacancy.email do ... end`. The [deliver](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FMailer%2FHelpers%2FClassMethods:deliver "deliver helper method") method has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer for them.
 
 \end{aside}
 
