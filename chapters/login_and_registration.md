@@ -341,7 +341,7 @@ For this case we can use the [form_for](http://www.rubydoc.info/github/padrino/p
 - `f.submit`: Takes a string as a caption for the submit button and options as hashes for additional parameter (for `example :class => 'long'`).
 
 
-The form will be rendered as the following HTML:
+The form will be rendered in the following HTML:
 
 
 ```html
