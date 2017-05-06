@@ -585,7 +585,7 @@ These form of inserting data in your database is known as parameterized queries.
 
 ### Emails
 
-Padrino uses the [Padrino Mailer gem](https://rubygems.org/gems/padrino-mailer "Padrino Mailer gem") for sending mail. For simplification, we are using SMTP with Gmail. First of all we need to give our application the settings for setting mails in the main configuration file of our application `app.rb`:
+Padrino uses the [Padrino Mailer gem](https://rubygems.org/gems/padrino-mailer "Padrino Mailer gem") for sending mails. For simplification, we are using SMTP with Gmail. First we need to place our setting for emails in in `app.rb`[^app-rb]:
 
 
 ```ruby
@@ -594,35 +594,33 @@ Padrino uses the [Padrino Mailer gem](https://rubygems.org/gems/padrino-mailer "
 module JobVacancy
   class App < Padrino::Application
     ...
-    set :delivery_method, :smtp => {
-      :address => 'smtp.gmail.com',
-      :port => 587,
-      :user_name => '<your-gmail-account-address>',
-      :password => '<secret>',
-      :authentication => :plain,
+    set :delivery_method, smtp: {
+      address: 'smtp.gmail.com',
+      port: 587,
+      user_name: '<your-gmail-account-address>',
+      password: '<secret>',
+      authentication: :plain
     }
     ...
   end
 end
 ```
 
+[^app-rb]: The main configuration file of our application.
 
 Let's get through all the different options:
 
 
-- `:delivery_method`: Defines the delivery method. Possible values are [:smtp](http://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol "Simple Mail Transfer Protocol") (default), [:sendmail](http://en.wikipedia.org/wiki/Sendmail "Sendmail"), `:test` (no mails will be send), and [:file](http://edgeguides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration "Action Mailer configuration") (will write the contents of the email in a file).
-- `:address`: The SMTP mail address.
-- `:port`: The port of the mail address.
-- `:user_name`: The name of the SMTP address.
-- `:password`: The password of your SMTP address.
-- `:authentication`: Specify if your mail server requires authentication. The default setting is plain meaning that the password is not encrypted. `:login` will send the password [Base64 encoded](https://en.wikipedia.org/wiki/Base64 "Base64 encoded"), [:cram_md5](http://en.wikipedia.org/wiki/CRAM-MD5 "CRAM-MD5") is a challenge/response authentication mechanism .
-- `:domain`: This key is set up for [HELO checking](http://en.wikipedia.org/wiki/Anti-spam_techniques#HELO.2FEHLO_checking "HELO checking").
+- `delivery_method`: Defines the delivery method. Possible values are [:smtp](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol "Simple Mail Transfer Protocol") (default), [:sendmail](https://en.wikipedia.org/wiki/Sendmail "Sendmail"), `:test` (no mails will be send), and [:file](http://edgeguides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration "Action Mailer configuration") (will write the contents of the email in a file).
+- `address`: The SMTP mail address.
+- `port`: The port of the mail address.
+- `user_name`: The name of the SMTP address.
+- `password`: The password of your SMTP address.
+- `authentication`: Specify if your mail server requires authentication. The default setting is plain meaning that the password is not encrypted.
+- `domain`: This key is set up for [HELO checking](http://en.wikipedia.org/wiki/Anti-spam_techniques#HELO.2FEHLO_checking "HELO checking").
 
 
-Prior Padrino *0.10.7* the `:enable_starttls_auto => true` was changeable. This is option is now always on true in *Padrino >= 0.11.1* so we leave it out.
-
-
-This is now the default delivery address unless it is overwritten in an individual mail definition. We won't test the email functionality to this point because the *Mailer gem* is already tested.
+Prior Padrino *0.10.7* the `enable_starttls_auto: true` was changeable. This is option is now always on true in *Padrino >= 0.11.1* so we leave it out. This is now the default delivery address unless it is overwritten in an individual mail definition. We won't test the email functionality to this point because the *Mailer gem* is already tested.
 
 
 #### Quick Mail Usage
