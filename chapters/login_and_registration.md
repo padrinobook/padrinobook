@@ -304,13 +304,13 @@ $ padrino-gen controller Users get:new
 ```
 
 
-The new thing about the controller command above is the `get:new` option. This will create an URL route `:new` to `users/new`.
+The new thing about the controller generation command is the `get:new` option. This will create an URL route `:new` to `users/new`.
 
 
 #### Sign Up Form
 
 The stage is set: We have the model with the tested constraints, and a controller for the user which handles the action. Time to create a sign up form.
-For this case we can use the [form_for](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/FormHelpers#form_for-instance_method "form_for") helper. This method takes an object as its input and creates a form using the attributes of the object. We need this to save/edit the attributes of the model in our controller. Create a new erb file under the users view:
+For this case we can use the [form_for](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/FormHelpers#form_for-instance_method "form_for") helper. This method takes an object (normally a model) as an input and creates a form using the attributes of the given object. Create a new erb file under the users view:
 
 
 ```erb
@@ -334,10 +334,10 @@ For this case we can use the [form_for](http://www.rubydoc.info/github/padrino/p
 ```
 
 
-- `form_for`: Is part of [Padrino's Form Builders](http://www.padrinorb.com/guides/application-helpers#formbuilders "Padrino's Form Builders") and allows you to create standard input fields based on a model. The first argument to the function is an object (mostly a model), the second argument is an string (the action to which the form should be sent after a submit), and the third parameter are settings in form of an hash which aren't used in this example. The part `action="/users/create"` says, that we want to use the `create` action to the `users` controller with the `create` action.
-- `f.label` and `f.text`: Will a label and text field for the attributes of your model.
-- `f.password_field`: Constructs a password input, where the input is marked with stars, from the given attribute of the form.
-- `f.submit`: Take an string as an caption for the submit button and options as hashes for additional parameter (for `example :class => 'long'`).
+- `form_for`: Is part of [Padrino's Form Builders](http://www.padrinorb.com/guides/application-helpers#formbuilders "Padrino's Form Builders") and allows you to create standard input fields based on a model. The first argument to the function is an object (normally a model), the second argument is an string (the action to which the form should be sent after a submit), and the third parameter are settings in form of a hash.
+- `f.label` and `f.text`: A label and a text field for the attributes of your model.
+- `f.password_field`: Constructs a password input element.
+- `f.submit`: Takes a string as a caption for the submit button and options as hashes for additional parameter (for `example :class => 'long'`).
 
 
 The form will be rendered as the following HTML:
