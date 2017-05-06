@@ -625,7 +625,7 @@ Prior Padrino *0.10.7* the `enable_starttls_auto: true` was changeable. This is 
 
 #### Quick Mail Usage
 
-To send a first simple "Hallo" message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb "email block") directly in our user controller:
+To send a first simple "Hallo" message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb#L26 "email block") directly in our user controller:
 
 
 ```ruby
@@ -675,7 +675,7 @@ Hallo
 We could go on and parametrized our email example above, but this would mean that we have email code directly into our controller code. We can do better by wrapping up the logic into an object and let it handle the action.
 
 
-[Padrino mailer](http://www.padrinorb.com/api/Padrino/Mailer.html "Padrino mailer") has the `mailer` command to create customized mailer for every purpose we want to use. Let's create the registration mailer:
+With the help of [mailer](http://www.padrinorb.com/api/Padrino/Mailer.html "Padrino mailer") we can create customized:
 
 
 ```sh
@@ -714,16 +714,16 @@ The generated comment `# Your mailer goes here` says what you have to do. Let's 
 
 JobVacancy::App.mailer :registration do
   email :registration_email do
-    from "admin@job-vacancy.de"
-    to "lordmatze@gmail.com"
-    subject "Welcome!"
-    body "Hallo"
+    from 'admin@job-vacancy.de'
+    to 'lordmatze@gmail.com'
+    subject 'Welcome!'
+    body 'Hallo'
   end
 end
 ```
 
 
-Now we can use the `deliver` method to call our `:registration` mailer with it's template `:registration_email`:
+Now we can use the `deliver` method to call our `:registration` mailer with it's `:registration_email` template:
 
 
 ```ruby
@@ -747,6 +747,8 @@ end
 \heading{Difference between Padrino's Mailer methods email and deliver}
 
 The [email](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FMailer%2FHelpers%2FClassMethods:email "email helper method") method has the parameters `mail_attributes = {}, &block`. That means the you write emails directly `JobVacancy.email(to: '...', from: '...', subject: '...', body:  '...')` or use the block syntax `JobVacancy.email do ... end`. The [deliver](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FMailer%2FHelpers%2FClassMethods:deliver "deliver helper method") method has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer for them.
+
+If you want to use very simple mails in your application, prefer to use the `email` method. But if you have templates with a much more complex layout in different formats (plain, HTML), the `deliver` method is the best fit.
 
 \end{aside}
 
