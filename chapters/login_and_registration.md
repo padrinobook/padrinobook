@@ -120,6 +120,8 @@ end
 ```
 
 
+#### Presence Validation of Names
+
 Let's implement the first pending test that a user can't have an empty name:
 
 
@@ -173,39 +175,41 @@ As a homework, please write the validates for the `email address` and `passwords
 [^login-homework]: Please consider that the `password_confirmation` attribute can be create with the `:confirmation => true` option to the validates `:password` setting.
 
 
+#### Uniqueness Validation of Names
+
 We make sure that names in our application are unique. For testing we need create a second user with another mail address in our factory.
-In order to write the test for it, we need to extend or factory with the [sequence function](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#sequences "sequence functions factory girl"):
+We need need to extend or factory with the [sequence function](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#sequences "sequence function factory girl"):
 
 
 ```ruby
 # spec/factories
 
 FactoryGirl.define do
-  sequence(:email){ |n| "matthias.guenther#{n}@padrinobook.com"}
+  sequence(:email){ |email_number| "matthias.guenther#{email_number}@padrinobook.com"}
 
   factory :user do
-    name  "Matthias Günther"
+    name  'Matthias Günther'
     email
-    password "foo"
+    password 'foo'
   end
   ...
 end
 ```
 
 
-Whenever you build a new `user` fixture, the value `email_number` is incremented and gives you a fresh user with a unique email address. You can write a test for this ability in the following way:
+Whenever you build a new `user` fixture, the value `email_number` is incremented and gives you a fresh user with a unique email address.
+A test for this can be written in the following way:
 
 
 ```ruby
 # spec/app/models/user_spec.rb
 
-
 RSpec.describe "User Model" do
   let(:user) { build(:user) }
-  let(:user_second) { build(:user)}
+  let(:user_second) { build(:user) }
   ...
 
-  describe "when name is already used" do
+  describe "name is already used" do
     it 'should not be saved' do
       User.destroy_all
       user.save
@@ -218,7 +222,7 @@ end
 ```
 
 
-To make the test green you have to use the [uniqueness validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#uniqueness "uniqueness validation") (Note that we use the [destroy_all](http://www.rubydoc.info/docs/rails/4.1.7/ActiveRecord%2FAssociations%2FCollectionProxy%3Adestroy_all "destroy_all") to destroy all users in the database and there associations). All what it does is to validates that the attribute's value is unique before it gets saved.
+To make the test green you have to use the [uniqueness validation](http://guides.rubyonrails.org/active_record_validations.html#uniqueness "uniqueness validation") (Note that we use the [destroy_all](http://www.rubydoc.info/docs/rails/4.1.7/ActiveRecord%2FAssociations%2FCollectionProxy%3Adestroy_all "destroy_all") to destroy all users in the database and there associations). All what it does is to validates that the attribute's value is unique before it gets saved.
 
 
 ```ruby
@@ -233,7 +237,9 @@ end
 ```
 
 
-Next we are going to implement the validation for the email field:
+#### Format Validation
+
+Next we are going to implement the validation for the email field. Here are the specs
 
 
 ```ruby
@@ -244,7 +250,7 @@ describe "email address" do
     adresses = %w[thor@marvel.de hero@movie.com]
     adresses.each do |email|
       user.email = email
-      user_second.email= email
+      user_second.email = email
       expect(user_second.valid?).to be_truthy
     end
   end
@@ -252,7 +258,7 @@ describe "email address" do
   it 'not valid' do
     adresses = %w[spamspamspam.de heman,test.com]
     adresses.each do |email|
-      user_second.email= email
+      user_second.email = email
       expect(user_second.valid?).to be_falsey
     end
   end
@@ -260,7 +266,7 @@ end
 ```
 
 
-We can test the correctness of the `email` field with a regular expression. First we are going to define a regular expression and use the [format validation](http://guides.rubyonrails.org/v3.2.13/active_record_validations_callbacks.html#format "format validation") which takes our regular expression against which the field will be tested.
+We can test the correctness of the `email` field with a regular expression. First we are going to define a regular expression and use the [format validation](http://guides.rubyonrails.org/active_record_validations.html#format "format validation") which will apply our regular expression against which the field will be tested.
 
 
 ```ruby
@@ -278,7 +284,7 @@ end
 \begin{aside}
 \heading{Regular Expressions}
 
-[Regular expressions](http://en.wikipedia.org/wiki/Regular_expression "Regular expressions") are your first tool when you need to match certain parts (or whole) strings against a predefined pattern. The drawback of using them is that you have to learn a formal language to define your patterns. I can highly recommend you the [Rubular tool](http://rubular.com "Rubular tool") for learning, training and trying out the expression you want to use.
+[Regular expressions](https://en.wikipedia.org/wiki/Regular_expression "Regular expressions") are your first tool when you need to match certain parts (or whole) strings against a predefined pattern. The drawback of using them is that you have to learn a formal language to define your patterns. I can highly recommend you the [Rubular tool](http://rubular.com "Rubular tool") for learning, training, and trying out the expression you want to use.
 
 \end{aside}
 
