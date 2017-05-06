@@ -1,6 +1,7 @@
 ## Login and Registration
 
-In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the actions `new`, `create`, `update`, and `delete`. And you can't forget about security these days though would need to find a method of safely storing the password as well as validate our freshly registered users.
+In traditional frameworks you would generate a user with a `user` model and a `users_controller` with the
+`new`, `create`, `update`, and `delete` actions. Besides you can't forget about security these days though would need to find a method of safely storing the password as well as validate our freshly registered users.
 
 
 You don't have to reinvent the wheel you can use Padrino's beautiful [Admin interface](http://www.padrinorb.com/guides/padrino-admin "Padrino admin") for your user authentication. For educational reasons we are going to create our own authentication process consisting of the following parts:
@@ -61,12 +62,13 @@ end
 ```
 
 
-Run the migrations:
+Run the migrations.
 
 
 ### Validating attributes
 
-Before we are going to implement what we think, we are going to write **pending**[^pending] specs:
+Before we are going to implement the user registration relevant things we are going to write **pending**[^pending] specs for outlining
+our tests:
 
 
 ```ruby
@@ -151,7 +153,8 @@ Failures:
 ```
 
 
-To make this test pass we need to validate the `name` property in our user model with the help of the [presence validation](http://guides.rubyonrails.org/active_record_validations_callbacks.html#presence "presence validation"):
+To make this test pass we need to validate the `name` property in our user model with the help of the
+[presence validation](http://guides.rubyonrails.org/active_record_validations.html#presence "presence validation"):
 
 
 ```ruby
@@ -159,13 +162,12 @@ To make this test pass we need to validate the `name` property in our user model
 
 class User < ActiveRecord::Base
   validates :name, :presence => true
-
-  has_many :job_offers
+  ...
 end
 ```
 
 
-As a homework, please write the validates for `email` and `passwords` part on your own[^login-homework].
+As a homework, please write the validates for the `email address` and `passwords` part of the specs on your own[^login-homework].
 
 
 [^login-homework]: Please consider that the `password_confirmation` attribute can be create with the `:confirmation => true` option to the validates `:password` setting.
