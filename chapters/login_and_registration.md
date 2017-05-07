@@ -785,10 +785,10 @@ end
 ```
 
 
-If you are sure that you only want to send plain text mail, you can leave the `plain` extension away but making it explicit will make it clear for everyone.
+If you are sure that you only want to send plain text mail, you can leave the `plain` extension away but making it explicit makes it clear for everyone.
 
 
-To make our mail more personal we want mention the name of the fresh registered in the registration email as well as sent it to the right user. First we need to pass the `name` and `email` to our mail block and pass the name to the template via the `locals` option:
+To personalize our mail we want mention the name of the fresh registered in the registration email as well as sent it to their given mail. First we need to pass the `name` and `email` to our mail block and pass the name to the template via the `locals` option:
 
 
 ```ruby
@@ -807,7 +807,7 @@ end
 ```
 
 
-The `locals` options provides us a hash in the email template. All we need now it to pass the `name` and the `email` to our `:create` action in the `users` controller:
+The `locals` options provides us a hash in the email template. All we need now it to pass the `name` and the `email` to our `:create` action of the `users` controller:
 
 
 ```ruby
@@ -824,21 +824,6 @@ post :create do
     render 'new'
   end
 end
-```
-
-
-And update our template with the name variable:
-
-
-```erb
-<%# app/views/mailers/registration/registration_email.plain.erb %>
-
-Hi <%= name %>,
-
-we are glad to have you on our platform. Feel free to post jobs and find the
-right people for your application.
-
-Your Job Vacancy!
 ```
 
 
