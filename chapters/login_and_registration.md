@@ -1480,6 +1480,7 @@ class UserCompletion
   end
 
   private
+
   def normalize(confirmation_code)
     confirmation_code.gsub("/", "")
   end
@@ -1564,7 +1565,7 @@ JobVacancy::App.controllers :users do
     if @user && @user.save
       user_completion.send_registration_mail
       user_completion.send_confirmation_mail
-      redirect '/', flash[:notice] = "You have been registered.  Please confirm
+      redirect '/', flash[:notice] = "You have been registered. Please confirm
         with the mail we've send you recently."
     else
       render 'new'
@@ -1572,9 +1573,6 @@ JobVacancy::App.controllers :users do
   end
 end
 ```
-
-
-If we have a fresh registered user we create an confirmation code and send him an welcome mail right after the confirmation email.
 
 
 And the tests for the controller:
@@ -1591,24 +1589,23 @@ RSpec.describe "UsersController" do
   describe "POST /users/create" do
     let(:user) { build(:user) }
     before do
-      @user_completion = double(UserCompletion)
+      @completion_user = double(UserCompletion)
       expect(User).to receive(:new).and_return(user)
-      expect(@user_completion).to receive(:encrypt_confirmation_code)
+      expect(@completion_user).to receive(:encrypt_confirmation_code)
     end
 
-    it "redirects to home if user can be saved", :current do
+    it 'redirects to home if user can be saved' do
       expect(user).to receive(:save).and_return(true)
-      expect(UserCompletion).to receive(:new).with(user).and_return(@user_completion)
-      expect(@user_completion).to receive(:send_registration_mail)
-      expect(@user_completion).to receive(:send_confirmation_mail)
+      expect(UserCompletion).to receive(:new).with(user).and_return(@completion_user)
+      expect(@completion_user).to receive(:send_registration_mail)
+      expect(@completion_user).to receive(:send_confirmation_mail)
       post "/users/create"
       expect(last_response).to be_redirect
-      expect(last_response.body).to eq "You have been registered. Please confirm
-        with the mail we've send you recently."
+      expect(last_response.body).to eq "You have been registered. Please confirm with the mail we've send you recently."
     end
 
-    it "renders registration page if user cannot be saved" do
-      expect(UserCompletion).to receive(:new).with(user).and_return(@user_completion)
+    it 'renders registration page if user cannot be saved' do
+      expect(UserCompletion).to receive(:new).with(user).and_return(@completion_user)
       expect(user).to receive(:save).and_return(false)
       post "/users/create"
       expect(last_response).to be_ok
