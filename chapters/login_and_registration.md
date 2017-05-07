@@ -778,10 +778,8 @@ JobVacancy::App.mailer :registration do
     from 'admin@job-vacancy.de'
     to 'lordmatze@gmail.com'
     subject 'Welcome!'
-    render 'registration_email'
+    render 'registration/registration_email'
     content_type :plain
-  end
-end
 ```
 
 
@@ -800,7 +798,7 @@ JobVacancy::App.mailer :registration do
     to email
     subject "Welcome!"
     locals :name => name
-    render 'registration_email'
+    render 'registration/registration_email'
     content_type :plain
   end
 end
@@ -841,7 +839,7 @@ email :registration_email do |name, email|
   to email
   subject "Welcome!"
   locals name: name, email: email
-  render 'registration_email'
+  render 'registration/registration_email'
   add_file filename: 'welcome.pdf', content:
     File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |file| file.read }
 end
