@@ -1397,7 +1397,10 @@ The code is working but we have flaws in our design:
 \begin{aside}
 \heading{Observers vs. Callbacks vs. POROs}
 
-[Observers](http://en.wikipedia.org/wiki/Observer_pattern "Observers") are a design pattern where an object has a list of its dependents called observers, and notifies them automatically if its state has changed by calling one of their methods. Observers means to be decoupling responsibility. They can serve as a connection point between your models and some other functionality of another subsystem. Observers "lives" longer in your application and can be attached/detached at any time. [Callbacks](http://guides.rubyonrails.org/active_record_callbacks.html "Callbacks") life shorter - you pass it to a function to be called only once. *Rule of the thumb*: When you use callbacks with code that isn't directly related to your model, you better put this into an observer.
+[Observers](https://en.wikipedia.org/wiki/Observer_pattern "Observers") are a design pattern where an object has a list of its dependents called observers, and notifies them automatically if its state has changed by calling one of their methods. Observers means to be decoupling responsibility. They can serve as a connection point between your models and some other functionality of another system.
+Observers "lives" longer in your application and can be attached/detached at any time.
+
+[Callbacks'](http://guides.rubyonrails.org/active_record_callbacks.html "Callbacks") live shorter - you pass it to a function to be called only once. *Rule of the thumb*: When you use callbacks with code that isn't directly related to your model, you better put this into an observer.
 
 
 The Observer pattern decouples event producers from event consumers but tightly couples models to them - and that make
