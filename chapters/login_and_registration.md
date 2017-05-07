@@ -1488,8 +1488,7 @@ end
 
 
 We are not using the single `deliver` method here because our file does not have access to this it. Instead we have
-to take `JobVacancy::App.deliver` way to access the mail (it is not documented as I
-[found out](https://github.com/padrino/padrino-framework/issues/1770)).
+to take `JobVacancy::App.deliver` way to access the mail[^found-out]
 
 
 We need to remove the callback `before_save :encrypt_confirmation_code, :if => :registered?` and we need also to
@@ -1517,6 +1516,7 @@ JobVacancy::App.controllers :users do
   end
 end
 ```
+[^found-out]: It is not documented as I [found out](https://github.com/padrino/padrino-framework/issues/1770).
 
 
 If we have a fresh registered user we create an confirmation code and send him an welcome mail right after the confirmation email.
