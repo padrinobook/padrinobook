@@ -1010,38 +1010,7 @@ Finished in 0.77209 seconds
 ```
 
 
-Why? Because we are hitting the database and our tests slow. Please consider code like the following:
-
-
-```ruby
-# spec/app/models/user_spec.rb
-
-
-describe "when name is already used" do
-  it 'should not be saved' do
-    User.destroy_all
-    user.save
-    user_second.name = user.name
-    user_second.save
-    expect(user_second.valid?).to be_falsey
-  end
-end
-
-describe "when email address is already used" do
-  it 'should not save an user with an existing address' do
-    user.save
-    user_second.email = user.email
-    user_second.save
-    expect(user_second.valid?).to be_falsey
-  end
-end
-```
-
-
-We can use mocks the saving operation away. The benefit of mocks are that you create the environment you want to test and don't care about all the preconditions to make this test possible.
-
-
-Consider the following code example:
+Why? Because we are hitting the database. Consider the following code example:
 
 
 ```ruby
@@ -1059,23 +1028,30 @@ end
 ```
 
 
-In order to test the condition `if user && user.confirmation && user.password == params[:password]` to return the redirect we need find a User by email out of our database. A normal test would be in need to create a user, save it and giving the object the right attributes to pass it. We can use mocks to simulate this environment by creating a user out of our users factory, setting the attributes of this object and cheating our `find-by-email` method to return our factory user with the right params without actually saving our object to the database:
+We can use **mocks** to simulate this environment by creating a user out of our users factory, setting the attributes of this object and cheating our `find-by-email` method to return our factory user with the right params without actually saving our object to the database.
+The benefits of mocks are that you create the environment you want to test and don't care about all the preconditions to make this test possible.
+
+
+The magic behind mocking is to use the [should_receive](https://github.com/rspec/rspec-mocks#message-expectations "should_receive from RSpec") expectation and [and_return](https://github.com/rspec/rspec-mocks#consecutive-return-values "and_return from RSpec") flow. `Should_receive` says which method should be called and `and_return` what should be returned when the specified method is called.
+
+
+To test the redirect from the controller above a possible implementation may look like:
 
 
 ```ruby
 # spec/app/controllers/users_controller_spec.rb
 
-it "should redirect if user is correct" do
+it 'should redirect if user is correct' do
   user.confirmation = true
   User.should_receive(:find_by_email).and_return(user)
-  post "sessions/create", user.attributes
+  post "users/create", user.attributes
 
   last_response.should be_redirect
 end
 ```
 
 
-The magic behind mocking is to use the [should_receive](https://github.com/rspec/rspec-mocks#message-expectations "should receive from RSpec") and [and_return](https://github.com/rspec/rspec-mocks#consecutive-return-values "and_return from RSpec") flow. `Should_receive` says which method should be called and `and_return` what should be returned when the specified method is called. The line size of our tests will remain the same - you only have to write more characters :) but this will speed up your tests in the long term. With the help of mocks you keep your tests fast and robust.
+The line size of our tests will remain the same - you only have to write more characters :) but this will speed up your tests in the long term. With the help of mocks you keep your tests fast and robust.
 
 
 Even if this will be the first application you write, when you've learned something new and this will make your life easier, go back and take your time to enhance the style and design of your application.
