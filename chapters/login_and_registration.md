@@ -758,7 +758,7 @@ Instead of writing only a simple 'Hello' in our email we would like to give more
 ```erb
 <%# app/views/mailers/registration/registration_email.plain.erb %>
 
-Hi ...,
+Hi <%= name %>,
 
 we are glad to have you on our platform. Feel free to post jobs and find the
 right people for your application.
@@ -775,9 +775,9 @@ And now we make sure that we are rendering this template in our registration mai
 
 JobVacancy::App.mailer :registration do
   email :registration_email do
-    from "admin@job-vacancy.de"
-    to "lordmatze@gmail.com"
-    subject "Welcome!"
+    from 'admin@job-vacancy.de'
+    to 'lordmatze@gmail.com'
+    subject 'Welcome!'
     render 'registration_email'
     content_type :plain
   end
@@ -785,7 +785,7 @@ end
 ```
 
 
-If you are sure that you only want to send plain text mail, you can leave the `plain` extension away but making it explicit will make it clear what you want to do.
+If you are sure that you only want to send plain text mail, you can leave the `plain` extension away but making it explicit will make it clear for everyone.
 
 
 To make our mail more personal we want mention the name of the fresh registered in the registration email as well as sent it to the right user. First we need to pass the `name` and `email` to our mail block and pass the name to the template via the `locals` option:
