@@ -848,9 +848,6 @@ end
 ```
 
 
-Please correct me if there is a better way to get to the asset folder but that is all of what I've found.
-
-
 During writing this chapter I experiment with the `content_type` option. If you set the `content_type` to plain you will get the attachment based as binary code directly into your mail. Please put the `content_type :plain` into the `registration` mailer. If the mail will be send you can see something like this in your logs:
 
 
