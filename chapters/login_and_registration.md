@@ -1131,7 +1131,7 @@ Salts make it more difficult for hackers to get the password via **rainbow table
 \end{aside}
 
 
-We could add these methods in the users controller but that isn't something a controller should do. We better use a [callback](http://guides.rubyonrails.org/active_record_validations_callbacks.html#callbacks-overview "callbacks for ActiveRecord validations"). **Callbacks** are methods to run on a certain stage or life cycle of an object. Perfect, that's what we want let's create code for it:
+We could add these methods in the users controller but that isn't something a controller should do. We better use a [callback](http://guides.rubyonrails.org/active_record_validations_callbacks.html#callbacks-overview "callbacks for ActiveRecord validations"). **Callbacks** are methods to run on a certain stage or life cycle of an object. Let's make use of it in our `user` model:
 
 
 ```ruby
@@ -1166,18 +1166,18 @@ end
 ```
 
 
-We won't test the methods under the private keyword, there is no customized business logic inside these methods. We will even not test the difficult looking `set_confirmation_code` method because there is no customized business logic inside, and BCrypt is well tested.
+We won't test the methods under the private keyword, there is no customized business logic inside these methods.
 
 
 \begin{aside}
 \heading{Why private callbacks?}
 
-It is good practice to make your callbacks private that they can called only from inside the model and no other object can use these methods. Our `confirmation_code` method is public available but that is no problem, because it generates a random string.
+It is good practice to make your callbacks private that they can called *only from inside the model*. Our `confirmation_code` method is public available but that is no problem, because it generates a random string.
 
 \end{aside}
 
 
-After creating the confirmation code mechanism for our user, we need to implement a authenticate which takes the confirmation code as an input and mark our user as *confirmed*. As always, let's begin with failing tests first:
+After creating the confirmation code mechanism for our user, we need to implement an authentication which takes the confirmation code as an input and mark our user as *confirmed*. Let's start with failing tests:
 
 
 ```ruby
@@ -1185,24 +1185,25 @@ After creating the confirmation code mechanism for our user, we need to implemen
 ...
 
 describe "confirmation code" do
-  let(:user_confirmation) { build(:user) }
+  let(:confirmation_user) { build(:user) }
 
-
-  it 'should authenticate user with correct confirmation code and should be confirmed' do
-    user_confirmation.save
-    confirmation_of_saved_user = User.find_by_id(user_confirmation.id)
-    user_confirmation.confirmation_code =
+  it 'should authenticate user with correct confirmation code and
+  should be confirmed' do
+    confirmation_user.save
+    confirmation_of_saved_user = User.find_by_id(confirmation_user.id)
+    confirmation_user.confirmation_code =
       confirmation_of_saved_user.confirmation_code
-    expect(user_confirmation.authenticate(user_confirmation.confirmation_code)).to be_truthy
-    expect(user_confirmation.confirmation).to be_truthy
+    expect(confirmation_user.authenticate(confirmation_user.confirmation_code)).
+      to be_truthy
+    expect(confirmation_user.confirmation).to be_truthy
   end
 
   it 'should not authenticate user with incorrect confirmation code' do
-    expect(user_confirmation.authenticate("wrong")).to be_falsey
+    expect(confirmation_user.authenticate("wrong")).to be_falsey
   end
 
   it 'should not authenticate user with incorrect confirmation code' do
-    user_confirmation.authenticate("wrong").should be false
+    confirmation_user.authenticate("wrong").should be false
   end
 end
 ```
@@ -1211,9 +1212,9 @@ end
 \begin{aside}
 \heading{Take care of your names!?}
 
-During writing this chapter I wasted a lot of time hour because I had method with the same name as the `confirmation_code` field. When I wanted to check `@user.confirmation_code` it always called the `confirmation_code` method which return a new confirmation code. I was thinking for a long time that it returned the attribute and was wondering what's going on. A couple of [pry](http://pryrepl.org "pry") sessions showed me nothing since I'm expected to be right. After I went to the toilet I started another pry session and out of sudden I discovered my naming problem.
+During writing this chapter I lost a couple of hours because I had method with the same name as the `confirmation_code` field. When I wanted to check `@user.confirmation_code` it always called the `confirmation_code` method which return a new confirmation code. I was thinking for a long time that it returned the attribute and was wondering what's going on. A couple of [pry](http://pryrepl.org "pry") sessions showed me nothing since my expectation was.
 
-Lesson learned: Breaks are great!
+After I went to the toilet I started another pry session and out of sudden I discovered my naming problem. Lesson learned: Breaks are great!
 
 \end{aside}
 
