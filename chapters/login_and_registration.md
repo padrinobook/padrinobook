@@ -1385,7 +1385,7 @@ end
 ```
 
 
-### Registration and Confirmation e-mails
+### Registration and Confirmation Emails
 
 The code is working but we have flaws in our design:
 
@@ -1407,7 +1407,7 @@ The Observer pattern decouples event producers from event consumers but tightly 
 it hard to test them and you always have to take them with you.  Besides they add a kind of hidden magic to your code,
 you may forget when you that they are always around you. Better way is to make those calls explicit in your controller.
 That where **Plain Old Ruby Objects** ([PORO](http://blog.steveklabnik.com/posts/2011-09-06-the-secret-to-rails-oo-design "PORO"))
-jump in. They make magic calls explicit and are easier to test.
+jump in. They make magic calls explicit, are easier to test, and reusable.
 \end{aside}
 
 
@@ -1445,7 +1445,7 @@ end
 ```
 
 
-And refactor the code above into our `UserCompletion` class:
+And refactor the code above into the `UserCompletion` class:
 
 
 ```ruby
@@ -1462,12 +1462,12 @@ class UserCompletion
   end
 
   def send_registration_mail
-    self.app.deliver(:registration, :registration_email, self.user.name,
-      self.user.email)
+    app.deliver(:registration, :registration_email, user.name,
+      user.email)
   end
 
   def send_confirmation_mail
-    self.app.deliver(:confirmation, :confirmation_email, user.name,
+    app.deliver(:confirmation, :confirmation_email, user.name,
       user.email,
       user.id,
       user.confirmation_code)
@@ -1475,8 +1475,8 @@ class UserCompletion
 
   def encrypt_confirmation_code
     salt = BCrypt::Engine.generate_salt
-    confirmation_code = BCrypt::Engine.hash_secret(self.user.password, salt)
-    self.user.confirmation_code = normalize(confirmation_code)
+    confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
+    user.confirmation_code = normalize(confirmation_code)
   end
 
   private
