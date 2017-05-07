@@ -1144,6 +1144,7 @@ class User < ActiveRecord::Base
     :if => :registered? # our callback with if condition
 
   private
+
   def encrypt_confirmation_code
     self.confirmation_code = set_confirmation_code
   end
@@ -1226,10 +1227,11 @@ Before going on we need to update our `factory` for the test with the confirmati
 # spec/factories.rb
 
 # encoding: utf-8
+
 FactoryGirl.define do
   ...
-  sequence(:confirmation_code){ "1" }
-  sequence(:id){ |n| n }
+  sequence(:confirmation_code) { '1' }
+  sequence(:id) { |n| n }
 
   factory :user do
     id
@@ -1243,7 +1245,7 @@ end
 ```
 
 
-We are making the `confirmation_code` with the value of 1 static because it for the tests.  Here is now the code that makes our tests green:
+The value for the `confirmation_code` is always 1 which makes our tests easier. Here is the code that makes our tests green:
 
 
 ```ruby
@@ -1272,7 +1274,7 @@ Since our tests of our user model are now green, let's write tests for our `/con
 
 
 ```ruby
-# spec/app/controllers/users_controller.rb
+# spec/app/controllers/users_controller_spec.rb
 
 describe "GET confirm" do
   let(:user) { build(:user) }
@@ -1284,15 +1286,13 @@ describe "GET confirm" do
     expect(last_response).to be_ok
   end
 
-
-  it "redirect to :confirm if user id is wrong" do
+  it 'redirect to :confirm if user id is wrong' do
     get "/confirm/test/#{user.confirmation_code.to_s}"
     expect(last_response).to be_redirect
   end
 
-
-  it "redirect to :confirm if user id is wrong" do
-    get "/confirm/test/#{user.confirmation_code.to_s}"
+  it 'redirect to :confirm if confirmation id is wrong' do
+    get "/confirm/#{user.id}/test"
     expect(last_response).to be_redirect
   end
 end
