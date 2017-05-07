@@ -625,7 +625,7 @@ Prior Padrino *0.10.7* the `enable_starttls_auto: true` was changeable. This is 
 
 #### Quick Mail Usage
 
-To send a first simple "Hallo" message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb#L26 "email block") directly in our user controller:
+To send a first simple 'Hello' message we create an [email block](https://github.com/padrino/padrino-framework/blob/master/padrino-mailer/lib/padrino-mailer/base.rb#L26 "email block") directly in our user controller:
 
 
 ```ruby
@@ -637,10 +637,10 @@ JobVacancy::App.controllers :users do
     @user = User.new(params[:user])
     if @user.save
       email do
-        from "admin@job-vacancy.de"
-        to "lordmatze@gmail.com"
-        subject "Welcome!"
-        body "hallo"
+        from 'admin@job-vacancy.de'
+        to 'lordmatze@gmail.com'
+        subject 'Welcome!'
+        body 'Hello'
       end
       redirect('/')
     else
@@ -705,8 +705,7 @@ JobVacancy:App.mailer :registration do
 end
 ```
 
-
-The generated comment `# Your mailer goes here` says what you have to do. Let's remove the code from our `users` controller and move it to this place.
+Let's fill the `# Your mailer goes here` with our code from the `users`controller:
 
 
 ```ruby
@@ -717,7 +716,7 @@ JobVacancy::App.mailer :registration do
     from 'admin@job-vacancy.de'
     to 'lordmatze@gmail.com'
     subject 'Welcome!'
-    body 'Hallo'
+    body 'Hello'
   end
 end
 ```
@@ -753,7 +752,7 @@ If you want to use very simple mails in your application, prefer to use the `ema
 \end{aside}
 
 
-Instead of writing only a simple "Hallo" in our email we would like to give more input. First we need to write an template and then use the `render` method in our registration mailer. Let's define the registration template:
+Instead of writing only a simple 'Hello' in our email we would like to give more input. First we need to write an template and then use the `render` method in our registration mailer. Let's define the registration template:
 
 
 ```erb
