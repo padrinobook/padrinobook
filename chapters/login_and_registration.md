@@ -1314,7 +1314,8 @@ end
 
 ### Mailer Template for Confirmation Email
 
-If we are lazy we could add our confirmation email into the registration mailer. These are two things that have nothing to do with each other, let's create another mailer:
+We could be lazy by adding our confirmation email into the registration mailer. But they have nothing to-do with each
+other so let's create a mailer for this purpose:
 
 
 ```sh
@@ -1331,15 +1332,15 @@ Now fill out the confirmation mailer:
 # app/mailers/confirmation.rb
 
 JobVacancy::App.mailer :confirmation do
-  CONFIRMATION_URL = "http://localhost:3000/confirm"
+  CONFIRMATION_URL = 'http://localhost:3000/confirm'.freeze
 
   email :confirmation_email do |name, email, id, link|
-    from "admin@job-vacancy.de"
-    subject "Please confirm your account"
+    from 'admin@job-vacancy.de'
+    subject 'Please confirm your account'
     to email
-    locals :name => name, :confirmation_link =>
+    locals name: name, confirmation_link:
       "#{CONFIRMATION_URL}/#{id}/#{link}"
-    render 'confirmation_email'
+    render 'configuration/confirmation_email'
   end
 end
 ```
@@ -1361,7 +1362,7 @@ Enjoy the possibility to find the right people for your jobs.
 ```
 
 
-And call this method to our users controller:
+And call this `confirmation_email` in our users controller:
 
 
 ```ruby
