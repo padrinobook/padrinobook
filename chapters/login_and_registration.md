@@ -929,9 +929,9 @@ Check that the user actually signed up for the account and actually wants it. Th
 \end{aside}
 
 
-### Add Confirmation Code and Confirmation Attributes for the User Model
+#### Add Confirmation Code and Confirmation Attributes to the User Model
 
-Create a good migration which fits to the task we want to do:
+Create a migration and add the fields to the file:
 
 
 ```sh
@@ -942,23 +942,20 @@ $ padrino-gen migration AddConfirmationCodeAndConfirmationToUsers
 ```
 
 
-Now let's add the fields to a migration:
-
-
 ```ruby
 # db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
 
-class addconfirmationcodeandconfirmationtousers < activerecord::migration
+class AddConfirmationCodeAndConfirmationToUsers < ActiveRecord::Migration
   def self.up
     change_table :users do |t|
       t.string :confirmation_code
-      t.boolean :confirmation, default => false
+      t.boolean :confirmation, default: false
     end
   end
 
   def self.down
-    change_table :users do
-      remove_column :confirmation_code, :confirmation
+    change_table :users do |t|
+      t.remove_column :confirmation_code, :confirmation
     end
   end
 end
