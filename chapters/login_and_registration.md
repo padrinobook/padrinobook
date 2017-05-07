@@ -767,7 +767,7 @@ Your Job Vacancy!
 ```
 
 
-And now we make sure that we are rendering this template in our registration mailer:
+Now we need to make sure that we are rendering the `registration_email` template our registration mailer:
 
 
 ```ruby
