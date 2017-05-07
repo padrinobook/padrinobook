@@ -788,7 +788,7 @@ end
 If you are sure that you only want to send plain text mail, you can leave the `plain` extension away but making it explicit will make it clear what you want to do.
 
 
-To make our email more personal we want to add the name of our freshly registered user to our email template. In order to do this we need to use enable the `locals` option.
+To make our mail more personal we want mention the name of the fresh registered in the registration email as well as sent it to the right user. First we need to pass the `name` and `email` to our mail block and pass the name to the template via the `locals` option:
 
 
 ```ruby
@@ -807,7 +807,7 @@ end
 ```
 
 
-This options enables a hash which we be used in the email template. Now we need to pass the name to the call of our method in our `users` controller:
+The `locals` options provides us a hash in the email template. All we need now it to pass the `name` and the `email` to our `:create` action in the `users` controller:
 
 
 ```ruby
@@ -818,7 +818,7 @@ post :create do
   @user = User.new(params[:user])
 
   if @user.save
-    deliver(:registration, :registration_email, @user.name)
+    deliver(:registration, :registration_email, @user.name, @user.email)
     redirect('/')
   else
     render 'new'
