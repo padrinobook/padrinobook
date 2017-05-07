@@ -1057,7 +1057,7 @@ The line size of our tests will remain the same - you only have to write more ch
 Even if this will be the first application you write, when you've learned something new and this will make your life easier, go back and take your time to enhance the style and design of your application.
 
 
-### Controller Method and Action For Password Confirmation
+#### Controller Method and Action For Password Confirmation
 \label{sec:controller_method_and_action_for_password_confirmation}
 
 When we are going to register a new user, we need to create a confirmation code like in the example above. Since this is business logic, we will put this method inside our users model. First we will write a failing test:
@@ -1069,11 +1069,11 @@ When we are going to register a new user, we need to create a confirmation code 
 
 
   describe "confirmation code" do
-    let(:user_confirmation) { build(:user) }
+    let(:confirmation_user) { build(:user) }
 
     it 'should not be blank' do
-      user_confirmation.confirmation_code = ""
-      expect(user_confirmation.valid?).to be_falsey
+      confirmation_user.confirmation_code = ""
+      expect(confirmation_user.valid?).to be_falsey
     end
   end
 ...
@@ -1088,7 +1088,7 @@ To make this test pass we add the validates presence of ability in our user mode
 
 class User < ActiveRecord::Base
   ...
-  validates :confirmation_code, :presence => true
+  validates :confirmation_code, presence: true
   ...
 end
 ```
