@@ -1094,7 +1094,7 @@ end
 ```
 
 
-Next we need think of how we can set the `confirmation_code` information to our freshly created user. Instead of creating a confirmation code on our own, we want to encrypt the password by some mechanism. Luckily, we can use [bcrypt](https://github.com/codahale/bcrypt-ruby "bcrypt gem") to create our confirmation code. It is a Ruby binding for the [OpenBSD bcrypt](http://en.wikipedia.org/wiki/OpenBSD_security_features "OpenBSD bcrypt") password hashing algorithm. In order to use this in our app we need to add it to our `Gemfile`:
+Next we need think of how we can set the `confirmation_code` information to our freshly created user. Instead of creating a confirmation code on our own, we want to encrypt the password by some mechanism. Luckily, we can use [bcrypt-ruby](https://github.com/codahale/bcrypt-ruby "bcrypt-ruby gem") to create our confirmation code. It is a Ruby binding for the [OpenBSD bcrypt](https://en.wikipedia.org/wiki/OpenBSD_security_features "OpenBSD bcrypt") password hashing algorithm. In order to use this in our app we need to add it to our `Gemfile`:
 
 
 ```ruby
@@ -1102,7 +1102,7 @@ Next we need think of how we can set the `confirmation_code` information to our 
 ...
 
 # Security
-gem 'bcrypt-ruby', '~> 3.1', :require => 'bcrypt'
+gem 'bcrypt-ruby', '~> 3.1.5', require: 'bcrypt'
 ```
 
 
@@ -1111,21 +1111,22 @@ Now let's open the console and play around with this Gem:
 
 ```sh
 $ padrino c
-  => Loading development console (Padrino v.0.12.5)
-  => Loading Application JobVacancy
-  >> password = "Test11111134543"
-  => "Test11111134543"
+  ...
+  >> password = "Test123"
+  => "Test123"
   >> salt = "$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW"
   => "$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW"
   >> BCrypt::Engine.hash_secret(password, salt)
-  => "$2a$05$CCCCCCCCCCCCCCCCCCCCC.9APD.dklRtXYdki/E3XrHiCWd/rfAFu"
+  => "$2a$05$CCCCCCCCCCCCCCCCCCCCC.R0E8oIJQ4Okva8QVfxJ3FY3GZ7x/O.6"
 ```
 
 
 \begin{aside}
 \heading{What is a Salt?}
 
-Salts are used in cryptography as random data to be put as addition to normal password to create a encrypted with the help of a one-way function. A one-way function output by some input string very easily but the other way round is very difficult for the computer to compute the original string from the output.  Salts make it more difficult for hackers to get the password via rainbow tables attacks. Rainbow tables are a huge list of precomputed hashes for widely used password. If a hacker gets access to a password hash he then compare this hash with the entries. If he finds after which he was searching he got the password for the user.
+Salts are used in cryptography as random data to be put as addition to normal password to create an encrypted hash with the help of a **one-way function**. A one-way function output by some input string very easily but the other way round is very difficult for the computer to compute the original string from the output.
+
+Salts make it more difficult for hackers to get the password via **rainbow tables** attacks. Rainbow tables are a huge list of precomputed hashes for widely used password. If a hacker gets access to a password hash he then compare this hash with the entries. If he finds after which he was searching he got the password for the user.
 
 \end{aside}
 
