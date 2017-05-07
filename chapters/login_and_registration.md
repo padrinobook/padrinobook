@@ -913,19 +913,18 @@ The goal of the MIME definition was that existing email servers had nothing to c
 The basic steps for implementing the logic of email confirmation are the following:
 
 
-- We need to add the *confirmation_code* and *confirmation* attributes in our user model.
-- Create a controller method for our user model that expects a user id and confirmation code, looks up the user, checks the code in the parameter matches the code saved in our database and clears the code after confirmation.
-- Create an action that maps to our new controller method (e.g. `/confirm/<user-id>/<code>`).
-- Create an mailer template which takes the user as a parameter and use the *confirmation code* of the user to send a mail containing a link to the new route in our controller.
-- If the email of the user needs to be modified or a new User record is created we need to create a confirmation code, set it in the model and clear the confirmation flag
-- Create a helper method which allows views to check if the current user is confirmed.
-- Protect our controller methods and views to prevent security issues.
+- Add the `confirmation_code` and `confirmation` attributes in our user model.
+- Create a controller method for our user model that expects a user id and `confirmation_code`, looks up the user, checks if the submitted `confirmation_code` exists in our database, and clears the code after confirmation so that it is valid only one time.
+- Add a route that maps to our new controller method (e.g. `/confirm/<user-id>/<code>`).
+- Create a mailer template which takes the user as a parameter and use the *confirmation code* of the user to send a mail containing a link to the new confirmation route.
+- Protect our controller methods and views to prevent security issues with a helper method to check if the current user
+  is confirmed.
 
 
 \begin{aside}
 \heading{Why Confirmation Mail?}
 
-Check that the user actually signed up for the account and actually wants it. This also helps you from spamming your platform is going to be floated with billions of users. Another usage of this information is to give your users a chance to change their password and/or stay in contact with them to inform them about updates.
+Check that the user actually signed up for the account and actually wants it. This also helps you from spamming your platform with unwanted users. Another usage of this information is to give your users a chance to change their password and/or stay in contact with them to inform them about updates.
 
 \end{aside}
 
