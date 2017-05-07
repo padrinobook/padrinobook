@@ -827,7 +827,9 @@ end
 ```
 
 
-Next we want to add a PDF which explains the main business needs to our page. For this purpose we create add the `welcome.pdf` into the `/app/assets/pdf` folder. We can attach files (images, PDF, video) with the [add_file method](https://github.com/mikel/mail/blob/master/lib/mail/message.rb "add file method of action mailer") which takes a filename and the content as hash elements as arguments.
+Now we want to add a PDF which explains the main business needs to our page. For this purpose we will save the `welcome.pdf` into the `/app/assets/pdf` folder.
+
+To attach assets (images, PDF, video) into our mail we can make use of the [add_file](https://github.com/mikel/mail/blob/master/lib/mail/message.rb#L1774 "add_file method of the mailer gem") method. It takes a filename and the content as hash elements as arguments.
 
 
 ```ruby
@@ -840,8 +842,8 @@ email :registration_email do |name, email|
   subject "Welcome!"
   locals :name => name, :email=> email
   render 'registration_email'
-  add_file :filename => 'welcome.pdf', :content =>
-    File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |f| f.read }
+  add_file filename: 'welcome.pdf', content:
+    File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |file| file.read }
 end
 ```
 
