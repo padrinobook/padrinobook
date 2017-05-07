@@ -840,7 +840,7 @@ email :registration_email do |name, email|
   from "admin@job-vacancy.de"
   to email
   subject "Welcome!"
-  locals :name => name, :email=> email
+  locals name: name, email: email
   render 'registration_email'
   add_file filename: 'welcome.pdf', content:
     File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |file| file.read }
@@ -848,7 +848,7 @@ end
 ```
 
 
-During writing this chapter I experiment with the `content_type` option. If you set the `content_type` to plain you will get the attachment based as binary code directly into your mail. Please put the `content_type :plain` into the `registration` mailer. If the mail will be send you can see something like this in your logs:
+If the mail will be send you can see something like this in your logs:
 
 
 ```text
@@ -901,7 +901,9 @@ bHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nDPQM1Qo5ypUMABCM0MjBXNL
 \begin{aside}
 \heading{MIME?}
 
-MIME stands for "Multipurpose Internet Mail Extensions" and they specify additional attributes to email headers like the content type and define transfer encodings which can be used to present a higher encoded file (e.g. 8-bit) with the 7-bit ASCII character set. This makes it possible to put non-English characters in the message header like the subject. The goal of the MIME definition was that existing email servers had nothing to change in order to use MIME types. This means that MIME headers are optional for plain text emails and even none MIME messages can be read correctly by a clients being able to read MIME encoded messages.
+MIME stands for "Multipurpose Internet Mail Extensions" and they specify additional attributes to email headers like the content type and defines transfer encodings which can be used to present a higher encoded file (e.g. 8-bit) with the 7-bit ASCII character set. This makes it possible to put non-English characters in the message header.
+
+The goal of the MIME definition was that existing email servers had nothing to change in order to use MIME types. This means that MIME headers are optional for plain text emails and even none MIME messages can be read correctly by a clients being able to read MIME encoded messages.
 
 \end{aside}
 
