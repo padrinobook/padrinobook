@@ -1596,16 +1596,19 @@ RSpec.describe "UsersController" do
 
     it 'redirects to home if user can be saved' do
       expect(user).to receive(:save).and_return(true)
-      expect(UserCompletion).to receive(:new).with(user).and_return(@completion_user)
+      expect(UserCompletion).to receive(:new).with(user)
+        .and_return(@completion_user)
       expect(@completion_user).to receive(:send_registration_mail)
       expect(@completion_user).to receive(:send_confirmation_mail)
       post "/users/create"
       expect(last_response).to be_redirect
-      expect(last_response.body).to eq "You have been registered. Please confirm with the mail we've send you recently."
+      expect(last_response.body).to eq "You have been registered.
+        Please confirm with the mail we've send you recently."
     end
 
     it 'renders registration page if user cannot be saved' do
-      expect(UserCompletion).to receive(:new).with(user).and_return(@completion_user)
+      expect(UserCompletion).to receive(:new).with(user).
+        and_return(@completion_user)
       expect(user).to receive(:save).and_return(false)
       post "/users/create"
       expect(last_response).to be_ok
