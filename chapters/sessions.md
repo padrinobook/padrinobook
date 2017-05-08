@@ -1,6 +1,7 @@
 ## Sessions
 
-Now that our users have the possibility to register and confirm on our page, we need to make it possible for our users to sign in. For handling login, we need to create a session controller:
+It is now possible for our user to register and confirm their registration. In order to handle login we will create a
+session controller:
 
 
 ```sh
