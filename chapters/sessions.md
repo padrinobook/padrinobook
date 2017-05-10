@@ -81,7 +81,10 @@ end
 \begin{aside}
 \heading{Test-First development}
 
-Is a term from [Extreme Programming (XP)](http://en.wikipedia.org/wiki/Extreme_programming "Extreme Programming (XP)") and means that you first write down your tests before writing any code to solve it. This forces you to really think about what you are going to do. These tests prevent you from over engineering a problem because you have to make these tests green.
+The term comes from [Extreme Programming (XP)](https://en.wikipedia.org/wiki/Extreme_programming "Extreme Programming (XP)") and means that you first write down your tests before writing any implementation code. This forces you to really think about what you are going to do.
+There is the hypotheses relating to code quality and a more direct correlation between TDD and productivity were inconclusive.
+
+The tests prevent you from over engineering a problem because you have to make these tests green.
 
 \end{aside}
 
