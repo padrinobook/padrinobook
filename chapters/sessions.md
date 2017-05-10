@@ -16,7 +16,7 @@ $ padrino-gen controller Sessions new create destroy
 ```
 
 
-We made a mistake during the generation - we forget to add the right action for our request. Before making the mistake to delete the generated files by hand with a couple of `rm's`, you can run a generator to destroy a controller:
+We made a mistake during the generation - we forget to add the right actions. Of course we could delete the generated files by hand with a couple of `rm's`, but there is a more elegant way to destroy a controller:
 
 
 ```sh
@@ -39,7 +39,7 @@ $ padrino-gen controller Sessions get:new post:create get:destroy
 ```
 
 
-Our session controller is naked:
+Our session controller will look like:
 
 
 ```ruby
