@@ -305,12 +305,12 @@ JobVacancy::App.helpers do
     @current_user = user
   end
 
-  def current_user
-    @current_user ||= User.find_by_id(session[:current_user])
-  end
-
   def current_user?(user)
     user == current_user
+  end
+
+  def current_user
+    @current_user ||= User.find_by_id(session[:current_user])
   end
 
   def sign_in(user)
@@ -334,9 +334,9 @@ There's a lot of stuff going on in this helper:
 
 - `current_user`: Uses the `||=` notation. If the left hand-side isn't initialized, initialize the left hand-side with the right hand-side.
 - `current_user?`: Checks if the passed in user is the currently logged in user.
-- `sign_in`: Uses the global [session](http://www.sinatrarb.com/faq.html#sessions "Sinatra session") method use the user Id as login information
+- `sign_in`: Uses the global [session](http://www.sinatrarb.com/faq.html#sessions "Sinatra session") method use the user-id as login information
 - `sign_out`: Purges the `:current_user` field from our session.
-- `signed_in?`: We will use this small method within our whole application to display special actions which should only be available for authenticated users.
+- `signed_in?`: We will use application to display special actions which should only be available for authenticated users.
 
 
 \begin{aside}
@@ -345,10 +345,13 @@ There's a lot of stuff going on in this helper:
 When you request an URL in your browser, you are using the HTTP/HTTPS protocol. This protocol is stateless that means that it doesn't save the state in which you are in your application. Web applications implement states with one of the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g. <http://localhost:3000/login?user=test&password=test>).
 
 
-We are going to use cookies to save if a user is logged in and saving the user-Id in our session cookies under the `current_user` key.
+We are going to use cookies to save if a user is logged in and saving the user-id in our session cookies under the `:current_user` key.
 
 
-What the delete method does is the following: It will look into the last request in your application inside the session information hash and delete the `current_user` key. If you want to explore more of the internal of an application I highly recommend you [Pry](https://github.com/pry/pry "Pry"). You can throw in at any part of your application `binding.pry` and have full access to all variables.
+The delete method does the following: It will look into the last request in your application inside the session information hash and delete the `:current_user` key.
+
+If you want to explore more of the internal of an application I highly recommend you [pry gem](https://github.com/pry/pry "pry"). You can throw in at any part of your application `binding.pry` and have full access to all variables.
+
 \end{aside}
 
 
