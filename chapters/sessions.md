@@ -107,42 +107,42 @@ RSpec.describe "SessionsController" do
   end
 
   describe "POST :create" do
-    let(:user) { build(:user)}
-    let(:params) { attributes_for(:user)}
+    let(:user) { build_stubbed(:user) }
+    let(:params) { attributes_for(:user) }
 
-    it "stay on page if user is not found" do
-      expect(User).to receive(:find_by_email).and_return(false)
+    it 'stays on login page if user is not found' do
+      expect(User).to receive(:find_by_email) { false }
       post 'sessions/create'
       expect(last_response).to be_ok
     end
 
-    it "stay on login page if user is not confirmed" do
+    it 'stays on login page if user is not confirmed' do
       user.confirmation = false
-      expect(User).to receive(:find_by_email).and_return(user)
+      expect(User).to receive(:find_by_email) { user }
       post 'sessions/create'
       expect(last_response).to be_ok
     end
 
-    it "stay on login page if user has wrong password" do
+    it 'stays on login page if user has wrong password' do
       user.confirmation = true
-      user.password = "fake"
-      expect(User).to receive(:find_by_email).and_return(user)
-      post 'sessions/create', {:password => 'correct'}
+      user.password = 'correct'
+      expect(User).to receive(:find_by_email) { user }
+      post 'sessions/create', password: 'wrong'
       expect(last_response).to be_ok
     end
 
-    it "redirects to home for confirmed user and correct password" do
+    it 'redirects to home for confirmed user and correct password' do
       user.confirmation = true
-      user.password = 'real'
-      expect(User).to receive(:find_by_email).and_return(user)
-      post 'sessions/create', {:password => 'real', :remember_me => false}
+      user.password = 'correct'
+      expect(User).to receive(:find_by_email) { user }
+      post 'sessions/create', password: 'correct', remember_me: false
       expect(last_response).to be_redirect
     end
   end
 
   describe "GET /logout" do
     xit 'empty the current session'
-    xit 'redirect to homepage if user is logging out'
+    xit 'redirects to homepage if user is logged out'
   end
 end
 ```
@@ -151,8 +151,7 @@ end
 We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/docs "method stubs")[^mocking-is-easy] to make test what we want with the `expect(User).to receive(:find_by_email).and_return(false)`[^mock-and-return-false] method.  So we stimulate the actual application call `find_by_email` in our application and preventing our tests from hitting the database and making it faster. Beside we are using [xit](https://relishapp.com/rspec/rspec-core/v/3-6/docs/pending-and-skipped-examples/skip-examples#temporarily-skipping-by-prefixing-`it`,-`specify`,-or-`example`-with-an-x "xit") to temporarily disable tests.
 
 [^mocking-is-easy]: At first I was thinking at that mocking is something very difficult. Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return false.
-[^mock-and-return-false]: Instead of writing `and_return(object)` you can also write the shortcut `{object}` which will
-  I use in the next spec files
+[^mock-and-return-false]: Instead of writing `and_return(object)` you can also write the shortcut `{object}` which will I use in the next spec files
 
 Here is the code for our session controller to make the test "green":
 
@@ -209,25 +208,16 @@ SessionsController
   GET /login
     load the login page
   POST :create
-    stay on page if user is not found (FAILED - 1)
-    stay on login page if user is not confirmed (FAILED - 2)
-    stay on login page if user has wrong password (FAILED - 3)
+    stays on login page if user is not found (FAILED - 1)
+    stays on login page if user is not confirmed (FAILED - 2)
+    stays on login page if user has wrong password (FAILED - 3)
     redirects to home for confirmed user and correct password (FAILED - 4)
-    redirect if user is correct and has remember_me (FAILED - 5)
   GET /logout
     empty the current session (PENDING: Temporarily skipped with xit)
-    redirect to homepage if user is logging out (PENDING: Temporarily skipped with xit)
+    redirects to homepage if user is logged out (PENDING: Temporarily skipped with xit)
 
 Pending: (Failures listed here are expected and do not affect your suite's status)
-
-  1) SessionsController GET /logout empty the current session
-     # Temporarily skipped with xit
-     # ./spec/app/controllers/sessions_controller_spec.rb:66
-
-  2) SessionsController GET /logout redirect to homepage if user is logging out
-     # Temporarily skipped with xit
-     # ./spec/app/controllers/sessions_controller_spec.rb:71
-
+    ...
 
 Failures:
 
@@ -263,19 +253,7 @@ Failures:
 
 Finished in 0.38537 seconds (files took 0.74964 seconds to load)
 8 examples, 5 failures, 2 pending
-
-Failed examples:
-
-rspec ./spec/app/controllers/sessions_controller_spec.rb:15 # SessionsController
-  # POST :create stay on page if user is not found
-rspec ./spec/app/controllers/sessions_controller_spec.rb:21 # SessionsController
-  # POST :create stay on login page if user is not confirmed
-rspec ./spec/app/controllers/sessions_controller_spec.rb:28 # SessionsController
-  # POST :create stay on login page if user has wrong password
-rspec ./spec/app/controllers/sessions_controller_spec.rb:36 # SessionsController
-  # POST :create redirects to home for confirmed user and correct password
-rspec ./spec/app/controllers/sessions_controller_spec.rb:44 # SessionsController
-  # POST :create redirect if user is correct and has remember_me
+...
 ```
 
 
