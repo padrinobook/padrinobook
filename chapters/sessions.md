@@ -148,7 +148,7 @@ end
 ```
 
 
-We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/docs "method stubs")[^mocking-is-easy] to make test what we want with the `expect(User).to receive(:find_by_email).and_return(false)`[^mock-and-return-false] method.  So we stimulate the actual application call `find_by_email` in our application and preventing our tests from hitting the database and making it faster. Beside we are using [xit](https://www.relishapp.com/rspec/rspec-core/v/2-4/docs/pending/pending-examples#temporarily-pending-by-changing-%22it%22-to-%22xit%22 "xit") to temporarily disable tests.
+We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/docs "method stubs")[^mocking-is-easy] to make test what we want with the `expect(User).to receive(:find_by_email).and_return(false)`[^mock-and-return-false] method.  So we stimulate the actual application call `find_by_email` in our application and preventing our tests from hitting the database and making it faster. Beside we are using [xit](https://relishapp.com/rspec/rspec-core/v/3-6/docs/pending-and-skipped-examples/skip-examples#temporarily-skipping-by-prefixing-`it`,-`specify`,-or-`example`-with-an-x "xit") to temporarily disable tests.
 
 [^mocking-is-easy]: At first I was thinking at that mocking is something very difficult. Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return false.
 [^mock-and-return-false]: Instead of writing `and_return(object)` you can also write the shortcut `{object}` which will
