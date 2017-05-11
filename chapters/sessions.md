@@ -182,7 +182,8 @@ end
 ```
 
 
-When I started the tests I got some weird error messages of calling a method `user.save` on a nil object and spend one hour till I found the issue. Do you remember the `UserObserver`? Exactly, this tiny piece of code is also activated for our tests and since we disable sending mails with the `set :delivery_method, :test` settings in `app.rb` I never received an mails. The simple to this problem was to add an option to in the `spec_helper.rb` to disable the observers:
+When I started the tests I got some weird error messages of calling a method `user.save` on a nil object when I started writing the test.
+Do you remember the `UserObserver`? Exactly, this tiny piece of code is also activated for our tests and since we disable sending mails with the `set :delivery_method, :test` settings in `app.rb` I never received an mails. The solution to this problem was to add an option to in the `spec_helper.rb` to disable the observers:
 
 
 ```ruby
