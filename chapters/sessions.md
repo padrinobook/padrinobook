@@ -258,7 +258,7 @@ Finished in 0.38537 seconds (files took 0.74964 seconds to load)
 ```
 
 
-The part of the tests with `POST :create.to be_ok` are failing because of [Padrinos csrf token](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/FormHelpers/Security "Padrinos csrf token"). To make the tests running, you need to disable them for the test environment:
+The part of the tests with `POST :create.to be_ok` are failing because of [Padrinos csrf token](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FHelpers%2FFormHelpers%2FSecurity:csrf_token_field "Padrinos csrf token"). To make the tests running, you need to disable them for the test environment:
 
 
 ```ruby
