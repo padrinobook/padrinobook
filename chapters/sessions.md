@@ -421,7 +421,7 @@ end
 ```
 
 
-Where can we test now our logic? The main application layout of our application should have a "Login" and "Logout" link according to the status of the user:
+How can we test now our logic in the view? The main application layout should have a "Login" and "Logout" link according to the status of the user:
 
 
 ```erb
@@ -478,9 +478,11 @@ New on this platform? <%= link_to 'Register', url(:users, :new) %>
 
 
 \begin{aside}
-\heading{No hard coded urls for controller routes}
+\heading{No hard coded URLs for controller routes}
 
-The line above with `<% form_tag '/sessions/create' do %>` is not a good solution. If you are changing the mapping inside the controller, you have to change all the hard coded paths manually. A better approach is to reference the controller and action within the `url` method with `url(:sessions, :create)`. Try it out and see if it's working.
+The line above with `<% form_tag '/sessions/create' do %>` is not a good solution. If you are changing the mapping inside the controller, you have to change all the hard coded paths manually.
+
+A better approach is to reference the controller and action within the `url` method with `url(:sessions, :create)`. Try it out!
 \end{aside}
 
 
