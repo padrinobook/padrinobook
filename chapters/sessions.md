@@ -588,11 +588,11 @@ JobVacancy::App.controllers :sessions do
     user = User.find_by_email(params[:email])
 
     if user && user.confirmation && user.password == params[:password]
-      flash[:notice] = "You have successfully logged out."
+      flash[:notice] = 'You have successfully logged out.'
       sign_in(user)
       redirect '/'
     else
-      render 'new', :locals => { :error => true }
+      render 'new', locals: { error: true }
     end
   end
   ...
@@ -600,7 +600,10 @@ end
 ```
 
 
-If you now login successfully you will see the message but it will stay there forever. But we don't want to have this message displayed the whole time, we will use jQuery's [fadeOut method](http://api.jquery.com/fadeOut "fadeOut method of jQuery") to get rid of the message. Since we are first writing our own customized JavaScript, let's create the inline with the following content:
+If you now login successfully you will see the message but it will not go away. We will use jQuery's [fadeOut method](http://api.jquery.com/fadeOut "fadeOut method of jQuery") to get rid of the message.
+
+
+This is the first time we writing our own customized JavaScript, let's create the inline with the following content:
 
 
 ```erb
