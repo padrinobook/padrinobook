@@ -541,7 +541,9 @@ New on this platform? <%= link_to 'Register', url(:users, :new) %>
 ```
 
 
-The last thing we want to is to give the user feedback about what the recently action. Like that it would be nice to give feedback of the success of the logged and logged out action. We can do this with short flash messages above our application which will fade away after a certain amount of time. To do this we can use Padrino's flash mechanism is build on [Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash "Rails flash message implementation").
+The last thing we want to is to give the user feedback about what the recently action. Like that it would be nice to give feedback of the success of the logged and logged out action. We can do this with short flash messages above our application which will fade away after a certain amount of time. To do this we can use [Padrino's flash mechanism](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Flash/Helpers#flash-instance_method "Padrino's flash mechanism")[^padrino-flash]
+
+[^padrino-flash]: It is s build on [Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash "Rails flash message implementation").
 
 
 And here is the implementation of the code:
@@ -561,7 +563,7 @@ And here is the implementation of the code:
   <div class="container">
     <% if !flash.empty? %>
       <div class="row" id="flash">
-      <% if flash.key[:notice] %>
+      <% if flash.key?(:notice) %>
         <div class="span9 offset3 alert alert-success">
           <%= flash[:notice] %>
         </div>
@@ -569,6 +571,7 @@ And here is the implementation of the code:
       </div>
     <% end %>
   </div>
+  ...
 </body>
 ```
 
