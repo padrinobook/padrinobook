@@ -491,7 +491,9 @@ Here we are using the [form_tag](http://padrinorb.com/guides/application-helpers
 We want to use the information of the session form to find a user in our database. We can use the submitted inputs with `params[:email]` and `params[:password]` in the `:create` action in our sessions controller.
 
 
-What is if the given parameters does not match? The basic idea is to pass a variable to the rendering of method which says if we have an error or not and display the message accordingly. To handle this we are using the `:locals` option to create customized params for your views:
+What is if the given parameters does not match? The basic idea is to pass a variable to the rendering of method which says if we have an error or not and display the message accordingly. To handle this we are using the `:locals` which allows us to use to create customized params in our views:
+Local variables accessible in the partial
+option to create customized params for your views:
 
 
 ```ruby
@@ -499,7 +501,7 @@ What is if the given parameters does not match? The basic idea is to pass a vari
 
 JobVacancy::App.controllers :sessions do
   get :new, :map => "/login" do
-    render 'new', :locals => { :error => false }
+    render 'new', locals: { error: false }
   end
 
   post :create do
@@ -509,7 +511,7 @@ JobVacancy::App.controllers :sessions do
       sign_in(@user)
       redirect '/'
     else
-      render 'new', :locals => { :error => true }
+      render 'new', locals: { error: true }
     end
   end
   ...
