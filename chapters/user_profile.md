@@ -99,10 +99,13 @@ end
 
 
 We don't want that everybody can edit the profile for other users. Before we are going to call these actions we set a
-[before route filter](http://www.padrinorb.com/guides/controllers#route-filters "before route filter"). They are
-evaluated before each requests within the context of the requests and it is possible to define variables, change the
-response and request. For the `get :edit` action we are using [namespaced route aliases](http://www.padrinorb.com/guides/controllers#namespaced-route-aliases "namespaced route aliases"). They have the advantage that you can refer to them with the `url_for` method - you can always reference to them and don't have change the actual string for the method.
+[route filter](http://padrinorb.com/guides/controllers/route-filters/ "before route filter")[^route-filter]. They are
+evaluated before each requests for the given actions.
 
+For the `get :edit` action we are using [namespaced route aliases](http://padrinorb.com/guides/controllers/routing/#namespaced-route-aliases
+ "namespaced route aliases"). They have the advantage that you can refer to them with the `url_for` method.
+
+[^route-filter]: It is possible to define variables, change the response, request, and so on.
 
 Let's write the tests for the `update` action:
 
