@@ -366,12 +366,12 @@ require 'spec_helper'
 describe "SessionsController" do
   ...
   describe "GET /logout" do
-    it "empty the current session" do
+    it 'empty the current session' do
       get '/logout'
       expect(last_request.env['rack.session'][:current_user]).to be_nil
     end
 
-    it "redirect to homepage if user is logging out" do
+    it 'redirect to homepage if user is logging out' do
       get '/logout'
       expect(last_response).to be_redirect
     end
@@ -383,7 +383,7 @@ end
 We use the [last_request method](https://github.com/brynary/rack-test/blob/master/lib/rack/mock_session.rb#L48 "last_request method") to access to [Rack's SessionHash](http://rubydoc.info/github/rack/rack/master/Rack/Session/Abstract/SessionHash "Rack's SessionHash") information.
 
 
-And finally the implementation of the code that it make our tests green:
+And finally the implementation of the code that make our tests green:
 
 
 ```ruby
@@ -393,14 +393,14 @@ JobVacancy::App.controllers :sessions do
   ...
   get :destroy, :map => '/logout' do
     sign_out
-    flash[:notice] = "You have successfully logged out."
+    flash[:notice] = 'You have successfully logged out.'
     redirect '/'
   end
 end
 ```
 
 
-What we forget due to this point is to make use of the `sign_in(user)` method. We need this during our session `:create` action:
+What we forget due to this point is to make use of the `sign_in(user)` method in our session `:create` action:
 
 
 ```ruby
