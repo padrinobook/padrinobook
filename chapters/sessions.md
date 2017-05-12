@@ -486,7 +486,12 @@ A better approach is to reference the controller and action within the `url` met
 \end{aside}
 
 
-Here we are using the [form_tag](http://www.padrinorb.com/guides/application-helpers#form-helpers "form_tag of Padrino") instead of the `form_for` tag because we don't want to render information about a certain model. We want to use the information of the session form to find a user in our database. We can use the submitted inputs with `params[:email]` and `params[:password]` in the `:create` action in our sessions controller. The basic idea is to pass a variable to the rendering of method which says if we have an error or not and display the message accordingly. To handle this we are using the `:locals` option to create customized params for your views:
+Here we are using the [form_tag](http://padrinorb.com/guides/application-helpers/form-helpers/#list-of-form-helpers "form_tag of Padrino") instead of the `form_for` tag because we don't want to render information about a certain model.
+
+We want to use the information of the session form to find a user in our database. We can use the submitted inputs with `params[:email]` and `params[:password]` in the `:create` action in our sessions controller.
+
+
+What is if the given parameters does not match? The basic idea is to pass a variable to the rendering of method which says if we have an error or not and display the message accordingly. To handle this we are using the `:locals` option to create customized params for your views:
 
 
 ```ruby
