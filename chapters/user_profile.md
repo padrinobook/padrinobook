@@ -117,47 +117,65 @@ Let's write the tests for the `update` action:
 describe "PUT /users/:id" do
   let(:user) { build(:user) }
   let(:user_second) { build(:user) }
+  let(:put_user) {
+    {'name' => user.name,
+     'email' => user.email,
+     'password' => user.password,
+     'password_confirmation' => user.password
+    }
+  }
 
-  it "redirects if user is not signed in", :current do
-    put "/users/1", {}, { 'rack.session' => { current_user: nil}}
-    expect(last_response).to be_redirect
-    expect(last_response.header['Location']).to include('/login')
+  describe "redirects to /login if" do
+    it 'user is not signed in' do
+      expect(User).to receive(:find_by_id).and_return(nil)
+      put '/users/1'
+      expect(last_response).to be_redirect
+      expect(last_response.header['Location']).to include('/login')
+    end
+
+    it "user is signed in and tries to call a different user" do
+      expect(User).to receive(:find_by_id).and_return(user, user_second)
+      put "/users/1"
+      expect(last_response).to be_redirect
+      expect(last_response.header['Location']).to include('/login')
+    end
   end
 
-  it "redirects if user is signed in and tries to call a different user" do
-    expect(User).to receive(:find_by_id).and_return(user, user_second)
-    put "/users/1"
-    expect(last_response).to be_redirect
-    expect(last_response.header['Location']).to include('/login')
-  end
+  describe "link to /edit" do
+    it 'if user has valid account changes' do
+      test_user = double(User, id: user.id)
+      expect(test_user).to receive(:update_attributes).with(put_user) { true }
+      expect(User).to receive(:find_by_id).and_return(test_user, test_user)
 
-  it "redirects to /edit if user has valid account changes" do
-    expect(User).to receive(:find_by_id).and_return(user, user, user)
-    put "/users/1"
-    expect(last_response).to be_redirect
-    expect(last_response.header['Location']).to include('/edit')
-  end
+      put "/users/#{user.id}", user: put_user
+      expect(last_response).to be_redirect
+      expect(last_response.body).to eq 'You have updated your profile.'
+      expect(last_response.header['Location']).to include('/edit')
+    end
 
-  it "redirects to /edit if user has valid account changes" do
-    expect(User).to receive(:find_by_id).and_return(user, user, user)
-    put "/users/1"
-    expect(last_response).to be_redirect
-    expect(last_response.body).to eq 'You have updated your profile.'
-    expect(last_response.header['Location']).to include('/edit')
-  end
+    it 'if user has not valid account changes' do
+      put_user =
+        {'name' => user.name,
+         'email' => user.email,
+         'password' => user.password,
+         'password_confirmation' => 'fake'
+        }
 
-  it "redirects to /edit if user has not valid account changes" do
-    user.password = 'real'
-    user.password_confirmation = 'fake'
-    expect(User).to receive(:find_by_id).and_return(user, user, user)
-    put "/users/1"
-    expect(last_response).to be_redirect
-    expect(last_response.body).to eq 'Your profile was not updated.'
-    expect(last_response.header['Location']).to include('/edit')
+      test_user = double(User, id: user.id)
+      expect(test_user).to receive(:update_attributes).with(put_user) { false }
+      expect(User).to receive(:find_by_id).and_return(test_user, test_user)
+
+      put "/users/#{user.id}", user: put_user
+      expect(last_response).to be_redirect
+      expect(last_response.body).to eq 'Your profile was not updated.'
+      expect(last_response.header['Location']).to include('/edit')
+    end
   end
 end
 ...
 ```
+
+Explain double (https://relishapp.com/rspec/rspec-mocks/v/3-6/docs/basics/test-doubles) and with in rspec
 
 
 And the implementation:
