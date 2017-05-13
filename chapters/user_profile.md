@@ -331,7 +331,7 @@ end
 Please not that we will not test the `current_user=(user)` method because it is a setter method.
 
 
-What we need to do now for our test is to to mock a request and set the user id of some of our test user in the session hash. To create a new session we will use [Rack::Test::Session](https://github.com/brynary/rack-test/blob/master/lib/rack/test.rb "Rack::Test::Session") and mock the `last_request` method call:
+What we need to do now for our test is to to mock a request and set the user id of some of our test user in the session hash. To create a new session we will use [Rack::Test::Session](https://github.com/rack-test/rack-test/blob/master/lib/rack/test.rb#L25 "Rack::Test::Session") and mock the `last_request` method call:
 
 
 ```ruby
