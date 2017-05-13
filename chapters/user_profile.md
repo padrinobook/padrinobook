@@ -202,7 +202,7 @@ end
 Please note that the [update_attributes](http://www.rubydoc.info/gems/activerecord/ActiveRecord%2FPersistence:update "update_attributes") method is making a [valid?](http://www.rubydoc.info/gems/activerecord/ActiveRecord%2FValidations:valid%3F  "valid?") method before the changes are saved.
 
 
-Making this test pass took me a while. The HTTP specification only understands `GET` and `POST` in the `<form>` method attribute. How can we solve this? We need to use a hidden form with the `put` method:
+Making the `update` pass in the view is a little bit tricky: The HTTP specification only understands `GET` and `POST` in the `<form>` method attribute. How can we solve this? We need to use a hidden form with the `put` method:
 
 
 ```erb
@@ -210,25 +210,23 @@ Making this test pass took me a while. The HTTP specification only understands `
 
 <h2>Edit your profile</h2>
 
-<% form_for @user, url(:users, :update, :id => @user.id), method: :put do |f| %>
+<% form_for @user, url(:users, :update, id: @user.id), method: :put do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %>
-  <%= error_message_on @user, :name, :class => "text-error",
-    :prepend => "The name " %>
+  <%= error_message_on @user, :name, class: "text-error", prepend: "The name " %>
 
   <%= f.label :email %>
   <%= f.text_field :email %>
-  <%= error_message_on @user, :email, :class => "text-error",
-    :prepend => "The email " %>
+  <%= error_message_on @user, :email, class: "text-error", prepend: "The email " %>
 
   <%= f.label :password %>
   <%= f.password_field :password %>
-  <%= error_message_on @user, :password, :class => "text-error",
-    :prepend => "The password "%>
+  <%= error_message_on @user, :password, class: "text-error",
+    prepend: "The password "%>
 
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %>
-  <%= error_message_on @user, :password_confirmation, :class => "text-error" %>
+  <%= error_message_on @user, :password_confirmation, class: "text-error" %>
 
   <p>
     <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
@@ -237,7 +235,7 @@ Making this test pass took me a while. The HTTP specification only understands `
 ```
 
 
-You can specify the [HTTP methods](http://www.w3schools.com/tags/ref_httpmethods.asp "HTTP methods") with `method: <action>`. So `method: :put` will be translated into:
+You can specify the [HTTP methods](https://www.w3schools.com/tags/ref_httpmethods.asp "HTTP methods") with `method: <action>`. So `method: :put` will be translated into:
 
 
 ```html
