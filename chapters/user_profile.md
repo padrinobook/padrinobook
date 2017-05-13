@@ -247,74 +247,42 @@ You can specify the [HTTP methods](https://www.w3schools.com/tags/ref_httpmethod
 \label{sec:authorization}
 
 The controller actions are ready and we used many method from the `session_helper.rb`. Before we add now the action for
-signup and registration to the view, it's time to test the helper. A normal helper does look like the following:
+signup and registration to the view, it's time to test the helper from "Sessions" section ~\ref{sec:sessions}.
 
 
-```ruby
-# app/helpers/page_helper.rb
-
-JobVacancy::App.helpers do
-end
-```
-
-
-This syntax is a shortcut for:
-
-
-```ruby
-helpers = Module.new do
-end
-
-JobVacancy::App.helpers helpers
-```
-
-
-The helpers are an anonymous module and its hard to reference something that is anonymous. The solution is to make the module explicit. This is something I learned from [Florian](https://twitter.com/Argorak "Florian Gilcher") in his [comment on GitHub](https://github.com/padrino/padrino-framework/issues/930#issuecomment-8448579 "comment on GitHub"). Let's transform the `spec_helper.rb` into this new form:
+Our generated helper spec has the following structure:
 
 
 ```ruby
 # app/helpers/sessions_helper.rb
 
-module SessionsHelper
-  def current_user=(user)
-    @current_user = user
-  end
+require 'spec_helper'
 
-  def current_user
-    @current_user ||= User.find_by_id(session[:current_user])
-  end
+RSpec.describe "JobVacancy::App::SessionsHelper" do
+  pending "add some examples to (or delete) #{__FILE__}" do
+    let(:helpers){ Class.new }
+    before { helpers.extend JobVacancy::App::SessionsHelper }
+    subject { helpers }
 
-  def current_user?(user)
-    user == current_user
-  end
-
-  def sign_in(user)
-    session[:current_user] = user.id
-    self.current_user = user
-  end
-
-  def sign_out
-    session.delete(:current_user)
-  end
-
-  def signed_in?
-    !current_user.nil?
+    it "should return nil" do
+      expect(subject.foo).to be_nil
+    end
   end
 end
-
-JobVacancy::App.helpers SessionsHelper
 ```
 
+The new thing here is the [subject](https://relishapp.com/rspec/rspec-core/v/3-6/docs/subject/explicit-subject "subject"). It describe a thing (object, class, method) under test. Because we are testing only one object here, the name `subject` is fine for use but if you handling several objects in a test, you can't possibly guess what `subject` is because it is not intention revealing. For that case you better give the object the right name.
 
-Padrino isn't requiring helper to be tested automatically. Since we are planing to be consistence with the folder structure of our app within the tests folder, we need to add all helpers files in `app/helpers/*.rb`. Let's made all helper files availabe in our specs:
+
+Padrino is requiring helper automatically in the `spec_helper` file with the following line:
 
 
 ```ruby
 # spec/spec_helper.rb
 
-RACK_ENV = 'test' unless defined?(RACK_ENV)
 ...
-Dir[File.dirname(__FILE__) + '/../app/helpers/**.rb'].each { |file| require file }
+Dir[File.expand_path(File.dirname(__FILE__) + '/../app/helpers/**/*.rb')]
+  .each(&method(:require))
 ...
 ```
 
@@ -327,14 +295,12 @@ Here is the outline of the tests:
 
 require 'spec_helper'
 
-describe SessionsHelper do
-  before do
-    class SessionsHelperKlass
-      include SessionsHelper
-    end
+RSpec.describe "SessionsHelper" do
+  let(:user) { User.new }
+  let(:session_helper) { Class.new }
 
-    @session_helper = SessionsHelperKlass.new
-  end
+  before { session_helper.extend JobVacancy::App::SessionsHelper }
+  subject { session_helper }
 
   describe "#current_user" do
     xit "returns the current user if user is set"
@@ -362,7 +328,7 @@ end
 ```
 
 
-The `before do` block contains the `SessionsHelperKlass` class which includes the `SessionsHelper` So the instance variable `@session_helper` can use any methods defined in `session_helper.rb` and the descibe blocks now contains the names of the method which is tested. I'm not testing the `current_user=(user)` because it is a setter method.
+Please not that we will not test the `current_user=(user)` method because it is a setter method.
 
 
 What we need to do now for our test is to to mock a request and set the user id of some of our test user in the session hash. To create a new session we will use [Rack::Test::Session](https://github.com/brynary/rack-test/blob/master/lib/rack/test.rb "Rack::Test::Session") and mock the `last_request` method call:
