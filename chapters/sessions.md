@@ -1,4 +1,6 @@
 ## Sessions
+\label{sec:sessions}
+
 
 It is now possible for our user to register and confirm their registration. In order to handle login we will create a
 session controller:
