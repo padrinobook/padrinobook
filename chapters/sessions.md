@@ -286,44 +286,61 @@ Before going on with implementing the logout action we need to think what happen
 # Helper methods defined here can be accessed in any controller or view in
 # the application
 
-JobVacancy::App.helpers do
-  # def simple_helper_method
-  #  ...
-  # end
+module JobVacancy
+  class App
+    module SessionsHelper
+      # def simple_helper_method
+      # ...
+      # end
+    end
+
+    helpers SessionsHelper
+  end
 end
 ```
 
 
-Yeah, Padrino prints the purpose of this new file and it says what we want to do. Let's implement the main features:
+Yeah, Padrino prints the purpose of this new file and it says what we want to do. Let's implement the main
+features[^test-sessions-helper]:
+
+
+[^test-sessions-helper]: We will write the test in chapter \ref{sec:authorization}
+
 
 
 ```ruby
 # app/helpers/session_helper.rb
 
-JobVacancy::App.helpers do
-  def current_user=(user)
-    @current_user = user
-  end
+module JobVacancy
+  class App
+    module SessionsHelper
+      def current_user=(user)
+        @current_user = user
+      end
 
-  def current_user?(user)
-    user == current_user
-  end
+      def current_user
+        @current_user ||= User.find_by_id(session[:current_user])
+      end
 
-  def current_user
-    @current_user ||= User.find_by_id(session[:current_user])
-  end
+      def current_user?(user)
+        user == current_user
+      end
 
-  def sign_in(user)
-    session[:current_user] = user.id
-    self.current_user = user
-  end
+      def sign_in(user)
+        session[:current_user] = user.id
+        self.current_user = user
+      end
 
-  def sign_out
-    session.delete(:current_user)
-  end
+      def sign_out
+        session.delete(:current_user)
+      end
 
-  def signed_in?
-    !current_user.nil?
+      def signed_in?
+        !current_user.nil?
+      end
+    end
+
+    helpers SessionsHelper
   end
 end
 ```
