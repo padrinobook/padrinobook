@@ -199,7 +199,7 @@ end
 ```
 
 
-Please note that the [update_attributes](http://www.rubydoc.info/docs/rails/2.3.8/ActiveRecord/Base:update_attributes "update_attributes") method is making a [valid?](http://www.rubydoc.info/docs/rails/2.3.8/ActiveResource%2FValidations%3Avalid%3F "valid?") method before the changes are saved.
+Please note that the [update_attributes](http://www.rubydoc.info/gems/activerecord/ActiveRecord%2FPersistence:update "update_attributes") method is making a [valid?](http://www.rubydoc.info/gems/activerecord/ActiveRecord%2FValidations:valid%3F  "valid?") method before the changes are saved.
 
 
 Making this test pass took me a while. The HTTP specification only understands `GET` and `POST` in the `<form>` method attribute. How can we solve this? We need to use a hidden form with the `put` method:
