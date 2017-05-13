@@ -410,9 +410,9 @@ Finally, we need to provide the edit link in the header navigation:
 ### Remember Me Function
 \label{sec:remember_me_funcion}
 
-We are currently using the `sign_in` method from the session helper to login a user. But this is only valid for a session. What we need is something permanent.
-[Cookies](https://en.wikipedia.org/wiki/HTTP_cookie "Cookies") are the perfect choice for this. We could use the `user_id` from the user as a unique token,
-but this can be changed too easily. Creating an unique long [secure hash](http://en.wikipedia.org/wiki/Secure_Hash_Algorithm "secure hash") is more secure.
+We are currently using the `sign_in` method from the session helper to login an user. But this is only valid for a session. What we need is something permanent.
+[Cookies](https://en.wikipedia.org/wiki/HTTP_cookie "Cookies") are the perfect choice for this. We could use the `user_id` from the user as an unique token,
+but this can be changed too easily. Creating an unique long [secure hash](https://en.wikipedia.org/wiki/Secure_Hash_Algorithms "secure hash") is more secure.
 
 
 Let's create and run the migration for the authentity token:
