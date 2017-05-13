@@ -175,7 +175,9 @@ end
 ...
 ```
 
-Explain double (https://relishapp.com/rspec/rspec-mocks/v/3-6/docs/basics/test-doubles) and with in rspec
+We are using [test doubles](https://relishapp.com/rspec/rspec-mocks/v/3-6/docs/basics/test-doubles "test doubles")
+which stands for any objects that is used during the test. Since we don't want to have a database we can mock the
+`update_attributes` method and can return what we need for our tests.
 
 
 And the implementation:
