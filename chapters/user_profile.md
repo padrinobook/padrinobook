@@ -415,7 +415,7 @@ We are currently using the `sign_in` method from the session helper to login an 
 but this can be changed too easily. Creating an unique long [secure hash](https://en.wikipedia.org/wiki/Secure_Hash_Algorithms "secure hash") is more secure.
 
 
-Let's create and run the migration for the authentity token:
+Let's create and run the migration for the authenticity token:
 
 
 ```sh
