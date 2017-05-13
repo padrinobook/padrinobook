@@ -342,20 +342,19 @@ require 'spec_helper'
 describe SessionsHelper do
   ...
   describe "#current_user" do
-    it "returns the current user if user is set" do
-      user = User.new
-      @session_helper.current_user = user
+    it 'returns the current user if user is set' do
+      subject.current_user = user
       expect(User).to receive(:find_by_id).never
-      expect(@session_helper.current_user).to eq user
+      expect(subject.current_user).to eq user
     end
 
     it "returns the current user from session" do
-      user = User.first
+      user.id = 1
       browser = Rack::Test::Session.new(JobVacancy::App)
-      browser.get '/', {}, 'rack.session' => { :current_user => user.id }
+      browser.get '/', {}, 'rack.session' => { current_user: user.id }
       expect(User).to receive(:find_by_id).and_return(user)
-      expect(@session_helper).to receive(:session).and_return(user)
-      expect(@session_helper.current_user).to eq user
+      expect(subject).to receive(:session).and_return(user)
+      expect(subject.current_user).to eq user
     end
   end
   ...
@@ -363,23 +362,13 @@ end
 ```
 
 
-Instead of writing `JobVacancy::App` you can also pass `app` in the line `Rack::Test::Session.new(JobVacancy::App)`. The
-`app` is defined in the `spec_helper`:
+Instead of writing `JobVacancy::App` you can also pass `app` in the line `Rack::Test::Session.new(JobVacancy::App)` which is automatically defined in the `spec_helper`:
 
 
 ```ruby
 # spec/spec_helper.rb
 ...
 
-# You can use this method to custom specify a Rack app
-# you want rack-test to invoke:
-#
-#   app JobVacancy::App
-#   app JobVacancy::App.tap { |a| }
-#   app(JobVacancy::App) do
-#     set :foo, :bar
-#   end
-#
 def app(app = nil, &blk)
   @app ||= block_given? ? app.instance_eval(&blk) : app
   @app ||= Padrino.application
@@ -387,10 +376,13 @@ end
 ```
 
 
-You can write the other tests as an exercise on your own. In case you have problems with writing them, please check the [spec on GitHub](https://github.com/wikimatze/job-vacancy/blob/master/spec/app/controllers/sessions_controller_spec.rb "spec on GitHub").
+You can write the other tests as an exercise[^exercise-spec-helper-spec] on your own.
 
 
-Finally, we need to provider the edit link in the header navigation:
+[^exercise-spec-helper-spec]: In case you have problems with writing them, please check the [spec on GitHub](https://github.com/wikimatze/job-vacancy/blob/master/spec/app/controllers/sessions_controller_spec.rb "spec on GitHub").
+
+
+Finally, we need to provide the edit link in the header navigation:
 
 
 ```erb
@@ -403,9 +395,7 @@ Finally, we need to provider the edit link in the header navigation:
       <%= link_to 'Logout', url(:sessions, :destroy) %>
     </div>
     <div class="span2">
-      <%= link_to 'Edit Profile', url(:users, :edit,
-        :id => session[:current_user]) %>
-      <%= link_to 'Edit Profile', url(:users, :edit, :id => session[:current_user]) %>
+      <%= link_to 'Edit Profile', url(:users, :edit, id: session[:current_user]) %>
     </div>
   <% else %>
     <div class="span3">
