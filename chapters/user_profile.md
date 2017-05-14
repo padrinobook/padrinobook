@@ -638,7 +638,6 @@ In the `new` action’s view we’ll create the form with the [form_tag](http://
 
 <h2>Forgot Password</h2>
 
-
 <% form_tag url(:password_forget, :create) do %>
   <%= label_tag :email %>
   <%= text_field_tag :email %>
@@ -708,7 +707,7 @@ end
 
 
 The stage for the `save_forget_password_token` method is set: It takes our `generate_authentity_token` method from
-chapter ~\ref{sec:remember_me_funcion} and use the [Time.now](http://ruby-doc.org/core-2.2.0/Time.html#method-c-now "Time.now")
+chapter ~\ref{sec:remember_me_funcion} and use the [Time.now](http://ruby-doc.org/core-2.4.1/Time.html#method-c-now "Time.now")
 method to set the send date from the password reset function:
 
 
@@ -727,7 +726,7 @@ end
 ```
 
 
-But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i98KRaZGIJ1K77n/HqePEbD2KFdI3ldIcbiOoazQ==`. The slash (`/`) and plus (`+`) is bad for routing. We already used the `normalize_confirmation_code` from section ~\ref{sec:controller_method_and_action_for_password_confirmation} to remove such backslashes, and we could easily the same method again. But we want to apply [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). For this purpose we will create a `lib` folder, which acts as a place for sharing code which can be used by models, controllers, and other components. Inside the directory we create a `normalize_token.rb` file:
+But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i...`. The slash (`/`) and plus (`+`) is bad for routing. We already used the `normalize_confirmation_code` from section ~\ref{sec:controller_method_and_action_for_password_confirmation} to remove such backslashes, and we could easily the same method again. But we want to apply [DRY](https://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). For this purpose we will create a `lib` folder, which acts as a place for sharing code which can be used by models, controllers, and other components. Inside the directory we create a `normalize_token.rb` file:
 
 
 ```ruby
