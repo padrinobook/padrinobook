@@ -747,25 +747,18 @@ And the test the `StringNormalizer` is similar to the `SessionsHelper` tests of 
 
 require 'spec_helper'
 
-RSpec.describe "StringNormalizer" do
-  before do
-    class StringNormalizerClass
-      include StringNormalizer
-    end
+RSpec.describe StringNormalizer do
+  let(:string_normalizer) { Class.new { extend StringNormalizer } }
 
-    @string_normalizer = StringNormalizerClass.new
-  end
+  subject { string_normalizer }
 
-  it "replaces slashes and + signs in strings" do
-    token = 'B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i98KRaZGIJ1K77n/H
-      qePEbD2KFdI3ldIcbiOoazQ=='
-    expected_token = 'B4KPW145dG9qjfsBuDhuNLVCG32etcnEoj5eAFz4M6i98KRaZGIJ1K
-      77nHqePEbD2KFdI3ldIcbiOoazQ=='
-    expect(@string_normalizer.normalize(token)).to eq expected_token
+  it 'replaces slashes and + signs in strings' do
+    token = 'B4+K/32'
+    expected_token = 'B4K32'
+    expect(string_normalizer.normalize(token)).to eq expected_token
   end
 end
 ```
-
 
 And use the method in the `users_observer.rb`
 
