@@ -846,6 +846,30 @@ Your Job Vacancy!
 ```
 
 
+Now we can use the deliver method to send the password-reset link for the user in the `create` action:
+
+
+```ruby
+# app/controllers/password_forget.rb
+
+JobVacancy::App.controllers :password_forget do
+  ...
+  post :create do
+    ...
+
+    if @user
+      ...
+      link = "http://localhost:3000" + url(:password_forget, :edit,
+        :token => @user.password_reset_token)
+      deliver(:password_reset, :password_reset_email, @user, link)
+    end
+    ...
+  end
+  ...
+end
+```
+
+
 When the email was send we need to write the `edit` action to handle the link action. The action will take the reset
 token and check if it still valid. If not, it will redirect us to the forget password route.
 
