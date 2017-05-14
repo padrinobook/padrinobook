@@ -871,23 +871,24 @@ end
 
 
 When the email was send we need to write the `edit` action to handle the link action. The action will take the reset
-token and check if it still valid. If not, it will redirect us to the forget password route.
+token and check if it is still valid.
 
 
 ```ruby
 # app/controllers/password_forget.rb
 
 JobVacancy::App.controllers :password_forget do
+
   ...
   get :edit, :map => "/password-reset/:token/edit" do
     @user = User.find_by_password_reset_token(params[:token])
 
-    if @user && Time.now < @user.password_reset_sent_date + 60 * 60
+    if @user && Time.now.to_datetime < (@user.password_reset_sent_date.to_datetime + (1.0/24.0))
       render 'edit'
-    elsif @user && Time.now >= @user.password_reset_sent_date + 60 * 60
-      @user.update_attributes({:password_reset_token => 0,
-        :password_reset_sent_date => 0})
-      redirect url(:sessions, :new), flash[:error] = 'Password reset token has expired.'
+    elsif @user && Time.now.to_datetime >= (@user.password_reset_sent_date.to_datetime + (1.0/24.0))
+      @user.update_attributes({:password_reset_token => 0, :password_reset_sent_date => 0})
+      redirect url(:sessions, :new), flash[:error] =
+        'Password reset token has expired.'
     else
       redirect url(:password_forget, :new)
     end
@@ -896,38 +897,11 @@ end
 ```
 
 
-The line with `@user.password_reset_sent_date + (60 * 60)` is not very readable. Rails has the functionality of using words like `1.hour.ago` with the help of [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html "ActiveSupport") module. Since Padrino is not using `ActiveSupport`, we use the [Timerizer](https://github.com/kylewlacy/timerizer "timerizer") gem:
+The line with `@user.password_reset_sent_date.to_datetime + (1.0/24.0)` add one hour a hour fraction[^time-fraction] of a whole day.
+I know that this line is not very readable - as an alternative you could use the [Timerizer](https://github.com/kylewlacy/timerizer "timerizer")[^timerizer]
 
-
-```ruby
-# Gemfile
-gem 'timerizer', '0.1.4'
-```
-
-
-And now we can use the new syntax for describing time in a better way:
-
-
-```ruby
-# app/controllers/password_forget.rb
-
-require 'timerizer'
-
-JobVacancy::App.controllers :password_forget do
-  ...
-  get :edit, :map => "/password-reset/:token/edit" do
-    @user = User.find_by_password_reset_token(params[:token])
-
-    if @user && Time.now < 1.hour.after(@user.password_reset_sent_date)
-      ...
-    elsif @user && Time.now >= 1.hour.after(@user.password_reset_sent_date)
-      ...
-    else
-      ...
-    end
-  end
-end
-```
+[^time-fraction]: Got the inspiration from http://stackoverflow.com/a/31447415
+[^timerizer]: Provides you a `1.hour.ago` or 1.hour.after like syntax inspired from from [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html "ActiveSupport") module.
 
 
 In the associated `edit` view we use the `form_for` and pass in the `user` model to have access to all validations.
