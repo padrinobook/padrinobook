@@ -547,19 +547,21 @@ end
 ```
 
 
-First, we create a secure random hex value and assign to the `authentity_token` attribute of the user.  We then use the
-[set_cookie](http://www.rubydoc.info/github/rack/rack/Rack/Response#set_cookie-instance_method "set_cook") method to
+First, we create a secure random hex value and assign to the `authentity_token` attribute to the user. Then we use the
+[set_cookie](http://www.rubydoc.info/github/rack/rack/Rack%2FResponse%2FHelpers:set_cookie "set_cookie") method to
 generate a cookie which is valid for thirty days.
 
 
-When you login the next time into the application, click the remember me you checkboxw. Stop and start the application
+When you login the next time into the application, click the remember me you checkbox. Stop and start the application
 again, you will be logged in automatically for the next thirty days.
 
 
 ![Figure 2-2. Start page of the app](images/cookies.png)
 
 
-If you want to see the cookie in your browser, you can install [Web Developer extension](https://addons.mozilla.org/en-US/firefox/addon/web-developer "Web Developer extension") for [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new "Mozilla Firefox") and open the *View cookie information* pane in the *Cookies* tab. The specs for the `post :create` action:
+If you want to see the cookie in your browser, you can install [Web Developer extension](https://addons.mozilla.org/en-US/firefox/addon/web-developer "Web Developer extension") for [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new "Mozilla Firefox") and open the *View cookie information* pane in the *Cookies* tab.
+
+The specs for the `post :create` action:
 
 ```ruby
 # spec/app/controllers/sessions_controller_spec.rb
