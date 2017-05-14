@@ -137,7 +137,7 @@ RSpec.describe "SessionsController" do
       user.confirmation = true
       user.password = 'correct'
       expect(User).to receive(:find_by_email) { user }
-      post 'sessions/create', password: 'correct', remember_me: false
+      post 'sessions/create', password: 'correct'
       expect(last_response).to be_redirect
     end
   end
