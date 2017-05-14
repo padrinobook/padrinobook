@@ -495,7 +495,7 @@ end
 
 
 Next it's time to create the checkbox on the login page with help of the
-[check_box_tag](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#check_box_tag-instance_method "check_box_tag"):
+[check_box_tag](http://www.rubydoc.info/gems/padrino-helpers/Padrino%2FHelpers%2FFormHelpers:check_box_tag "check_box_tag"):
 
 
 ```erb
@@ -505,12 +505,13 @@ Next it's time to create the checkbox on the login page with help of the
 
   ...
   <label class="checkbox">
-    <%= check_box_tag :remember_me, :val %> Remember me
+    <%= check_box_tag :remember_me %> Remember me
   </label>
 ```
 
 
-If the user click on the *Remember me* checkbox, it's time for our session controller to create a cookie:
+If the user clicks on the *Remember me* checkbox, it's time for our session controller to create a cookie. We have to
+modify our `create` action from the session controller:
 
 
 ```ruby
