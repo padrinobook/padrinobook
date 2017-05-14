@@ -1155,7 +1155,7 @@ class User < ActiveRecord::Base
   end
 
   def normalize_confirmation_code(confirmation_code)
-    confirmation_code.gsub("/", "")
+    confirmation_code.delete('/')
   end
 
   def registered?
