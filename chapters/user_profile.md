@@ -630,7 +630,7 @@ end
 ```
 
 
-In the `new` action’s view we’ll create the form with the [form_tag](http://www.padrinorb.com/api/Padrino/Helpers/FormHelpers.html#form_tag-instance_method "form_tag") without a model that allows a user to enter their email address and request that their password is reset. The form looks like this:
+In the `new` action’s view we’ll create the form with the [form_tag](http://padrinorb.com/guides/application-helpers/form-helpers/#list-of-form-helpers "form_tag") without a model that allows a user to enter their email address and request that their password is reset. The form looks like this:
 
 
 ```erb
@@ -644,7 +644,7 @@ In the `new` action’s view we’ll create the form with the [form_tag](http://
   <%= text_field_tag :email %>
 
   <p>
-    <%= submit_tag "Reset password", :class => "btn btn-primary" %>
+    <%= submit_tag "Reset password", class: "btn btn-primary" %>
   </p>
 <% end %>
 ```
@@ -674,26 +674,14 @@ end
 ```
 
 
-The `save_forget_password_token` method will generate a security token for the given user. The token should only valid for around one hour, we need to save the `password_reset_sent_date` as well as the `password_reset_token`. Before going on we need to add token and the method in the `User` model:
+The `save_forget_password_token` method will generate a security token for the given user. The token should only valid for one hour. We need to save the `password_reset_sent_date` as well as the `password_reset_token`. Let's add these fields to the `User` model:
 
 
 ```sh
 $ padrino-gen migration AddPasswordResetTokenToUsers
   password_reset_token:string password_reset_sent_date:datetime
        apply  orms/activerecord
-      create  db/migrate/007_add_password_reset_for_users.rb
-$ padrino rake ar:migrate
-=> Executing Rake ar:migrate ...
-   INFO -  Migrating to CreateUsers (1)
-   INFO -  Migrating to CreateJobOffers (2)
-   INFO -  Migrating to AddUserIdToJobOffers (3)
-   INFO -  Migrating to AddRegistrationFieldsToUsers (4)
-   INFO -  Migrating to AddConfirmationCodeAndConfirmationToUsers (5)
-   INFO -  Migrating to AddAuthentityTokenFieldToUsers (6)
-   INFO -  Migrating to AddPasswordResetTokenToUsers (7)
-  DEBUG -   (0.0ms)  select sqlite_version(*)
-  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version"
-    FROM "schema_migrations"
+       ...
 ```
 
 
