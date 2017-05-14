@@ -595,7 +595,7 @@ end
 ```
 
 
-### Reset Password
+### Password Reset
 
 This chapter will be a combination of all the things we have learned so far. Until now you should be familiar with the commands of creating new controllers, edit views as well as create migration and new mail templates. Because repetition is good, we will go through the whole procedure again.
 
