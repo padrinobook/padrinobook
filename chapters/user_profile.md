@@ -793,6 +793,7 @@ class User < ActiveRecord::Base
   ...
 
   private
+
   def generate_authentity_token
     require 'securerandom'
     self.authentity_token = normalize(SecureRandom.base64(64))
@@ -805,13 +806,11 @@ We are now ready to create our mailer:
 
 
 ```sh
-$ padrino-gen mailer PasswordReset password_forget_email
-    create  app/mailers/password_reset.rb
-    create  app/views/mailers/password_forget
+$ padrino-gen mailer PasswordReset password_reset_email
 ```
 
 
-In the mailer we take the user to create the password reset token:
+In the mailer we take the user to create the password reset token as a link for them:
 
 
 ```ruby
