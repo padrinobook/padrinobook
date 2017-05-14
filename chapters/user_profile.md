@@ -721,7 +721,6 @@ class User < ActiveRecord::Base
     self.password_reset_sent_date = Time.now
     self.save
   end
-  ...
 end
 ```
 
@@ -734,13 +733,13 @@ But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG
 
 module StringNormalizer
   def normalize(token)
-    token.gsub("/", "")
+    token.delete('/').delete('+')
   end
 end
 ```
 
 
-And the test the `StringNormalizer` is similar to the helper tests in section ~\ref{sec:authorization}:
+And the test the `StringNormalizer` is similar to the `SessionsHelper` tests of section ~\ref{sec:authorization}:
 
 
 ```ruby
