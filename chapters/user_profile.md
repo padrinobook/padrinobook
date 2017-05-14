@@ -455,12 +455,15 @@ we create a token for each registered user[^registered-user-note].
 # models/user.rb
 
 class User < ActiveRecord::Base
+  require 'securerandom'
   ...
+
   before_create :generate_authentity_token
+  ...
 
   private
+
   def generate_authentity_token
-    require 'securerandom'
     self.authentity_token = SecureRandom.base64(64)
     SecureRandom
   end
@@ -468,7 +471,7 @@ end
 ```
 
 
-To test the private callback, we can use the [send method](http://ruby-doc.org/core-2.2.3/Object.html#method-i-send "send method") to create our `generate_authentity_token` callback:
+To test the private callback, we can use the [send method](http://ruby-doc.org/core-2.4.1/Object.html#method-i-send "send method") to create our `generate_authentity_token` callback:
 
 
 ```ruby
@@ -476,14 +479,12 @@ To test the private callback, we can use the [send method](http://ruby-doc.org/c
 
 require 'spec_helper'
 
-
 RSpec.describe "User Model" do
   ...
-  describe "#generate_authentity_token" do
-    let(:user_confirmation) { build(:user) }
 
+  describe "#generate_authentity_token" do
     it 'generates the authentity_token before user is saved' do
-      expect(user).to receive(:save).and_return(true)
+      expect(user).to receive(:save) { true }
       user.send(:generate_authentity_token)
       user.save
       expect(user.authentity_token).not_to be_empty
