@@ -427,18 +427,7 @@ $ padrino rake ar:migrate
   DEBUG -   (0.1ms)  SELECT "schema_migrations"."version"
     FROM "schema_migrations" ...
    INFO -  Migrating to AddAuthentityTokenFieldToUsers (6)
-  DEBUG -   (0.0ms)  select sqlite_version(*)
-  DEBUG -   (0.0ms)  begin transaction
-==  AddAuthentityTokenFieldToUsers: migrating =================================
--- change_table(:users)
-  DEBUG -   (0.3ms)  ALTER TABLE "users" ADD "authentity_token" varchar(255)
-   -> 0.0050s
-==  AddAuthentityTokenFieldToUsers: migrated (0.0051s) ========================
-
-  DEBUG -   (0.1ms)  INSERT INTO "schema_migrations" ("version") VALUES ('7')
-  DEBUG -   (10.0ms)  commit transaction
-  DEBUG -   (0.1ms)  SELECT "schema_migrations"."version"
-    FROM "schema_migrations"
+   ...
 ```
 
 
