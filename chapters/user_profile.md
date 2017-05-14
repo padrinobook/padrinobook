@@ -443,12 +443,12 @@ domain).
 \end{aside}
 
 
-A way to create random strings in Ruby is to use the [SecureRandom class](http://ruby-doc.org/stdlib-2.2.3/libdoc/securerandom/rdoc/SecureRandom.html "securerandom class").
+A way to create random strings in Ruby is to use the [SecureRandom class](http://ruby-doc.org/stdlib-2.4.1/libdoc/securerandom/rdoc/SecureRandom.html "securerandom class").
 By using the [before_create callback](http://www.rubydoc.info/docs/rails/ActiveRecord/Callbacks "before_create callback"),
-we create a token for each registered user[^registered_user_note].
+we create a token for each registered user[^registered-user-note].
 
 
-[^registered_user_note]: If you are in a situation where you already have a bunch of users and you now decide to create hashs for them, you have to create a migration script and migrate the existing user base.
+[^registered-user-note]: If you are in a situation where you already have a bunch of users and you now decide to create hashes for them, you have to create a migration script for the existing user base.
 
 
 ```ruby
