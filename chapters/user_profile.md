@@ -916,23 +916,22 @@ Besides we are using then `method:` hash to say which method we want to use for 
 
 ```erb
 # app/views/password_forget/edit.erb
-
 <h2>Reset Password</h2>
 
 <% form_for @user, "/password-reset/#{@user.password_reset_token}",
   method: :post do |f| %>
   <%= f.label :password %>
   <%= f.password_field :password %>
-  <%= error_message_on @user, :password, :class => "text-error",
-    :prepend => "The password "%>
+  <%= error_message_on @user, :password, class: "text-error",
+    prepend: "The password "%>
 
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %>
-  <%= error_message_on @user, :password_confirmation, :class => "text-error" %>
 
   <p>
-    <%= f.submit "Reset password", :class => "btn btn-primary" %>
+    <%= f.submit "Reset password", class: "btn btn-primary" %>
   </p>
+
 <% end %>
 ```
 
