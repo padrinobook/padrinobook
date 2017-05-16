@@ -861,19 +861,30 @@ JobVacancy::App.controllers :password_forget do
     ...
 
     if @user
-      ...
-      link = "http://localhost:3000" + url(:password_forget, :edit,
-        :token => @user.password_reset_token)
+      @user.save_forget_password_token
+      link = 'http://localhost:3000' + url(:password_forget, :edit,
+        token: @user.password_reset_token)
       deliver(:password_reset, :password_reset_email, @user, link)
     end
-    ...
+
+    render 'success'
   end
   ...
 end
 ```
 
 
-When the email was send we need to write the `edit` action to handle the link action. The action will take the reset
+When the email was send we need to render the 'sucess' page for our user:
+
+
+```erb
+# app/views/password_forget/success.erb
+
+Password was reseted successfully, please check your mail for reset instructions.
+```
+
+
+Next we will write the `edit` action to handle the link action. The action will take the reset
 token and check if it is still valid.
 
 
@@ -887,10 +898,10 @@ JobVacancy::App.controllers :password_forget do
     @user = User.find_by_password_reset_token(params[:token])
 
     if @user && Time.now.to_datetime <
-      (@user.password_reset_sent_date.to_datetime + (1.0/24.0))
+      (@user.password_reset_sent_date.to_datetime + (1.0 / 24.0))
       render 'edit'
     elsif @user && Time.now.to_datetime >=
-      (@user.password_reset_sent_date.to_datetime + (1.0/24.0))
+      (@user.password_reset_sent_date.to_datetime + (1.0 / 24.0))
       @user.update_attributes(
         { password_reset_token: 0, password_reset_sent_date: 0 })
       redirect url(:sessions, :new), flash[:error] =
@@ -919,7 +930,7 @@ Besides we are using then `method:` hash to say which method we want to use for 
 <h2>Reset Password</h2>
 
 <% form_for @user, "/password-reset/#{@user.password_reset_token}",
-  method: :post do |f| %>
+  metho: :post do |f| %>
   <%= f.label :password %>
   <%= f.password_field :password %>
   <%= error_message_on @user, :password, class: "text-error",
