@@ -271,6 +271,7 @@ RSpec.describe "JobVacancy::App::SessionsHelper" do
 end
 ```
 
+
 The new thing here is the [subject](https://relishapp.com/rspec/rspec-core/v/3-6/docs/subject/explicit-subject "subject"). It describe a thing (object, class, method) under test. Because we are testing only one object here, the name `subject` is fine for use but if you handling several objects in a test, you can't possibly guess what `subject` is because it is not intention revealing. For that case you better give the object the right name.
 
 
@@ -295,7 +296,8 @@ Here is the outline of the tests:
 
 require 'spec_helper'
 
-RSpec.describe "SessionsHelper" do
+
+RSpec.describe "JobVacancy::App::SessionsHelper" do
   let(:user) { User.new }
   let(:session_helper) { Class.new }
 
@@ -339,7 +341,8 @@ What we need to do now for our test is to to mock a request and set the user id 
 
 require 'spec_helper'
 
-describe SessionsHelper do
+RSpec.describe "JobVacancy::App::SessionsHelper" do
+
   ...
   describe "#current_user" do
     it 'returns the current user if user is set' do
