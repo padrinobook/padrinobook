@@ -1462,15 +1462,23 @@ class UserCompletion
   end
 
   def send_registration_mail
-    app.deliver(:registration, :registration_email, user.name,
-      user.email)
+    app.deliver(
+      :registration,
+      :registration_email,
+      user.name,
+      user.email
+    )
   end
 
   def send_confirmation_mail
-    app.deliver(:confirmation, :confirmation_email, user.name,
+    app.deliver(
+      :confirmation,
+      :confirmation_email,
+      user.name,
       user.email,
       user.id,
-      user.confirmation_code)
+      user.confirmation_code
+    )
   end
 
   def encrypt_confirmation_code
