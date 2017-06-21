@@ -15,7 +15,7 @@ In this book I'm developing the **job vacancy** application. You can checkout th
 
 # Contribute/Contact
 
-Feature requests, bugs, questions, etc. can be send to <matthias@wikimatze.de>. You can even fork this project,
+Feature requests, bugs, questions, etc. can be sent to <matthias@wikimatze.de>. You can even fork this project,
 and create pull requests as you like. I will then add you to the [contributor list](http://leanpub.com/padrinobook).
 
 
