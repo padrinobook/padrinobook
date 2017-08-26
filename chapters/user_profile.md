@@ -204,7 +204,7 @@ end
 Please note that the [update_attributes](http://www.rubydoc.info/gems/activerecord/ActiveRecord%2FPersistence:update "update_attributes") method is making a [valid?](http://www.rubydoc.info/gems/activerecord/ActiveRecord%2FValidations:valid%3F  "valid?") method before the changes are saved.
 
 
-Making the `update` pass in the view is a little bit tricky: The HTTP specification only understands `GET` and `POST` in the `<form>` method attribute. How can we solve this? We need to use a hidden form with the `put` method:
+Making the `put :update ` action pass in the view is a little bit tricky: The HTTP specification only understands `GET` and `POST` in the `<form>` method attribute. How can we solve this? We need to use a hidden form with the `put` method:
 
 
 ```erb
