@@ -442,8 +442,8 @@ $ padrino rake ar:migrate
 \begin{aside}
 \heading{Cookies}
 
-HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol "stateless protocol") and cookies way a
-way to save information sent from a website and store them in the browser. Each time the user visits the site again, the
+HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol "stateless protocol") and cookies are a way
+to save information sent from a website and store them in the browser. Each time the user visits the site again, the
 browser sends the information back to server and notifies the server about the identity of the user.
 
 A cookie can consists of the following components: name, value, expiry date, path (scope of the cookie), domain (valid for which
@@ -479,7 +479,7 @@ end
 ```
 
 
-To test the private callback, we can use the [send method](http://ruby-doc.org/core-2.4.1/Object.html#method-i-send "send method") to create our `generate_authentity_token` callback:
+To test the callback, we can use the [send method](http://ruby-doc.org/core-2.4.1/Object.html#method-i-send "send method") to create our `generate_authentity_token` callback:
 
 
 ```ruby
