@@ -603,6 +603,16 @@ end
 ```
 
 
+\begin{aside}
+\heading{Magic Numbers}
+
+If you take a closer look at `thirty_days_in_seconds = 30*24*60*60` it might be better to put this in a configuration
+file, where you define these values. This makes it in the later easier to changes the values (it is more readable and
+fellow developers can easier read your code). As an exercise think of a place where you place a constant like
+`JobVacancy::Configuration::COOKIE_MAX_AGE_REMEMBER_ME`.
+\end{aside}
+
+
 ### Password Reset
 
 This chapter will be a combination of all the things we have learned so far. Until now you should be familiar with the commands of creating new controllers, edit views as well as create migration and new mail templates. Because repetition is good, we will go through the whole procedure again.
