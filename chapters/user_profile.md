@@ -99,11 +99,13 @@ end
 
 
 We don't want that everybody can edit the profile for other users. Before we are going to call these actions we set a
-[route filter](http://padrinorb.com/guides/controllers/route-filters/ "before route filter")[^route-filter]. They are
-evaluated before each requests for the given actions.
+[route filter](http://padrinorb.com/guides/controllers/route-filters/ "route filter")[^route-filter]. They are
+evaluated before each requests for the given actions. In our case we are using a **before route filter**.
+
 
 For the `get :edit` action we are using [namespaced route aliases](http://padrinorb.com/guides/controllers/routing/#namespaced-route-aliases
- "namespaced route aliases"). They have the advantage that you can refer to them with the `url_for` method.
+ "namespaced route aliases"). They have the advantage that you can refer to them with the `url_for` (which we will see
+ later) method.
 
 [^route-filter]: It is possible to define variables, change the response, request, and so on.
 
@@ -176,7 +178,7 @@ end
 ```
 
 We are using [test doubles](https://relishapp.com/rspec/rspec-mocks/v/3-6/docs/basics/test-doubles "test doubles")
-which stands for any objects that is used during the test. Since we don't want to have a database we can mock the
+which stands for any objects that is used during the test. Since we don't want to have a database, we can mock the
 `update_attributes` method and can return what we need for our tests.
 
 
