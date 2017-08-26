@@ -250,7 +250,7 @@ You can specify the [HTTP methods](https://www.w3schools.com/tags/ref_httpmethod
 ### Authorization
 \label{sec:authorization}
 
-The controller actions are ready and we used many method from the `session_helper.rb`. Before we add now the action for
+The controller actions are ready and we've used many method from the `session_helper.rb`. Before we add now the action for
 signup and registration to the view, it's time to test the helper from "Sessions" section ~\ref{sec:sessions}.
 
 
@@ -276,23 +276,24 @@ end
 ```
 
 
-The new thing here is the [subject](https://relishapp.com/rspec/rspec-core/v/3-6/docs/subject/explicit-subject "subject"). It describe a thing (object, class, method) under test. Because we are testing only one object here, the name `subject` is fine for use but if you handling several objects in a test, you can't possibly guess what `subject` is because it is not intention revealing. For that case you better give the object the right name.
+The new thing here is the [subject](https://relishapp.com/rspec/rspec-core/v/3-6/docs/subject/explicit-subject "subject"). It describes a thing (object, class, method) under test. Because we are testing only one object here, the name `subject` is fine. If you're handling several objects in a test, you can't possibly guess what `subject` is because it is not intention revealing. For that case you better give the object the right name.
 
 
-Padrino is requiring helper automatically in the `spec_helper` file with the following line:
+Padrino is requiring helpers automatically in the `spec_helper` file with the following line:
 
 
 ```ruby
 # spec/spec_helper.rb
 
 ...
+
 Dir[File.expand_path(File.dirname(__FILE__) + '/../app/helpers/**/*.rb')]
   .each(&method(:require))
 ...
 ```
 
 
-Here is the outline of the tests:
+Here is the outline for the tests of the `session_helper.rb`:
 
 
 ```ruby
@@ -337,7 +338,7 @@ end
 Please not that we will not test the `current_user=(user)` method because it is a setter method.
 
 
-What we need to do now for our test is to to mock a request and set the user id of some of our test user in the session hash. To create a new session we will use [Rack::Test::Session](https://github.com/rack-test/rack-test/blob/master/lib/rack/test.rb#L25 "Rack::Test::Session") and mock the `last_request` method call:
+What we need to do now for our test is to mock a request and set the user id of some of our test user in the session hash. To create a new session we will use [Rack::Test::Session](https://github.com/rack-test/rack-test/blob/master/lib/rack/test.rb#L25 "Rack::Test::Session") and mock the `last_request` method call:
 
 
 ```ruby
@@ -369,7 +370,7 @@ end
 ```
 
 
-Instead of writing `JobVacancy::App` you can also pass `app` in the line `Rack::Test::Session.new(JobVacancy::App)` which is automatically defined in the `spec_helper`:
+Instead of writing `JobVacancy::App` you can also pass `app` in the Rack's `Session.new` function. The `app` variable is automatically defined in the `spec_helper`:
 
 
 ```ruby
@@ -386,7 +387,7 @@ end
 You can write the other tests as an exercise[^exercise-spec-helper-spec] on your own.
 
 
-[^exercise-spec-helper-spec]: In case you have problems with writing them, please check the [spec on GitHub](https://github.com/wikimatze/job-vacancy/blob/master/spec/app/controllers/sessions_controller_spec.rb "spec on GitHub").
+[^exercise-spec-helper-spec]: In case you have problems with writing them, please check the [spec on GitHub](https://github.com/padrinobook/job-vacancy/blob/master/spec/app/helpers/sessions_helper_spec.rb "spec on GitHub").
 
 
 Finally, we need to provide the edit link in the header navigation:
