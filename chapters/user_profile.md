@@ -215,11 +215,13 @@ Making the `put :update ` action pass in the view is a little bit tricky: The HT
 <% form_for @user, url(:users, :update, id: @user.id), method: :put do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %>
-  <%= error_message_on @user, :name, class: "text-error", prepend: "The name " %>
+  <%= error_message_on @user, :name, class: "text-error", prepend: "The name "
+    %>
 
   <%= f.label :email %>
   <%= f.text_field :email %>
-  <%= error_message_on @user, :email, class: "text-error", prepend: "The email " %>
+  <%= error_message_on @user, :email, class: "text-error", prepend: "The email "
+    %>
 
   <%= f.label :password %>
   <%= f.password_field :password %>
