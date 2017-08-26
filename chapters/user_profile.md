@@ -726,7 +726,7 @@ end
 
 The stage for the `save_forget_password_token` method is set: It takes our `generate_authentity_token` method from
 chapter ~\ref{sec:remember_me_funcion} and use the [Time.now](http://ruby-doc.org/core-2.4.1/Time.html#method-c-now "Time.now")
-method to set the send date from the password reset function:
+method:
 
 
 ```ruby
@@ -743,7 +743,7 @@ end
 ```
 
 
-But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i...`. The slash (`/`) and plus (`+`) is bad for routing. We already used the `normalize_confirmation_code` from section ~\ref{sec:controller_method_and_action_for_password_confirmation} to remove such backslashes, and we could easily the same method again. But we want to apply [DRY](https://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). For this purpose we will create a `lib` folder, which acts as a place for sharing code which can be used by models, controllers, and other components. Inside the directory we create a `normalize_token.rb` file:
+But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i...`. The slash (`/`) and plus (`+`) is bad for routing. We already used the `normalize_confirmation_code` from section ~\ref{sec:controller_method_and_action_for_password_confirmation} to remove such backslashes, and we could easily the same method again. But we want to apply [DRY](https://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). For this purpose we will create a `lib` folder, which acts as a place for sharing code which can be used by models, controllers, and other components. Inside the directory we create a `lib/String/normalizer.rb` file:
 
 
 ```ruby
@@ -893,7 +893,7 @@ end
 ```
 
 
-When the email was send we need to render the 'sucess' page for our user:
+When the email was send we need to render the 'success' page for our user:
 
 
 ```erb
@@ -933,10 +933,10 @@ end
 ```
 
 
-The line with `@user.password_reset_sent_date.to_datetime + (1.0/24.0)` add one hour a hour fraction[^time-fraction] of a whole day.
-I know that this line is not very readable - as an alternative you could use the [Timerizer](https://github.com/kylewlacy/timerizer "timerizer")[^timerizer]
+The line with `@user.password_reset_sent_date.to_datetime + (1.0/24.0)` add a one hour fraction[^time-fraction] of a whole day.
+I know that this line is not very readable - as an alternative you could use the [Timerizer](https://github.com/kylewlacy/timerizer "timerizer")[^timerizer] gem.
 
-[^time-fraction]: Got the inspiration from http://stackoverflow.com/a/31447415
+[^time-fraction]: Got the inspiration from [stackoverflow.com/a/31447415](http://stackoverflow.com/a/31447415)
 [^timerizer]: Provides you a `1.hour.ago` or 1.hour.after like syntax inspired from from [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html "ActiveSupport") module.
 
 
