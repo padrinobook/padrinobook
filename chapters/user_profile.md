@@ -747,33 +747,37 @@ But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG
 
 
 ```ruby
-# lib/StringNormalizer/normalize_token.rb
+# lib/String/normalizer.rb
 
-module StringNormalizer
-  def normalize(token)
-    token.delete('/').delete('+')
+module JobVacancy
+  module String
+    module Normalizer
+      def normalize(token)
+        token.delete('/').delete('+')
+      end
+    end
   end
 end
 ```
 
 
-And the test the `StringNormalizer` is similar to the `SessionsHelper` tests of section ~\ref{sec:authorization}:
+And the test for `Normalizer` is similar to the `SessionsHelper` tests of section ~\ref{sec:authorization}:
 
 
 ```ruby
-# spec/lib/normalize_token_spec.rb
+# spec/lib/String/normalizer_spec.rb
 
 require 'spec_helper'
 
-RSpec.describe StringNormalizer do
-  let(:string_normalizer) { Class.new { extend StringNormalizer } }
+RSpec.describe JobVacancy::String::Normalizer do
+  let(:normalizer) { Class.new { extend JobVacancy::String::Normalizer } }
 
-  subject { string_normalizer }
+  subject { normalizer }
 
   it 'replaces slashes and + signs in strings' do
     token = 'B4+K/32'
     expected_token = 'B4K32'
-    expect(string_normalizer.normalize(token)).to eq expected_token
+    expect(subject.normalize(token)).to eq expected_token
   end
 end
 ```
@@ -785,7 +789,7 @@ And use the method in the `users_observer.rb`
 # app/models/user_observer.rb
 
 class UserObserver < ActiveRecord::Observer
-  include StringNormalizer
+  include JobVacancy::String::Normalizer
   ...
 
   private
@@ -807,7 +811,7 @@ as well as in `user.rb`:
 # app/models/user.rb
 
 class User < ActiveRecord::Base
-  include StringNormalizer
+  include JobVacancy::String::Normalizer
   ...
 
   private
