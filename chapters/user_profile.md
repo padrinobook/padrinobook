@@ -828,7 +828,7 @@ We are now ready to create our mailer:
 
 
 ```sh
-$ padrino-gen mailer PasswordReset password_reset_email
+$ padrino-gen mailer PasswordReset email
 ```
 
 
@@ -839,12 +839,12 @@ In the mailer we take the user to create the password reset token as a link for 
 # app/mailers/password_reset.rb
 
 JobVacancy::App.mailer :password_reset do
-  email :password_reset_email do |user, link|
+  email :email do |user, link|
     from 'admin@job-vacancy.de'
     subject 'Password reset'
     to user.email
     locals name: user.name, link: link
-    render 'password_reset/password_reset_email'
+    render 'password_reset/email'
   end
 end
 ```
@@ -854,7 +854,7 @@ The email template contains information and the link for reseting the password:
 
 
 ```erb
-# app/views/mailers/password_reset/password_reset_email.plain.erb
+# app/views/mailers/password_reset/email.plain.erb
 
 Hi <%= name %>,
 
@@ -883,7 +883,7 @@ JobVacancy::App.controllers :password_forget do
       @user.save_forget_password_token
       link = 'http://localhost:3000' + url(:password_forget, :edit,
         token: @user.password_reset_token)
-      deliver(:password_reset, :password_reset_email, @user, link)
+      deliver(:password_reset, :email, @user, link)
     end
 
     render 'success'
