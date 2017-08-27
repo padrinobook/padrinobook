@@ -1445,13 +1445,13 @@ end
 ```
 
 
-And refactor the code above into the `UserCompletion` class:
+And refactor the code above into the `UserCompletionMail` class:
 
 
 ```ruby
-# lib/user_completion.rb
+# lib/user_completion_mail.rb
 
-class UserCompletion
+class UserCompletionMail
   require 'bcrypt'
 
   attr_accessor :user, :app
@@ -1511,7 +1511,7 @@ Here is the spec for the class:
 
 require 'spec_helper'
 
-RSpec.describe "UserCompletion" do
+RSpec.describe UserCompletionMail do
   describe "user new record" do
     let(:user) { build(:user) }
 
@@ -1523,10 +1523,10 @@ RSpec.describe "UserCompletion" do
       expect(BCrypt::Engine).to receive(:hash_secret)
         .with(user.password, salt)
         .and_return(expected_confirmation_code)
-      @user_completion = UserCompletion.new(user, app(JobVacancy::App))
-      @user_completion.encrypt_confirmation_code
+      @user_completion_mail = UserCompletionMail.new(user, app(JobVacancy::App))
+      @user_completion_mail.encrypt_confirmation_code
 
-      expect(@user_completion.user.confirmation_code)
+      expect(@user_completion_mail.user.confirmation_code)
         .to eq expected_confirmation_code
     end
 
@@ -1534,8 +1534,8 @@ RSpec.describe "UserCompletion" do
       expect(app).to receive(:deliver)
         .with(:registration, :registration_email, user.name, user.email)
 
-      @user_completion = UserCompletion.new(user, app)
-      @user_completion.send_registration_mail
+      @user_completion_mail = UserCompletionMail.new(user, app)
+      @user_completion_mail.send_registration_mail
     end
 
     it 'sends confirmation mail' do
@@ -1548,8 +1548,8 @@ RSpec.describe "UserCompletion" do
               user.confirmation_code
              )
 
-      @user_completion = UserCompletion.new(user, app)
-      @user_completion.send_confirmation_mail
+      @user_completion_mail = UserCompletionMail.new(user, app)
+      @user_completion_mail.send_confirmation_mail
     end
   end
 end
@@ -1567,7 +1567,7 @@ JobVacancy::App.controllers :users do
   ...
   post :create do
     @user = User.new(params[:user])
-    user_completion = UserCompletion.new(@user)
+    user_completion = UserCompletionMail.new(@user)
     user_completion.encrypt_confirmation_code
 
     if @user && @user.save
@@ -1596,18 +1596,19 @@ RSpec.describe "UsersController" do
 
   describe "POST /users/create" do
     let(:user) { build(:user) }
+
     before do
-      @completion_user = double(UserCompletion)
+      @completion_user_mail = double(UserCompletionMail)
       expect(User).to receive(:new).and_return(user)
-      expect(@completion_user).to receive(:encrypt_confirmation_code)
+      expect(@completion_user_mail).to receive(:encrypt_confirmation_code)
     end
 
     it 'redirects to home if user can be saved' do
       expect(user).to receive(:save).and_return(true)
       expect(UserCompletion).to receive(:new).with(user)
         .and_return(@completion_user)
-      expect(@completion_user).to receive(:send_registration_mail)
-      expect(@completion_user).to receive(:send_confirmation_mail)
+      expect(@completion_user_mail).to receive(:send_registration_mail)
+      expect(@completion_user_mail).to receive(:send_confirmation_mail)
       post "/users/create"
       expect(last_response).to be_redirect
       expect(last_response.body).to eq "You have been registered.
@@ -1616,7 +1617,7 @@ RSpec.describe "UsersController" do
 
     it 'renders registration page if user cannot be saved' do
       expect(UserCompletion).to receive(:new).with(user).
-        and_return(@completion_user)
+        and_return(@completion_user_mail)
       expect(user).to receive(:save).and_return(false)
       post "/users/create"
       expect(last_response).to be_ok
