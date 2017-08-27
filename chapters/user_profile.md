@@ -689,7 +689,8 @@ end
 ```
 
 
-The `save_forget_password_token` method will generate a security token for the given user. The token should only valid for one hour. We need to save the `password_reset_sent_date` as well as the `password_reset_token`. Let's add these fields to the `User` model:
+The `save_forget_password_token` method will generate a security token for the given user. The token should only valid for one hour. We need to save the `password_reset_sent_date` as well as the `password_reset_token` in the database. Let's add these fields to the `User` model:
+
 
 
 ```sh

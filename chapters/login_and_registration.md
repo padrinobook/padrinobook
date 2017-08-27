@@ -1507,7 +1507,7 @@ Here is the spec for the class:
 
 
 ```ruby
-# spec/lib/user_completion_spec.rb
+# spec/lib/user_completion_mail_spec.rb
 
 require 'spec_helper'
 
