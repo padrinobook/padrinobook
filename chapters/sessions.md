@@ -1,6 +1,9 @@
 ## Sessions
+\label{sec:sessions}
 
-Now that our users have the possibility to register and confirm on our page, we need to make it possible for our users to sign in. For handling login, we need to create a session controller:
+
+It is now possible for our user to register and confirm their registration. In order to handle login we will create a
+session controller:
 
 
 ```sh
@@ -15,7 +18,7 @@ $ padrino-gen controller Sessions new create destroy
 ```
 
 
-We made a mistake during the generation - we forget to add the right action for our request. Before making the mistake to delete the generated files by hand with a couple of `rm's`, you can run a generator to destroy a controller:
+We made a mistake during the generation - we forget to add the right actions. Of course we could delete the generated files by hand with a couple of `rm's`, but there is a more elegant way to destroy a controller:
 
 
 ```sh
@@ -38,7 +41,7 @@ $ padrino-gen controller Sessions get:new post:create get:destroy
 ```
 
 
-Our session controller is naked:
+Our session controller will look like:
 
 
 ```ruby
@@ -80,7 +83,10 @@ end
 \begin{aside}
 \heading{Test-First development}
 
-Is a term from [Extreme Programming (XP)](http://en.wikipedia.org/wiki/Extreme_programming "Extreme Programming (XP)") and means that you first write down your tests before writing any code to solve it. This forces you to really think about what you are going to do. These tests prevent you from over engineering a problem because you have to make these tests green.
+The term comes from [Extreme Programming (XP)](https://en.wikipedia.org/wiki/Extreme_programming "Extreme Programming (XP)") and means that you first write down your tests before writing any implementation code. This forces you to really think about what you are going to do.
+There is the hypotheses relating to code quality and a more direct correlation between TDD and productivity were inconclusive.
+
+The tests prevent you from over engineering a problem because you have to make these tests green.
 
 \end{aside}
 
@@ -103,49 +109,51 @@ RSpec.describe "SessionsController" do
   end
 
   describe "POST :create" do
-    let(:user) { build(:user)}
-    let(:params) { attributes_for(:user)}
+    let(:user) { build_stubbed(:user) }
+    let(:params) { attributes_for(:user) }
 
-    it "stay on page if user is not found" do
-      expect(User).to receive(:find_by_email).and_return(false)
+    it 'stays on login page if user is not found' do
+      expect(User).to receive(:find_by_email) { false }
       post 'sessions/create'
       expect(last_response).to be_ok
     end
 
-    it "stay on login page if user is not confirmed" do
+    it 'stays on login page if user is not confirmed' do
       user.confirmation = false
-      expect(User).to receive(:find_by_email).and_return(user)
+      expect(User).to receive(:find_by_email) { user }
       post 'sessions/create'
       expect(last_response).to be_ok
     end
 
-    it "stay on login page if user has wrong password" do
+    it 'stays on login page if user has wrong password' do
       user.confirmation = true
-      user.password = "fake"
-      expect(User).to receive(:find_by_email).and_return(user)
-      post 'sessions/create', {:password => 'correct'}
+      user.password = 'correct'
+      expect(User).to receive(:find_by_email) { user }
+      post 'sessions/create', password: 'wrong'
       expect(last_response).to be_ok
     end
 
-    it "redirects to home for confirmed user and correct password" do
+    it 'redirects to home for confirmed user and correct password' do
       user.confirmation = true
-      user.password = 'real'
-      expect(User).to receive(:find_by_email).and_return(user)
-      post 'sessions/create', {:password => 'real', :remember_me => false}
+      user.password = 'correct'
+      expect(User).to receive(:find_by_email) { user }
+      post 'sessions/create', password: 'correct'
       expect(last_response).to be_redirect
     end
   end
 
   describe "GET /logout" do
-    xit "empty the current session"
-    xit "redirect to homepage if user is logging out"
+    xit 'empty the current session'
+    xit 'redirects to homepage if user is logged out'
   end
 end
 ```
 
 
-We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/docs "method stubs") to make test what we want with the `expect(User).to receive(:find_by_email).and_return(false)` method. At first I was thinking at that mocking is something very difficult. Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return false. So we stimulate the actual application call `find_by_email` in our application and preventing our tests from hitting the database and making it faster. Beside we are using [xit](https://www.relishapp.com/rspec/rspec-core/v/2-4/docs/pending/pending-examples#temporarily-pending-by-changing-%22it%22-to-%22xit%22 "xit") to temporarily disable tests.
+We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/docs "method stubs")[^mocking-is-easy] to make test what we want with the `expect(User).to receive(:find_by_email).and_return(false)`[^mock-and-return-false] method.  So we stimulate the actual application call `find_by_email` in our application and preventing our tests from hitting the database and making it faster. Beside we are using [xit](https://relishapp.com/rspec/rspec-core/v/3-6/docs/pending-and-skipped-examples/skip-examples#temporarily-skipping-by-prefixing-`it`,-`specify`,-or-`example`-with-an-x "xit") to temporarily disable tests.
 
+[^mocking-is-easy]: At first I was thinking at that mocking is something very difficult. Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return false.
+[^mock-and-return-false]: Instead of writing `and_return(object)` you can also write the shortcut `{object}` which will I use in the next spec files
 
 Here is the code for our session controller to make the test "green":
 
@@ -176,7 +184,8 @@ end
 ```
 
 
-When I started the tests I got some weird error messages of calling a method `user.save` on a nil object and spend one hour till I found the issue. Do you remember the `UserObserver`? Exactly, this tiny piece of code is also activated for our tests and since we disable sending mails with the `set :delivery_method, :test` settings in `app.rb` I never received an mails. The simple to this problem was to add an option to in the `spec_helper.rb` to disable the observers:
+When I started the tests I got some weird error messages of calling a method `user.save` on a nil object when I started writing the test.
+Do you remember the `UserObserver`? Exactly, this tiny piece of code is also activated for our tests and since we disable sending mails with the `set :delivery_method, :test` settings in `app.rb` I never received an mails. The solution to this problem was to add an option to in the `spec_helper.rb` to disable the observers:
 
 
 ```ruby
@@ -202,25 +211,16 @@ SessionsController
   GET /login
     load the login page
   POST :create
-    stay on page if user is not found (FAILED - 1)
-    stay on login page if user is not confirmed (FAILED - 2)
-    stay on login page if user has wrong password (FAILED - 3)
+    stays on login page if user is not found (FAILED - 1)
+    stays on login page if user is not confirmed (FAILED - 2)
+    stays on login page if user has wrong password (FAILED - 3)
     redirects to home for confirmed user and correct password (FAILED - 4)
-    redirect if user is correct and has remember_me (FAILED - 5)
   GET /logout
     empty the current session (PENDING: Temporarily skipped with xit)
-    redirect to homepage if user is logging out (PENDING: Temporarily skipped with xit)
+    redirects to homepage if user is logged out (PENDING: Temporarily skipped with xit)
 
 Pending: (Failures listed here are expected and do not affect your suite's status)
-
-  1) SessionsController GET /logout empty the current session
-     # Temporarily skipped with xit
-     # ./spec/app/controllers/sessions_controller_spec.rb:66
-
-  2) SessionsController GET /logout redirect to homepage if user is logging out
-     # Temporarily skipped with xit
-     # ./spec/app/controllers/sessions_controller_spec.rb:71
-
+    ...
 
 Failures:
 
@@ -256,23 +256,11 @@ Failures:
 
 Finished in 0.38537 seconds (files took 0.74964 seconds to load)
 8 examples, 5 failures, 2 pending
-
-Failed examples:
-
-rspec ./spec/app/controllers/sessions_controller_spec.rb:15 # SessionsController
-  # POST :create stay on page if user is not found
-rspec ./spec/app/controllers/sessions_controller_spec.rb:21 # SessionsController
-  # POST :create stay on login page if user is not confirmed
-rspec ./spec/app/controllers/sessions_controller_spec.rb:28 # SessionsController
-  # POST :create stay on login page if user has wrong password
-rspec ./spec/app/controllers/sessions_controller_spec.rb:36 # SessionsController
-  # POST :create redirects to home for confirmed user and correct password
-rspec ./spec/app/controllers/sessions_controller_spec.rb:44 # SessionsController
-  # POST :create redirect if user is correct and has remember_me
+...
 ```
 
 
-The part of the tests with `POST :create.to be_ok` are failing because of [Padrinos csrf token](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/FormHelpers/Security "Padrinos csrf token"). To make the tests running, you need to disable them for the test environment:
+The part of the tests with `POST :create.to be_ok` are failing because of [Padrinos csrf token](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FHelpers%2FFormHelpers%2FSecurity:csrf_token_field "Padrinos csrf token"). To make the tests running, you need to disable them for the test environment:
 
 
 ```ruby
@@ -300,44 +288,61 @@ Before going on with implementing the logout action we need to think what happen
 # Helper methods defined here can be accessed in any controller or view in
 # the application
 
-JobVacancy::App.helpers do
-  # def simple_helper_method
-  #  ...
-  # end
+module JobVacancy
+  class App
+    module SessionsHelper
+      # def simple_helper_method
+      # ...
+      # end
+    end
+
+    helpers SessionsHelper
+  end
 end
 ```
 
 
-Yeah, Padrino prints the purpose of this new file and it says what we want to do. Let's implement the main features:
+Yeah, Padrino prints the purpose of this new file and it says what we want to do. Let's implement the main
+features[^test-sessions-helper]:
+
+
+[^test-sessions-helper]: We will write the test in chapter \ref{sec:authorization}
+
 
 
 ```ruby
 # app/helpers/session_helper.rb
 
-JobVacancy::App.helpers do
-  def current_user=(user)
-    @current_user = user
-  end
+module JobVacancy
+  class App
+    module SessionsHelper
+      def current_user=(user)
+        @current_user = user
+      end
 
-  def current_user
-    @current_user ||= User.find_by_id(session[:current_user])
-  end
+      def current_user
+        @current_user ||= User.find_by_id(session[:current_user])
+      end
 
-  def current_user?(user)
-    user == current_user
-  end
+      def current_user?(user)
+        user == current_user
+      end
 
-  def sign_in(user)
-    session[:current_user] = user.id
-    self.current_user = user
-  end
+      def sign_in(user)
+        session[:current_user] = user.id
+        self.current_user = user
+      end
 
-  def sign_out
-    session.delete(:current_user)
-  end
+      def sign_out
+        session.delete(:current_user)
+      end
 
-  def signed_in?
-    !current_user.nil?
+      def signed_in?
+        !current_user.nil?
+      end
+    end
+
+    helpers SessionsHelper
   end
 end
 ```
@@ -348,9 +353,9 @@ There's a lot of stuff going on in this helper:
 
 - `current_user`: Uses the `||=` notation. If the left hand-side isn't initialized, initialize the left hand-side with the right hand-side.
 - `current_user?`: Checks if the passed in user is the currently logged in user.
-- `sign_in`: Uses the global [session](http://www.sinatrarb.com/faq.html#sessions "Sinatra session") method use the user Id as login information
+- `sign_in`: Uses the global [session](http://www.sinatrarb.com/faq.html#sessions "Sinatra session") method use the user-id as login information
 - `sign_out`: Purges the `:current_user` field from our session.
-- `signed_in?`: We will use this small method within our whole application to display special actions which should only be available for authenticated users.
+- `signed_in?`: We will use application to display special actions which should only be available for authenticated users.
 
 
 \begin{aside}
@@ -359,10 +364,13 @@ There's a lot of stuff going on in this helper:
 When you request an URL in your browser, you are using the HTTP/HTTPS protocol. This protocol is stateless that means that it doesn't save the state in which you are in your application. Web applications implement states with one of the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g. <http://localhost:3000/login?user=test&password=test>).
 
 
-We are going to use cookies to save if a user is logged in and saving the user-Id in our session cookies under the `current_user` key.
+We are going to use cookies to save if a user is logged in and saving the user-id in our session cookies under the `:current_user` key.
 
 
-What the delete method does is the following: It will look into the last request in your application inside the session information hash and delete the `current_user` key. If you want to explore more of the internal of an application I highly recommend you [Pry](https://github.com/pry/pry "Pry"). You can throw in at any part of your application `binding.pry` and have full access to all variables.
+The delete method does the following: It will look into the last request in your application inside the session information hash and delete the `:current_user` key.
+
+If you want to explore more of the internal of an application I highly recommend you [pry gem](https://github.com/pry/pry "pry"). You can throw in at any part of your application `binding.pry` and have full access to all variables.
+
 \end{aside}
 
 
@@ -377,12 +385,12 @@ require 'spec_helper'
 describe "SessionsController" do
   ...
   describe "GET /logout" do
-    it "empty the current session" do
+    it 'empty the current session' do
       get '/logout'
       expect(last_request.env['rack.session'][:current_user]).to be_nil
     end
 
-    it "redirect to homepage if user is logging out" do
+    it 'redirect to homepage if user is logging out' do
       get '/logout'
       expect(last_response).to be_redirect
     end
@@ -394,7 +402,7 @@ end
 We use the [last_request method](https://github.com/brynary/rack-test/blob/master/lib/rack/mock_session.rb#L48 "last_request method") to access to [Rack's SessionHash](http://rubydoc.info/github/rack/rack/master/Rack/Session/Abstract/SessionHash "Rack's SessionHash") information.
 
 
-And finally the implementation of the code that it make our tests green:
+And finally the implementation of the code that make our tests green:
 
 
 ```ruby
@@ -404,14 +412,14 @@ JobVacancy::App.controllers :sessions do
   ...
   get :destroy, :map => '/logout' do
     sign_out
-    flash[:notice] = "You have successfully logged out."
+    flash[:notice] = 'You have successfully logged out.'
     redirect '/'
   end
 end
 ```
 
 
-What we forget due to this point is to make use of the `sign_in(user)` method. We need this during our session `:create` action:
+What we forget due to this point is to make use of the `sign_in(user)` method in our session `:create` action:
 
 
 ```ruby
@@ -432,7 +440,7 @@ end
 ```
 
 
-Where can we test now our logic? The main application layout of our application should have a "Login" and "Logout" link according to the status of the user:
+How can we test now our logic in the view? The main application layout should have a "Login" and "Logout" link according to the status of the user:
 
 
 ```erb
@@ -489,13 +497,22 @@ New on this platform? <%= link_to 'Register', url(:users, :new) %>
 
 
 \begin{aside}
-\heading{No hard coded urls for controller routes}
+\heading{No hard coded URLs for controller routes}
 
-The line above with `<% form_tag '/sessions/create' do %>` is not a good solution. If you are changing the mapping inside the controller, you have to change all the hard coded paths manually. A better approach is to reference the controller and action within the `url` method with `url(:sessions, :create)`. Try it out and see if it's working.
+The line above with `<% form_tag '/sessions/create' do %>` is not a good solution. If you are changing the mapping inside the controller, you have to change all the hard coded paths manually.
+
+A better approach is to reference the controller and action within the `url` method with `url(:sessions, :create)`. Try it out!
 \end{aside}
 
 
-Here we are using the [form_tag](http://www.padrinorb.com/guides/application-helpers#form-helpers "form_tag of Padrino") instead of the `form_for` tag because we don't want to render information about a certain model. We want to use the information of the session form to find a user in our database. We can use the submitted inputs with `params[:email]` and `params[:password]` in the `:create` action in our sessions controller. The basic idea is to pass a variable to the rendering of method which says if we have an error or not and display the message accordingly. To handle this we are using the `:locals` option to create customized params for your views:
+Here we are using the [form_tag](http://padrinorb.com/guides/application-helpers/form-helpers/#list-of-form-helpers "form_tag of Padrino") instead of the `form_for` tag because we don't want to render information about a certain model.
+
+We want to use the information of the session form to find a user in our database. We can use the submitted inputs with `params[:email]` and `params[:password]` in the `:create` action in our sessions controller.
+
+
+What is if the given parameters does not match? The basic idea is to pass a variable to the rendering of method which says if we have an error or not and display the message accordingly. To handle this we are using the `:locals` which allows us to use to create customized params in our views:
+Local variables accessible in the partial
+option to create customized params for your views:
 
 
 ```ruby
@@ -503,7 +520,7 @@ Here we are using the [form_tag](http://www.padrinorb.com/guides/application-hel
 
 JobVacancy::App.controllers :sessions do
   get :new, :map => "/login" do
-    render 'new', :locals => { :error => false }
+    render 'new', locals: { error: false }
   end
 
   post :create do
@@ -513,7 +530,7 @@ JobVacancy::App.controllers :sessions do
       sign_in(@user)
       redirect '/'
     else
-      render 'new', :locals => { :error => true }
+      render 'new', locals: { error: true }
     end
   end
   ...
@@ -543,7 +560,9 @@ New on this platform? <%= link_to 'Register', url(:users, :new) %>
 ```
 
 
-The last thing we want to is to give the user feedback about what the recently action. Like that it would be nice to give feedback of the success of the logged and logged out action. We can do this with short flash messages above our application which will fade away after a certain amount of time. To do this we can use Padrino's flash mechanism is build on [Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash "Rails flash message implementation").
+The last thing we want to is to give the user feedback about what the recently action. Like that it would be nice to give feedback of the success of the logged and logged out action. We can do this with short flash messages above our application which will fade away after a certain amount of time. To do this we can use [Padrino's flash mechanism](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Flash/Helpers#flash-instance_method "Padrino's flash mechanism")[^padrino-flash]
+
+[^padrino-flash]: It is s build on [Rails flash message implementation](http://guides.rubyonrails.org/action_controller_overview.html#the-flash "Rails flash message implementation").
 
 
 And here is the implementation of the code:
@@ -563,7 +582,7 @@ And here is the implementation of the code:
   <div class="container">
     <% if !flash.empty? %>
       <div class="row" id="flash">
-      <% if flash.key[:notice] %>
+      <% if flash.key?(:notice) %>
         <div class="span9 offset3 alert alert-success">
           <%= flash[:notice] %>
         </div>
@@ -571,6 +590,7 @@ And here is the implementation of the code:
       </div>
     <% end %>
   </div>
+  ...
 </body>
 ```
 
@@ -587,11 +607,11 @@ JobVacancy::App.controllers :sessions do
     user = User.find_by_email(params[:email])
 
     if user && user.confirmation && user.password == params[:password]
-      flash[:notice] = "You have successfully logged out."
+      flash[:notice] = 'You have successfully logged out.'
       sign_in(user)
       redirect '/'
     else
-      render 'new', :locals => { :error => true }
+      render 'new', locals: { error: true }
     end
   end
   ...
@@ -599,7 +619,10 @@ end
 ```
 
 
-If you now login successfully you will see the message but it will stay there forever. But we don't want to have this message displayed the whole time, we will use jQuery's [fadeOut method](http://api.jquery.com/fadeOut "fadeOut method of jQuery") to get rid of the message. Since we are first writing our own customized JavaScript, let's create the inline with the following content:
+If you now login successfully you will see the message but it will not go away. We will use jQuery's [fadeOut method](http://api.jquery.com/fadeOut "fadeOut method of jQuery") to get rid of the message.
+
+
+This is the first time we writing our own customized JavaScript, let's create the inline with the following content:
 
 
 ```erb

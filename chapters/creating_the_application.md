@@ -5,7 +5,7 @@ Start with generating a new project with the canonical `padrino` command. In con
 
 ```sh
 $ mkdir ~/padrino-projects
-$ cd ~/padrino_projects
+$ cd ~/padrino-projects
 $ padrino-gen project job-vacancy -d activerecord \
   -t rspec \
   -s jquery \
@@ -19,9 +19,9 @@ Explanation of the fields commands:
 
 - **-d activerecord**: We are using [Active Record](https://rubygems.org/gems/activerecord "Active Record") as the orm library (*Object Relational Mapper*).
 - **-t rspec**: We are using the [RSpec](https://github.com/dchelimsky/rspec/wiki/get-in-touch "RSpec") testing framework.
-- **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous [jQuery](http://jquery.com "jQuery") library.
-- **-e erb**: We are using [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup for writing HTML templates. An alternative is [Haml](http://haml.info/ "Haml") or [Slim](http://slim-lang.com "Slim"), but to keep the project as simple as possible, we stick with ERB. Feel free to use them if you like to.
-- **-a sqlite**: Our ORM[^orm] database adapter is [SQLite](http://www.sqlite.org "SQLite"). The whole database is saved in a text file.
+- **-s jquery**: Defining the JavaScript library we are using - for this app will be using the ubiquitous [jQuery](https://jquery.com "jQuery") library.
+- **-e erb**: We are using [ERB](https://ruby-doc.org/stdlib-2.4.1/libdoc/erb/rdoc/ERB.html "ERB") (*embedded ruby*) markup for writing HTML templates.
+- **-a sqlite**: Our adapter for the activerecord ORM[^orm] database adapter is [SQLite](http://www.sqlite.org "SQLite"). The whole database is saved in a text file.
 
 
 Since we are using RSpec for testing, we will use its' built-in mock extensions [rspec-mocks](https://github.com/rspec/rspec-mocks "rspec mocks") for writing tests later. In case you want to use another mocking library like [rr](https://rubygems.org/gems/rr "rr") or [mocha](http://gofreerange.com/mocha/docs "mocha"), feel free to add it with the **-m** option.
@@ -30,11 +30,24 @@ Since we are using RSpec for testing, we will use its' built-in mock extensions 
 You can use a vast array of other options when generating your new Padrino app, this table shows the currently available options:
 
 
-- `orm`: Available options are: [activerecord](https://github.com/rails/rails/tree/master/activerecord "Active Record"), [couchrest](https://github.com/couchrest/couchrest "couchrest"),  [datamapper](http://datamapper.org "datamapper"), [minirecord](https://github.com/DAddYE/mini_record "minirecord"), [mongoid](https://github.com/mongoid/mongoid "mongoid"), [mongomatic](https://github.com/mongomatic/mongomatic "mongomatic"), [ohm](https://github.com/soveran/ohm "ohm"), [ripple](https://github.com/basho-labs/ripple "ripple"), and [sequel](https://github.com/jeremyevans/sequel "sequel"). The command line alias is `-d`.
-- `test`: Available options are: [bacon](https://github.com/chneukirchen/bacon "bacon"), [cucumber](https://github.com/cucumber/cucumber "cucumber"), [minitest](https://github.com/seattlerb/minitest "minitest"), [riot](http://thumblemonks.github.io/riot "riot"), [rspec](https://github.com/rspec/rspec "rspec"), [shoulda](https://github.com/thoughtbot/shoulda "shoulda"), and [steak](https://github.com/cavalle/steak "steak"). The command line alias is `-t`.
-- `script`: Available options are: [dojo](http://dojotoolkit.org "dojo"), [extcore](http://www.sencha.com/products/extcore "extcore"), [jquery](http://jquery.com "jQuery"), [mootools](http://mootools.net "mootools"), [prototype](http://prototypejs.org/ "prototype"), and [rightjs](http://rightjs.org "rightjs"). The command line alias is `-s`.
-- `renderer`: Available options are: [erb](http://ruby-doc.org/stdlib-2.1.4/libdoc/erb/rdoc/ERB.html "erb"), [haml](http://ruby-doc.org/stdlib-2.1.4/libdoc/erb/rdoc/ERB.html "haml"), [liquid](http://liquidmarkup.org "liquid"), and [slim](http://slim-lang.com "slim"). The command line alias is `-e`.
-- `stylesheet`: Available options are: [compass](http://compass-style.org "compass"), [less](http://lesscss.org "less"), [sass/scss](http://sass-lang.com "sass and scss"). The command line alias is `-c`.
+- `orm`: Available options are: [activerecord](https://github.com/rails/rails/tree/master/activerecord "Active Record"),
+  [couchrest](https://github.com/couchrest/couchrest "couchrest"), [dynamoid](https://github.com/Dynamoid/Dynamoid "dynamoid"),
+  [datamapper](http://datamapper.org "datamapper"), [minirecord](https://github.com/DAddYE/mini_record "minirecord"),
+  [mongomapper](https://github.com/mongomapper/mongomapper "mongomapper"), [mongoid](https://github.com/mongoid/mongoid "mongoid"),
+  [mongomatic](https://github.com/mongomatic/mongomatic "mongomatic"), [ohm](https://github.com/soveran/ohm "ohm"),
+  [ripple](https://github.com/basho-labs/ripple "ripple"), and [sequel](https://github.com/jeremyevans/sequel "sequel").
+  The command line alias is `-d`.
+- `test`: Available options are: [bacon](https://github.com/chneukirchen/bacon "bacon"), [cucumber](https://github.com/cucumber/cucumber "cucumber"),
+  [minitest](https://github.com/seattlerb/minitest "minitest"), [rspec](https://github.com/rspec/rspec "rspec"),
+  [shoulda](https://github.com/thoughtbot/shoulda "shoulda"), [test-unit](https://github.com/test-unit/test-unit "test-unit"),
+  and [steak](https://github.com/cavalle/steak "steak"). The command line alias is `-t`.
+- `script`: Available options are: [dojo](https://dojotoolkit.org "dojo"), [extcore](https://www.sencha.com/products/extjs/#overview "extcore"),
+  [jquery](https://jquery.com "jQuery"), [mootools](https://mootools.net "mootools"),
+  and [prototype](http://prototypejs.org/ "prototype"). The command line alias is `-s`.
+- `renderer`: Available options are: [erb](https://ruby-doc.org/stdlib-2.1.4/libdoc/erb/rdoc/ERB.html "erb"),
+  [haml](http://haml.info/ "haml"), [liquid](https://shopify.github.io/liquid/ "liquid"),
+  and [slim](http://slim-lang.com "slim"). The command line alias is `-e`.
+- `stylesheet`: Available options are: [compass](http://compass-style.org "compass"), [less](http://lesscss.org "less"), [sass/scss](http://sass-lang.com "sass and scss"), and [scss](http://sass-lang.com/documentation/file.SCSS_FOR_SASS_USERS.html "scss") (which ist just sass with scss syntax). The command line alias is `-c`.
 - `mock`: Available options are: [mocha](http://gofreerange.com/mocha "mocha") and [rr](http://rr.github.io/rr "rr").
 
 
@@ -62,12 +75,13 @@ Later, when *the time comes*, we will add extra gems, for now though we'll grab 
 $ bundle install
 ```
 
+
 ### Basic Layout
 
 Lets design our first version of the *index.html* page which is the starter page our app. An early design question is: Where to put the *index.html* page? Because we are not working with controllers, the easiest thing is to put the *index.html* directly under the public folder in the project.
 
 
-We are using [HTML5](http://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, and add the following code into `public/index.html`:
+We are using [HTML5](https://en.wikipedia.org/wiki/HTML5 "HTML5") for the page, and add the following code into `public/index.html`:
 
 
 ```html
@@ -174,7 +188,7 @@ end
 We will go through each line:
 
 
-- `JobVacancy::App.controller :page` - Define the namespace *page* for our JobVacancy app. Typically, the controller name will also be part of the route.
+- `JobVacancy::App.controller :page` - defines the namespace *page* for our JobVacancy app. Typically, the controller name will also be part of the route.
 - `do ... end` - This expression defines a block in Ruby. Think of it as a method without a name, also called anonymous functions, which is passed to another function as an argument.
 - `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the *about* action (as a symbol[^symbol]), and is finally mapped to the explicit URL */about*. When you start your server with `bundle exec padrino s` and visit the URL <http://localhost:3000/about>, you can see the rendered output of this request.
 - `render :erb, 'about'` - This action tells us that we want to render the *erb* file *about* for the corresponding controller which is `page` in our case. This file is actually located at `app/views/page/about.erb` file. Normally the views are placed under `app/views/<controller-name>/<action-name>.<ending>`. Instead of using an ERB templates, you could also use `:haml`, or another [template engine](https://www.ruby-toolbox.com/categories/template_engines "template engine for Ruby"). You can even completely drop the rendering option and leave the matching completely for Padrino.
@@ -223,10 +237,10 @@ Let's see what is going on with the `<%= yield %>` line. At first you may ask wh
 
 ### CSS Design Using Twitter Bootstrap
 
-The guys at Twitter were kind enough to make their CSS framework [Twitter Bootstrap](https://github.com/twitter/bootstrap/ "Twitter Bootstrap") available for everyone to use.
+The guys at Twitter were kind enough to make their CSS framework [Twitter Bootstrap](https://github.com/twbs/bootstrap "Twitter Bootstrap") available for everyone to use.
 
 
-Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes "Padrino recipes") help you saving time by not reinventing the wheel.  Thanks to [@arthur_chiu](http://twitter.com/#!/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb "bootstrap plugin") by executing:
+Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes "Padrino recipes") help you saving time by not reinventing the wheel. Thanks to [@arthur_chiu](https://twitter.com/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb "bootstrap plugin") by executing:
 
 
 ```sh
@@ -262,15 +276,16 @@ The `stylesheet_link_tag` points to the *bootstrap.min.css* in you app *public/s
 
 ### Using Sprockets to Manage the Asset Pipeline
 
-[Sprockets](https://github.com/sstephenson/sprockets "Sprockets") are a way to manage serving your assets like CSS, and JavaScript compiling all the different files in one summarized file for each type. To take advantage to use a preprocessor to write your assets with [Sass](http://sass-lang.com "Sass"), [CoffeeScript](http://coffeescript.org "CoffeeScript"), or [less](http://lesscss.org "less").
+[Sprockets](https://github.com/rails/sprockets "Sprockets") is a way to manage serving your assets like CSS, and JavaScript compiling all the different files in one summarized file for each type.
 
 
 To implement Sprockets in Padrino there the following strategies:
 
 
 - [rake-pipeline](https://github.com/livingsocial/rake-pipeline "rake-pipeline"): Define filters that transforms directory trees.
-- [grunt](http://gruntjs.com "grunt"): Set a task to compile and manage assets in JavaScript.
-- [sinatra-assetpack](https://github.com/rstacruz/sinatra-assetpack "sinatra-assetpack"): Let's you define you assets transparently in Sinatra.
+- [grunt](https://gruntjs.com "grunt"): Set a task to compile and manage assets in JavaScript.
+- [sinatra-asset-pipeline](https://github.com/kalasjocke/sinatra-asset-pipeline "sinatra-asset-pipeline"): Let's you define you assets transparently in Sinatra.
+- [sprocket-helpers](https://github.com/petebrowne/sprockets-helpers "sprocket-helpers"): Asset path helpers for Sprockets 2.0 applications
 - [padrino-sprockets](https://github.com/nightsailer/padrino-sprockets "padrino-sprockets"): Integrate sprockets with Padrino in the Rails way.
 
 
@@ -445,8 +460,8 @@ Next we want to create the top-navigation for our app. We already implemented th
 Explanation of the new parts:
 
 
-- [link_to](http://www.padrinorb.com/api/Padrino/Helpers/AssetTagHelpers.html#link_to-instance_method) - Is a helper for creating links. The first argument is the name for the link and the second is for the URL (href) to which the link points to.
-- [url](http://www.padrinorb.com/api/Padrino/Routing/InstanceMethods.html#url-instance_method) (or `url_for`) - This helper return the link which can be used as the second parameter for the `link_to` function. It specifies the <:controller>, <:action> which will be executed. You can use in your helper in your whole app to create clean and encapsulated URLs.
+- [link_to](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/AssetTagHelpers#link_to-instance_method "link_to-instance_method") - Is a helper for creating links. The first argument is the name for the link and the second is for the URL (href) to which the link points to.
+- [url](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Routing/InstanceMethods#url-instance_method "url-instance_method") - This helper return the link which can be used as the second parameter for the `link_to` function. It specifies the <:controller>, <:action> which will be executed. You can use in your helper in your whole app to create clean and encapsulated URLs.
 
 
 Now that the we provide links to other parts of the app, lets add some sugar-candy styling:
@@ -454,7 +469,6 @@ Now that the we provide links to other parts of the app, lets add some sugar-can
 
 ```css
 /* app/assets/stylesheets/site.css */
-
 body {
   font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana,
     sans-serif;
@@ -484,7 +498,7 @@ h1 {
 ```
 
 
-I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c school css](http://www.w3schools.com/css/default.asp "w3c school css") tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
+I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c school css](https://www.w3schools.com/css/default.asp "w3c school css") tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
 
 
 ### Writing Tests
@@ -547,7 +561,7 @@ end
 ```
 
 
-Let's explain the interesting parts:
+Let's explain the new things:
 
 
 - `spec_helper` - Is a file to load commonly used functions to setup the tests.

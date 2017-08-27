@@ -107,7 +107,7 @@
  }{\par\unskip\@minipagefalse\endMakeFramed}
 
 % Caption styling
-\usepackage[font={it,small}]{caption}
+% \usepackage[font={it,small}]{caption}
 
 % Codelistings
 \newcounter{codelisting}
@@ -151,9 +151,32 @@
 \usepackage{float}
 
 % Define some commonly used Unicode characters.
+\usepackage{latex_styles/applekeys}
 \usepackage{newunicodechar}
+\newunicodechar{⌘}{\cmdkey}
+\newunicodechar{⌥}{\optkey}
+\newunicodechar{⌃}{\ctlkey}
+\newunicodechar{⇧}{\shiftkey}
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇥}{\tabkey}
+\newunicodechar{↵}{\returnkey}
+\newunicodechar{⌫}{\delkey}
+\newunicodechar{␣}{\textvisiblespace}
 \newunicodechar{—}{---}
 \newunicodechar{–}{--}
+\newunicodechar{™}{\texttrademark}
+\newunicodechar{©}{\copyright}
+\newunicodechar{®}{\textregistered}
+\newunicodechar{…}{\ldots}
+\newunicodechar{£}{\pounds}
+\usepackage{eurosym}
+\newunicodechar{€}{\euro}
+\newunicodechar{¡}{!`}
+\newunicodechar{¿}{?`}
+\newunicodechar{ß}{\ss}
 
 \usepackage{latex_styles/language_customization}
 

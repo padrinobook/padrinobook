@@ -16,11 +16,13 @@ $ padrino-gen model user name:string email:string -a app
     create  db/migrate/001_create_users.rb
 ```
 
+(If we don't use the `-a` option, the models will be added in the root `models` folder).
+
 
 Wow, it created a quite a bunch of files for us. Let's examine each of them:
 
 
-**user.rb**
+**user.rb**:
 
 
 ```ruby
@@ -32,6 +34,9 @@ end
 
 
 All we have is an empty class which inherits from [ActiveRecord::Base](http://api.rubyonrails.org/classes/ActiveRecord/Base.html "ActiveRecord::Base"). `ActvieRecord` provides a simple object-relational-mapper from our models to corresponding database tables. You can also define relations between models through associations.
+
+
+**user_spec.rb**:
 
 
 ```ruby
@@ -74,11 +79,12 @@ Failed examples:
 ```
 
 
-Executing the test resulted in an error. It very explicitly told us the reason: The *user* table does not exist yet. And how do we create one? Here, migrations enter the stage.
+Executing the test resulted in an error. It explicitly told us the reason: The *user* table does not exist yet. And how do we create one? Here, migrations enter the stage.
 
+
+**001_create_users.rb**:
 
 Migrations helps you to change the database in an ordered manner. Let's have a look at our first migration:
-
 
 ```ruby
 # db/migrate/001_create_users.rb
@@ -128,7 +134,7 @@ $ ls db/
 ```
 
 
-Now let's start [sqlite3](http://www.sqlite.org "sqlite3"), connect to the database, and see if the users table was created properly:
+Now let's start [sqlite3](https://www.sqlite.org "sqlite3"), connect to the database, and see if the users table was created properly:
 
 
 ```sh
@@ -178,18 +184,10 @@ bundle exec padrino rake ar:create:all
 => Executing Rake ar:create:all ...
 /home/elex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db
   already exists
-/home/helex/Dropbox/git-repositorie/job-vacancy/db/job_vacancy_development.db
-  already exists
-/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_production.db
-  already exists
-/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db
-  already exists
-/home/helex/Dropbox/git-repositories/job-vacancy/db/job_vacancy_test.db
-  already exists
 ```
 
 
-Alright, now we are ready to re-execute the tests again.
+Now the databases for *production* and *test* have been generated. Time to run the tests again:
 
 
 ```sh
@@ -244,22 +242,18 @@ Finished in 0.05492 seconds
 ```
 
 
-How can we run all the tests in our application and see if everything is working? Execute `padrino rake spec` to run all tests in the `spec/` folder:
+How can we run all the tests in our application and see if everything is working? `padrino rake spec` will run all tests in the `spec/` folder:
 
 
 ```sh
 $ padrino rake spec
 => Executing Rake spec ...
-/home/helex/.rbenv/versions/1.9.3-p392/bin/ruby
-  -S rspec ./spec/app/models/user_spec.rb -fs --color
 
 User Model
   can be created
 
 Finished in 0.05589 seconds
 1 example, 0 failures
-/home/helex/.rbenv/versions/1.9.3-p392/bin/ruby
-  -S rspec ./spec/app/controllers/page_controller_spec.rb -fs --color
 
 PageController
   GET #about
@@ -290,7 +284,7 @@ Since we now know how to create the basic model of our users, it's time to creat
 - time-end: A job offer isn't valid forever.
 
 
-Let's run the Padrino command to create the model for us. As you see, we once again run `-a app` at the end of our generation.  Without specifying location, a new folder called `models` is created in the main directory.
+Let's run the Padrino command to create the model for us. As you see, we once again run `-a app` at the end of our generation.
 
 
 ```sh
@@ -303,20 +297,11 @@ $ padrino-gen model job_offer title:string location:string \
    create  db/migrate/002_create_job_offers.rb
 ```
 
-
-If you want to delete a model in Padrino by running:
-
-
-```
-$ padrino-gen model job_offer -d
-```
-
-
 Next, we need to run our new database migration so that our database has the right scheme:
 
 
 ```sh
-$ bundle exec padrino rake ar:migrate
+$ padrino rake ar:migrate
   => Executing Rake ar:migrate ...
     DEBUG -  (0.4ms)  SELECT "schema_migrations"."version"
       FROM "schema_migrations"
@@ -330,31 +315,22 @@ $ bundle exec padrino rake ar:migrate
 ```
 
 
-In order to run our tests, we also need to run our migrations for the test environment:
-
-
-```sh
-$ padrino rake ar:migrate -e test
-  => Executing Rake ar:migrate ...
-  ==  CreateJobOffers: migrating ==============================================
-  -- create_table(:job_offers)
-     -> 0.0302s
-  ==  CreateJobOffers: migrated (0.0316s) =====================================
-```
+Don't forget to run the migrations also for the test environment with `padrino rake ar:migrate -e test`
 
 
 ### Creating Connection Between User And Job Offer Model
 
-Since we now have created our two main models, it's time to define associations between them. Associations make common operations like deleting or updating data in our relational database easier. Imagine that we have a user in our app that added many job offers in our system. Now this customer decides that he wants to cancel his account. We decide that all his job offers should also disappear in the system. One solution would be to delete the user, remember his id, and delete all job offers entries that originate from this id. This manual effort disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete automatically all corresponding jobs for this user".
+It's time to define associations between the user and job offer model. But why should you take care of them? Associations make common operations like deleting or updating data our relational databases easier. Imagine that we have a user in our app that added many job offers in our system. Now this customer decides that he wants to cancel his account. We decide that all his job offers should also disappear in the system. One solution would be to delete the user, remember his id, and delete all job offers entries that originate from this id. This manual effort disappears when associations are used: It becomes as easy as "If I delete this user from the system, delete automatically all corresponding jobs for this user".
+
 
 
 We will quickly browse through the associations.
 
 
-**has_many**
+**has_many**:
 
 
-This association is the most commonly used one. It does exactly as it tells us: One object has many other objects.  We define the association between the user and the job offers as shown in the following expression:
+It does exactly as it tells us: One object has many other objects.
 
 
 ```ruby
@@ -369,7 +345,7 @@ end
 **belongs_to**
 
 
-The receiving object of the *has_many* relationship defines that it belongs to exactly one object, and therefore:
+The receiving object of the *has_many* relationship defines that it belongs to exactly one object:
 
 
 ```ruby
@@ -381,7 +357,7 @@ end
 ```
 
 
-**Migrate after associate**
+**Migrations after association**:
 
 
 Whenever you modify your models, remember that you need to run migrations too. Because we added the associations manually, we also need to write the migrations. Luckily, Padrino helps us with this task a bit. We know that the job offer is linked to a user via the user's id. This foreign key relationship results in adding an extra column `user_id` to the `job_offers table`. For this change, we can use the following command to create a migration:
@@ -416,22 +392,13 @@ end
 ```
 
 
-Can you see the small bug? This migration won't work, you have to change `joboffers` to `job_offers`. For the time being, generators can help you to write code, but not prevent you from thinking.
+Can you see the small bug? This migration won't work, you have to change `joboffers` to `job_offers`. For the time being, generators can help you to write code, but not prevent you from thinking. Run the migrations now!
 
 
-Finally let's run our migrations:
 
+### Testing Associations in the console
 
-```sh
-$ padrino rake ar:migrate
-$ padrino rake ar:migrate -e test
-```
-
-
-### Testing Associations in the Console
-
-
-To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a different approach and use the Padrino console this time.  All you have to do is to run the following command:
+To see whether the migrations were executed, we connected to the sqlite3 database via the command line. Let's use a different approach and use the Padrino console this time. All you have to do is to run the following command:
 
 
 ```sh
@@ -441,22 +408,24 @@ $ padrino c
 ```
 
 
-Now you are in an environment which acts like [IRB](http://en.wikipedia.org/wiki/Interactive_Ruby_Shell "IRB") (interactive Ruby shell). This allows you to execute Ruby commands and immediately see it's response.
+Now you are in an environment which acts like [IRB](https://en.wikipedia.org/wiki/Interactive_Ruby_Shell "Interactive Ruby Shell") (Interactive Ruby Shell). This allows you to execute Ruby commands and immediately see it's response.
 
 
-Let's run the shell to create a user with job offers:
+Let's run the shell to create a user:
 
 
 ```sh
 user = User.new(:name => 'Matthias Günther', :email => 'matthias.guenther')
   => #<User id: nil, name: "Matthias Günther", email: "matthias.guenther",
      #created_at: nil, updated_at: nil>
-  >> user.name
-  => "Matthias Günther"
 ```
 
 
-This creates a user object in our session. If we want to add an entry permanently into the database, you have to use *create* method:
+This creates a user object in our session. If we want to add an entry permanently into the database, you can either use
+[save method](https://apidock.com/rails/ActiveRecord/Base/save "save method") on the `user` object to persist
+it to the databasue or use
+[create method](https://apidock.com/rails/ActiveRecord/Base/create/class "create method") to persist a model during it's
+creation:
 
 
 ```sh
@@ -470,23 +439,13 @@ DEBUG -  (0.2ms)  begin transaction
 => #<User id: 1, name: "Matthias Günther", email: "matthias.guenther",
    # created_at: "2012-12-26 08:32:51",
     updated_at: "2012-12-26 08:32:51">
-  >>
 ```
 
 
-Please note that now you have an entry in your development database `db/job_vacancy_development.db`. To see this, connect to the database and execute a 'SELECT' statement::
+Please note that now you have an entry in your `db/job_vacancy_development.db` database.
 
 
-```sh
-$ sqlite3 db/job_vacancy_development.db
-  sqlite> SELECT * FROM users;
-  1|Matthias Günther|matthias.guenther
-   |2012-12-26 08:32:51.323349|2012-12-26 08:32:51.323349
-  sqlite>.exit
-```
-
-
-Since we have an user, it's time to some job offers too:
+Since we have an user, it's time to add a job offer:
 
 
 ```sh
@@ -499,32 +458,6 @@ $ padrino c
    :time_start => '2013/01/01',
    :time_end => '2013/03/01',
    :user_id => 1)
- ...
-   => #<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin",
-      # description: "Come to this great place",
-   contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
-   time_end: "2013-03-01", created_at: "2012-12-26 10:12:07",
-   updated_at: "2012-12-26 10:12:07", user_id: 1>
-```
-
-
-And now let's create a second one for our first user:
-
-
-```sh
->> JobOffer.create(:title => 'Padrino Engineer 2',
-    :location => 'Berlin',
-    :description => 'Come to this great place',
-    :contact => 'recruter@padrino-company.org',
-    :time_start => '2013/01/01',
-    :time_end => '2013/03/01',
-    :user_id => 1)
-  ...
-    => #<JobOffer id: 2, title: "Padrino Engineer 2", location: "Berlin",
-       # description: "Come to this great place",
-    contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
-    time_end: "2013-03-01", created_at: "2012-12-26 10:41:29",
-    updated_at: "2012-12-26 10:41:29", user_id: 1>
 ```
 
 
@@ -547,14 +480,7 @@ There is one last thing we forget: Say you are logged in and wants to edit a use
   DEBUG - JobOffer Load (0.6ms)  SELECT "job_offers".* FROM "job_offers" WHERE
   "job_offers"."user_id" = 1
   => [#<JobOffer id: 1, title: "Padrino Engineer", location: "Berlin",
-  description: "Come to this great place", contact: "recruter@padrino-firm.org",
-  time_start: "2013-01-01", time_end: "2013-03-01", created_at: "2012-12-26
-  10:12:07", updated_at: "2012-12-26 10:12:07", user_id: 1>,
-  #<JobOffer id: 2, title: "Padrino Engineer 2", location:
-  "Berlin", description: "Come to this great place",
-  contact: "recruter@padrino-firm.org", time_start: "2013-01-01",
-  time_end: "2013-03-01", created_at: "2012-12-26 10:41:29",
-  updated_at: "2012-12-26 10:41:29", user_id: 1>]
+  ...]
 ```
 
 
@@ -575,7 +501,7 @@ What do we need to use Factory Girl in our app? Right, we first we need to add a
 ```ruby
 # Gemfile
 ...
-gem 'factory_girl', '4.2.0', :group => 'test'
+gem 'factory_girl', '4.8.0', :group => 'test'
 ...
 ```
 
@@ -586,9 +512,9 @@ If you pay a closer look into the `Gemfile`, you can see that we have several ge
 ```ruby
 # Gemfile
 ...
-gem 'rspec' , '2.13.0',      :group => 'test'
-gem 'factory_girl', '4.2.0', :group => 'test'
-gem 'rack-test', '0.6.2',    :require  => 'rack/test', :group => 'test'
+gem 'rspec' , '3.5.0',      :group => 'test'
+gem 'factory_girl', '4.8.0', :group => 'test'
+gem 'rack-test', '0.6.3',    :require  => 'rack/test', :group => 'test'
 ...
 ```
 
@@ -600,9 +526,9 @@ Luckily we can use the :group <name> do ... end syntax to cleanup  to get rid of
 # Gemfile
 ...
 group :test do
-  gem 'rspec' , '2.13.0'
-  gem 'factory_girl', '4.2.0'
-  gem 'rack-test', '0.6.2', :require => 'rack/test'
+  gem 'rspec' , '3.5.0'
+  gem 'factory_girl', '4.8.0'
+  gem 'rack-test', '0.6.3', :require => 'rack/test'
 end
 ...
 ```
@@ -611,7 +537,8 @@ end
 Execute `bundle` and the new gem will be installed.
 
 
-Next we need to define a *factory* to include all the fixtures of our models:
+Next we need to define a [factory](http://www.rubydoc.info/gems/factory_girl/file/GETTING_STARTED.md#Defining_factories "factory") to
+include all the fixtures of our models:
 
 
 ```ruby
@@ -628,7 +555,15 @@ end
 ```
 
 
-I want to add myself as a test user. Since I'm German, I want to use special symbols, called umlauts, from my language.  To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for the definition for user model. To make our factory available in all our tests, we have to *require* our factory in the `spec_helper.rb`:
+I want to add myself as a test user. Since I'm German, I want to use special symbols, called mutated vowel[^vowel] from the German language.
+To make Ruby aware of this, I'm putting `# encoding: utf-8` at the header of the file. The symbol `:user` stands for the definition of a user model.
+
+
+[^vowel]: Their name is "Umlaut" in the German language
+
+
+To make our factory available in all our tests, we have to *require* our factory in the `spec_helper.rb`:
+
 
 
 ```ruby
@@ -670,10 +605,15 @@ end
 ```
 
 
-The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient expressions. Instead of using `User.create`, we are using `FactoryGirl.build(:user)` to temporarily create a `user` fixture. The job offer that we are adding for the tests is defined as an attribute hash - you map the attributes (keys) to their values. If you run the tests, they will pass.
+The basic philosophy behind testing with fixtures is that you create objects as you need them with convenient expressions. Instead of using
+`User.create`, we are using [FactoryGirl.build](http://www.rubydoc.info/gems/factory_girl/FactoryGirl/Syntax/Methods#build-instance_method "build method of FactoryGirl") method to temporarily create a `user` fixture. The job offer that we are adding for the tests is defined as an attribute hash
+- you map the attributes (keys) to their values.
 
 
-The `build` method that we use to create the user will only add the test object in memory. If you want to permanently add fixtures to the database, you have to use `create` instead. Play with it, and see that the same test using `create` instead of `build` takes much longer because it hits the database.
+The `build` method that we use to create the user will only add the test object in memory[^memory]. If you want to permanently add fixtures to the database, you have to use [create](http://www.rubydoc.info/gems/factory_girl/FactoryGirl/Syntax/Methods#create-instance_method "create method of FactoryGirl") method instead. Play with it, and see that the same test using `create` instead of `build` takes much longer because it hits the database.
+
+
+[^memory]: but only if the model has no associations, otherwise build will acts like create.
 
 
 We can improve our test by creating a factory for our job offer too and cleaning the `user_spec.rb` file:
@@ -719,7 +659,8 @@ end
 ```
 
 
-As you see, the job fixtures are created with FactoryGirls' `attributes_for` method. This method takes a symbol as an input and returns the attributes of the fixture as a hash.
+As you see, the job fixtures are created with
+[attributes_for](http://www.rubydoc.info/gems/factory_girl/FactoryGirl/Syntax/Methods#attributes_for-instance_method "Factory Girls attributes_for") method. This method takes a symbol as an input and returns the attributes of the fixture as a hash.
 
 
 Now, our tests are looking fine and they are still green. But we can do even better. We can remove the `FactoryGirl` expressions if we add make the following change to our `spec_helper.rb`:
