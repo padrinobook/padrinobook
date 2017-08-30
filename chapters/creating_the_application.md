@@ -39,8 +39,7 @@ You can use a vast array of other options when generating your new Padrino app, 
   The command line alias is `-d`.
 - `test`: Available options are: [bacon](https://github.com/chneukirchen/bacon "bacon"), [cucumber](https://github.com/cucumber/cucumber "cucumber"),
   [minitest](https://github.com/seattlerb/minitest "minitest"), [rspec](https://github.com/rspec/rspec "rspec"),
-  [shoulda](https://github.com/thoughtbot/shoulda "shoulda"), [test-unit](https://github.com/test-unit/test-unit "test-unit"),
-  and [steak](https://github.com/cavalle/steak "steak"). The command line alias is `-t`.
+  [shoulda](https://github.com/thoughtbot/shoulda "shoulda"), and [test-unit](https://github.com/test-unit/test-unit "test-unit"). The command line alias is `-t`.
 - `script`: Available options are: [dojo](https://dojotoolkit.org "dojo"), [extcore](https://www.sencha.com/products/extjs/#overview "extcore"),
   [jquery](https://jquery.com "jQuery"), [mootools](https://mootools.net "mootools"),
   and [prototype](http://prototypejs.org/ "prototype"). The command line alias is `-s`.
@@ -57,7 +56,7 @@ The default value of each option is none. In order to use them you have to speci
 Besides the `project` option for generating new Padrino apps, the following table illustrates the other generators available:
 
 
-- `admin`: A very nice built-in admin dashboard.
+- `admin`: A  built-in admin dashboard to manager your entities.
 - `admin_page`: Creates for an existing model the CRUD operation for the admin interface.
 - `app`: You can define other apps to be mounted in your main app.
 - `controller`: A controller takes date from the models and puts them into view that are rendered.
