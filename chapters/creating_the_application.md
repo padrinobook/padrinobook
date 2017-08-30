@@ -535,7 +535,7 @@ Let's update that file and write some basic tests to make sure that everything i
 
 require 'spec_helper'
 
-RSpec.describe "PageController" do
+RSpec.describe "/page" do
   describe "GET #about" do
 
     it "renders the :about view" do

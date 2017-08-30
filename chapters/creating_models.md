@@ -44,38 +44,31 @@ All we have is an empty class which inherits from [ActiveRecord::Base](http://ap
 
 require 'spec_helper'
 
-describe "User Model" do
-  let(:user) { User.new }
-  it 'can be created' do
-    expect(user).not_to be_nil
-  end
+RSpec.describe User do
+  pending "add some examples to (or delete) #{__FILE__}"
 end
 ```
 
 
-As you can see, the generator created already a test for us, which checks if the model can be created. What would happen if you run the tests for this model? Let the code speak of it's own and run the tests, that's what they are made for after all:
+As you can see, the generator created already a test for us, which is actually pending. What would happen if you run the tests for this model? Let the code speak of it's own and run the test:
 
 
 ```sh
-$ rspec spec/app/models
+$ rspec spec/app/models/user_spec.rb
 
-User Model
-  can be created (FAILED - 1)
 
-Failures:
+User
+  add some examples to (or delete) /home/wm/git/job-vacancy/spec/models/user_spec.rb (PENDING: Not yet implemented)
 
-  1) User Model can be created
-     Failure/Error: let(:user) { User.new }
-     ActiveRecord::StatementInvalid:
-       Could not find table 'users'
-     # ./spec/app/models/user_spec.rb:4:in `new'
-     # ./spec/app/models/user_spec.rb:4:in `block (2 levels) in <top (required)>'
-     # ./spec/app/models/user_spec.rb:6:in `block (2 levels) in <top (required)>'
+Pending: (Failures listed here are expected and do not affect your suite's status)
 
-Finished in 0.041 seconds
-1 example, 1 failure
+  1) User add some examples to (or delete) /home/wm/git/job-vacancy/spec/models/user_spec.rb
+     # Not yet implemented
+     # ./spec/models/matze_spec.rb:4
 
-Failed examples:
+
+Finished in 0.00033 seconds (files took 1.09 seconds to load)
+1 example, 0 failures, 1 pending
 ```
 
 

@@ -100,7 +100,7 @@ We write our tests first before the implementation:
 require 'spec_helper'
 
 
-RSpec.describe "SessionsController" do
+RSpec.describe "/sessions" do
   describe "GET /login" do
     it "load the login page" do
       get "/login"
@@ -382,7 +382,7 @@ Now we are in a position to write tests for our `:destroy` action:
 
 require 'spec_helper'
 
-describe "SessionsController" do
+RSpec.describe "/sessions" do
   ...
   describe "GET /logout" do
     it 'empty the current session' do

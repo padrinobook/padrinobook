@@ -77,7 +77,7 @@ our tests:
 
 require 'spec_helper'
 
-RSpec.describe "User Model" do
+RSpec.describe User do
   ...
 
   pending('has no blank name')
@@ -205,7 +205,7 @@ A test for this can be written in the following way:
 ```ruby
 # spec/app/models/user_spec.rb
 
-RSpec.describe "User Model" do
+RSpec.describe User do
   let(:user) { build(:user) }
   let(:user_second) { build(:user) }
   ...
@@ -1591,7 +1591,7 @@ And the tests for the controller:
 
 require 'spec_helper'
 
-RSpec.describe "UsersController" do
+RSpec.describe "/users" do
   ...
 
   describe "POST /users/create" do

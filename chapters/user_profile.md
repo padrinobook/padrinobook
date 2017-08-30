@@ -262,7 +262,7 @@ Our generated helper spec has the following structure:
 
 require 'spec_helper'
 
-RSpec.describe "JobVacancy::App::SessionsHelper" do
+RSpec.describe JobVacancy::App::SessionsHelper do
   pending "add some examples to (or delete) #{__FILE__}" do
     let(:helpers){ Class.new }
     before { helpers.extend JobVacancy::App::SessionsHelper }
@@ -302,7 +302,7 @@ Here is the outline for the tests of the `session_helper.rb`:
 require 'spec_helper'
 
 
-RSpec.describe "JobVacancy::App::SessionsHelper" do
+RSpec.describe JobVacancy::App::SessionsHelper do
   let(:user) { User.new }
   let(:session_helper) { Class.new }
 
@@ -346,7 +346,7 @@ What we need to do now for our test is to mock a request and set the user id of 
 
 require 'spec_helper'
 
-RSpec.describe "JobVacancy::App::SessionsHelper" do
+RSpec.describe JobVacancy::App::SessionsHelper do
 
   ...
   describe "#current_user" do
@@ -487,7 +487,7 @@ To test the callback, we can use the [send method](http://ruby-doc.org/core-2.4.
 
 require 'spec_helper'
 
-RSpec.describe "User Model" do
+RSpec.describe User do
   ...
 
   describe "#generate_authentity_token" do
