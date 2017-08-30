@@ -492,7 +492,7 @@ With the change above we changed the default "Registration" entry in our header 
   </p>
 <% end %>
 
-New on this platform? <%= link_to 'Register', url(:users, :new) %>
+New? <%= link_to 'Register', url(:users, :new) %>
 ```
 
 
@@ -556,7 +556,7 @@ Now we can use the `error` variable in our view:
 ...
 <% end %>
 
-New on this platform? <%= link_to 'Register', url(:users, :new) %>
+New? <%= link_to 'Register', url(:users, :new) %>
 ```
 
 
