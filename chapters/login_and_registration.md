@@ -4,13 +4,15 @@ In traditional frameworks you would generate a user with a `user` model and a `u
 `new`, `create`, `update`, and `delete` actions. Besides you can't forget about security these days though would need to find a method of safely storing the password as well as validate our freshly registered users.
 
 
-You don't have to reinvent the wheel you can use Padrino's beautiful [Admin interface](http://www.padrinorb.com/guides/padrino-admin "Padrino admin") for your user authentication. For educational reasons we are going to create our own authentication process consisting of the following parts:
+You don't have to reinvent the wheel you can use Padrino's beautiful [Admin interface](http://padrinorb.com/guides/features/padrino-admin/ "Padrino admin") for your user authentication[^vendor-authentication]. For educational reasons we are going to create our own authentication process consisting of the following parts:
 
 - creating users
 - creating views and routes
 - sending confirmation emails
 - encrypt passwords
 - session management
+
+[^vendor-authentication]: You could also use the [device gem](https://github.com/plataformatec/devise "device gem") as a flexible authentication solution, which gives you all the controller, migration and user properties. But using is does not keep your app clean because "*there will be no cruft and you will know how everything fits together*" as Ryan Bigg says in his book [Multitenacy with Rails](https://leanpub.com/multi-tenancy-rails "Multitenacy with Rails").
 
 
 ### Extending the User Model
