@@ -123,12 +123,12 @@ Lets add some basic routes for displaying our home, about, and contact-page. How
 
 
 ```sh
-$ padrino-gen controller page
-  create  app/controllers/page.rb
-  create  app/helpers/page_helper.rb
-  create  app/views/page
+$ padrino-gen controller pages
+  create  app/controllers/pages.rb
+  create  app/helpers/pages_helper.rb
+  create  app/views/pages
    apply  tests/rspec
-  create  spec/app/controllers/page_controller_spec.rb
+  create  spec/app/controllers/pages_controller_spec.rb
 ```
 
 
@@ -136,9 +136,9 @@ Lets take a closer look at our page-controller:
 
 
 ```ruby
-# app/controller/page.rb
+# app/controller/pages.rb
 
-JobVacancy::App.controllers :page do
+JobVacancy::App.controllers :pages do
 
   # get :index, :map => '/foo/bar' do
   #   session[:foo] = 'bar'
@@ -162,13 +162,13 @@ end
 ```
 
 
-The controller above defines for our `JobVacancy` the `:page` controller with no specified routes inside the app. Let's change this and define the *about*, *contact*, and *home* actions:
+The controller above defines for our `JobVacancy` the `:pages` controller with no specified routes inside the app. Let's change this and define the *about*, *contact*, and *home* actions:
 
 
 ```ruby
-# app/controller/page.rb
+# app/controller/pages.rb
 
-JobVacancy:.App.controllers :page do
+JobVacancy:.App.controllers :pages do
   get :about, :map => '/about' do
     render :erb, 'about'
   end
@@ -187,7 +187,7 @@ end
 We will go through each line:
 
 
-- `JobVacancy::App.controller :page` - defines the namespace *page* for our JobVacancy app. Typically, the controller name will also be part of the route.
+- `JobVacancy::App.controller :pages` - defines the namespace *page* for our JobVacancy app. Typically, the controller name will also be part of the route.
 - `do ... end` - This expression defines a block in Ruby. Think of it as a method without a name, also called anonymous functions, which is passed to another function as an argument.
 - `get :about, :map => '/about'` - The HTTP command *get* starts the declaration of the route followed by the *about* action (as a symbol[^symbol]), and is finally mapped to the explicit URL */about*. When you start your server with `bundle exec padrino s` and visit the URL <http://localhost:3000/about>, you can see the rendered output of this request.
 - `render :erb, 'about'` - This action tells us that we want to render the *erb* file *about* for the corresponding controller which is `page` in our case. This file is actually located at `app/views/page/about.erb` file. Normally the views are placed under `app/views/<controller-name>/<action-name>.<ending>`. Instead of using an ERB templates, you could also use `:haml`, or another [template engine](https://www.ruby-toolbox.com/categories/template_engines "template engine for Ruby"). You can even completely drop the rendering option and leave the matching completely for Padrino.
@@ -205,9 +205,9 @@ $ padrino rake routes
 
   Application: JobVacancy
   URL                  REQUEST  PATH
-  (:page, :about)        GET    /about
-  (:page, :contact)      GET    /contact
-  (:page, :home)         GET    /
+  (:pages, :about)        GET    /about
+  (:pages, :contact)      GET    /contact
+  (:pages, :home)         GET    /
 ```
 
 
@@ -439,13 +439,13 @@ Next we want to create the top-navigation for our app. We already implemented th
       <div class="row">
         <nav id="navigation">
           <div class="span2 offset4">
-            <%= link_to 'Home', url(:page, :home) %>
+            <%= link_to 'Home', url(:pages, :home) %>
           </div>
           <div class="span2">
-            <%= link_to 'About', url(:page, :about) %>
+            <%= link_to 'About', url(:pages, :about) %>
           </div>
           <div class="span2">
-            <%= link_to 'Contact', url(:page, :contact) %>
+            <%= link_to 'Contact', url(:pages, :contact) %>
           </div>
         </nav>
       </div>
