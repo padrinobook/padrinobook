@@ -30,3 +30,15 @@ With the ability to manage different applications, for example: for your blog, y
 
 [Remember](https://speakerdeck.com/daddye/padrino-framework-0-dot-11-and-1-dot-0): "**Be tiny. Be fast. Be a Padrino**"
 
+
+### Pages using Padrino
+
+Here is a rough list of pages using Padrino:
+
+- [Coca Cola Enterprises](http://www.cokecce.com "Coca Cola Enterprises") - Coca Cola's European bottling arm
+- [Maptia](http://maptia.com/ "Maptia") - A beautiful way to tell stories about places.
+- [Brainfeed](http://brainfeed.org/ "Brainfeed") - Back-end for iPad app that presents educational videos for kids.
+- [martianoids.com](http://martianoids.com "Martianoids") - System administration company at Spain.
+- [HRPartner](http://www.hrpartner.io/ "HRPartner") - The go-to cloud HR software for small & medium-sized businesses.
+
+Even more open-source application, web libraries as well as other pages can be found on [padrinorb page](http://padrinorb.com/guides/introduction/examples/ "padrinorb page").
