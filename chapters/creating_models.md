@@ -610,7 +610,7 @@ The basic philosophy behind testing with fixtures is that you create objects as 
 \begin{aside}
 \heading{Don't repeat yourself (DRY)}
 
-It'a principle of software development aimed at reducing repetition of all kinds. The principle was mentioned by Andy Hunt and Dave Thomas
+It'a principle in software development with the goal to reduce repetition of all kinds. The principle was mentioned by Andy Hunt and Dave Thomas
 in their book [The Pragmatic Programmer](https://pragprog.com/book/tpp/the-pragmatic-programmer "The Pragmatic Programmer").
 
 For example we are using the `let(:user)` before each context in specs above so that we don't have to create the variable in each step. Or when we
