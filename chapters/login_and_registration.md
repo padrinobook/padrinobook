@@ -310,6 +310,22 @@ $ padrino-gen controller Users get:new
 The new thing about the controller generation command is the `get:new` option. This will create an URL route `:new` to `users/new`.
 
 
+\begin{aside}
+\heading{Seven actions of a controller}
+
+In web application most controllers offers seven features to manage records:
+
+- `new`: display an empty form
+- `create`: save a record of a new item
+- `index`: display a list of all items
+- `show`: display a record of one item
+- `edit`: display a record for editing
+- `update`: save an edited record
+- `destroy` – delete a record
+
+\end{aside}
+
+
 #### Sign Up Form
 
 The stage is set: We have the model with the tested constraints, and a controller for the user which handles the action. Time to create a sign up form.
