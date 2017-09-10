@@ -406,6 +406,7 @@ end
 
 Let's go through the new parts:
 
+
 - `User.new(params[:users])`: Will create a new user object based on the information of the form attributes of the `user` model which which were part of the form from the `views/users/new.erb page`.
 - `@user.save`: Will persists the user in the database.
 - `redirect`: Will redirect the user to the root directory of our app.
@@ -1293,19 +1294,21 @@ describe "GET confirm" do
 
   it "render the '/confirm' page if user has confirmation code" do
     user.save
-    user_confirmed = User.find_by_id(user.id)
-    get "/confirm/#{user_confirmed.id}/#{user_confirmed.confirmation_code.to_s}"
+    confirmed_user = User.find_by_id(user.id)
+    get "/confirm/#{confirmed_user.id}/#{confirmed_user.confirmation_code}"
     expect(last_response).to be_ok
   end
 
   it 'redirect to :confirm if user id is wrong' do
-    get "/confirm/test/#{user.confirmation_code.to_s}"
+    get "/confirm/test/#{user.confirmation_code}"
     expect(last_response).to be_redirect
+    expect(last_response.body).to include("Confirmation code is wrong.")
   end
 
   it 'redirect to :confirm if confirmation id is wrong' do
     get "/confirm/#{user.id}/test"
     expect(last_response).to be_redirect
+    expect(last_response.body).to include("Confirmation code is wrong.")
   end
 end
 ```
@@ -1319,11 +1322,24 @@ To make this pass, we implement the following code:
 ...
 
 get :confirm, :map => "/confirm/:id/:code" do
-  redirect('/') unless @user = User.find_by_id(params[:id])
-  redirect('/') unless @user.authenticate(params[:code])
-  render 'confirm'
+    @user = User.find_by_id(params[:id])
+
+    if @user && @user.authenticate(params[:code])
+      flash.now[:notice] = "You have been confirmed. Please confirm with the mail
+        we've send you recently."
+      render 'confirm'
+    else
+      redirect '/', flash[:error] = 'Confirmation code is wrong.'
+    end
 end
 ```
+
+
+Please not that we are using [flash.now](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Flash/Storage#now-instance_method "flash.now") because in case of an success we stay at the confirm page without making a new request. Play around and use `flash` only, as a result you should see
+the success message twice.
+
+
+**Rule of the thumb**: To display the flash in render, use `flash.now[:error]` and to display the flash in redirect, use `flash[:error]`
 
 
 ### Mailer Template for Confirmation Email
@@ -1640,4 +1656,9 @@ RSpec.describe "/users" do
   end
 end
 ```
+
+
+Please note that we are using the `flash` storage to save information. This [flash storage](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Flash/Storage "flash storage") is part of the session. So the
+value stored in there is only available in the next request. Since we are using a redirect, we want to display this
+information on the page after the redirect.
 

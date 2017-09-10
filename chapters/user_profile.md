@@ -543,9 +543,8 @@ JobVacancy::App.controllers :sessions do
         @user.save
       end
 
-      flash[:notice] = 'You have successfully logged in!'
       sign_in(@user)
-      redirect '/'
+      redirect '/', flash[:notice] = 'You have successfully logged in!'
     else
       render 'new', locals: { error: true }
     end

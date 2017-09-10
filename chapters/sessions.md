@@ -390,9 +390,10 @@ RSpec.describe "/sessions" do
       expect(last_request.env['rack.session'][:current_user]).to be_nil
     end
 
-    it 'redirect to homepage if user is logging out' do
+    it 'redirects to homepage if user is logging out' do
       get '/logout'
       expect(last_response).to be_redirect
+      expect(last_response.body).to include('You have successfully logged out.')
     end
   end
 end
@@ -412,8 +413,7 @@ JobVacancy::App.controllers :sessions do
   ...
   get :destroy, :map => '/logout' do
     sign_out
-    flash[:notice] = 'You have successfully logged out.'
-    redirect '/'
+    redirect '/', flash[:notice] = 'You have successfully logged out.'
   end
 end
 ```
@@ -607,9 +607,8 @@ JobVacancy::App.controllers :sessions do
     user = User.find_by_email(params[:email])
 
     if user && user.confirmation && user.password == params[:password]
-      flash[:notice] = 'You have successfully logged out.'
       sign_in(user)
-      redirect '/'
+      redirect '/', flash[:notice] = 'You have successfully logged out.'
     else
       render 'new', locals: { error: true }
     end
