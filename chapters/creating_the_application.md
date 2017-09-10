@@ -302,10 +302,12 @@ Next we need to move all our assets from the public folder in the assets folder:
 
 
 ```sh
-$ cd job-vacancy
-$ mkdir -p app/assets
-$ cd public
-$ mv -v fonts images javascripts stylesheets ../app/assets
+$ mkdir -p job-vacancy/app/assets
+$ cd job-vacancy/public
+$ mv fonts ../app/assets
+$ mv images ../app/assets
+$ mv javascripts ../app/assets
+$ mv stylesheets ../app/assets
 ```
 
 
@@ -344,7 +346,9 @@ Next we need create an application.css file and add the following to determine t
 ```
 
 
-First we are loading the `bootstrap` default css, then `bootstrap-theme`, and finally our customized `site` CSS. The `require_self` loads the file itself, to define the order that the files are loaded. This is helpful if you want to check the order of the loaded CSS as a comment above your application without ever have to look into the source of it.
+This file serves as a manifest file and the `require_self` directive indicates that any CSS in the file should be delivered in the given order to the browser.
+
+First we are loading the `bootstrap` default css, then `bootstrap-theme`, and finally our customized `site` CSS. This is helpful if you want to check the order of the loaded CSS as a comment above your application without ever have to look into the source of it. The file
 
 
 Next let's have a look into our JavaScript file `app/assets/javascript/application.js`:
@@ -360,7 +364,7 @@ Next let's have a look into our JavaScript file `app/assets/javascript/applicati
 ```
 
 
-The interesting thing here is the `require_tree .` option. This option tells Sprockets to include all JavaScript files in the assets folder with no specific order.
+The interesting thing here is the `require_tree .` option. This option (note the Unix dot operator) tells Sprockets to include all JavaScript files in the same assets folder, including subfolders, should be combined into a single file for delivery to the browser. Keep mind if your website is complex and large and use `require_self` directive to determine exactly which JS files are served to the browser.
 
 
 Now, we can clean up the include statements in our application template:
