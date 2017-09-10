@@ -28,7 +28,7 @@ When you are starting a new project in Padrino only a few files are created and,
 With the ability to manage different applications, for example: for your blog, your image gallery, or your payment cycle; by separating your business logic, you can share data models, session information and the admin interface between them without duplicating code.
 
 
-[Remember](https://speakerdeck.com/daddye/padrino-framework-0-dot-11-and-1-dot-0): "**Be tiny. Be fast. Be a Padrino**"
+[Remember](https://speakerdeck.com/daddye/padrino-framework-0-dot-11-and-1-dot-0): "**Be tiny. Be fast. Be a Padrino.**"
 
 
 ### Pages using Padrino
