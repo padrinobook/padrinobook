@@ -58,11 +58,12 @@ $ rspec spec/app/models/user_spec.rb
 
 
 User
-  add some examples to (or delete) /home/wm/git/job-vacancy/spec/models/user_spec.rb (PENDING: Not yet implemented)
+  add some examples to (or delete)
+    (PENDING: Not yet implemented)
 
 Pending: (Failures listed here are expected and do not affect your suite's status)
 
-  1) User add some examples to (or delete) /home/wm/git/job-vacancy/spec/models/user_spec.rb
+  1) User add some examples to (or delete)
      # Not yet implemented
      # ./spec/models/matze_spec.rb:4
 
