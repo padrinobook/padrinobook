@@ -607,6 +607,20 @@ The basic philosophy behind testing with fixtures is that you create objects as 
 - you map the attributes (keys) to their values.
 
 
+\begin{aside}
+\heading{Don't repeat yourself (DRY)}
+
+It'a principle of software development aimed at reducing repetition of all kinds. The principle was mentioned by Andy Hunt and Dave Thomas
+in their book [The Pragmatic Programmer](https://pragprog.com/book/tpp/the-pragmatic-programmer "The Pragmatic Programmer").
+
+For example we are using the `let(:user)` before each context in specs above so that we don't have to create the variable in each step. Or when we
+are creating a new controller in Padrino by running the code generator will create the necessary files for us so that we
+don't have to write them on our own.
+
+You can apply this principle in all different areas: `documention`, `configuration`, `database schemas`, `test`, ...
+\end{aside}
+
+
 The `build` method that we use to create the user will only add the test object in memory[^memory]. If you want to permanently add fixtures to the database, you have to use [create](http://www.rubydoc.info/gems/factory_girl/FactoryGirl/Syntax/Methods#create-instance_method "create method of FactoryGirl") method instead. Play with it, and see that the same test using `create` instead of `build` takes much longer because it hits the database.
 
 
