@@ -188,7 +188,7 @@ We need need to extend or factory with the [sequence function](https://github.co
 # spec/factories
 
 FactoryGirl.define do
-  sequence(:email){ |email_number| "matthias.guenther#{email_number}@padrinobook.com"}
+  sequence(:email){ |email_number| "matthias#{email_number}@padrinobook.com"}
 
   factory :user do
     name  'Matthias Günther'
