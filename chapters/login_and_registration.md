@@ -411,6 +411,18 @@ Let's go through the new parts:
 - `redirect`: Will redirect the user to the root directory of our app.
 
 
+\begin{aside}
+\heading{What are instance variables and why use them in controllers?}
+
+Instance variables are bound to an instance of class and defines the state of an object. Through this every instance of
+a class has the same name for the instance variables but each of them has different values different.
+
+By using `@user` in the controller, we can use this instance in our [form_for](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/FormHelpers#form_for-instance_method "form_for") helper as an object to fill all the
+necessary information for a user. So every user share the same features with different values just like instance
+variables in Ruby.
+\end{aside}
+
+
 If you send the form without any inputs, you will see that you are redirected into the root of your app. You can't figure out what's wrong, but luckily we have logs:
 
 
