@@ -88,7 +88,7 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :name
       t.string :email
-      t.timestamps
+      t.timestamps null: false
     end
   end
 
@@ -99,7 +99,10 @@ end
 ```
 
 
-This code will create a `users` table with the `name` and `email` attributes. The `id` attribute will be created automatically unless you specify to use a different attribute as the unique key to a database entry. By the way, the convention to name tables of models in the plural form comes from [Rails](http://rubyonrails.org "Rails"). Now we need to run this migration:
+This code will create a `users` table with the `name` and `email` attributes. The `timestamps` attribute is added automatically because it's most common sense that to record the last change of the property. The value `null: false` says that the `timestamp` column can have no `null` values. If you want to get an overview you can visit [column modifier page](http://guides.rubyonrails.org/active_record_migrations.html#column-modifiers "column modifier page").
+
+
+By the way, the convention to name tables of models in the plural form comes from [Rails](http://rubyonrails.org "Rails"). Now we need to run this migration:
 
 
 ```sh
