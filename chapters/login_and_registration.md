@@ -12,7 +12,7 @@ You don't have to reinvent the wheel you can use Padrino's beautiful [Admin inte
 - encrypt passwords
 - session management
 
-[^vendor-authentication]: You could also use the [device gem](https://github.com/plataformatec/devise "device gem") as a flexible authentication solution, which gives you all the controller, migration and user properties. But using is does not keep your app clean because "*there will be no cruft and you will know how everything fits together*" as Ryan Bigg says in his book [Multitenacy with Rails](https://leanpub.com/multi-tenancy-rails "Multitenacy with Rails").
+[^vendor-authentication]: You could also use the [devise gem](https://github.com/plataformatec/devise "devise gem") as a flexible authentication solution, which gives you all the controller, migration and user properties. But using this does not keep your app clean because "*there will be no cruft and you will know how everything fits together*" as [Ryan Bigg](http://ryanbigg.com/ "Ryan Bigg") says in his book [Multitenacy with Rails - 2nd edition](https://leanpub.com/multi-tenancy-rails-2 "Multitenacy with Rails - 2nd edition").
 
 
 ### Extending the User Model
