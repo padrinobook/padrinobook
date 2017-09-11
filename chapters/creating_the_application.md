@@ -59,7 +59,7 @@ Besides the `project` option for generating new Padrino apps, the following tabl
 - `admin`: A  built-in admin dashboard to manager your entities.
 - `admin_page`: Creates for an existing model the CRUD operation for the admin interface.
 - `app`: You can define other apps to be mounted in your main app.
-- `controller`: A controller takes date from the models and puts them into view that are rendered.
+- `controller`: A controller takes data from the models and puts them into view that are rendered.
 - `mailer`: Creating new mailers within your app.
 - `migration`: Migrations simplify changing the database schema.
 - `model`: Models describe data objects of your application.
