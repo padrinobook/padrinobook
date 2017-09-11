@@ -123,13 +123,15 @@ Lets add some basic routes for displaying our home, about, and contact-page. How
 
 
 ```sh
-$ padrino-gen controller pages
+$ padrino-gen controller pages --no-helper
   create  app/controllers/pages.rb
-  create  app/helpers/pages_helper.rb
   create  app/views/pages
    apply  tests/rspec
   create  spec/app/controllers/pages_controller_spec.rb
 ```
+
+
+Please note that we are using the `--no-helper` option which omits the creation of a helper files for our views.
 
 
 Lets take a closer look at our page-controller:
