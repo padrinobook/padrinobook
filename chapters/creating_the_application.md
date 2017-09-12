@@ -575,7 +575,7 @@ Let's explain the new things:
 - `last_response` - The response object returns the header and body of the HTTP request.
 
 
-Now let's run the tests with `rspec spec/app/controllers/page_controller_spec.rb` and see what's going on:
+Now let's run the tests with `padrino rake rspec` and see what's going on:
 
 
 ```sh
@@ -586,9 +586,14 @@ Finished in 0.21769 seconds
 ```
 
 
-Cool, all tests passed! We didn't exactly use behavior-driven development until now[^note].
+Cool, all tests passed! Please note that we run all tests with the command above. If you want to run only a specific
+test you can use the following `rspec <path-to-spec>`. To run the `page_controller_spec` you have to use
+`rspec spec/app/controllers/page_controller_spec.rb`.
 
-[^note]: Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was omitted during the initial app generation that looks something like 'NameError: undefined local variable' check your `spec_helper.rb` file and make sure the following matches: `def app(app = nil, &blk)`, please  note the comma right after nil.
+
+We didn't exactly use behavior-driven development until now[^rspec-note].
+
+[^rspec-note]: Note: It's possible your tests did not pass due to a Padrino error in which a comma ( , ) was omitted during the initial app generation that looks something like 'NameError: undefined local variable' check your `spec_helper.rb` file and make sure the following matches: `def app(app = nil, &blk)`, please  note the comma right after nil.
 
 
 \begin{aside}
