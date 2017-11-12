@@ -393,7 +393,7 @@ We need to make sure to render the `users/new.erb` and user the `user` object ro
 # app/controllers/users.rb
 
 JobVacancy::App.controllers :users do
-  get :new, :map => "/login" do
+  get :new, :map => "/register" do
     @user = User.new
     render 'new'
   end
