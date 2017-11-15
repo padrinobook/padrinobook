@@ -648,10 +648,14 @@ Let's get through all the different options:
 - `user_name`: The name of the SMTP address.
 - `password`: The password of your SMTP address.
 - `authentication`: Specify if your mail server requires authentication. The default setting is plain meaning that the password is not encrypted.
-- `domain`: This key is set up for [HELO checking](http://en.wikipedia.org/wiki/Anti-spam_techniques#HELO.2FEHLO_checking "HELO checking").
+
+You can also pass use `domain` for emails which sets up for [HELO
+checking](http://en.wikipedia.org/wiki/Anti-spam_techniques#Strict_enforcement_of_RFC_standards "HELO checking").
+
+Prior to Padrino *0.10.7* the `enable_starttls_auto` option was changeable. This option is now always enabled. The [starttls](https://en.wikipedia.org/wiki/Opportunistic_TLS "starttls") is a mechanism for encrypted communication with the Transport Layer Security.
 
 
-Prior Padrino *0.10.7* the `enable_starttls_auto: true` was changeable. This is option is now always on true in *Padrino >= 0.11.1* so we leave it out. This is now the default delivery address unless it is overwritten in an individual mail definition. We won't test the email functionality to this point because the *Mailer gem* is already tested.
+We won't test the email functionality to this point because the *Mailer gem* is already tested.
 
 
 #### Quick Mail Usage
