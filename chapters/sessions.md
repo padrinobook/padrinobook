@@ -260,7 +260,72 @@ Finished in 0.38537 seconds (files took 0.74964 seconds to load)
 ```
 
 
-The part of the tests with `POST :create.to be_ok` are failing because of [Padrinos csrf token](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FHelpers%2FFormHelpers%2FSecurity:csrf_token_field "Padrinos csrf token"). To make the tests running, you need to disable them for the test environment:
+The part of the tests with `POST :create.to be_ok` are failing because of [Padrinos csrf token](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FHelpers%2FFormHelpers%2FSecurity:csrf_token_field "Padrinos csrf token").
+
+
+\begin{aside}
+\heading{CSRF (Cross-site request forgery)}
+
+[CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery "Cross-site request forgery" )
+is a malicious exploit of a website where unauthorized commands are transmitted from a user that the web application trusts. Those commands can be hidden
+image tags, JavaScript XMLHttpRequests or hidden forms. To protect against those attacks, web applications are embedding
+additional authentication data into requests to detect requests from unauthorized locations.
+
+How does Padrino protects against CSRF?
+
+If you take a look into `config/apps.rb` you can see the following entry:
+
+
+```ruby
+Padrino.configure_apps do
+  # enable :sessions
+  set :session_secret, '6a3ec199b53b002a3bfaf60' +
+    'c746b9182c095950b41f182790a81a0e36d96884'
+end
+```
+
+
+This token is used to generate the hidden authenticity token in forms with the help of the current session. Start your application and take a look into the HTML <http://localhost:3000/login>:
+
+```html
+<form action="/sessions/create" accept-charset="UTF-8" method="post">
+    <input type="hidden" name="authenticity_token"
+    value="068aa59cb97beaff2038b403ac9946d7" />
+  <label for="email">Email: </label>
+  <input type="text" name="email" />
+
+  <label for="password">Password: </label>
+  <input type="password" name="password" />
+
+  <label class="checkbox">
+    <input type="checkbox" name="remember_me" value="1" /> Remember me
+  </label>
+
+  <p>
+    <a href="/password_forget">forget password?</a>
+  </p>
+
+  <p>
+    <input type="submit" value="Sign up" class="btn btn-primary" />
+  </p>
+</form>
+```
+
+The `authenticity_token` is 068aa59cb97beaff2038b403ac9946d7 and is calculated from the current session.
+Fill in the form without submitting the data. Now stop the app, change the value of `session_secret` in the `config/apps.rb` file and start the app again.(You can now check value of `"authenticity_token"` in a new tab of the <http://localhost:3000/login> page and see that it is different). If you now subm the data in the first tab you will get a `Forbidden` - that's how CSRF works in Padrino.
+
+
+You can get Padrino's reaction of this attack in the log under:
+
+
+```sh
+   WARN -  attack prevented by Padrino::AuthenticityToken
+  DEBUG -      POST (0.0050s) /sessions/create - 403 Forbidden
+```
+\end{aside}
+
+
+To make the tests running, you need to disable them for the test environment:
 
 
 ```ruby
