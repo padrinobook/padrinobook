@@ -267,6 +267,7 @@ The part of the tests with `POST :create.to be_ok` are failing because of [Padri
 
 \begin{aside}
 \heading{CSRF (Cross-site request forgery)}
+\label{box:csrf}
 
 [CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery "Cross-site request forgery" )
 is a malicious exploit of a website where unauthorized commands are transmitted from a user that the web application trusts. Those commands can be hidden
