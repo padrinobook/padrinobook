@@ -435,7 +435,7 @@ When you request an URL in your browser, you are using the HTTP/HTTPS protocol. 
 We are going to use cookies to save if a user is logged in and saving the user-id in our session cookies under the `:current_user` key.
 
 
-The delete method does the following: It will look into the last request in your application inside the session information hash and delete the `:current_user` key.
+The `delete` method does the following: It will look into the last request in your application inside the session information hash and delete the `:current_user` key.
 
 If you want to explore more of the internal of an application I highly recommend you [pry gem](https://github.com/pry/pry "pry"). You can throw in at any part of your application `binding.pry` and have full access to all variables.
 
