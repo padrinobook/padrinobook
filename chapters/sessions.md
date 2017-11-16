@@ -592,9 +592,9 @@ New? <%= link_to 'Register', url(:users, :new) %>
 \begin{aside}
 \heading{No hard coded URLs for controller routes}
 
-The line above with `<% form_tag '/sessions/create' do %>` is not a good solution. If you are changing the mapping inside the controller, you have to change all the hard coded paths manually.
+The line above with `<% form_tag '/sessions/create' do %>` is not a good solution. If you are changing the mapping inside the controller, you have to change the hard coded path manually.
 
-A better approach is to reference the controller and action within the `url` method with `url(:sessions, :create)`. Try it out!
+A better approach is to reference the controller and action within the `url` method with `url(:sessions, :create)`.
 \end{aside}
 
 
