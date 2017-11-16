@@ -516,10 +516,9 @@ JobVacancy::App.controllers :sessions do
   ...
   post :create do
     ...
-    if user && user.confirmation && user.password == params[:password]
-      sign_in(user)
+    if @user && @user.confirmation && @user.password == params[:password]
+      sign_in(@user)
       redirect '/'
-    else
       ...
     end
   end
@@ -698,10 +697,10 @@ Next we need implement the flash messages in our session controller:
 JobVacancy::App.controllers :sessions do
   ...
   post :create do
-    user = User.find_by_email(params[:email])
+    @user = User.find_by_email(params[:email])
 
-    if user && user.confirmation && user.password == params[:password]
-      sign_in(user)
+    if @user && @user.confirmation && @user.password == params[:password]
+      sign_in(@user)
       redirect '/', flash[:notice] = 'You have successfully logged out.'
     else
       render 'new', locals: { error: true }
