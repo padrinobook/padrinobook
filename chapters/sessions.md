@@ -37,7 +37,7 @@ And run the generate command with the correct actions:
 
 
 ```sh
-$ padrino-gen controller Sessions get:new post:create get:destroy
+$ padrino-gen controller Sessions get:new post:create delete:destroy
 ```
 
 
@@ -74,7 +74,7 @@ JobVacancy:App.controllers :sessions do
   post :create do
   end
 
-  get :destroy do
+  delete :destroy do
   end
 end
 ```
@@ -108,7 +108,7 @@ RSpec.describe "/sessions" do
     end
   end
 
-  describe "POST :create" do
+  describe "POST /sessions/create" do
     let(:user) { build_stubbed(:user) }
     let(:params) { attributes_for(:user) }
 
@@ -142,9 +142,9 @@ RSpec.describe "/sessions" do
     end
   end
 
-  describe "GET /logout" do
+  describe "DELETE /logout" do
     xit 'empty the current session'
-    xit 'redirects to homepage if user is logged out'
+    xit 'redirects to homepage if user is logging out'
   end
 end
 ```
@@ -155,7 +155,7 @@ We are using [method stubs](http://www.relishapp.com/rspec/rspec-mocks/v/3-3/doc
 [^mocking-is-easy]: At first I was thinking at that mocking is something very difficult. Read it the method out loud ten times and you can guess whats going on. If our `User` object gets call from it's class method `find_by_email` it should return false.
 [^mock-and-return-false]: Instead of writing `and_return(object)` you can also write the shortcut `{object}` which will I use in the next spec files
 
-Here is the code for our session controller to make the test "green":
+Here is the code for our session controller to make the tests "green":
 
 
 ```ruby
@@ -177,7 +177,7 @@ JobVacancy::App.controllers :sessions do
     end
   end
 
-  get :destroy, :map => '/logout' do
+  delete :destroy, :map => '/logout' do
   end
 
 end
@@ -215,11 +215,13 @@ SessionsController
     stays on login page if user is not confirmed (FAILED - 2)
     stays on login page if user has wrong password (FAILED - 3)
     redirects to home for confirmed user and correct password (FAILED - 4)
-  GET /logout
+  DELETE /logout
     empty the current session (PENDING: Temporarily skipped with xit)
-    redirects to homepage if user is logged out (PENDING: Temporarily skipped with xit)
+    redirects to homepage if user is logging out (PENDING: Temporarily skipped \
+      with xit)
 
-Pending: (Failures listed here are expected and do not affect your suite's status)
+Pending: (Failures listed here are expected and do not affect your suite's \
+  status)
     ...
 
 Failures:
@@ -449,19 +451,38 @@ require 'spec_helper'
 
 RSpec.describe "/sessions" do
   ...
-  describe "GET /logout" do
+  describe "POST /sessions/create" do
+    it 'redirects to home for confirmed user and correct password' do
+      login_user(user)
+    end
+  ...
+  end
+
+  describe "DELETE /logout " do
     it 'empty the current session' do
-      get '/logout'
+      login_user(user)
+      delete '/logout'
       expect(last_request.env['rack.session'][:current_user]).to be_nil
     end
 
     it 'redirects to homepage if user is logging out' do
-      get '/logout'
+      delete '/logout'
       expect(last_response).to be_redirect
       expect(last_response.body).to include('You have successfully logged out.')
     end
   end
 end
+
+private
+
+def login_user(user)
+  user.confirmation = true
+  user.password = 'correct'
+  expect(User).to receive(:find_by_email) { user }
+  post 'sessions/create', password: 'correct'
+  expect(last_request.env['rack.session'][:current_user]).not_to be_nil
+end
+
 ```
 
 
@@ -476,7 +497,7 @@ And finally the implementation of the code that make our tests green:
 
 JobVacancy::App.controllers :sessions do
   ...
-  get :destroy, :map => '/logout' do
+  delete :destroy, :map => '/logout' do
     sign_out
     redirect '/', flash[:notice] = 'You have successfully logged out.'
   end
@@ -521,8 +542,9 @@ How can we test now our logic in the view? The main application layout should ha
     <div class="row">
         <nav id="navigation">
         ...
-        <% if signed_in? %>
-          <%= link_to 'Logout', url(:sessions, :destroy) %>
+        <% if signed_in? %> ...
+          <%= link_to 'Logout', url(:sessions, :destroy,
+            :authenticity_token => session[:csrf]), :method => :delete %>
         <% else %>
         <div class="span2">
           <%= link_to 'Login', url(:sessions, :new) %>
@@ -535,6 +557,12 @@ How can we test now our logic in the view? The main application layout should ha
   </div>
 </body>
 ```
+
+
+Please note that we have to pass the `authenticity_token` with the saved value of `csrf` for security reasons for security reasons (check box~\ref{box:csrf}). Please not that we have to pass method `:delete` here because we are not in a form.
+
+
+ The HTTP specification only understands GET and POST in the <form> method attribute. How can we solve this? We need to use a hidden form with the put method:
 
 
 With the change above we changed the default "Registration" entry in our header navigation to "Login". We will add the link to the registration form now in the 'session/new' view:
