@@ -210,7 +210,7 @@ $ rspec spec/app/controllers/sessions_controller_spec.rb
 SessionsController
   GET /login
     load the login page
-  POST :create
+  POST /sessions/create
     stays on login page if user is not found (FAILED - 1)
     stays on login page if user is not confirmed (FAILED - 2)
     stays on login page if user has wrong password (FAILED - 3)
@@ -226,7 +226,7 @@ Pending: (Failures listed here are expected and do not affect your suite's \
 
 Failures:
 
-  1) SessionsController POST :create stay on page if user is not found
+  1) SessionsController POST /sessions/create stay on page if user is not found
      Failure/Error: expect(last_response).to be_ok
        expected `#<Rack::MockResponse:0xacd2ddc @original_headers={"Content-Type"=>
        "text/plain", "X-Content-Type-Options"=>"nosniff", "Set-Cookie"=>"rack.
