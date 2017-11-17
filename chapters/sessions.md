@@ -99,7 +99,6 @@ We write our tests first before the implementation:
 
 require 'spec_helper'
 
-
 RSpec.describe "/sessions" do
   describe "GET /login" do
     it "load the login page" do

@@ -303,7 +303,6 @@ Here is the outline for the tests of the `session_helper.rb`:
 
 require 'spec_helper'
 
-
 RSpec.describe JobVacancy::App::SessionsHelper do
   let(:user) { User.new }
   let(:session_helper) { Class.new }
@@ -464,8 +463,9 @@ we create a token for each registered user[^registered-user-note].
 ```ruby
 # models/user.rb
 
+require 'securerandom'
+
 class User < ActiveRecord::Base
-  require 'securerandom'
   ...
 
   before_create :generate_authentity_token
@@ -526,6 +526,9 @@ modify our `create` action from the session controller:
 
 ```ruby
 # app/controllers/sessions.rb
+
+require 'securerandom'
+
 JobVacancy::App.controllers :sessions do
   ...
 
@@ -534,7 +537,6 @@ JobVacancy::App.controllers :sessions do
 
     if @user && @user.confirmation && @user.password == params[:password]
       if (params[:remember_me] == "true")
-        require 'securerandom'
         token = SecureRandom.hex
         @user.authentity_token = token
         thirty_days_in_seconds = 30*24*60*60
@@ -790,6 +792,8 @@ And use the method in the `users_observer.rb`
 ```ruby
 # app/models/user_observer.rb
 
+require 'bcrypt'
+
 class UserObserver < ActiveRecord::Observer
   include JobVacancy::String::Normalizer
   ...
@@ -797,7 +801,6 @@ class UserObserver < ActiveRecord::Observer
   private
 
   def set_confirmation_code(user)
-    require 'bcrypt'
     salt = BCrypt::Engine.generate_salt
     confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
     normalize(confirmation_code)
@@ -812,6 +815,8 @@ as well as in `user.rb`:
 ```ruby
 # app/models/user.rb
 
+require 'securerandom'
+
 class User < ActiveRecord::Base
   include JobVacancy::String::Normalizer
   ...
@@ -819,7 +824,6 @@ class User < ActiveRecord::Base
   private
 
   def generate_authentity_token
-    require 'securerandom'
     self.authentity_token = normalize(SecureRandom.base64(64))
   end
 end

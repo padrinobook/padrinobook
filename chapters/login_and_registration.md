@@ -1170,6 +1170,8 @@ We could add these methods in the users controller but that isn't something a co
 ```ruby
 # app/models/user.rb
 
+require 'bcrypt'
+
 class User < ActiveRecord::Base
   ... # The other validations
 
@@ -1183,7 +1185,6 @@ class User < ActiveRecord::Base
   end
 
   def set_confirmation_code
-    require 'bcrypt'
     salt = BCrypt::Engine.generate_salt
     confirmation_code = BCrypt::Engine.hash_secret(self.password, salt)
     normalize_confirmation_code(confirmation_code)
@@ -1468,6 +1469,8 @@ model let's have a look inside this model:
 ```ruby
 # app/models/user.rb
 
+require 'bcrypt'
+
 User < ActiveRecord::Base
   ...
   before_save :encrypt_confirmation_code, :if => :registered?
@@ -1478,7 +1481,6 @@ User < ActiveRecord::Base
   end
 
   def set_confirmation_code
-    require 'bcrypt'
     salt = BCrypt::Engine.generate_salt
     confirmation_code = BCrypt::Engine.hash_secret(self.password, salt)
     normalize_confirmation_code(confirmation_code)
@@ -1501,8 +1503,9 @@ And refactor the code above into the `UserCompletionMail` class:
 ```ruby
 # lib/user_completion_mail.rb
 
+require 'bcrypt'
+
 class UserCompletionMail
-  require 'bcrypt'
 
   attr_accessor :user, :app
 
