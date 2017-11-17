@@ -177,8 +177,10 @@ end
 ...
 ```
 
+
 We are using [test doubles](https://relishapp.com/rspec/rspec-mocks/v/3-6/docs/basics/test-doubles "test doubles")
-which stands for any objects that is used during the test. Since we don't want to have a database, we can mock the
+is a simplified object which takes the place of another object in a spec. A test double is a plain Ruby object which is
+the first step to define some fake methods for it. Since we don't want to hit the a database, we can mock the
 `update_attributes` method and can return what we need for our tests.
 
 
