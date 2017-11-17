@@ -1648,7 +1648,7 @@ RSpec.describe "/users" do
     let(:user) { build(:user) }
 
     before do
-      @completion_user_mail = double(UserCompletionMail)
+      @completion_user_mail = UserCompletionMail
       expect(User).to receive(:new).and_return(user)
       expect(@completion_user_mail).to receive(:encrypt_confirmation_code)
     end

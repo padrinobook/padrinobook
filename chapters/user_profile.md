@@ -951,7 +951,7 @@ Besides we are using then `method:` hash to say which method we want to use for 
 <h2>Reset Password</h2>
 
 <% form_for @user, "/password-reset/#{@user.password_reset_token}",
-  metho: :post do |f| %>
+  method: :post do |f| %>
   <%= f.label :password %>
   <%= f.password_field :password %>
   <%= error_message_on @user, :password, class: "text-error",
