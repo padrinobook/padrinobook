@@ -913,7 +913,7 @@ Next we will write the `edit` action to handle the link action. The action will 
 token and check if it is still valid.
 
 
-```ruby
+```ruby, options: "linenos": true, "hl_lines": [10, 13]
 # app/controllers/password_forget.rb
 
 JobVacancy::App.controllers :password_forget do
@@ -939,8 +939,8 @@ end
 ```
 
 
-The line with `@user.password_reset_sent_date.to_datetime + (1.0/24.0)` add a one hour fraction[^time-fraction] of a whole day.
-I know that this line is not very readable - as an alternative you could use the [Timerizer](https://github.com/kylewlacy/timerizer "timerizer")[^timerizer] gem.
+The highlighted lines with adds a one hour fraction[^time-fraction] of a whole day.
+If you want to have a more readable version you could use the [Timerizer](https://github.com/kylewlacy/timerizer "timerizer")[^timerizer] gem.
 
 [^time-fraction]: Got the inspiration from [stackoverflow.com/a/31447415](http://stackoverflow.com/a/31447415)
 [^timerizer]: Provides you a `1.hour.ago` or 1.hour.after like syntax inspired from from [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html "ActiveSupport") module.
