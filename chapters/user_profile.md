@@ -747,8 +747,10 @@ end
 ```
 
 
-But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i...`. The slash (`/`) and plus (`+`) is bad for routing. We already used the `normalize_confirmation_code` from section ~\ref{sec:controller_method_and_action_for_password_confirmation} to remove such backslashes, and we could easily the same method again. But we want to apply [DRY](https://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). For this purpose we will create a `lib` folder, which acts as a place for sharing code which can be used by models, controllers, and other components. Inside the directory we create a `lib/String/normalizer.rb` file:
+But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG/32etcnEo+j5eAFz4M6/i...`. The slash (`/`) and plus (`+`) is bad for routing. We already used the `normalize_confirmation_code` from section ~\ref{sec:controller_method_and_action_for_password_confirmation} to remove such backslashes, and we could easily the same method again. But we want to apply [DRY](https://en.wikipedia.org/wiki/Don't_repeat_yourself "DRY"). For this purpose we will create a `lib`[^lib] folder. Inside the directory we create a `lib/String/normalizer.rb` file:
 
+
+[^lib]: The lib folder contains generic entities (class or module), configurations, migrations that are not relevant to the business logic of your application and can even be shared outside of the project or can be used to create other components. Thibault has written more about the app and lib folder under [rails-app-vs-lib](https://devblast.com/b/rails-app-vs-lib "rails-app-vs-lib").
 
 ```ruby
 # lib/String/normalizer.rb
