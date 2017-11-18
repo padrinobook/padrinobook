@@ -38,7 +38,7 @@ There's a lot of folks who insist that people who don't know better should just 
 goes into security in Rails, versus having to know about XSS, CSRF, SQL Injection, etc. In Sinatra/Padrino you need to add Rack Middleware
 to have those protections.
 
-The greatest strength of Rails is it's claim "convetion over complexity". It assumes common basis for testing,
+The greatest strength of Rails is it's claim "convention over complexity". It assumes common basis for testing,
 debugging, and app structure to generate all of this for you so that you can work trouble-free as well as creative on
 your tasks. For the software you write in Rails, you can be sure that the same parts (like ActiveRecord) are always in
 use.
@@ -53,4 +53,18 @@ Padrino gives you in comparison to Rails more power of choice. The use of Modula
 design. But you have to be careful of the potential to have a more complex and flexible architecture which can be
 unstable if you decide to use the wrong components when designing your application.
 
+
+# Why Padrino?
+
+Many people love Sinatra’s simplicity and lightweight but often quickly come to miss a great deal
+of functionality provided by other web frameworks such as Rails when building non-trivial applications.
+
+The obvious question in these cases might be “Why not just use rails then?”. This can often be a viable option
+but still Rails is quite a large framework with a ‘take it or leave it’ attitude.
+
+Personally, I have come to love the philosophy of Sinatra which acts as a thin layer on top of rack
+often allowing middleware to do most of the work and pulling in additional complexity only when required.
+
+The goal with this Padrino is to match the essence of Sinatra and at the same time create a standard library
+of tools, helpers and components that will make Sinatra suitable for more complex applications.
 
