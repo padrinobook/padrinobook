@@ -80,7 +80,7 @@ identical  .components
 hello-padrino is ready for development!
 =================================================================
 $ cd ./hello-padrino
-$ bundle
+$ bundle --binstubs
 =================================================================
 ```
 
