@@ -1448,17 +1448,22 @@ The code is working but we have flaws in our design:
 \begin{aside}
 \heading{Observers vs. Callbacks vs. POROs}
 
-[Observers](https://en.wikipedia.org/wiki/Observer_pattern "Observers") are a design pattern where an object has a list of its dependents called observers, and notifies them automatically if its state has changed by calling one of their methods. Observers means to be decoupling responsibility. They can serve as a connection point between your models and some other functionality of another system.
+[Observers](https://en.wikipedia.org/wiki/Observer_pattern "Observers")[^observers] are a design pattern where an object has a list of its dependents called observers, and notifies them automatically if its state has changed by calling one of their methods. Observers means to be decoupling responsibility. They can serve as a connection point between your models and some other functionality of another system.
 Observers "lives" longer in your application and can be attached/detached at any time.
 
-[Callbacks'](http://guides.rubyonrails.org/active_record_callbacks.html "Callbacks") live shorter - you pass it to a function to be called only once. *Rule of the thumb*: When you use callbacks with code that isn't directly related to your model, you better put this into an observer.
+[Callbacks'](http://guides.rubyonrails.org/active_record_callbacks.html "Callbacks") live shorter - you pass it to a function to be called only once.
+
+**\coloredtext{red}{Rule of the thumb}**: When you use callbacks with code that isn't directly related to your model, you better put this into an observer.
 
 
-The Observer pattern decouples event producers from event consumers but tightly couples models to them - and that make
-it hard to test them and you always have to take them with you.  Besides they add a kind of hidden magic to your code,
+The observer pattern decouples event producers from event consumers but tightly couples models to them - and that make
+it hard to test them because you always have them always around. Besides they add a kind of hidden magic to your code,
 you may forget when you that they are always around you. Better way is to make those calls explicit in your controller.
 That where **Plain Old Ruby Objects** ([PORO](http://blog.steveklabnik.com/posts/2011-09-06-the-secret-to-rails-oo-design "PORO"))
 jump in. They make magic calls explicit, are easier to test, and reusable.
+
+
+[^observers]: If you want to use them in your projects, I have written an article about observers in Padrino under [https://wikimatze.de/observers-in-padrino/](https://wikimatze.de/observers-in-padrino/ "https://wikimatze.de/observers-in-padrino/").
 \end{aside}
 
 
