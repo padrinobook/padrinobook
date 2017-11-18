@@ -740,7 +740,7 @@ JobVacancy:App.mailer :registration do
 end
 ```
 
-Let's fill the `# Your mailer goes here` with our code from the `users`controller:
+Let's fill the the registration with our code from the `users`controller:
 
 
 ```ruby
@@ -814,7 +814,7 @@ JobVacancy::App.mailer :registration do
     to 'lordmatze@gmail.com'
     subject 'Welcome!'
     render 'registration/registration_email'
-    content_type :plain
+    content_type :plain # is the default, :html is also possible
 ```
 
 
@@ -829,9 +829,9 @@ To personalize our mail we want mention the name of the fresh registered in the 
 
 JobVacancy::App.mailer :registration do
   email :registration_email do |name, email|
-    from "admin@job-vacancy.de"
+    from 'admin@job-vacancy.de'
     to email
-    subject "Welcome!"
+    subject 'Welcome!'
     locals :name => name
     render 'registration/registration_email'
     content_type :plain
@@ -840,7 +840,7 @@ end
 ```
 
 
-The `locals` options provides us a hash in the email template. All we need now it to pass the `name` and the `email` to our `:create` action of the `users` controller:
+The `locals` options provides us a hash in the email template. All we need now it to pass the `name` and the `email` to our `deliver` method:
 
 
 ```ruby
@@ -862,7 +862,7 @@ end
 
 Now we want to add a PDF which explains the main business needs to our page. For this purpose we will save the `welcome.pdf` into the `/app/assets/pdf` folder.
 
-To attach assets (images, PDF, video) into our mail we can make use of the [add_file](https://github.com/mikel/mail/blob/master/lib/mail/message.rb#L1774 "add_file method of the mailer gem") method. It takes a filename and the content as hash elements as arguments.
+To attach assets (images, PDF, video) into our mail we can make use of the [add_file](https://github.com/mikel/mail/blob/master/lib/mail/message.rb#L1755 "add_file method of the mailer gem") method. It takes a filename and the content as hash elements as arguments.
 
 
 ```ruby
@@ -870,9 +870,9 @@ To attach assets (images, PDF, video) into our mail we can make use of the [add_
 ...
 
 email :registration_email do |name, email|
-  from "admin@job-vacancy.de"
+  from 'admin@job-vacancy.de'
   to email
-  subject "Welcome!"
+  subject 'Welcome!'
   locals name: name, email: email
   render 'registration/registration_email'
   add_file filename: 'welcome.pdf', content:
