@@ -112,7 +112,7 @@ Before writing code to pass these specs, we need to add the `password` field to 
 # spec/factories.rb
 
 # encoding: utf-8
-FactoryGirl.define do
+FactoryBot.define do
 ...
   factory :user do
     name  "Matthias Günther"
@@ -181,13 +181,13 @@ As a homework, please write the validates for the `email address` and `passwords
 #### Uniqueness Validation of Names
 
 We make sure that names in our application are unique. For testing we need create a second user with another mail address in our factory.
-We need need to extend or factory with the [sequence function](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#sequences "sequence function factory girl"):
+We need need to extend or factory with the [sequence function](https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#sequences "sequence function factory girl"):
 
 
 ```ruby
 # spec/factories
 
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:email){ |email_number| "matthias#{email_number}@padrinobook.com"}
 
   factory :user do
@@ -1262,7 +1262,7 @@ Before going on we need to update our `factory` for the test with the confirmati
 
 # encoding: utf-8
 
-FactoryGirl.define do
+FactoryBot.define do
   ...
   sequence(:confirmation_code) { '1' }
   sequence(:id) { |n| n }
