@@ -115,8 +115,8 @@ Before writing code to pass these specs, we need to add the `password` field to 
 FactoryBot.define do
 ...
   factory :user do
-    name  "Matthias Günther"
-    email "matthias@padrinobook.com"
+    name  'wikimatze'
+    email 'matthias@padrinobook.com'
     password "octocat"
   end
 end
@@ -191,7 +191,7 @@ FactoryBot.define do
   sequence(:email){ |email_number| "matthias#{email_number}@padrinobook.com"}
 
   factory :user do
-    name  'Matthias Günther'
+    name  'wikimatze'
     email
     password 'foo'
   end

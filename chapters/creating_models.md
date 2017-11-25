@@ -412,8 +412,8 @@ Let's run the shell to create a user:
 
 
 ```sh
-user = User.new(:name => 'Matthias Günther', :email => 'matthias@padrinobook.de')
-  => #<User id: nil, name: "Matthias Günther", email: "matthias@padrinobook.de",
+user = User.new(:name => 'wikimatze', :email => 'matthias@padrinobook.de')
+  => #<User id: nil, name: "wikimatze", email: "matthias@padrinobook.de",
      #created_at: nil, updated_at: nil>
 ```
 
@@ -426,14 +426,14 @@ creation:
 
 
 ```sh
-User.create(:name => 'Matthias Günther', :email => 'matthias@padrinobook.de')
+User.create(:name => 'wikimatze', :email => 'matthias@padrinobook.de')
 DEBUG -  (0.2ms)  begin transaction
   DEBUG - SQL (114.6ms)  INSERT INTO "users" ("created_at",
   "email", "name", "updated_at") VALUES (?, ?, ?, ?)
   [["created_at", 2012-12-26 08:32:51 +0100], ["email", "matthias@padrinobook.de"],
-  ["name", "Matthias Günther"], ["updated_at", 2012-12-26 08:32:51 +0100]]
+  ["name", "wikimatze"], ["updated_at", 2012-12-26 08:32:51 +0100]]
   DEBUG -  (342.0ms)  commit transaction
-=> #<User id: 1, name: "Matthias Günther", email: "matthias@padrinobook.de",
+=> #<User id: 1, name: "wikimatze", email: "matthias@padrinobook.de",
    # created_at: "2012-12-26 08:32:51",
     updated_at: "2012-12-26 08:32:51">
 ```
@@ -471,7 +471,7 @@ There is one last thing we forget: Say you are logged in and wants to edit a use
 >> user = User.find_by_id(1)
   DEBUG - User Load (0.6ms)  SELECT "users".* FROM "users" WHERE
   "users"."id" = 1 LIMIT 1
-  => #<User id: 1, name: "Matthias Günther", email: "matthias@padrinobook.de",
+  => #<User id: 1, name: "wikimatze", email: "matthias@padrinobook.de",
      # created_at: "2012-12-26 08:32:51", updated_at: "2012-12-26 08:32:51">
 >> user.job_offers
   DEBUG - JobOffer Load (0.6ms)  SELECT "job_offers".* FROM "job_offers" WHERE
@@ -547,8 +547,8 @@ include all the fixtures of our models:
 FactoryBot.define do
 
   factory :user do
-    name "Matthias Günther"
-    email "matthias@padrinobook.de"
+    name 'wikimatze'
+    email 'matthias@padrinobook.de'
   end
 end
 ```
@@ -637,17 +637,17 @@ We can improve our test by creating a factory for our job offer too and cleaning
 
 ...
 factory :user do
-  name "Matthias Günther"
-  email "matthias@padrinobook.com"
+  name 'wikimatze'
+  email 'matthias@padrinobook.com'
 end
 
 factory :job_offer do
-  title "Padrino Engineer"
-  location "Berlin"
-  description "We want you ..."
-  contact "recruter@awesome.de"
-  time_start "0/01/2013"
-  time_end "01/03/2013"
+  title       'Padrino Engineer   '
+  location    'Berlin             '
+  description 'We want you ...    '
+  contact     'recruter@awesome.de'
+  time_start  '1/01/2013          '
+  time_end    '01/03/2013         '
 end
 ...
 ```
