@@ -880,7 +880,7 @@ email :registration_email do |name, email|
   locals name: name, email: email
   render 'registration/registration_email'
   add_file filename: 'welcome.pdf', content:
-    File.open("#{Padrino.root}/app/assets/pdf/welcome.pdf") { |file| file.read }
+    File.read("#{Padrino.root}/app/assets/pdf/welcome.pdf")
 end
 ```
 
