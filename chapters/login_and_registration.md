@@ -1090,24 +1090,22 @@ With the help of mocks you keep your tests fast and robust. Even if this will be
 and this will make your life easier, go back and take your time to enhance the style and design of your application.
 
 
-#### Controller Method and Action For Password Confirmation
+### Controller Method and Action For Password Confirmation
 \label{sec:controller_method_and_action_for_password_confirmation}
 
-When we are going to register a new user, we need to create a confirmation code like in the example above. Since this is business logic, we will put this method inside our users model. First we will write a failing test:
+When we are going to register a new user, we need to create a confirmation code. Since this is business logic, we will put this method inside
+our users model. First we will write a failing test:
 
 
 ```ruby
 # spec/app/models/user_spec.rb
 ...
+  it 'has confirmation code' do
+    user.confirmation_code = ""
+    expect(user.valid?).to be_falsey
 
-
-  describe "confirmation code" do
-    let(:confirmation_user) { build(:user) }
-
-    it 'should not be blank' do
-      confirmation_user.confirmation_code = ""
-      expect(confirmation_user.valid?).to be_falsey
-    end
+    user.confirmation_code = "1"
+    expect(user.valid?).to be_truthy
   end
 ...
 ```
@@ -1220,26 +1218,16 @@ After creating the confirmation code mechanism for our user, we need to implemen
 # spec/app/models/user_spec.rb
 ...
 
-describe "confirmation code" do
-  let(:confirmation_user) { build(:user) }
+describe '#authenticate' do
+  let(:user) { build(:user) }
 
-  it 'should authenticate user with correct confirmation code and
-  should be confirmed' do
-    confirmation_user.save
-    confirmation_of_saved_user = User.find_by_id(confirmation_user.id)
-    confirmation_user.confirmation_code =
-      confirmation_of_saved_user.confirmation_code
-    expect(confirmation_user.authenticate(confirmation_user.confirmation_code)).
-      to be_truthy
-    expect(confirmation_user.confirmation).to be_truthy
+  it 'authenticates user with correct confirmation' do
+    expect(User).to receive(:find_by_id).with(user.id).and_return(user)
+    expect(user.authenticate(user.confirmation_code)).to be_truthy
   end
 
-  it 'should not authenticate user with incorrect confirmation code' do
-    expect(confirmation_user.authenticate("wrong")).to be_falsey
-  end
-
-  it 'should not authenticate user with incorrect confirmation code' do
-    confirmation_user.authenticate("wrong").should be false
+  it 'reject user with incorrect confirmation code' do
+    expect(user.authenticate('wrong')).to be_falsey
   end
 end
 ```
@@ -1290,15 +1278,15 @@ class User < ActiveRecord::Base
   ...
 
   def authenticate(confirmation_code)
-    return false unless @user = User.find_by_id(self.id)
+    @user = User.find_by_id(self.id)
 
-    if @user.confirmation_code == self.confirmation_code
+    if @user && @user.confirmation_code == confirmation_code
       self.confirmation = true
       self.save
-      true
-    else
-      false
+      return true
     end
+
+    false
   end
   ...
 end
