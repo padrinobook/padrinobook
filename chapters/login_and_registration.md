@@ -1008,7 +1008,7 @@ $ padrino rake ar:migrate -e test
 ```
 
 
-### My Tests are Slow ...
+### My Tests are Slow ... use Mocks!
 
 During writing this book I discovered various strange behavior for my tests because I was writing data into my test database. The tests weren't really reliable because some worked only when the database is fresh with no preexisting entries. One solution would be to clean up the database before each run:
 
@@ -1047,51 +1047,47 @@ Finished in 0.77209 seconds
 ```
 
 
-Why? Because we are hitting the database. Consider the following code example:
+Why? Because we are hitting the database. Consider the following method which will be part of the following chapter as an example:
 
 
 ```ruby
-# app/controllers/users.rb
-
-post :create do
-  user = User.find_by_email(params[:email])
-
-  if user && user.confirmation && user.password == params[:password]
-    redirect '/'
-  else
-    render 'new'
-  end
+def encrypt_confirmation_code
+  salt = BCrypt::Engine.generate_salt
+  confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
+  user.confirmation_code = confirmation_code
 end
 ```
 
 
-We can use **mocks** to simulate this environment by creating a user out of our users factory, setting the attributes of this object and cheating our `find-by-email` method to return our factory user with the right params without actually saving our object to the database.
-The benefits of mocks are that you create the environment you want to test and don't care about all the preconditions to make this test possible.
+We need to use **mocks** to simulate the generating of password hashes to stable values, otherwise our test would be very brittle because the value changes during every execution. The benefits of mocks are that you create the environment you want to test and don't care about all the preconditions to make this test possible.
 
 
-The magic behind mocking is to use the [should_receive](https://github.com/rspec/rspec-mocks#message-expectations "should_receive from RSpec") expectation and [and_return](https://github.com/rspec/rspec-mocks#consecutive-return-values "and_return from RSpec") flow. `Should_receive` says which method should be called and `and_return` what should be returned when the specified method is called.
+The magic behind mocking is to use the [receive](https://github.com/rspec/rspec-mocks#message-expectations "receive expectation from RSpec") and [return](https://github.com/rspec/rspec-mocks#consecutive-return-values "return expectation from RSpec") expectation flow. `Receive` says which method should be called and `and_return` what should be returned when the specified method is called.
 
 
-To test the redirect from the controller above a possible implementation may look like:
+A test for the `encrypt_confirmation_code` method may look like:
 
 
 ```ruby
-# spec/app/controllers/users_controller_spec.rb
+let(:user) { build(:user) }
 
-it 'should redirect if user is correct' do
-  user.confirmation = true
-  User.should_receive(:find_by_email).and_return(user)
-  post "users/create", user.attributes
+it 'encrypts the confirmation code of the user' do
+  salt = '$2a$10$y0Stx1HaYV.sZHuxYLb25.'
+  expected_confirmation_code =
+    '$2a$10$y0Stx1HaYV.sZHuxYLb25.zAi0tu1C5N.oKMoPT6NbjtD.3cg7Au'
+  expect(BCrypt::Engine).to receive(:generate_salt).and_return(salt)
+  expect(BCrypt::Engine).to receive(:hash_secret)
+    .with(user.password, salt)
+    .and_return(expected_confirmation_code)
 
-  last_response.should be_redirect
+  expect(user.confirmation_code)
+    .to eq expected_confirmation_code
 end
 ```
 
 
-The line size of our tests will remain the same - you only have to write more characters :) but this will speed up your tests in the long term. With the help of mocks you keep your tests fast and robust.
-
-
-Even if this will be the first application you write, when you've learned something new and this will make your life easier, go back and take your time to enhance the style and design of your application.
+With the help of mocks you keep your tests fast and robust. Even if this will be the first application you write, when you've learned something new
+and this will make your life easier, go back and take your time to enhance the style and design of your application.
 
 
 #### Controller Method and Action For Password Confirmation
