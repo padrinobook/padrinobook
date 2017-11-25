@@ -326,9 +326,27 @@ In web application most controllers offers seven features to manage records:
 \end{aside}
 
 
+
+#### Sign Up Action For Registration
+
+We need to make sure to render the `users/new.erb` and user the `user` object route:
+
+
+```ruby
+# app/controllers/users.rb
+
+JobVacancy::App.controllers :users do
+  get :new, :map => "/register" do
+    @user = User.new
+    render 'new'
+  end
+end
+```
+
+
 #### Sign Up Form
 
-The stage is set: We have the model with the tested constraints, and a controller for the user which handles the action. Time to create a sign up form.
+The stage is set: We have the model with the tested constraints, and the controller for the user which handles the action. Time to create a sign up form.
 For this case we can use the [form_for](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/FormHelpers#form_for-instance_method "form_for") helper. This method takes an object (normally a model) as an input and creates a form using the attributes of the given object. Create a new erb file under the users view:
 
 
@@ -384,25 +402,10 @@ The form will be rendered in the following HTML:
 ```
 
 
-### User Controller Sign up Actions
-
-We need to make sure to render the `users/new.erb` and user the `user` object route:
+#### Sign Up Form Save Data
 
 
-```ruby
-# app/controllers/users.rb
-
-JobVacancy::App.controllers :users do
-  get :new, :map => "/register" do
-    @user = User.new
-    render 'new'
-  end
-end
-```
-
-
-Until now we are not saving the inputs of the user. And what about the mistakes a user makes during his input? How can we display any mistakes a user is making and preserve the things he already typed in?
-Before doing two steps at a time let's code the `create` action which saves the new registered user without going into error validation.
+Until now we are not saving the inputs of the user. Let's code the `create` action which saves the new registered:
 
 
 ```ruby
@@ -435,10 +438,11 @@ Instance variables are bound to an instance of class and defines the state of an
 a class has the same name for the instance variables but each of them has different values different.
 
 By using `@user` in the controller, we can use this instance in our [form_for](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Helpers/FormHelpers#form_for-instance_method "form_for") helper as an object to fill all the
-necessary information for a user. So every user share the same features with different values just like instance
-variables in Ruby.
+necessary information for a user. So every user share the same features with different values.
 \end{aside}
 
+
+What about the mistakes a user makes during his input? How can we display any mistakes a user is making and preserve the things he already typed in?
 
 If you send the form without any inputs, you will see that you are redirected into the root of your app. You can't figure out what's wrong, but luckily we have logs:
 
@@ -460,7 +464,7 @@ DEBUG -      GET (0.0017ms) /favicon.ico - 404 Not Found
 ```
 
 
-Why was the `rollback transaction` triggered? The validation of our user model had been violated. Try to create an `User.new` model in the console and call the `.errors` method on:
+The `rollback transaction` was triggered because the validation of our user model had been violated. Try to create an `User.new` model in the console and call the `.errors` method on:
 
 
 ```ruby
