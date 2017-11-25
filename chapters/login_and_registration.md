@@ -1127,7 +1127,7 @@ end
 ```
 
 
-Next we need think of how we can set the `confirmation_code` information to our freshly created user. Instead of creating a confirmation code on our own, we want to encrypt the password by some mechanism. Luckily, we can use [bcrypt-ruby](https://github.com/codahale/bcrypt-ruby "bcrypt-ruby gem") to create our confirmation code. It is a Ruby binding for the [OpenBSD bcrypt](https://en.wikipedia.org/wiki/OpenBSD_security_features "OpenBSD bcrypt") password hashing algorithm. In order to use this in our app we need to add it to our `Gemfile`:
+Next we need think of how we can set the `confirmation_code` information to our freshly created user. Instead of creating a confirmation code on our own, we want to encrypt the password by some mechanism. Luckily, we can use [bcrypt](https://github.com/codahale/bcrypt-ruby "bcrypt gem") to create our confirmation code. It is a Ruby binding for the [OpenBSD bcrypt](https://en.wikipedia.org/wiki/OpenBSD_security_features "OpenBSD bcrypt") password hashing algorithm. In order to use this in our app we need to add it to our `Gemfile`:
 
 
 ```ruby
@@ -1135,7 +1135,8 @@ Next we need think of how we can set the `confirmation_code` information to our 
 ...
 
 # Security
-gem 'bcrypt-ruby', '~> 3.1.5', require: 'bcrypt'
+gem 'bcrypt', '~> 3.1.11'
+
 ```
 
 
