@@ -1199,7 +1199,8 @@ end
 ```
 
 
-We won't test the methods under the private keyword, there is no customized business logic inside these methods.
+We won't test the methods under the private keyword, there is no customized business logic inside these methods and we
+are just using third party libraries which are tested.
 
 
 \begin{aside}
