@@ -779,7 +779,7 @@ RSpec.describe JobVacancy::String::Normalizer do
 
   subject { normalizer }
 
-  it 'replaces slashes and + signs in strings' do
+  it 'replaces / and + in strings' do
     token = 'B4+K/32'
     expected_token = 'B4K32'
     expect(subject.normalize(token)).to eq expected_token
