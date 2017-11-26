@@ -1345,7 +1345,7 @@ end
 ```
 
 
-Please not that we are using [flash.now](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Flash/Storage#now-instance_method "flash.now") because in case of an success we stay at the confirm page without making a new request. Play around and use `flash` only, as a result you should see
+Please note that we are using [flash.now](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Flash/Storage#now-instance_method "flash.now") because in case of an success we stay at the confirm page without making a new request. Play around and use `flash` only, as a result you should see
 the success message twice.
 
 
@@ -1673,8 +1673,5 @@ RSpec.describe "/users" do
 end
 ```
 
-
-Please note that we are using the `flash` storage to save information. This [flash storage](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Flash/Storage "flash storage") is part of the session. So the
-value stored in there is only available in the next request. Since we are using a redirect, we want to display this
-information on the page after the redirect.
+Since we are using a redirect, `flash` method (see **Rule of the thumb** of section ~\ref{sec:controller_method_and_action_for_password_confirmation}) is the right choice.
 

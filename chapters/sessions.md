@@ -503,6 +503,8 @@ JobVacancy::App.controllers :sessions do
 end
 ```
 
+We are using the [flash storage](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Flash/Storage "flash storage") to save information which is part of the session. We will latter use the [flash method](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Flash/Helpers#flash-instance_method "flash storage") to access set a [notice](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino/Flash/Storage#notice-instance_method "notice") information.
+
 
 What we forget due to this point is to make use of the `sign_in(user)` method in our session `:create` action:
 
@@ -557,7 +559,7 @@ How can we test now our logic in the view? The main application layout should ha
 ```
 
 
-Please note that we have to pass the `authenticity_token` with the saved value of `csrf` for security reasons for security reasons (check box~\ref{box:csrf}). Please not that we have to pass method `:delete` here because we are not in a form.
+Please note that we have to pass the `authenticity_token` with the saved value of `csrf` for security reasons for security reasons (check box~\ref{box:csrf}). Please note that we have to pass method `:delete` here because we are not in a form.
 
 
  The HTTP specification only understands GET and POST in the <form> method attribute. How can we solve this? We need to use a hidden form with the put method:
