@@ -535,7 +535,7 @@ JobVacancy::App.controllers :sessions do
     @user = User.find_by_email(params[:email])
 
     if @user && @user.confirmation && @user.password == params[:password]
-      if (params[:remember_me] == "true")
+      if (params[:remember_me] == '1')
         token = SecureRandom.hex
         @user.authentity_token = token
         thirty_days_in_seconds = 30*24*60*60
@@ -593,7 +593,7 @@ describe "POST :create" do
     expect(User).to receive(:find_by_email) { user }
     expect(SecureRandom).to receive(:hex).at_least(:once) { token }
 
-    post 'sessions/create', password: 'secret', remember_me: true
+    post 'sessions/create', password: 'secret', remember_me: '1'
     expect(last_response).to be_redirect
     cookie = last_response['Set-Cookie']
     expect(cookie).to include('permanent_cookie')
