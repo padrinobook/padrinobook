@@ -474,7 +474,6 @@ RSpec.describe "/sessions" do
 end
 
 private
-
 def login_user(user)
   user.confirmation = true
   user.password = 'correct'

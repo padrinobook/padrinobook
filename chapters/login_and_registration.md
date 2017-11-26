@@ -1534,7 +1534,6 @@ class UserCompletionMail
   end
 
   private
-
   def normalize(token)
     token.gsub("/", "")
   end
