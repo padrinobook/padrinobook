@@ -1178,7 +1178,6 @@ class User < ActiveRecord::Base
     :if => :registered? # our callback with if condition
 
   private
-
   def encrypt_confirmation_token
     self.confirmation_token = set_confirmation_token
   end
@@ -1186,11 +1185,11 @@ class User < ActiveRecord::Base
   def set_confirmation_token
     salt = BCrypt::Engine.generate_salt
     token = BCrypt::Engine.hash_secret(self.password, salt)
-    normalize_confirmation_code(token)
+    normalize_confirmation_token(token)
   end
 
-  def normalize_confirmation_code(token)
-    token.delete('/')
+  def normalize_confirmation_token(token)
+    token.delete('/').delete('+')
   end
 
   def registered?
@@ -1477,15 +1476,15 @@ User < ActiveRecord::Base
   def set_confirmation_code
     salt = BCrypt::Engine.generate_salt
     token = BCrypt::Engine.hash_secret(self.password, salt)
-    normalize_confirmation_code(token)
+    normalize_confirmation_token(token)
   end
 
   def registered?
     self.new_record?
   end
 
-  def normalize_confirmation_code(token)
-    token.gsub("/", "")
+  def normalize_confirmation_token(token)
+    token.delete('/').delete('+')
   end
 end
 ```
