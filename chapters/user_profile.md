@@ -563,13 +563,13 @@ generate a cookie which is valid for thirty days.
 
 
 When you login the next time into the application, click the remember me you checkbox. Stop and start the application
-again, you will be logged in automatically for the next thirty days.
+again, you will be logged in automatically for the next thirty days. You can inspect the cookies either in
+[Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new "Mozilla Firefox")[^cookie-mozilla-firefox]or [Google Chrome](https://www.google.com/chrome/browser/desktop/index.html "Google Chrome")[^cookie-google-chrome].
 
 
-![Figure 2-2. Start page of the app](images/cookies.png)
+[^cookie-mozilla-firefox]: Press `F-12`, then open the 'Storage' tab, click on Cookies, and there you will see a cookie with the name `permanent_cookie`.
+[^cookie-google-chrome]: Press `F-12`, then open the 'Resources' tab, click on Cookies and there you will see a cookie with the name `permanent_cookie`, but for me this isn't working ...
 
-
-If you want to see the cookie in your browser, you can install [Web Developer extension](https://addons.mozilla.org/en-US/firefox/addon/web-developer "Web Developer extension") for [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new "Mozilla Firefox") and open the *View cookie information* pane in the *Cookies* tab.
 
 The specs for the `post :create` action:
 
