@@ -1051,7 +1051,7 @@ Why? Because we are hitting the database. Consider the following method which wi
 
 
 ```ruby
-def encrypt_confirmation_code
+def encrypt_confirmation_token
   salt = BCrypt::Engine.generate_salt
   token = BCrypt::Engine.hash_secret(user.password, salt)
   user.confirmation_token = token
@@ -1065,13 +1065,13 @@ We need to use **mocks** to simulate the generating of password hashes to stable
 The magic behind mocking is to use the [receive](https://github.com/rspec/rspec-mocks#message-expectations "receive expectation from RSpec") and [return](https://github.com/rspec/rspec-mocks#consecutive-return-values "return expectation from RSpec") expectation flow. `Receive` says which method should be called and `and_return` what should be returned when the specified method is called.
 
 
-A test for the `encrypt_confirmation_code` method may look like:
+A test for the `encrypt_confirmation_token` method may look like:
 
 
 ```ruby
 let(:user) { build(:user) }
 
-it 'encrypts the confirmation code of the user' do
+it 'encrypts the confirmation token of the user' do
   salt = '$2a$10$y0Stx1HaYV.sZHuxYLb25.'
   expected_confirmation_token =
     '$2a$10$y0Stx1HaYV.sZHuxYLb25.zAi0tu1C5N.oKMoPT6NbjtD.3cg7Au'
@@ -1174,12 +1174,12 @@ require 'bcrypt'
 class User < ActiveRecord::Base
   ... # The other validations
 
-  before_save :encrypt_confirmation_code,
+  before_save :encrypt_confirmation_token,
     :if => :registered? # our callback with if condition
 
   private
 
-  def encrypt_confirmation_code
+  def encrypt_confirmation_token
     self.confirmation_token = set_confirmation_token
   end
 
@@ -1467,10 +1467,10 @@ require 'bcrypt'
 
 User < ActiveRecord::Base
   ...
-  before_save :encrypt_confirmation_code, :if => :registered?
+  before_save :encrypt_confirmation_token, :if => :registered?
 
   private
-  def encrypt_confirmation_code
+  def encrypt_confirmation_token
     self.confirmation_token = set_confirmation_token
   end
 
@@ -1528,7 +1528,7 @@ class UserCompletionMail
     )
   end
 
-  def encrypt_confirmation_code
+  def encrypt_confirmation_token
     salt = BCrypt::Engine.generate_salt
     confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
     user.confirmation_token = normalize(confirmation_code)
@@ -1562,7 +1562,7 @@ RSpec.describe UserCompletionMail do
   describe "user new record" do
     let(:user) { build(:user) }
 
-    it 'encrypts the confirmation code of the user' do
+    it 'encrypts the confirmation token of the user' do
       salt = '$2a$10$y0Stx1HaYV.sZHuxYLb25.'
       expected_confirmation_code =
         '$2a$10$y0Stx1HaYV.sZHuxYLb25.zAi0tu1C5N.oKMoPT6NbjtD.3cg7Au'
@@ -1571,7 +1571,7 @@ RSpec.describe UserCompletionMail do
         .with(user.password, salt)
         .and_return(expected_confirmation_code)
       @user_completion_mail = UserCompletionMail.new(user, app(JobVacancy::App))
-      @user_completion_mail.encrypt_confirmation_code
+      @user_completion_mail.encrypt_confirmation_token
 
       expect(@user_completion_mail.user.confirmation_code)
         .to eq expected_confirmation_code
@@ -1603,7 +1603,7 @@ end
 ```
 
 
-We need to remove the callback `before_save :encrypt_confirmation_code, :if => :registered?` and we need also to
+We need to remove the callback `before_save :encrypt_confirmation_token, :if => :registered?` and we need also to
 transfer this logic into the controller:
 
 
@@ -1615,7 +1615,7 @@ JobVacancy::App.controllers :users do
   post :create do
     @user = User.new(params[:user])
     user_completion = UserCompletionMail.new(@user)
-    user_completion.encrypt_confirmation_code
+    user_completion.encrypt_confirmation_token
 
     if @user && @user.save
       user_completion.send_registration_mail
@@ -1647,7 +1647,7 @@ RSpec.describe "/users" do
     before do
       @completion_user_mail = UserCompletionMail
       expect(User).to receive(:new).and_return(user)
-      expect(@completion_user_mail).to receive(:encrypt_confirmation_code)
+      expect(@completion_user_mail).to receive(:encrypt_confirmation_token)
     end
 
     it 'redirects to home if user can be saved' do
