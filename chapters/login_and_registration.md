@@ -1312,13 +1312,13 @@ describe "GET confirm" do
   it 'redirect to :confirm if user id is wrong' do
     get "/confirm/test/#{user.confirmation_token}"
     expect(last_response).to be_redirect
-    expect(last_response.body).to include("Confirmation code is wrong.")
+    expect(last_response.body).to include("Confirmation token is wrong.")
   end
 
   it 'redirect to :confirm if confirmation id is wrong' do
     get "/confirm/#{user.id}/test"
     expect(last_response).to be_redirect
-    expect(last_response.body).to include("Confirmation code is wrong.")
+    expect(last_response.body).to include("Confirmation token is wrong.")
   end
 end
 ```
@@ -1339,7 +1339,7 @@ get :confirm, :map => "/confirm/:id/:code" do
         we've send you recently."
       render 'confirm'
     else
-      redirect '/', flash[:error] = 'Confirmation code is wrong.'
+      redirect '/', flash[:error] = 'Confirmation token is wrong.'
     end
 end
 ```
