@@ -802,10 +802,10 @@ class UserObserver < ActiveRecord::Observer
 
   private
 
-  def set_confirmation_code(user)
+  def set_confirmation_token(user)
     salt = BCrypt::Engine.generate_salt
-    confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
-    normalize(confirmation_code)
+    token = BCrypt::Engine.hash_secret(user.password, salt)
+    normalize(token)
   end
 end
 ```

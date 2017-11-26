@@ -950,8 +950,8 @@ The goal of the MIME definition was that existing email servers had nothing to c
 The basic steps for implementing the logic of email confirmation are the following:
 
 
-- Add the `confirmation_code` and `confirmation` attributes in our user model.
-- Create a controller method for our user model that expects a user id and `confirmation_code`, looks up the user, checks if the submitted `confirmation_code` exists in our database, and clears the code after confirmation so that it is valid only one time.
+- Add the `confirmation_token` and `confirmation` attributes in our user model.
+- Create a controller method for our user model that expects a user id and `confirmation_token`, looks up the user, checks if the submitted `confirmation_token` exists in our database, and clears the code after confirmation so that it is valid only one time.
 - Add a route that maps to our new controller method (e.g. `/confirm/<user-id>/<code>`).
 - Create a mailer template which takes the user as a parameter and use the *confirmation code* of the user to send a mail containing a link to the new confirmation route.
 - Protect our controller methods and views to prevent security issues with a helper method to check if the current user
@@ -972,27 +972,27 @@ Create a migration and add the fields to the file:
 
 
 ```sh
-$ padrino-gen migration AddConfirmationCodeAndConfirmationToUsers
-    confirmation_code:string confirmation:boolean
+$ padrino-gen migration AddConfirmationTokenAndConfirmationToUsers
+    confirmation_token:string confirmation:boolean
    apply  orms/activerecord
-  create  db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
+  create  db/migrate/005_add_confirmation_token_and_confirmation_to_users.rb
 ```
 
 
 ```ruby
-# db/migrate/005_add_confirmation_code_and_confirmation_to_users.rb
+# db/migrate/005_add_confirmation_token_and_confirmation_to_users.rb
 
 class AddConfirmationCodeAndConfirmationToUsers < ActiveRecord::Migration
   def self.up
     change_table :users do |t|
-      t.string :confirmation_code
+      t.string :confirmation_token
       t.boolean :confirmation, default: false
     end
   end
 
   def self.down
     change_table :users do |t|
-      t.remove_column :confirmation_code, :confirmation
+      t.remove_column :confirmation_token, :confirmation
     end
   end
 end
@@ -1053,8 +1053,8 @@ Why? Because we are hitting the database. Consider the following method which wi
 ```ruby
 def encrypt_confirmation_code
   salt = BCrypt::Engine.generate_salt
-  confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
-  user.confirmation_code = confirmation_code
+  token = BCrypt::Engine.hash_secret(user.password, salt)
+  user.confirmation_token = token
 end
 ```
 
@@ -1073,15 +1073,15 @@ let(:user) { build(:user) }
 
 it 'encrypts the confirmation code of the user' do
   salt = '$2a$10$y0Stx1HaYV.sZHuxYLb25.'
-  expected_confirmation_code =
+  expected_confirmation_token =
     '$2a$10$y0Stx1HaYV.sZHuxYLb25.zAi0tu1C5N.oKMoPT6NbjtD.3cg7Au'
   expect(BCrypt::Engine).to receive(:generate_salt).and_return(salt)
   expect(BCrypt::Engine).to receive(:hash_secret)
     .with(user.password, salt)
-    .and_return(expected_confirmation_code)
+    .and_return(expected_confirmation_token)
 
-  expect(user.confirmation_code)
-    .to eq expected_confirmation_code
+  expect(user.confirmation_token)
+    .to eq expected_confirmation_token
 end
 ```
 
@@ -1100,11 +1100,11 @@ our users model. First we will write a failing test:
 ```ruby
 # spec/app/models/user_spec.rb
 ...
-  it 'has confirmation code' do
-    user.confirmation_code = ""
+  it 'has confirmation token' do
+    user.confirmation_token = ''
     expect(user.valid?).to be_falsey
 
-    user.confirmation_code = "1"
+    user.confirmation_token = '1'
     expect(user.valid?).to be_truthy
   end
 ...
@@ -1119,13 +1119,13 @@ To make this test pass we add the validates presence of ability in our user mode
 
 class User < ActiveRecord::Base
   ...
-  validates :confirmation_code, presence: true
+  validates :confirmation_token, presence: true
   ...
 end
 ```
 
 
-Next we need think of how we can set the `confirmation_code` information to our freshly created user. Instead of creating a confirmation code on our own, we want to encrypt the password by some mechanism. Luckily, we can use [bcrypt](https://github.com/codahale/bcrypt-ruby "bcrypt gem") to create our confirmation code. It is a Ruby binding for the [OpenBSD bcrypt](https://en.wikipedia.org/wiki/OpenBSD_security_features "OpenBSD bcrypt") password hashing algorithm. In order to use this in our app we need to add it to our `Gemfile`:
+Next we need think of how we can set the `confirmation_token` information to our freshly created user. Instead of creating a confirmation code on our own, we want to encrypt the password by some mechanism. Luckily, we can use [bcrypt](https://github.com/codahale/bcrypt-ruby "bcrypt gem") to create our confirmation code. It is a Ruby binding for the [OpenBSD bcrypt](https://en.wikipedia.org/wiki/OpenBSD_security_features "OpenBSD bcrypt") password hashing algorithm. In order to use this in our app we need to add it to our `Gemfile`:
 
 
 ```ruby
@@ -1180,17 +1180,17 @@ class User < ActiveRecord::Base
   private
 
   def encrypt_confirmation_code
-    self.confirmation_code = set_confirmation_code
+    self.confirmation_token = set_confirmation_token
   end
 
-  def set_confirmation_code
+  def set_confirmation_token
     salt = BCrypt::Engine.generate_salt
-    confirmation_code = BCrypt::Engine.hash_secret(self.password, salt)
-    normalize_confirmation_code(confirmation_code)
+    token = BCrypt::Engine.hash_secret(self.password, salt)
+    normalize_confirmation_code(token)
   end
 
-  def normalize_confirmation_code(confirmation_code)
-    confirmation_code.delete('/')
+  def normalize_confirmation_code(token)
+    token.delete('/')
   end
 
   def registered?
@@ -1206,7 +1206,7 @@ We won't test the methods under the private keyword, there is no customized busi
 \begin{aside}
 \heading{Why private callbacks?}
 
-It is good practice to make your callbacks private that they can called *only from inside the model*. Our `confirmation_code` method is public available but that is no problem, because it generates a random string.
+It is good practice to make your callbacks private that they can called *only from inside the model*. Our `confirmation_token` method is public available but that is no problem, because it generates a random string.
 
 \end{aside}
 
@@ -1223,7 +1223,7 @@ describe '#authenticate' do
 
   it 'authenticates user with correct confirmation' do
     expect(User).to receive(:find_by_id).with(user.id).and_return(user)
-    expect(user.authenticate(user.confirmation_code)).to be_truthy
+    expect(user.authenticate(user.confirmation_token)).to be_truthy
   end
 
   it 'reject user with incorrect confirmation code' do
@@ -1236,7 +1236,7 @@ end
 \begin{aside}
 \heading{Take care of your names!?}
 
-During writing this chapter I lost a couple of hours because I had method with the same name as the `confirmation_code` field. When I wanted to check `@user.confirmation_code` it always called the `confirmation_code` method which return a new confirmation code. I was thinking for a long time that it returned the attribute and was wondering what's going on. A couple of [pry](http://pryrepl.org "pry") sessions showed me nothing since my expectation was.
+During writing this chapter I lost a couple of hours because I had method with the same name as the `confirmation_token` field. When I wanted to check `@user.confirmation_token` it always called the `confirmation_token` method which return a new confirmation code. I was thinking for a long time that it returned the attribute and was wondering what's going on. A couple of [pry](http://pryrepl.org "pry") sessions showed me nothing since my expectation was.
 
 After I went to the toilet I started another pry session and out of sudden I discovered my naming problem. Lesson learned: Breaks are great!
 
@@ -1253,7 +1253,7 @@ Before going on we need to update our `factory` for the test with the confirmati
 
 FactoryBot.define do
   ...
-  sequence(:confirmation_code) { '1' }
+  sequence(:confirmation_token) { '1' }
   sequence(:id) { |n| n }
 
   factory :user do
@@ -1261,14 +1261,14 @@ FactoryBot.define do
     name
     email
     password "octocat"
-    confirmation_code
+    confirmation_token
   end
   ...
 end
 ```
 
 
-The value for the `confirmation_code` is always 1 which makes our tests easier. Here is the code that makes our tests green:
+The value for the `confirmation_token` will always be 1 which makes our tests easier. Here is the code that makes our tests green:
 
 
 ```ruby
@@ -1277,10 +1277,10 @@ The value for the `confirmation_code` is always 1 which makes our tests easier. 
 class User < ActiveRecord::Base
   ...
 
-  def authenticate(confirmation_code)
+  def authenticate(token)
     @user = User.find_by_id(self.id)
 
-    if @user && @user.confirmation_code == confirmation_code
+    if @user && @user.confirmation_token == token
       self.confirmation = true
       self.save
       return true
@@ -1305,12 +1305,12 @@ describe "GET confirm" do
   it "render the '/confirm' page if user has confirmation code" do
     user.save
     confirmed_user = User.find_by_id(user.id)
-    get "/confirm/#{confirmed_user.id}/#{confirmed_user.confirmation_code}"
+    get "/confirm/#{confirmed_user.id}/#{confirmed_user.confirmation_token}"
     expect(last_response).to be_ok
   end
 
   it 'redirect to :confirm if user id is wrong' do
-    get "/confirm/test/#{user.confirmation_code}"
+    get "/confirm/test/#{user.confirmation_token}"
     expect(last_response).to be_redirect
     expect(last_response.body).to include("Confirmation code is wrong.")
   end
@@ -1416,7 +1416,7 @@ post :create do
     deliver(:confirmation, :confirmation_email, @user.name,
             @user.email,
             @user.id,
-            @user.confirmation_code)
+            @user.confirmation_token)
     redirect('/')
   else
     render 'new'
@@ -1471,21 +1471,21 @@ User < ActiveRecord::Base
 
   private
   def encrypt_confirmation_code
-    self.confirmation_code = set_confirmation_code
+    self.confirmation_token = set_confirmation_token
   end
 
   def set_confirmation_code
     salt = BCrypt::Engine.generate_salt
-    confirmation_code = BCrypt::Engine.hash_secret(self.password, salt)
-    normalize_confirmation_code(confirmation_code)
+    token = BCrypt::Engine.hash_secret(self.password, salt)
+    normalize_confirmation_code(token)
   end
 
   def registered?
     self.new_record?
   end
 
-  def normalize_confirmation_code(confirmation_code)
-    confirmation_code.gsub("/", "")
+  def normalize_confirmation_code(token)
+    token.gsub("/", "")
   end
 end
 ```
@@ -1524,20 +1524,20 @@ class UserCompletionMail
       user.name,
       user.email,
       user.id,
-      user.confirmation_code
+      user.confirmation_token
     )
   end
 
   def encrypt_confirmation_code
     salt = BCrypt::Engine.generate_salt
     confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
-    user.confirmation_code = normalize(confirmation_code)
+    user.confirmation_token = normalize(confirmation_code)
   end
 
   private
 
-  def normalize(confirmation_code)
-    confirmation_code.gsub("/", "")
+  def normalize(token)
+    token.gsub("/", "")
   end
 end
 ```
@@ -1592,7 +1592,7 @@ RSpec.describe UserCompletionMail do
               user.name,
               user.email,
               user.id,
-              user.confirmation_code
+              user.confirmation_token
              )
 
       @user_completion_mail = UserCompletionMail.new(user, app)
