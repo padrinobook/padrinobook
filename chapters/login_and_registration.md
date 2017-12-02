@@ -1602,6 +1602,21 @@ end
 ```
 
 
+Instead of writing `app(JobVacancy::App)` to simulate  you can also pass `app` in the `UserCompletionMail.new` function.
+The `app` variable is automatically defined in the `spec_helper`:
+
+
+```ruby
+# spec/spec_helper.rb
+...
+
+def app(app = nil, &blk)
+  @app ||= block_given? ? app.instance_eval(&blk) : app
+  @app ||= Padrino.application
+end
+```
+
+
 We need to remove the callback `before_save :encrypt_confirmation_token, :if => :registered?` and we need also to
 transfer this logic into the controller:
 

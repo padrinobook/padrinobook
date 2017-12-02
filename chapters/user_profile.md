@@ -357,30 +357,16 @@ RSpec.describe JobVacancy::App::SessionsHelper do
       expect(subject.current_user).to eq user
     end
 
-    it "returns the current user from session" do
+    it 'returns the current user from session' do
       user.id = 1
-      browser = Rack::Test::Session.new(JobVacancy::App)
-      browser.get '/', {}, 'rack.session' => { current_user: user.id }
+      client = Rack::Test::Session.new(app)
+      client.get '/', {}, 'rack.session' => { current_user: user.id }
       expect(User).to receive(:find_by_id).and_return(user)
       expect(subject).to receive(:session).and_return(user)
       expect(subject.current_user).to eq user
     end
   end
   ...
-end
-```
-
-
-Instead of writing `JobVacancy::App` you can also pass `app` in the Rack's `Session.new` function. The `app` variable is automatically defined in the `spec_helper`:
-
-
-```ruby
-# spec/spec_helper.rb
-...
-
-def app(app = nil, &blk)
-  @app ||= block_given? ? app.instance_eval(&blk) : app
-  @app ||= Padrino.application
 end
 ```
 
