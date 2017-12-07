@@ -601,7 +601,7 @@ fellow developers can easier read your code). As an exercise think of a place wh
 \end{aside}
 
 
-### Password Reset
+### Password Forget
 
 This chapter will be a combination of all the things we have learned so far. Until now you should be familiar with the commands of creating new controllers, edit views as well as create migration and new mail templates. Because repetition is good, we will go through the whole procedure again.
 
@@ -632,6 +632,24 @@ JobVacancy::App.controllers :password_forget do
     render 'new'
   end
   ...
+end
+```
+
+
+And the spec for the controller:
+
+
+```ruby
+require 'spec_helper'
+
+RSpec.describe "/password_forget" do
+  describe "GET /password_forget" do
+    it 'renders new page' do
+      get 'password_forget'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include 'Forget Password'
+    end
+  end
 end
 ```
 
@@ -673,6 +691,43 @@ JobVacancy::App.controllers :password_forget do
     render 'success'
   end
   ...
+end
+```
+
+
+And the specs for the `create` part:
+
+
+```ruby
+describe "POST /password_forget/create" do
+  describe "user is not found" do
+    it 'it renders the success page' do
+      expect(User).to receive(:find_by_email).and_return(nil)
+      post '/password_forget/create', :email => ''
+      expect(last_response).to be_ok
+      expect(last_response.body).to include 'Password was reseted successfully'
+    end
+  end
+
+  describe "user is found" do
+    it 'it send the password reset mail and render the success page' do
+      expectedUser = double(
+                           User,
+                           :name => 'Red Dead Redemption',
+                           :email => 'hallo@padrino.de',
+                           :password_reset_token => '123'
+                           )
+      expect(expectedUser).to receive(:save_forget_password_token)
+        .and_return(nil)
+
+      expect(User).to receive(:find_by_email).with('hallo@padrino.de')
+        .and_return(expectedUser)
+
+      post '/password_forget/create', :email => 'hallo@padrino.de'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include 'Password was reseted successfully'
+    end
+  end
 end
 ```
 
