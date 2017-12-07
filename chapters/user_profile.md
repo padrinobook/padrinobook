@@ -1086,16 +1086,52 @@ password field validations from the user model:
 JobVacancy::App.controllers :password_forget do
   ...
 
-  post :update, :map => "password-reset/:token" do
+  post :update, :map => "/password-reset/:token" do
     @user = User.find_by_password_reset_token(params[:token])
 
-    if @user && @user.update_attributes(params[:user])
+    if @user.update_attributes(params[:user])
       @user.update_attributes({:password_reset_token => 0,
         :password_reset_sent_date => 0})
       redirect url(:sessions, :new), flash[:notice] = "Password has been reseted.
         Please login with your new password."
     else
       render 'edit'
+    end
+  end
+end
+```
+
+
+And the specs for the `update` action:
+
+
+```ruby
+describe "POST /password_forget/:token" do
+  let(:user) { build_stubbed(:user) }
+
+  context "user can be updated" do
+    it "redirects to login" do
+      expect(User).to receive(:find_by_password_reset_token)
+        .with('1')
+        .and_return(user)
+      bla_user = user
+      bla_user.id = 3
+      expect(user).to receive(:update_attributes).exactly(2).times.and_return(true, true)
+      post '/password_forget/1'
+      expect(last_response).to be_redirect
+      expect(last_response.body).to include 'Password has been reseted. Please login with your new password.'
+    end
+  end
+
+  context "user can not be updated" do
+    it "renders edit page" do
+      expect(User).to receive(:find_by_password_reset_token)
+        .with('1')
+        .and_return(user)
+      expect(user).to receive(:update_attributes)
+        .and_return(false)
+      post '/password_forget/1'
+      expect(last_response).to be_ok
     end
   end
 end
