@@ -993,6 +993,63 @@ If you want to have a more readable version you could use the [Timerizer](https:
 [^timerizer]: Provides you a `1.hour.ago` or `1.hour.after` like syntax inspired from from [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html "ActiveSupport") module.
 
 
+And the specs for the `edit` action:
+
+
+```ruby
+describe "GET /password_forget/:token/edit" do
+  let(:user) { build_stubbed(:user) }
+  let(:test_time) { Time.now.utc }
+
+  context "password reset date is not older than one hour" do
+    it 'renders edit page' do
+      allow(Time).to receive(:now).and_return(test_time)
+
+      user.password_reset_sent_date = test_time + 60 * 60
+      expect(User).to receive(:find_by_password_reset_token)
+        .with('1')
+        .and_return(user)
+      get '/password_forget/1/edit'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include 'Reset Password'
+    end
+  end
+
+  context "password reset date is older than one hour" do
+    it 'redirects to new session' do
+      allow(Time).to receive(:now).and_return(test_time)
+
+      user.password_reset_sent_date = test_time - 60 * 60
+      expect(User).to receive(:find_by_password_reset_token)
+        .with('1')
+        .and_return(user)
+      expect(user).to receive(:update_attributes)
+        .with({ password_reset_token: 0, password_reset_sent_date: 0 })
+
+      get '/password_forget/1/edit'
+
+      expect(last_response).to be_redirect
+      expect(last_response.body).to include 'Password reset token has expired.'
+    end
+  end
+
+  context "user is not found" do
+    it 'redirects to /password_forget' do
+      expect(User).to receive(:find_by_password_reset_token).and_return(nil)
+      get '/password_forget/1/edit'
+      expect(last_response).to be_redirect
+    end
+  end
+end
+```
+
+
+In the specs we are using [allow](https://relishapp.com/rspec/rspec-mocks/v/3-5/docs/basics/allowing-messages "allow")
+expectation. This expectation tells the object to a return a value in response to a given message. Nothing will happen
+if the message was never received. Also the number of message calls is not relevant. You could so that you are in lazy
+call mode in your test (what I'm actually with the `Time` class).
+
+
 In the associated `edit` view we use the `form_for` and pass in the `user` model to have access to all validations.
 Besides we are using then `method:` hash to say which method we want to use for the action:
 
