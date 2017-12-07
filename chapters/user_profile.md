@@ -962,10 +962,10 @@ JobVacancy::App.controllers :password_forget do
   get :edit, :map => "/password-reset/:token/edit" do
     @user = User.find_by_password_reset_token(params[:token])
 
-    if @user && Time.now.to_datetime <
+    if @user && Time.now.utc <
       (@user.password_reset_sent_date.to_datetime + (1.0 / 24.0))
       render 'edit'
-    elsif @user && Time.now.to_datetime >=
+    elsif @user && Time.now.utc >=
       (@user.password_reset_sent_date.to_datetime + (1.0 / 24.0))
       @user.update_attributes(
         { password_reset_token: 0, password_reset_sent_date: 0 })
@@ -979,11 +979,18 @@ end
 ```
 
 
-The highlighted lines with adds a one hour fraction[^time-fraction] of a whole day.
+Please note that we are using `Time.now.utc` for comparising because the `save_forget_password_token` uses
+`Time.now` for saving `password_reset_sent_date` of the user. When you use Time.now[^time-now], it generates a SQL query with time in UTC for saving to the database.
+
+
+The highlighted lines with a one hour fraction[^time-fraction] of a whole day. As an alternative you could also have
+written `@user.password_reset_sent_date + (60 * 60)`.
 If you want to have a more readable version you could use the [Timerizer](https://github.com/kylewlacy/timerizer "timerizer")[^timerizer] gem.
 
+
+[^time-now]: The reference for this can be found under http://winstonyw.com/2014/03/03/time_now_vs_time_zone_now/
 [^time-fraction]: Got the inspiration from [stackoverflow.com/a/31447415](http://stackoverflow.com/a/31447415)
-[^timerizer]: Provides you a `1.hour.ago` or 1.hour.after like syntax inspired from from [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html "ActiveSupport") module.
+[^timerizer]: Provides you a `1.hour.ago` or `1.hour.after` like syntax inspired from from [ActiveSupport](http://api.rubyonrails.org/v2.3.8/classes/ActiveSupport/CoreExtensions/Numeric/Time.html "ActiveSupport") module.
 
 
 In the associated `edit` view we use the `form_for` and pass in the `user` model to have access to all validations.
