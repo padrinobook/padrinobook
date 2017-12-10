@@ -83,7 +83,7 @@ Migrations helps you to change the database in an ordered manner. Let's have a l
 ```ruby
 # db/migrate/001_create_users.rb
 
-class CreateUsers < ActiveRecord::Migration
+class CreateUsers < ActiveRecord::Migration[4.2]
   def self.up
     create_table :users do |t|
       t.string :name
@@ -373,7 +373,7 @@ Let's take a look at the created migration:
 ```ruby
 # db/migrate/003_add_user_id_to_job_offers.rb
 
-class AddUserIdToJobOffers < ActiveRecord::Migration
+class AddUserIdToJobOffers < ActiveRecord::Migration[4.2]
   def self.up
     change_table :joboffers do |t|
       t.integer :user_id

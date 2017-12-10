@@ -46,8 +46,7 @@ And write the fields into the migration:
 ```ruby
 # db/migrate/004_add_registration_fields_to_users.rb
 
-class AddRegistrationFieldsToUsers < ActiveRecord::Migration
-
+class AddRegistrationFieldsToUsers < ActiveRecord::Migration[4.2]
   @fields = [:password]
 
   def self.up
@@ -989,7 +988,7 @@ $ padrino-gen migration AddConfirmationTokenAndConfirmationToUsers
 ```ruby
 # db/migrate/005_add_confirmation_token_and_confirmation_to_users.rb
 
-class AddConfirmationCodeAndConfirmationToUsers < ActiveRecord::Migration
+class AddConfirmationCodeAndConfirmationToUsers < ActiveRecord::Migration[4.2]
   def self.up
     change_table :users do |t|
       t.string :confirmation_token

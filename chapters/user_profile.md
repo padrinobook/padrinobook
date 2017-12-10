@@ -752,7 +752,7 @@ Due to this point it is not enough have only this migration, we need to set defa
 ```ruby
 # db/migrate/007_add_password_reset_token_to_users.rb
 
-class AddPasswordResetTokenToUsers < ActiveRecord::Migration
+class AddPasswordResetTokenToUsers < ActiveRecord::Migration[4.2]
   def self.up
     change_table :users do |t|
       t.string :password_reset_token, default: 0, null: true
