@@ -1521,29 +1521,29 @@ class UserCompletionMail
   end
 
   def send_registration_mail
-    app.deliver(
+    @app.deliver(
       :registration,
       :registration_email,
-      user.name,
-      user.email
+      @user.name,
+      @user.email
     )
   end
 
   def send_confirmation_mail
-    app.deliver(
+    @app.deliver(
       :confirmation,
       :confirmation_email,
-      user.name,
-      user.email,
-      user.id,
-      user.confirmation_token
+      @user.name,
+      @user.email,
+      @user.id,
+      @user.confirmation_token
     )
   end
 
   def encrypt_confirmation_token
     salt = BCrypt::Engine.generate_salt
-    confirmation_code = BCrypt::Engine.hash_secret(user.password, salt)
-    user.confirmation_token = normalize(confirmation_code)
+    confirmation_code = BCrypt::Engine.hash_secret(@user.password, salt)
+    @user.confirmation_token = normalize(confirmation_code)
   end
 
   private
@@ -1554,7 +1554,7 @@ end
 ```
 
 
-We are not using the single `deliver` method here because our file does not have access to this it. Instead we have
+We are not using the single `deliver` method here because our file does not have access to it. Instead we have
 to take `JobVacancy::App.deliver` way to access the mail[^found-out]
 
 
@@ -1572,21 +1572,6 @@ require 'spec_helper'
 RSpec.describe UserCompletionMail do
   describe "user new record" do
     let(:user) { build(:user) }
-
-    it 'encrypts the confirmation token of the user' do
-      salt = '$2a$10$y0Stx1HaYV.sZHuxYLb25.'
-      expected_confirmation_code =
-        '$2a$10$y0Stx1HaYV.sZHuxYLb25.zAi0tu1C5N.oKMoPT6NbjtD.3cg7Au'
-      expect(BCrypt::Engine).to receive(:generate_salt).and_return(salt)
-      expect(BCrypt::Engine).to receive(:hash_secret)
-        .with(user.password, salt)
-        .and_return(expected_confirmation_code)
-      @user_completion_mail = UserCompletionMail.new(user, app(JobVacancy::App))
-      @user_completion_mail.encrypt_confirmation_token
-
-      expect(@user_completion_mail.user.confirmation_code)
-        .to eq expected_confirmation_code
-    end
 
     it 'sends registration mail' do
       expect(app).to receive(:deliver)
@@ -1609,6 +1594,21 @@ RSpec.describe UserCompletionMail do
       @user_completion_mail = UserCompletionMail.new(user, app)
       @user_completion_mail.send_confirmation_mail
     end
+
+    it 'encrypts the confirmation token of the user' do
+      salt = '$2a$10$y0Stx1HaYV.sZHuxYLb25.'
+      expected_confirmation_code =
+        '$2a$10$y0Stx1HaYV.sZHuxYLb25.zAi0tu1C5N.oKMoPT6NbjtD.3cg7Au'
+      expect(BCrypt::Engine).to receive(:generate_salt).and_return(salt)
+      expect(BCrypt::Engine).to receive(:hash_secret)
+        .with(user.password, salt)
+        .and_return(expected_confirmation_code)
+      @user_completion_mail = UserCompletionMail.new(user, app(JobVacancy::App))
+      @user_completion_mail.encrypt_confirmation_token
+
+      expect(@user_completion_mail.user.confirmation_code)
+        .to eq expected_confirmation_code
+    end
   end
 end
 ```
@@ -1629,6 +1629,62 @@ end
 ```
 
 
+I have mentioned in the beginning of the chapter that our `UserCompletionMail` class should sends the registration and confirmation email.
+But actually is is also encrypts the confirmation token of the user which is not clear from it's name.
+Let'extract this logic in a new `UserTokenConfirmationEncryptionService` class:
+
+
+```ruby
+# lib/user_token_confirmation_encryption_service.rb
+require 'bcrypt'
+
+class UserTokenConfirmationEncryptionService
+  include JobVacancy::String::Normalizer
+
+  attr_accessor :user
+
+  def initialize(user)
+    @user = user
+  end
+
+  def encrypt_confirmation_token
+    salt = BCrypt::Engine.generate_salt
+    token = BCrypt::Engine.hash_secret(@user.password, salt)
+    @user.confirmation_token = normalize(token)
+  end
+end
+```
+
+
+And the specs for it:
+
+
+```ruby
+# spec/lib/user_token_confirmation_encryption_service_spec.rb
+require 'spec_helper'
+
+RSpec.describe UserTokenConfirmationEncryptionService do
+  describe "#encrypt_confirmation_token" do
+    let(:user) { build(:user) }
+
+    it 'encrypts the confirmation token of the user' do
+      salt = '$2a$10$y0Stx1HaYV.sZHuxYLb25.'
+      expected_confirmation_token
+        = '$2a$10$y0Stx1HaYV.sZHuxYLb25.zAi0tu1C5N.oKMoPT6NbjtD.3cg7Au'
+      expect(BCrypt::Engine).to receive(:generate_salt).and_return(salt)
+      expect(BCrypt::Engine).to receive(:hash_secret)
+        .with(user.password, salt)
+        .and_return(expected_confirmation_token)
+      @service = UserTokenConfirmationEncryptionService.new(user)
+      @service.encrypt_confirmation_token
+
+      expect(@service.user.confirmation_token).to eq expected_confirmation_token
+    end
+  end
+end
+```
+
+
 We need to remove the callback `before_save :encrypt_confirmation_token, :if => :registered?` and we need also to
 transfer this logic into the controller:
 
@@ -1640,20 +1696,26 @@ JobVacancy::App.controllers :users do
   ...
   post :create do
     @user = User.new(params[:user])
-    user_completion = UserCompletionMail.new(@user)
-    user_completion.encrypt_confirmation_token
 
     if @user && @user.save
+      user_confirmation_encryption_service
+        = UserConfirmationEncryptionService.new(@user)
+      user_confirmation_encryption_service.encrypt_confirmation_token
+
+      user_completion = UserCompletionMail.new(@user)
       user_completion.send_registration_mail
       user_completion.send_confirmation_mail
-      redirect '/', flash[:notice] = "You have been registered. Please confirm
-        with the mail we've send you recently."
+      redirect '/', flash[:notice] = "You have been registered. " +
+        "Please confirm with the mail we've send you recently."
     else
       render 'new'
     end
   end
 end
 ```
+
+
+Since we are using a redirect, `flash` method (see **Rule of the thumb** of section ~\ref{sec:controller_method_and_action_for_password_confirmation}) is the right choice.
 
 
 And the tests for the controller:
@@ -1666,39 +1728,48 @@ require 'spec_helper'
 
 RSpec.describe "/users" do
   ...
-
-  describe "POST /users/create" do
+    describe "POST /users/create" do
     let(:user) { build(:user) }
 
     before do
-      @completion_user_mail = UserCompletionMail
       expect(User).to receive(:new).and_return(user)
-      expect(@completion_user_mail).to receive(:encrypt_confirmation_token)
     end
 
-    it 'redirects to home if user can be saved' do
-      expect(user).to receive(:save).and_return(true)
-      expect(UserCompletion).to receive(:new).with(user)
-        .and_return(@completion_user)
-      expect(@completion_user_mail).to receive(:send_registration_mail)
-      expect(@completion_user_mail).to receive(:send_confirmation_mail)
-      post "/users/create"
-      expect(last_response).to be_redirect
-      expect(last_response.body).to eq "You have been registered.
-        Please confirm with the mail we've send you recently."
+    context "user can be saved" do
+      it 'redirects to home' do
+        @completion_user_mail = double(UserCompletionMail)
+        expect(UserCompletionMail).to receive(:new)
+          .with(user)
+          .and_return(@completion_user_mail)
+        expect(@completion_user_mail).to receive(:send_registration_mail)
+        expect(@completion_user_mail).to receive(:send_confirmation_mail)
+
+        @user_token_encryption_service =
+          double(UserTokenConfirmationEncryptionService)
+        expect(UserTokenConfirmationEncryptionService).to receive(:new)
+          .with(user)
+          .and_return(@user_token_encryption_service)
+        expect(@user_token_encryption_service)
+          .to receive(:encrypt_confirmation_token)
+
+        expect(user).to receive(:save).and_return(true)
+
+        post "/users/create"
+        expect(last_response).to be_redirect
+        expect(last_response.body).to eq "You have been registered. " +
+          "Please confirm with the mail we've send you recently."
+      end
     end
 
-    it 'renders registration page if user cannot be saved' do
-      expect(UserCompletion).to receive(:new).with(user).
-        and_return(@completion_user_mail)
-      expect(user).to receive(:save).and_return(false)
-      post "/users/create"
-      expect(last_response).to be_ok
-      expect(last_response.body).to include 'Registration'
+    context "user cannot be saved" do
+      it 'renders registration' do
+        expect(user).to receive(:save).and_return(false)
+        post "/users/create"
+        expect(last_response).to be_ok
+        expect(last_response.body).to include 'Registration'
+      end
     end
   end
 end
 ```
-
-Since we are using a redirect, `flash` method (see **Rule of the thumb** of section ~\ref{sec:controller_method_and_action_for_password_confirmation}) is the right choice.
 
