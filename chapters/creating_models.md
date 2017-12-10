@@ -613,7 +613,6 @@ The basic philosophy behind testing with fixtures is that you create objects as 
 \heading{Don't repeat yourself (DRY)}
 \label{box:dry}
 
-
 It'a principle in software development with the goal to reduce repetition of all kinds. The principle was mentioned by Andy Hunt and Dave Thomas
 in their book [The Pragmatic Programmer](https://pragprog.com/book/tpp/the-pragmatic-programmer "The Pragmatic Programmer").
 

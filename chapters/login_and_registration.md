@@ -286,6 +286,7 @@ end
 
 \begin{aside}
 \heading{Regular Expressions}
+\label{box:regular-expressions}
 
 [Regular expressions](https://en.wikipedia.org/wiki/Regular_expression "Regular expressions") are your first tool when you need to match certain parts (or whole) strings against a predefined pattern. The drawback of using them is that you have to learn a formal language to define your patterns. I can highly recommend you the [Rubular tool](http://rubular.com "Rubular tool") for learning, training, and trying out the expression you want to use.
 
@@ -312,6 +313,7 @@ The new thing about the controller generation command is the `get:new` option. T
 
 \begin{aside}
 \heading{Seven actions of a controller}
+\label{box:seven-actions-of-a-controller}
 
 In web application most controllers offers seven features to manage records:
 
@@ -433,6 +435,7 @@ Let's go through the new parts:
 
 \begin{aside}
 \heading{What are instance variables and why use them in controllers?}
+\label{box:what-are-instance-variables}
 
 Instance variables are bound to an instance of class and defines the state of an object. Through this every instance of
 a class has the same name for the instance variables but each of them has different values different.
@@ -613,6 +616,7 @@ Remember to have an eye into your logs to detect possible back-end problems.
 
 \begin{aside}
 \heading{What are VALUES (?, ?, ?, ?, ?) in a SQL insert query?}
+\label{box:parameterized-query}
 
 These form of inserting data in your database is known as parameterized queries. A parameterized query is a query in which placeholders are used for parameters and the parameter values are supplied at execution time. The most important reason to use parameterized queries is to avoid [SQL injection](https://en.wikipedia.org/wiki/SQL_injection "SQL injection") attacks. SQL injection means that SQL statements are injected into input fields in order to get access/delete user data.
 \end{aside}
@@ -783,6 +787,7 @@ end
 
 \begin{aside}
 \heading{Difference between Padrino's Mailer methods email and deliver}
+\label{box:difference-between-mailer-and-deliver}
 
 The [email](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FMailer%2FHelpers%2FClassMethods:email "email helper method") method has the parameters `mail_attributes = {}, &block`. That means the you write emails directly `JobVacancy.email(to: '...', from: '...', subject: '...', body:  '...')` or use the block syntax `JobVacancy.email do ... end`. The [deliver](http://www.rubydoc.info/github/padrino/padrino-framework/Padrino%2FMailer%2FHelpers%2FClassMethods:deliver "deliver helper method") method has `mailer_name, message_name, *attributes` as attributes. In order to use this you always to create a Mailer for them.
 
@@ -937,6 +942,7 @@ bHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nDPQM1Qo5ypUMABCM0MjBXNL
 
 \begin{aside}
 \heading{MIME?}
+\label{box:mime}
 
 MIME stands for "Multipurpose Internet Mail Extensions" and they specify additional attributes to email headers like the content type and defines transfer encodings which can be used to present a higher encoded file (e.g. 8-bit) with the 7-bit ASCII character set. This makes it possible to put non-English characters in the message header.
 
@@ -960,6 +966,7 @@ The basic steps for implementing the logic of email confirmation are the followi
 
 \begin{aside}
 \heading{Why Confirmation Mail?}
+\label{box:why-confirmation-mail}
 
 Check that the user actually signed up for the account and actually wants it. This also helps you from spamming your platform with unwanted users. Another usage of this information is to give your users a chance to change their password and/or stay in contact with them to inform them about updates.
 
@@ -1155,6 +1162,7 @@ $ padrino c
 
 \begin{aside}
 \heading{What is a Salt?}
+\label{box:what-is-a-salt}
 
 Salts are used in cryptography as random data to be put as addition to normal password to create an encrypted hash with the help of a **one-way function**. A one-way function output by some input string very easily but the other way round is very difficult for the computer to compute the original string from the output.
 
@@ -1205,6 +1213,7 @@ are just using third party libraries which are tested.
 
 \begin{aside}
 \heading{Why private callbacks?}
+\label{box:why-private-callbacks}
 
 It is good practice to make your callbacks private that they can called *only from inside the model*. Our `confirmation_token` method is public available but that is no problem, because it generates a random string.
 
@@ -1235,6 +1244,8 @@ end
 
 \begin{aside}
 \heading{Take care of your names!?}
+\label{box:take-care-of-names}
+
 
 During writing this chapter I lost a couple of hours because I had method with the same name as the `confirmation_token` field. When I wanted to check `@user.confirmation_token` it always called the `confirmation_token` method which return a new confirmation code. I was thinking for a long time that it returned the attribute and was wondering what's going on. A couple of [pry](http://pryrepl.org "pry") sessions showed me nothing since my expectation was.
 
@@ -1436,6 +1447,7 @@ The code is working but we have flaws in our design:
 
 \begin{aside}
 \heading{Observers vs. Callbacks vs. POROs}
+\label{box:Observers-vs-callbacks-vs-poros}
 
 [Observers](https://en.wikipedia.org/wiki/Observer_pattern "Observers")[^observers] are a design pattern where an object has a list of its dependents called observers, and notifies them automatically if its state has changed by calling one of their methods. Observers means to be decoupling responsibility. They can serve as a connection point between your models and some other functionality of another system.
 Observers "lives" longer in your application and can be attached/detached at any time.

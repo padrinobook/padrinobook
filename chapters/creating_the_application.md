@@ -598,6 +598,7 @@ We didn't exactly use behavior-driven development until now[^rspec-note].
 
 \begin{aside}
 \heading{Red-Green Cycle}
+\label{box:red-green-cycle}
 
 In behavior-driven development (BDD) it is important to write a failing test first and then the code that satisfies the test. The red-green cycle represents the colors that you will see when executing these test: Red first, and then beautiful green. But once your code passes the tests, take yet a little more time to refactor your code. This little mind shift helps you a lot to think more about the problem and how to solve it. The test suite is a nice by product too.
 

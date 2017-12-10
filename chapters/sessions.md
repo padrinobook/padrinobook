@@ -82,6 +82,7 @@ end
 
 \begin{aside}
 \heading{Test-First development}
+\label{box:test-first-development}
 
 The term comes from [Extreme Programming (XP)](https://en.wikipedia.org/wiki/Extreme_programming "Extreme Programming (XP)") and means that you first write down your tests before writing any implementation code. This forces you to really think about what you are going to do.
 There is the hypotheses relating to code quality and a more direct correlation between TDD and productivity were inconclusive.
@@ -427,6 +428,7 @@ There's a lot of stuff going on in this helper:
 
 \begin{aside}
 \heading{Why Sessions and how does sign\_out work?}
+\label{box:why-sessions}
 
 When you request an URL in your browser, you are using the HTTP/HTTPS protocol. This protocol is stateless that means that it doesn't save the state in which you are in your application. Web applications implement states with one of the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g. <http://localhost:3000/login?user=test&password=test>).
 
@@ -591,6 +593,7 @@ New? <%= link_to 'Register', url(:users, :new) %>
 
 \begin{aside}
 \heading{No hard coded URLs for controller routes}
+\label{box:no-hard-coded-urls}
 
 The line above with `<% form_tag '/sessions/create' do %>` is not a good solution. If you are changing the mapping inside the controller, you have to change the hard coded path manually.
 

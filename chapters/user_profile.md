@@ -428,6 +428,7 @@ $ padrino rake ar:migrate
 
 \begin{aside}
 \heading{Cookies}
+\label{box:cookies}
 
 HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol "stateless protocol") and cookies are a way
 to save information sent from a website and store them in the browser. Each time the user visits the site again, the
@@ -593,6 +594,7 @@ end
 
 \begin{aside}
 \heading{Magic Numbers}
+\label{box:magic-numbers}
 
 If you take a closer look at `thirty_days_in_seconds = 30*24*60*60` it might be better to put this in a configuration
 file, where you define these values. This makes it in the later easier to changes the values (it is more readable and
