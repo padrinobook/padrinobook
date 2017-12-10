@@ -1206,17 +1206,11 @@ end
 ```
 
 
-We won't test the methods under the private keyword, there is no customized business logic inside these methods and we
+We won't test the methods under the private[^why-private-callbacks] keyword, there is no customized business logic inside these methods and we
 are just using third party libraries which are tested.
 
 
-\begin{aside}
-\heading{Why private callbacks?}
-\label{box:why-private-callbacks}
-
-It is good practice to make your callbacks private that they can called *only from inside the model*. Our `confirmation_token` method is public available but that is no problem, because it generates a random string.
-
-\end{aside}
+[^why-private-callbacks]: It is good practice to make your callbacks private that they can called *only from inside the model*. Our `confirmation_token` method is public available but that is no problem, because it generates a random string.
 
 
 After creating the confirmation code mechanism for our user, we need to implement an authentication which takes the confirmation code as an input and mark our user as *confirmed*. Let's start with failing tests:
