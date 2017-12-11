@@ -1624,8 +1624,25 @@ end
 ```
 
 
-I have mentioned in the beginning of the chapter that our `UserCompletionMail` class should sends the registration and confirmation email.
-But actually is is also encrypts the confirmation token of the user which is not clear from it's name.
+I have mentioned in the beginning of the chapter that our `UserCompletionMail` class should sends the registration and
+confirmation email[^srp-violation].  But actually is is also encrypts the confirmation token of the user which is not clear from it's name.
+
+
+[^srp-violation]: According to SRP (see box ~\ref{box:srp}) sending registration and confirmation mails are a clear function of the class - the domain is registration. To have two methods in class serving the same domain is no violation against SRP.
+
+
+\begin{aside}
+\heading{Single Responsibility Principle (SRP)}
+\label{box:srp}
+
+[SRP](https://en.wikipedia.org/wiki/Single_responsibility_principle "SRP") says that every class or module should have a clear function over a
+single piece of functionality offered by the software. This responsibility should be entirely encapsulated in the class
+
+SRP is part of the [SOLID design principles](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design) "SOLID design principles").
+
+\end{aside}
+
+
 Let'extract this logic in a new `UserTokenConfirmationEncryptionService` class:
 
 
