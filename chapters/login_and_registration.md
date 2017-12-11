@@ -1224,7 +1224,9 @@ describe '#authenticate' do
   let(:user) { build(:user) }
 
   it 'authenticates user with correct confirmation' do
-    expect(User).to receive(:find_by_id).with(user.id).and_return(user)
+    expect(User).to receive(:find_by_id)
+      .with(user.id)
+      .and_return(user)
     expect(user.authenticate(user.confirmation_token)).to be_truthy
   end
 
@@ -1756,7 +1758,8 @@ RSpec.describe "/users" do
 
     context "user cannot be saved" do
       it 'renders registration' do
-        expect(user).to receive(:save).and_return(false)
+        expect(user).to receive(:save)
+          .and_return(false)
         post "/users/create"
         expect(last_response).to be_ok
         expect(last_response.body).to include 'Registration'

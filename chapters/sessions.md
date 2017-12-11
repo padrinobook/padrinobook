@@ -464,7 +464,8 @@ RSpec.describe "/sessions" do
     it 'empty the current session' do
       login_user(user)
       delete '/logout'
-      expect(last_request.env['rack.session'][:current_user]).to be_nil
+      expect(last_request.env['rack.session'][:current_user])
+        .to be_nil
     end
 
     it 'redirects to homepage if user is logging out' do

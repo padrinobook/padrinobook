@@ -20,14 +20,16 @@ describe "GET /users/:id/edit" do
   end
 
   it 'redirects to /login signed in user tries to call a different user' do
-    expect(User).to receive(:find_by_id).and_return(user, user_second)
+    expect(User).to receive(:find_by_id)
+      .and_return(user, user_second)
     get "/users/#{user_second.id}/edit"
     expect(last_response).to be_redirect
     expect(last_response.header['Location']).to include('/login')
   end
 
   it 'renders the view for editing a user' do
-    expect(User).to receive(:find_by_id).and_return(user, user)
+    expect(User).to receive(:find_by_id)
+      .and_return(user, user)
     get "/users/#{user.id}/edit", {}, 'rack.session' =>
       { current_user: user_second }
     expect(last_response).to be_ok
@@ -129,14 +131,16 @@ describe "PUT /users/:id" do
 
   describe "redirects to /login if" do
     it 'user is not signed in' do
-      expect(User).to receive(:find_by_id).and_return(nil)
+      expect(User).to receive(:find_by_id)
+        .and_return(nil)
       put '/users/1'
       expect(last_response).to be_redirect
       expect(last_response.header['Location']).to include('/login')
     end
 
     it "user is signed in and tries to call a different user" do
-      expect(User).to receive(:find_by_id).and_return(user, user_second)
+      expect(User).to receive(:find_by_id)
+        .and_return(user, user_second)
       put "/users/1"
       expect(last_response).to be_redirect
       expect(last_response.header['Location']).to include('/login')
@@ -146,10 +150,14 @@ describe "PUT /users/:id" do
   describe "link to /edit" do
     it 'if user has valid account changes' do
       test_user = double(User, id: user.id)
-      expect(test_user).to receive(:update_attributes).with(put_user) { true }
-      expect(User).to receive(:find_by_id).and_return(test_user, test_user)
+      expect(test_user).to receive(:update_attributes)
+        .with(put_user)
+        .and_return(true)
+      expect(User).to receive(:find_by_id)
+        .and_return(test_user, test_user)
 
       put "/users/#{user.id}", user: put_user
+
       expect(last_response).to be_redirect
       expect(last_response.body).to eq 'You have updated your profile.'
       expect(last_response.header['Location']).to include('/edit')
@@ -164,10 +172,13 @@ describe "PUT /users/:id" do
         }
 
       test_user = double(User, id: user.id)
-      expect(test_user).to receive(:update_attributes).with(put_user) { false }
+      expect(test_user).to receive(:update_attributes)
+        .with(put_user)
+        .and_return(false)
       expect(User).to receive(:find_by_id).and_return(test_user, test_user)
 
       put "/users/#{user.id}", user: put_user
+
       expect(last_response).to be_redirect
       expect(last_response.body).to eq 'Your profile was not updated.'
       expect(last_response.header['Location']).to include('/edit')
@@ -361,8 +372,10 @@ RSpec.describe JobVacancy::App::SessionsHelper do
       user.id = 1
       client = Rack::Test::Session.new(app)
       client.get '/', {}, 'rack.session' => { current_user: user.id }
-      expect(User).to receive(:find_by_id).and_return(user)
-      expect(subject).to receive(:session).and_return(user)
+      expect(User).to receive(:find_by_id)
+        .and_return(user)
+      expect(subject).to receive(:session)
+        .and_return(user)
       expect(subject.current_user).to eq user
     end
   end
