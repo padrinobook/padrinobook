@@ -40,5 +40,7 @@ Here is a rough list of pages using Padrino:
 - [Brainfeed](http://brainfeed.org/ "Brainfeed") - Back-end for iPad app that presents educational videos for kids.
 - [martianoids.com](http://martianoids.com "Martianoids") - System administration company at Spain.
 - [HRPartner](http://www.hrpartner.io/ "HRPartner") - The go-to cloud HR software for small & medium-sized businesses.
+- [tokyo-project](http://www.tokyo-project.com/ "tokyo-project") - A photo gallery showcasing pictures of Tokyo
+- [HOF Studios Website](http://www.hofstudios.com/ "HOF Studios Website") - HOF Studios specializes in game development for PC and mobile platforms.
 
 Even more open-source application, web libraries as well as other pages can be found on [padrinorb page](http://padrinorb.com/guides/introduction/examples/ "padrinorb page").
