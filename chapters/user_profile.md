@@ -206,9 +206,9 @@ put :update, :map => '/users/:id' do
 
   route = url(:users, :edit, :id => @user.id)
   if @user.update_attributes(params[:user])
-    redirect route, flash[:notice] = "You have updated your profile."
+    redirect route, flash[:notice] = 'You have updated your profile.'
   else
-    redirect route, flash[:error] = "Your profile was not updated."
+    redirect route, flash[:error] = 'Your profile was not updated.'
   end
 end
 ```
@@ -226,28 +226,48 @@ Making the `put :update ` action pass in the view is a little bit tricky: The HT
 <h2>Edit your profile</h2>
 
 <% form_for @user, url(:users, :update, id: @user.id), method: :put do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <%= error_message_on @user, :name, class: "text-error", prepend: "The name "
-    %>
+  <div class="field">
+    <%= f.label :name, :class => 'label' %>
+    <div class="control">
+      <%= f.text_field :name, :class => 'input' %>
 
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-  <%= error_message_on @user, :email, class: "text-error", prepend: "The email "
-    %>
+    </div>
+    <%= error_message_on @user, :name, class: "has-background-error",\
+      prepend: "The name" %>
+  </div>
 
-  <%= f.label :password %>
-  <%= f.password_field :password %>
-  <%= error_message_on @user, :password, class: "text-error",
-    prepend: "The password "%>
+  <div class="field">
+    <%= f.label :email, :class => 'label' %>
+    <div class="control">
+      <%= f.text_field :email, :class => 'input' %>
+    </div>
+    <%= error_message_on @user, :email, class: "has-background-error",\
+      prepend: "The email" %>
+  </div>
 
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
-  <%= error_message_on @user, :password_confirmation, class: "text-error" %>
+  <div class="field">
+    <%= f.label :password, :class => 'label' %>
+    <div class="control">
+      <%= f.password_field :password, :class => 'input' %>
+    </div>
+    <%= error_message_on @user, :password, class: "has-background-error",\
+      prepend: "The password "%>
+  </div>
 
-  <p>
-    <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
-  </p>
+  <div class="field">
+    <%= f.label :password_confirmation, :class => 'label' %>
+    <div class="control">
+      <%= f.password_field :password_confirmation, :class => 'input' %>
+    </div>
+    <%= error_message_on @user, :password_confirmation, \
+      class: "has-background-error", :prepend => "The password confirmation" %>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= f.submit "Save changes", :class => "button is-large is-link" %>
+    </div>
+  </div>
 <% end %>
 ```
 
@@ -396,21 +416,29 @@ Finally, we need to provide the edit link in the header navigation:
 ```erb
 # app/views/application.erb
 
-<nav id="navigation">
+<nav class="navbar">
   ...
-  <% if signed_in? %>
-    <div class="span2">
-      <%= link_to 'Logout', url(:sessions, :destroy) %>
+    <div id="navbarMenu" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="tabs is-right">
+            <% if signed_in? %>
+            <li>
+              <%= link_to 'Logout', url(:sessions, :destroy) %>
+            </li>
+            <li>
+              <%= link_to 'Edit Profile', url(:users, :edit,\
+                id: session[:current_user]) %>
+            </li>
+          <% else %>
+            <li>
+              <%= link_to 'Login', url(:sessions, :new) %>
+            </li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="span2">
-      <%= link_to 'Edit Profile', url(:users, :edit, id: session[:current_user]) %>
-    </div>
-  <% else %>
-    <div class="span3">
-      <%= link_to 'Login', url(:sessions, :new) %>
-    </div>
-  <% end %>
-  ...
+  </div>
 </nav>
 ```
 
@@ -474,7 +502,6 @@ class User < ActiveRecord::Base
   private
   def generate_authentity_token
     self.authentity_token = SecureRandom.base64(64)
-    SecureRandom
   end
 end
 ```
@@ -513,9 +540,11 @@ Next it's time to create the checkbox on the login page with help of the
 <h1>Login</h1>
 
   ...
-  <label class="checkbox">
-    <%= check_box_tag :remember_me %> Remember me
-  </label>
+  <div class="field">
+    <label class="checkbox">
+      <%= check_box_tag :remember_me, :class => 'checkbox' %> Remember me
+    </label>
+  </div>
 ```
 
 
@@ -675,17 +704,24 @@ In the `new` action’s view we’ll create the form with the [form_tag](http://
 ```erb
 <%# app/views/password_forget/new.erb %>
 
-<h2>Forgot Password</h2>
+<h2>Forget Password</h2>
 
 <% form_tag url(:password_forget, :create) do %>
-  <%= label_tag :email %>
-  <%= text_field_tag :email %>
+  <div class="field">
+    <%= label_tag :email, :class => 'label' %>
+    <div class="control">
+      <%= text_field_tag :email, :class => 'input' %>
+    </div>
+  </div>
 
-  <p>
-    <%= submit_tag "Reset password", class: "btn btn-primary" %>
-  </p>
+  <div class="field">
+    <div class="control">
+      <%= submit_tag "Reset password", class: "button is-large is-link" %>
+    </div>
+  </div>
 <% end %>
 ```
+
 
 The idea behind the `POST` `:create` action is the following: We need to process the password-forget email and email instructions on how to reset password to the supplied email address. We don't validate if the email address is correct, we don't want to have malicious user to check if a user exists or not.
 
@@ -806,6 +842,7 @@ But the token that gets generated can be of the form `B4+KPW145dG9qjfsBuDhuNLVCG
 
 
 [^lib]: The lib folder contains generic entities (class or module), configurations, migrations that are not relevant to the business logic of your application and can even be shared outside of the project or can be used to create other components. Thibault has written more about the app and lib folder under [rails-app-vs-lib](https://devblast.com/b/rails-app-vs-lib "rails-app-vs-lib").
+
 
 ```ruby
 # lib/String/normalizer.rb
@@ -1071,22 +1108,34 @@ Besides we are using then `method:` hash to say which method we want to use for 
 
 ```erb
 # app/views/password_forget/edit.erb
+
 <h2>Reset Password</h2>
 
 <% form_for @user, "/password_forget/#{@user.password_reset_token}",
   method: :post do |f| %>
-  <%= f.label :password %>
-  <%= f.password_field :password %>
-  <%= error_message_on @user, :password, class: "text-error",
-    prepend: "The password "%>
+  <div class="field">
+    <%= f.label :password, :class => 'label' %>
+    <div class="control">
+      <%= f.password_field :password, :class => 'input' %>
+    </div>
+    <%= error_message_on @user, :password,\
+      class: "has-background-danger", prepend: "The password"%>
+  </div>
 
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
+  <div class="field">
+    <%= f.label :password_confirmation, :class => 'label' %>
+    <div class="control">
+      <%= f.password_field :password_confirmation, :class => 'input' %>
+    </div>
+    <%= error_message_on @user, :password_confirmation,\
+      class: "has-background-danger", prepend: "The password confirmation"%>
+  </div>
 
-  <p>
-    <%= f.submit "Reset password", class: "btn btn-primary" %>
-  </p>
-
+  <div class="field">
+    <div class="control">
+      <%= submit_tag "Reset password", class: "button is-large is-link" %>
+    </div>
+  </div>
 <% end %>
 ```
 
@@ -1132,7 +1181,8 @@ describe "POST /password_forget/:token" do
       expect(user).to receive(:update_attributes).exactly(2).times.and_return(true)
       post '/password_forget/1'
       expect(last_response).to be_redirect
-      expect(last_response.body).to include 'Password has been reseted. Please login with your new password.'
+      expect(last_response.body).to include 'Password has been reseted.
+        Please login with your new password.'
     end
   end
 

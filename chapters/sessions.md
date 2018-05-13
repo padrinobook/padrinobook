@@ -537,26 +537,38 @@ How can we test now our logic in the view? The main application layout should ha
 
 <!DOCTYPE html>
 <html lang="en-US">
-  <%= stylesheet_link_tag '../assets/application' %>
-  <%= javascript_include_tag '../assets/application' %>
+  <title>Job Vacancy - find the best jobs</title>
+  <%= stylesheet_link_tag '/assets/application' %>
+  <%= javascript_include_tag '/assets/application' %>
 </head>
 <body>
-  <div class=="container">
-    <div class="row">
-        <nav id="navigation">
-        ...
-        <% if signed_in? %> ...
-          <%= link_to 'Logout', url(:sessions, :destroy,
-            :authenticity_token => session[:csrf]), :method => :delete %>
-        <% else %>
-        <div class="span2">
-          <%= link_to 'Login', url(:sessions, :new) %>
-        </div>
-        <% end %>
-        </nav>
-      </div>
+  <nav class="navbar">
+    <div class="container">
       ...
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="tabs is-right">
+            <ul>
+              ...
+              <% if signed_in? %>
+              <li>
+                <%= link_to 'Logout', url(:sessions, :destroy,\
+                  :authenticity_token => session[:csrf]),\
+                  :method => :delete %>
+              </li>
+            <% else %>
+              <li>
+                <%= link_to 'Login', url(:sessions, :new) %>
+              </li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
+  </nav>
+  <div class="container">
+    <%= yield %>
   </div>
 </body>
 ```
@@ -577,15 +589,25 @@ With the change above we changed the default "Registration" entry in our header 
 <h1>Login</h1>
 
 <% form_tag '/sessions/create' do %>
+  <div class="field">
+    <%= label_tag :email, :class => 'label' %>
+    <div class="control">
+      <%= text_field_tag :email, :class => 'input' %>
+    </div>
+  </div>
 
-  <%= label_tag :email %>
-  <%= text_field_tag :email %>
+  <div class="field">
+    <%= label_tag :password, :class => 'label' %>
+    <div class="control">
+      <%= password_field_tag :password, :class => 'input' %>
+    </div>
+  </div>
 
-  <%= label_tag :password %>
-  <%= password_field_tag :password %>
-  <p>
-  <%= submit_tag "Sign up", :class => "btn btn-primary" %>
-  </p>
+  <div class="field">
+    <div class="control">
+      <%= submit_tag "Sign up", :class => "button is-large is-link" %>
+    </div>
+  </div>
 <% end %>
 
 New? <%= link_to 'Register', url(:users, :new) %>
@@ -645,10 +667,11 @@ Now we can use the `error` variable in our view:
 
 <% form_tag url(:sessions, :create) do %>
   <% if error %>
-    <div class="alert alert-error">
-      <h4>Error</h4>
-      Your Email and/or Password is wrong!
-    </div>
+    <article class="message is-danger">
+      <div class="message-header">
+        <p>Error - Your Email and/or Password is wrong!</p>
+      </div>
+    </article>
   <% end %>
 ...
 <% end %>
@@ -672,20 +695,23 @@ And here is the implementation of the code:
 <html lang="en-US">
 <head>
   <title>Job Vacancy - find the best jobs</title>
-  <%= stylesheet_link_tag '../assets/application' %>
-  <%= javascript_include_tag '../assets/application' %>
+  <%= stylesheet_link_tag '/assets/application' %>
+  <%= javascript_include_tag '/assets/application' %>
 </head>
 <body>
+  ...
   <div class="container">
     <% if !flash.empty? %>
-      <div class="row" id="flash">
       <% if flash.key?(:notice) %>
-        <div class="span9 offset3 alert alert-success">
-          <%= flash[:notice] %>
-        </div>
+        <article class="message is-success" id="flash">
+          <div class="message-header">
+            <%= flash[:notice] %>
+          </div>
+        </article>
       <% end %>
-      </div>
     <% end %>
+
+    <%= yield %>
   </div>
   ...
 </body>
@@ -732,19 +758,24 @@ This is the first time we writing our own customized JavaScript, let's create th
   <%= javascript_include_tag '../assets/application' %>
 </head>
 <body>
-  <div class=="container">
-    <% if flash[:notice] %>
-      <div class="row" id="flash">
-        <div class="span9 offset3 alert alert-success">
-          <%= flash[:notice] %></p>
-        </div>
+  ...
+  <div class="container">
+    <% if !flash.empty? %>
+      <% if flash.key?(:notice) %>
+        <article class="message is-success" id="flash">
+          <div class="message-header">
+            <%= flash[:notice] %>
+          </div>
+        </article>
         <script type="text/javascript">
           $(function(){
-              $("#flash").fadeOut(2000);
+              $("#flash").fadeOut(3000);
           });
         </script>
-      </div>
+      <% end %>
     <% end %>
+
+    <%= yield %>
   </div>
 </body>
 ```

@@ -236,19 +236,19 @@ Although we are now able to put content (albeit static) on our site, it would be
 Let's see what is going on with the `<%= yield %>` line. At first you may ask what does the `<>` symbols mean. They are indicators that you want to execute Ruby code to fetch data that is put into the template. Here, the `yield` command will put the content of the called page, like *about.erb* or *contact.erb*,  into the template.
 
 
-### CSS Design Using Twitter Bootstrap
+### CSS Design Using bulma
 
-The guys at Twitter were kind enough to make their CSS framework [Twitter Bootstrap](https://github.com/twbs/bootstrap "Twitter Bootstrap") available for everyone to use.
+[bulma](https://bulma.io/ "bulma") is an open source CSS framework based on Flexbox. It is designed to be 100%
+responsive for mobile devices.
 
-
-Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes "Padrino recipes") help you saving time by not reinventing the wheel. Thanks to [@arthur_chiu](https://twitter.com/arthur_chiu "@arthur_chiu"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb "bootstrap plugin") by executing:
+Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes "Padrino recipes") help you saving time by not reinventing the wheel. Thanks to [@wikimatze](https://twitter.com/wikimatze "@wikimatze"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb "bootstrap plugin") by executing:
 
 
 ```sh
-$ padrino-gen plugin bootstrap
-  apply  https://github.com/padrino/padrino-recipes/raw/master/plugins/...
-  create    public/stylesheets/bootstrap.css
-  ...
+$ padrino g plugin bulma
+   apply  https://raw.github.com/padrino/padrino-recipes/master/ \
+     plugins/bulma_plugin.rb
+   create    public/stylesheets/bulma.css
 ```
 
 
@@ -262,8 +262,8 @@ Next we need to include the style sheet in our app template for the whole app:
 <html lang="en-US">
   <head>
     <title>Job Vacancy - find the best jobs</title>
-    <%= stylesheet_link_tag 'bootstrap', 'bootstrap-theme' %>
-    <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
+    <%= stylesheet_link_tag 'bulma' %>
+    <%= javascript_include_tag 'jquery', 'jquery-ujs' %>
   </head>
   <body>
     <%= yield %>
@@ -272,7 +272,7 @@ Next we need to include the style sheet in our app template for the whole app:
 ```
 
 
-The `stylesheet_link_tag` points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will automatically create a link to this stylesheet. The `javascript_include_tag` does the same as `stylesheet_link_tag` for your JavaScript files in the *public/javascripts* directory.
+The `stylesheet_link_tag` points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will automatically create a link to this stylesheet. You can also use `javascript_include_tag` which does the same as `stylesheet_link_tag` just for JavaScript files.
 
 
 ### Using Sprockets to Manage the Asset Pipeline
@@ -306,7 +306,6 @@ Next we need to move all our assets from the public folder in the assets folder:
 ```sh
 $ mkdir -p job-vacancy/app/assets
 $ cd job-vacancy/public
-$ mv fonts ../app/assets
 $ mv images ../app/assets
 $ mv javascripts ../app/assets
 $ mv stylesheets ../app/assets
@@ -341,8 +340,7 @@ Next we need create an application.css file and add the following to determine t
  * ...
  *
  *= require_self
- *= require bootstrap
- *= require bootstrap-theme
+ *= require bulma
  *= require site
 */
 ```
@@ -350,7 +348,7 @@ Next we need create an application.css file and add the following to determine t
 
 This file serves as a manifest file and the `require_self` directive indicates that any CSS in the file should be delivered in the given order to the browser.
 
-First we are loading the `bootstrap` default css, then `bootstrap-theme`, and finally our customized `site` CSS. This is helpful if you want to check the order of the loaded CSS as a comment above your application without ever have to look into the source of it. The file
+First we are loading the `bulma` css, and then our customized `site` CSS. This is helpful if you want to check the order of the loaded CSS as a comment above your application without ever have to look into the source of it. The file
 
 
 Next let's have a look into our JavaScript file `app/assets/javascript/application.js`:
@@ -393,8 +391,8 @@ Now we want to enable compression for our CSS and JavaScript files. For CSS comp
 ...
 gem 'padrino-sprockets', :require => 'padrino/sprockets',
   :git => 'git://github.com/nightsailer/padrino-sprockets.git'
-gem 'uglifier', '2.1.1'
-gem 'yui-compressor', '0.9.6'
+gem 'uglifier', '~> 4.1'
+gem 'yui-compressor', '~> 0.12'
 ...
 ```
 
@@ -428,35 +426,41 @@ Next we want to create the top-navigation for our app. We already implemented th
 <html lang="en-US">
   <head>
     <title>Job Vacancy - find the best jobs</title>
-    <%= stylesheet_link_tag 'bootstrap', 'bootstrap-theme' %>
-    <%= javascript_include_tag 'bootstrap.min', 'jquery', 'jquery-ujs' %>
-    <%= stylesheet_link_tag '/stylesheets/site.css' %>
+    <%= stylesheet_link_tag '/assets/application' %>
+    <%= javascript_include_tag '/assets/application' %>
 </head>
 <body>
-  <div class="container">
-    <div class="row">
-      <div class="span12 offset3">
-        <span id="header">Job Vacancy Board</span>
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">Job Vacancy</a>
+        <span class="navbar-burger burger" data-target="navbarMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
       </div>
-      <div class="row">
-        <nav id="navigation">
-          <div class="span2 offset4">
-            <%= link_to 'Home', url(:pages, :home) %>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="tabs is-right">
+            <ul>
+              <li>
+                <%= link_to 'Home', url(:pages, :home) %>
+              </li>
+              <li>
+                <%= link_to 'About', url(:pages, :about) %>
+              </li>
+              <li>
+                <%= link_to 'Contact', url(:pages, :contact) %>
+              </li>
+            </ul>
           </div>
-          <div class="span2">
-            <%= link_to 'About', url(:pages, :about) %>
-          </div>
-          <div class="span2">
-            <%= link_to 'Contact', url(:pages, :contact) %>
-          </div>
-        </nav>
-      </div>
-      <div class="row">
-        <div class="span9 offset3 site">
-          <%= yield %>
         </div>
       </div>
     </div>
+  </nav>
+  <div class="container">
+    <%= yield %>
   </div>
 </body>
 ```
@@ -480,30 +484,51 @@ body {
   text-align: justify;
 }
 
-#header {
-  font-family: Lato;
-  font-size: 40px;
-  font-weight: bold;
-}
-
-#navigation {
-  padding-top: 20px;
-}
-
 h1 {
-  font-family: Lato;
-  font-size: 30px;
-  margin-bottom: 20px;
+  font-size: 200%;
+  padding-bottom: 20px;
 }
 
-.site {
-  padding: 20px;
-  line-height: 1.8em;
+
+/* Tab Navigation */
+.tabs ul {
+  border-bottom: none;
 }
 ```
 
 
 I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c school css](https://www.w3schools.com/css/default.asp "w3c school css") tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
+
+
+Since [bulma is designed to be full responsive](https://bulma.io/documentation/overview/responsiveness/ "bulma is designed to be full responsive")we want to have our navigation also available on mobile devices. For that reason we will add the following JavaScript code:
+
+
+```javascript
+// app/assets/javascripts/burger_navigation.js
+document.addEventListener('DOMContentLoaded', function () {
+  // Get all "navbar-burger" elements
+  var $navbarBurgers = Array.prototype.slice.\
+    call(document.querySelectorAll('.navbar-burger'), 0);
+
+  // Check if there are any navbar burgers
+  if ($navbarBurgers.length > 0) {
+
+    // Add a click event on each of them
+    $navbarBurgers.forEach(function ($el) {
+      $el.addEventListener('click', function () {
+
+        // Get the target from the "data-target" attribute
+        var target = $el.dataset.target;
+        var $target = document.getElementById(target);
+
+        // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+        $el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+      });
+    });
+  }
+});
+```
 
 
 ### Writing Tests

@@ -357,17 +357,39 @@ For this case we can use the [form_for](http://www.rubydoc.info/github/padrino/p
 <h1>Registration</h1>
 
 <% form_for(@user, '/users/create') do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-  <%= f.label :password %>
-  <%= f.password_field :password %>
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
-  <p>
-  <%= f.submit "Create", :class => "btn btn-primary" %>
-  </p>
+  <div class="field">
+    <%= f.label :name, :class => 'label' %>
+    <div class="control">
+      <%= f.text_field :name, :class => 'input' %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.label :email, :class => 'label' %>
+    <div class="control">
+      <%= f.text_field :email, :class => 'input' %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.label :password, :class => 'label' %>
+    <div class="control">
+      <%= f.password_field :password %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation, :class => 'label' %>
+    <div class="control">
+      <%= f.password_field :password_confirmation %>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= f.submit "Create", :class => "button is-large is-link" %>
+    </div>
+  </div>
 <% end %>
 ```
 
@@ -375,30 +397,53 @@ For this case we can use the [form_for](http://www.rubydoc.info/github/padrino/p
 - `form_for`: Is part of [Padrino's Form Builders](http://www.padrinorb.com/guides/application-helpers#formbuilders "Padrino's Form Builders") and allows you to create standard input fields based on a model. The first argument to the function is an object (normally a model), the second argument is an string (the action to which the form should be sent after a submit), and the third parameter are settings in form of a hash.
 - `f.label` and `f.text`: A label and a text field for the attributes of your model.
 - `f.password_field`: Constructs a password input element.
-- `f.submit`: Takes a string as a caption for the submit button and options as hashes for additional parameter (for `example :class => 'long'`).
+- `f.submit`: Takes a string as a caption for the submit button and options as hashes for additional parameter (for `example :class => 'label'`).
 
 
 The form will be rendered in the following HTML:
 
 
 ```html
-<form method="post" action="/users/create" accept-charset="UTF-8">
-  <label for="user_name">Name: </label>
-  <input id="user_name" name="user[name]" type="text" />
+<form action="/users/create" accept-charset="UTF-8" method="post">\
+  <input type="hidden" name="authenticity_token"\
+    value="7JCJxXEWCaP9aFTZhOqD9a/Ff8ot47U+Xo/ENR3zsXc=" />
+  <div class="field">
+    <label for="user_name" class="label">Name: </label>
+    <div class="control">
+      <input type="text" name="user[name]" id="user_name"class="input" />
+    </div>
+  </div>
 
-  <label for="user_email">Email: </label>
-  <input id="user_email" name="user[email]" type="text" />
+  <div class="field">
+    <label for="user_email" class="label">Email: </label>
+    <div class="control">
+      <input type="text" name="user[email]" id="user_email" class="input" />
+    </div>
+  </div>
 
-  <label for="user_password">Password: </label>
-  <input id="user_password" name="user[password]" type="password" />
+  <div class="field">
+    <label for="user_password" class="label">Password: </label>
+    <div class="control">
+      <input type="password" name="user[password]" id="user_password"\
+        class="input" />
+    </div>
+  </div>
 
-  <label for="user_password_confirmation">Password confirmation: </label>
-  <input id="user_password_confirmation" name="user[password_confirmation]"
-    type="password" />
+  <div class="field">
+    <label for="user_password_confirmation"\
+      class="label">Password confirmation: </label>
+    <div class="control">
+      <input type="password" name="user[password_confirmation]"\
+        id="user_password_confirmation" />
+    </div>
 
-  <p>
-  <input class="btn btn-primary" value="Create" type="submit" />
-  </p>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <input type="submit" value="Create" class="button is-large is-link" />
+    </div>
+  </div>
 </form>
 ```
 
@@ -525,66 +570,102 @@ This isn't something we want to ship to our customers. Let's change this by usin
 <%# app/views/users/new.erb %>
 
 <% form_for(@user, '/users/create') do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <%= error_message_on @user, :name %>
 
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-  <%= error_message_on @user, :email %>
+  <div class="field">
+    <%= f.label :name, :class => 'label' %>
+    <div class="control">
+      <%= f.text_field :name, :class => 'input' %>
+    </div>
+    <%= error_message_on :user, :name %>
+  </div>
 
-  <%= f.label :password %>
-  <%= f.password_field :password %>
-  <%= error_message_on @user, :password %>
+  <div class="field">
+    <%= f.label :email, :class => 'label' %>
+    <div class="control">
+      <%= f.text_field :email, :class => 'input' %>
+    </div>
+    <%= error_message_on :user, :email %>
+  </div>
 
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
-  <%= error_message_on @user, :password_confirmation %>
+  <div class="field">
+    <%= f.label :password, :class => 'label' %>
+    <div class="control">
+      <%= f.password_field :password %>
+    </div>
+    <%= error_message_on :user, :password %>
+  </div>
 
-  <p>
-  <%= f.submit "Create", :class => "btn btn-primary" %>
-  </p>
+  <div class="field">
+    <%= f.label :password_confirmation, :class => 'label' %>
+    <div class="control">
+      <%= f.password_field :password_confirmation %>
+    </div>
+    <%= error_message_on :user, :password_confirmation %>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= f.submit "Create", :class => "button is-large is-link" %>
+    </div>
+  </div>
 <% end %>
 ```
 
 [^error_message_on]: Instead of writing `@user` for the `error_message_on` you can also use the symbol notation `:user`.
 
 
-Let's add the `:class` at the of the `error_message_on` method with the help of the [text-error class from bootstrap](http://twitter.github.io/bootstrap/base-css.html#forms "text-error class from bootstrap") and using the `:prepend` option which add text to before displaying the field error:
+Let's add the `:class` at the of the `error_message_on` method with the help of the [has-background-danger class from bulma](https://bulma.io/documentation/modifiers/color-helpers/#background-color "has-background-danger class from bulma") and using the `:prepend` option which add text to before displaying the field error:
 
 
 ```erb
 <%# views/users/new.erb %>
 
 <% form_for(@user, '/users/create') do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <%= error_message_on @user, :name, :class => "text-error",
-    :prepend => "The name " %>
 
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-  <%= error_message_on @user, :email, :class => "text-error",
-    :prepend => "The email " %>
+  <div class="field">
+    <%= f.label :name, :class => 'label' %>
+    <div class="control">
+      <%= f.text_field :name, :class => 'input' %>
+    </div>
+    <%= error_message_on :user, :name, :class => "has-background-danger",\
+      :prepend => "The name" %>
+  </div>
 
-  <%= f.label :password %>
-  <%= f.password_field :password %>
-  <%= error_message_on @user, :password, :class => "text-error",
-    :prepend => "The password "%>
+  <div class="field">
+    <%= f.label :email, :class => 'label' %>
+    <div class="control">
+      <%= f.text_field :email, :class => 'input' %>
+    </div>
+    <%= error_message_on :user, :email, :class => "has-background-danger",\
+      :prepend => "The email" %>
+  </div>
 
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
-  <%= error_message_on @user, :password_confirmation, :class => "text-error" %>
+  <div class="field">
+    <%= f.label :password, :class => 'label' %>
+    <div class="control">
+      <%= f.password_field :password %>
+    </div>
+    <%= error_message_on :user, :password, :class => "has-background-danger",\
+      :prepend => "The password"%>
+  </div>
 
-  <p>
-  <%= f.submit "Create", :class => "btn btn-primary" %>
-  </p>
+  <div class="field">
+    <%= f.label :password_confirmation, :class => 'label' %>
+    <div class="control">
+      <%= f.password_field :password_confirmation %>
+    </div>
+    <%= error_message_on :user, :password_confirmation,\
+      :class => "has-background-danger",\
+      :prepend => "The password confirmation"%>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= f.submit "Create", :class => "button is-large is-link" %>
+    </div>
+  </div>
 <% end %>
 ```
-
-
-Now our error text is red.
-
 
 If you fill out the form with complete valid parameters and watch your log again:
 
@@ -858,7 +939,9 @@ The `locals` options provides us a hash in the email template. All we need now i
 post :create do
   @user = User.new(params[:user])
 
-  if @user.save
+  if @user && @user.valid?
+    @user.save
+
     deliver(:registration, :registration_email, @user.name, @user.email)
     redirect('/')
   else
@@ -1709,16 +1792,21 @@ JobVacancy::App.controllers :users do
   post :create do
     @user = User.new(params[:user])
 
-    if @user && @user.save
-      user_confirmation_encryption_service
-        = UserConfirmationEncryptionService.new(@user)
+    if @user
+      user_confirmation_encryption_service =
+        UserTokenConfirmationEncryptionService.new(@user)
       user_confirmation_encryption_service.encrypt_confirmation_token
 
-      user_completion = UserCompletionMail.new(@user)
-      user_completion.send_registration_mail
-      user_completion.send_confirmation_mail
-      redirect '/', flash[:notice] = "You have been registered. " +
-        "Please confirm with the mail we've send you recently."
+      if @user.valid?
+        @user.save
+        user_completion = UserCompletionMail.new(@user)
+        user_completion.send_registration_mail
+        user_completion.send_confirmation_mail
+        redirect '/', flash[:notice] = "You have been registered.\
+          Please confirm with the mail we've send you recently."
+      else
+        render 'new'
+      end
     else
       render 'new'
     end
@@ -1775,8 +1863,9 @@ RSpec.describe "/users" do
 
     context "user cannot be saved" do
       it 'renders registration' do
-        expect(user).to receive(:save)
+        expect(user).to receive(:valid?)
           .and_return(false)
+        expect(user).to_not receive(:save)
         post "/users/create"
         expect(last_response).to be_ok
         expect(last_response.body).to include 'Registration'
