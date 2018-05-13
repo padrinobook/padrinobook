@@ -433,7 +433,7 @@ There's a lot of stuff going on in this helper:
 When you request an URL in your browser, you are using the HTTP/HTTPS protocol. This protocol is stateless that means that it doesn't save the state in which you are in your application. Web applications implement states with one of the following mechanisms: hidden variables in forms when sending data, cookies, or query strings (e.g. <http://localhost:3000/login?user=test&password=test>).
 
 
-We are going to use cookies to save if a user is logged in and saving the user-id in our session cookies under the `:current_user` key.
+We are going to use cookies to save if a user is logged in and saving the user-id in our session cookies under the `:current_user` key. Be aware, that cookies are managed by the browser and not the server.
 
 
 The `delete` method does the following: It will look into the last request in your application inside the session information hash and delete the `:current_user` key.

@@ -475,8 +475,18 @@ HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol "
 to save information sent from a website and store them in the browser. Each time the user visits the site again, the
 browser sends the information back to server and notifies the server about the identity of the user.
 
-A cookie can consists of the following components: name, value, expiry date, path (scope of the cookie), domain (valid for which
-domain).
+A cookie consists of the following components:
+
+- data with value - like id of user that the server wants to remember
+- expiry date - without a date it's a session cookie which exists only so long as the browser is open, otherwise it's
+  permanent cookie
+- path - scope of the cookie
+- domain - valid for which domain
+- secure - means your cookie will only be send to HTTPs
+- HTPPOnly attribute - cookie is only accessable by the server so that no scripting languages like javascript are able to get the cookie data through document.cookie for example.
+
+If you want to learn more about cookies and session please watch the talk about ["A Deep Dive Into Sessions"](https://www.youtube.com/watch?v=mqUbnZIY3OQ ""A Deep Dive Into Sessions"") by [Justin Weiss](https://www.justinweiss.com/ "Justin Weiss").
+
 \end{aside}
 
 
