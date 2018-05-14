@@ -325,6 +325,8 @@ You can get Padrino's reaction of this attack in the log under:
    WARN -  attack prevented by Padrino::AuthenticityToken
   DEBUG -      POST (0.0050s) /sessions/create - 403 Forbidden
 ```
+
+You can read more [details about CSRF under stackoverflow thread](https://stackoverflow.com/questions/941594/understanding-the-rails-authenticity-token/1571900#1571900 "details about CSRF under stackoverflow thread").
 \end{aside}
 
 
