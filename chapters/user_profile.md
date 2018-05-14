@@ -579,9 +579,12 @@ JobVacancy::App.controllers :sessions do
         @user.authentity_token = token
         thirty_days_in_seconds = 30*24*60*60
         response.set_cookie('permanent_cookie',
-                            value: { domain: 'jobvacancy.de',
-                                        path: '/' },
-                                        max_age: "#{thirty_days_in_seconds}")
+                          value: { domain: 'jobvacancy.de',
+                                path: '/' },
+                                max_age: "#{thirty_days_in_seconds}",
+                                httponly: true,
+                                secure: false,
+                   )
         @user.save
       end
 
@@ -623,21 +626,29 @@ describe "POST :create" do
   it 'redirects if user is correct and has remember_me' do
     token = 'real'
     user = double('User')
-    thirty_days_in_seconds = 2592000
     expect(user).to receive(:id) { 1 }
     expect(user).to receive(:password) { 'secret' }
     expect(user).to receive(:confirmation) { true }
     expect(user).to receive(:authentity_token=) { token }
     expect(user).to receive(:save)
     expect(User).to receive(:find_by_email) { user }
-    expect(SecureRandom).to receive(:hex).at_least(:once) { token }
+    expect(SecureRandom).to receive(:hex)
+      .at_least(:once) { token }
 
     post 'sessions/create', password: 'secret', remember_me: '1'
+
+    thirty_days_in_seconds = 2592000
+
     expect(last_response).to be_redirect
+    expect(last_response.body).to include('You have successfully logged in!')
+
+
     cookie = last_response['Set-Cookie']
     expect(cookie).to include('permanent_cookie')
-    expect(cookie).to include('path=/')
+    expect(cookie).to include('path%3D%3E%22%2F%22%7D')
     expect(cookie).to include('domain%3D%3E%22jobvacancy.de')
+    expect(cookie).to include('HttpOnly')
+    expect(cookie).to_not include('secure')
     expect(cookie).to include("max-age=#{thirty_days_in_seconds}")
   end
 end
