@@ -67,12 +67,14 @@ Besides the `project` option for generating new Padrino apps, the following tabl
 - `plugin`: Creating new Padrino projects based on a template file - it's like a list of commands.
 
 
-Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using `bundle` by running at the command line:
+Later, when *the time comes*, we will add extra gems, for now though we'll grab the current gems using `bundle`[^bundle] by running at the command line:
 
 
 ```sh
 $ bundle install
 ```
+
+[^bundle]: You can also use the `-b` option during project creation - then bundle will run for your automatically.
 
 
 ### Basic Layout
