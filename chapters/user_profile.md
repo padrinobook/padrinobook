@@ -577,14 +577,15 @@ JobVacancy::App.controllers :sessions do
       if (params[:remember_me] == '1')
         token = SecureRandom.hex
         @user.authentity_token = token
-        thirty_days_in_seconds = 30*24*60*60
-        response.set_cookie('permanent_cookie',
-                          value: { domain: 'jobvacancy.de',
-                                path: '/' },
-                                max_age: "#{thirty_days_in_seconds}",
-                                httponly: true,
-                                secure: false,
-                   )
+        thirty_days = 30
+        response.set_cookie('permanent_cookie', {
+                      value: 1,
+                      expires: (Date.today + thirty_days).to_time,
+                      domain: 'jobvacancy.de',
+                      path: '/',
+                      httponly: true,
+                      secure: false,
+                    })
         @user.save
       end
 
@@ -623,7 +624,7 @@ The specs for the `post :create` action:
 describe "POST :create" do
   ...
 
-  it 'redirects if user is correct and has remember_me' do
+  it 'redirects if user is correct and has permanent_cookie' do
     token = 'real'
     user = double('User')
     expect(user).to receive(:id) { 1 }
@@ -637,11 +638,8 @@ describe "POST :create" do
 
     post 'sessions/create', password: 'secret', remember_me: '1'
 
-    thirty_days_in_seconds = 2592000
-
     expect(last_response).to be_redirect
     expect(last_response.body).to include('You have successfully logged in!')
-
 
     cookie = last_response['Set-Cookie']
     expect(cookie).to include('permanent_cookie')
@@ -649,7 +647,86 @@ describe "POST :create" do
     expect(cookie).to include('domain%3D%3E%22jobvacancy.de')
     expect(cookie).to include('HttpOnly')
     expect(cookie).to_not include('secure')
-    expect(cookie).to include("max-age=#{thirty_days_in_seconds}")
+    expect(cookie).to include("expires=")
+  end
+end
+```
+
+
+We can even do better with testing the cookie. Rack Test has a [Rack::Test::Cookie](https://www.rubydoc.info/github/brynary/rack-test/Rack/Test/Cookie "Rack::Test::Cookie") object which we can use to write our specs in a more readable way. All we need to do is to extract the values from `last_response['Set-Cookie']` and pass it's properties as an input for the `Rack::Test::Cookie`.
+
+Our input data from `last_response['Set-Cookie']` looks like the following:
+
+
+```ruby
+"permanent_cookie=true; domain=jobvacancy.de; path=/; expires=Wed, \
+13 Jun 2018 22:00:00 -0000; secure; HttpOnly\n" + "rack.session=\
+BAh7CkkiD3Nlc3Npb25faWQGOgZFVE..."
+```
+
+
+A first attempt may look like:
+
+
+```ruby
+[last_response['Set-Cookie'].lines.map { |line|
+  cookie = Rack::Test::Cookie.new(line.chomp)
+}]
+```
+
+Nearly done. What would be nice is to have something like
+`cookies_from_response[<name-of-cookie)]`[^cookies_from_response]:
+
+[^cookies_from_response]: A good place for that method would be the `spec_helper.rb`.
+
+
+```ruby
+def cookies_from_response(response = last_response)
+  Hash[response["Set-Cookie"].lines.map { |line|
+    cookie = Rack::Test::Cookie.new(line.chomp)
+    [cookie.name, cookie]
+  }]
+end
+```
+
+
+Now we can write our specs in the following way:
+
+
+```ruby
+# spec/app/controllers/sessions_controller_spec.rb
+
+...
+
+describe "POST :create" do
+  ...
+
+  it 'redirects if user is correct and has permanent_cookie' do
+    token = 'real'
+    user = double('User')
+    expect(user).to receive(:id) { 1 }
+    expect(user).to receive(:password) { 'secret' }
+    expect(user).to receive(:confirmation) { true }
+    expect(user).to receive(:authentity_token=) { token }
+    expect(user).to receive(:save)
+    expect(User).to receive(:find_by_email) { user }
+    expect(SecureRandom).to receive(:hex)
+      .at_least(:once) { token }
+
+    post 'sessions/create', password: 'secret', remember_me: '1'
+
+    expect(last_response).to be_redirect
+    expect(last_response.body).to include('You have successfully logged in!')
+
+    cookie = cookies_from_response['permanent_cookie']
+
+    expect(cookie.name).to eql('permanent_cookie')
+    expect(cookie.value).to eql('1')
+    expect(cookie.domain).to eql('jobvacancy.de')
+    expect(cookie.path).to eql('/')
+    expect(cookie.http_only?).to eql(true)
+    expect(cookie.secure?).to eql(false)
+    expect(cookie.expired?).to eql(false)
   end
 end
 ```
@@ -659,10 +736,10 @@ end
 \heading{Magic Numbers}
 \label{box:magic-numbers}
 
-If you take a closer look at `thirty_days_in_seconds = 30*24*60*60` it might be better to put this in a configuration
+If you take a closer look at `thirty_days = 30` it might be better to put this in a configuration
 file, where you define these values. This makes it in the later easier to changes the values (it is more readable and
 fellow developers can easier read your code). As an exercise think of a place where you place a constant like
-`JobVacancy::Configuration::COOKIE_MAX_AGE_REMEMBER_ME`.
+`JobVacancy::Configuration::COOKIE_MAX_DAYS_REMEMBER_ME`.
 \end{aside}
 
 
