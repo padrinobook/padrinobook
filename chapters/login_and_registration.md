@@ -1585,7 +1585,7 @@ And refactor the code above into the `UserCompletionMail` class:
 
 
 ```ruby
-# lib/user_completion_mail.rb
+# lib/Infrastructure/Mail/user_completion_mail.rb
 
 require 'bcrypt'
 
@@ -1631,6 +1631,7 @@ class UserCompletionMail
 end
 ```
 
+Please note that I've added the `lib/Infrastructure/Mail` folder to have better order and separation of files.
 
 We are not using the single `deliver` method here because our file does not have access to it. Instead we have
 to take `JobVacancy::App.deliver` way to access the mail[^found-out]
@@ -1643,7 +1644,7 @@ Here is the spec for the class:
 
 
 ```ruby
-# spec/lib/user_completion_mail_spec.rb
+# spec/lib/Infrastucture/Mail/user_completion_mail_spec.rb
 
 require 'spec_helper'
 
@@ -1730,7 +1731,7 @@ Let'extract this logic in a new `UserTokenConfirmationEncryptionService` class:
 
 
 ```ruby
-# lib/user_token_confirmation_encryption_service.rb
+# lib/Service/user_token_confirmation_encryption_service.rb
 require 'bcrypt'
 
 class UserTokenConfirmationEncryptionService
@@ -1755,7 +1756,7 @@ And the specs for it:
 
 
 ```ruby
-# spec/lib/user_token_confirmation_encryption_service_spec.rb
+# spec/lib/Service/user_token_confirmation_encryption_service_spec.rb
 require 'spec_helper'
 
 RSpec.describe UserTokenConfirmationEncryptionService do
