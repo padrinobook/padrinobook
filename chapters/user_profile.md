@@ -1304,15 +1304,17 @@ Since the routes are now defined, we can add the *password forget* link on the l
 
 ```erb
 # app/views/sessions/new.erb
-
 ...
-<label class="checkbox">
-  <%= check_box_tag :remember_me %> Remember me
-</label>
+  <div class="field">
+    <div class="control">
+      <%= submit_tag "Sign up", :class => "button is-large is-link" %>
+    </div>
+  </div>
 
-<p>
+  <p>
   <%= link_to 'forget password?', url(:password_forget, :new) %>
-</p>
+  </p>
+<% end %>
 ...
 
 ```
