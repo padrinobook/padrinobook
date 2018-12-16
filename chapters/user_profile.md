@@ -1316,7 +1316,152 @@ Since the routes are now defined, we can add the *password forget* link on the l
   </p>
 <% end %>
 ...
+```
+
+We are not done yet. In box \ref{box:srp} I mentioned the SRP principe. I you take a look into
+
+
+```ruby
+# app/controllers/password_forget.rb
+JobVacancy::App.controllers :password_forget do
+  ...
+  post :create do
+    ...
+
+    if @user
+      @user.save_forget_password_token
+      link = 'http://localhost:3000' + url(:password_forget, :edit,
+        token: @user.password_reset_token)
+      deliver(:password_reset, :email, @user, link)
+    end
+
+    render 'success'
+  end
+  ...
+end
+```
+
+you can still see the we are using the deliver, which is actually not tested. We will extract a `UserPasswordResetMail` which
+has the single task to send the password reset message. Here are the specs for the class:
+
+
+```ruby
+# spec/lib/Infrastructure/Mail/user_password_reset_mail_spec.rb
+require 'spec_helper'
+
+RSpec.describe UserPasswordResetMail do
+  let(:user) { build(:user) }
+
+  it 'sends the password reset mail' do
+    link = 'i-forget-everything'
+    expect(app).to receive(:deliver)
+      .with(:password_reset, :email, user, link)
+
+    @user_password_forget_mail = UserPasswordResetMail.new(user, app)
+    @user_password_forget_mail.reset_mail(link)
+  end
+end
+```
+
+and the implementation:
+
+
+```ruby
+class UserPasswordResetMail
+  attr_accessor :user, :app
+
+  def initialize(user, app = JobVacancy::App)
+    @user = user
+    @app ||= app
+  end
+
+  def reset_mail(link)
+    @app.deliver(
+      :password_reset,
+      :email,
+      @user,
+      link
+    )
+  end
+end
+```
+
+
+Now we can use the new service:
+
+```ruby
+# app/controllers/password_forget.rb
+JobVacancy::App.controllers :password_forget do
+  ...
+
+  post :create do
+    @user = User.find_by_email(params[:email])
+
+    if @user
+      @user.save_forget_password_token
+
+      link = 'http://localhost:3000' + url(:password_forget,
+        :edit,
+        token: @user.password_reset_token
+      )
+      user_password_reset_mail = UserPasswordResetMail.new(@user)
+      user_password_reset_mail.reset_mail(link)
+    end
+
+    render 'success'
+  end
+  ...
+end
+```
+
+And the specs for the method:
+
+
+```ruby
+# spec/app/controllers/password_forget_controller_spec.rb
+RSpec.describe "/password_forget" do
+
+  describe "POST /password_forget/create" do
+    describe "user is not found" do
+      it 'it renders the success page' do
+        expect(User).to receive(:find_by_email)
+          .and_return(nil)
+        post '/password_forget/create', :email => ''
+        expect(last_response).to be_ok
+        expect(last_response.body).to include 'Password was reseted successfully'
+      end
+    end
+
+    describe "user is found" do
+      it 'it send the password reset mail and render the success page' do
+        expectedLink = 'http://localhost:3000/password_forget/123/edit'
+        expectedUser = double(User,
+          :name => 'Red Dead Redemption',
+          :email => 'hallo@padrino.de',
+          :password_reset_token => '123'
+        )
+
+        user_password_reset_mail = double(UserPasswordResetMail)
+        expect(user_password_reset_mail).to receive(:reset_mail)
+          .with(expectedLink)
+
+        expect(UserPasswordResetMail).to receive(:new)
+          .with(expectedUser)
+          .and_return(user_password_reset_mail)
+
+        expect(expectedUser).to receive(:save_forget_password_token)
+          .and_return(nil)
+
+        expect(User).to receive(:find_by_email).with('hallo@padrino.de')
+          .and_return(expectedUser)
+
+        post '/password_forget/create', :email => 'hallo@padrino.de'
+        expect(last_response).to be_ok
+        expect(last_response.body).to include 'Password was reseted successfully'
+      end
+    end
+  end
+
 
 ```
 
-- Box: Calling mailers in Padrino and where to put them
