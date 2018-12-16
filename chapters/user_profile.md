@@ -1146,7 +1146,7 @@ If you want to have a more readable version you could use the [Timerizer](https:
 And the specs for the `edit` action:
 
 
-```ruby
+```ruby, options: "linenos": true, "hl_lines": [7, 21]
 describe "GET /password_forget/:token/edit" do
   let(:user) { build_stubbed(:user) }
   let(:test_time) { Time.now.utc }
@@ -1314,6 +1314,7 @@ Since the routes are now defined, we can add the *password forget* link on the l
   <%= link_to 'forget password?', url(:password_forget, :new) %>
 </p>
 ...
+
 ```
 
 - Box: Calling mailers in Padrino and where to put them
