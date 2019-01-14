@@ -336,9 +336,8 @@ require 'spec_helper'
 
 RSpec.describe JobVacancy::App::SessionsHelper do
   let(:user) { User.new }
-  let(:session_helper) { Class.new }
+  let(:session_helper) { Class.new.extend JobVacancy::App::SessionsHelper}
 
-  before { session_helper.extend JobVacancy::App::SessionsHelper }
   subject { session_helper }
 
   describe "#current_user" do
