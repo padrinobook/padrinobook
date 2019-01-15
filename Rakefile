@@ -1,9 +1,3 @@
-desc "ebook creation"
-task :ebook do
-  `pandoc -S --epub-metadata=metadata.xml --epub-stylesheet=ebook.css -o padrino_book.epub title.txt *.md`
-  puts ".. done\nName of the ebook is `padrino_book.epub`"
-end
-
 desc "Website stats"
 task :website_stats do
   exec "bash stats.sh"
