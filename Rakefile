@@ -4,6 +4,11 @@ task :ebook do
   puts ".. done\nName of the ebook is `padrino_book.epub`"
 end
 
+desc "Website stats"
+task :website_stats do
+  exec "bash stats.sh"
+end
+
 desc "HTML generation"
 task :html do
   `pandoc -o padrino_book.html *.md`

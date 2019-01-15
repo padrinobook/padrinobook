@@ -35,5 +35,6 @@ log/
 .DS_Store
 bin/*
 node_modules/
+stats.txt
 
 .mucksrc
