@@ -425,8 +425,10 @@ Finally, we need to provide the edit link in the header navigation:
               <%= link_to 'Logout', url(:sessions, :destroy) %>
             </li>
             <li>
-              <%= link_to 'Edit Profile', url(:users, :edit,\
-                id: session[:current_user]) %>
+              <% if session[:current_user] %>
+                <%= link_to 'Edit Profile', url(:users, :edit,\
+                  id: session[:current_user]) %>
+              <% end %>
             </li>
           <% else %>
             <li>
