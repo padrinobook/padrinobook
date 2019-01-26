@@ -1462,7 +1462,5 @@ RSpec.describe "/password_forget" do
       end
     end
   end
-
-
 ```
 

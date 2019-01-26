@@ -15,3 +15,4 @@ First, we are going to create the app file and folder structure. Then we are add
 
 \input{chapters/user_profile}
 
+\input{chapters/job_offers}
