@@ -375,13 +375,13 @@ Let's take a look at the created migration:
 
 class AddUserIdToJobOffers < ActiveRecord::Migration[4.2]
   def self.up
-    change_table :joboffers do |t|
+    change_table :job_offers do |t|
       t.integer :user_id
     end
   end
 
   def self.down
-    change_table :joboffers do |t|
+    change_table :job_offers do |t|
       t.remove :user_id
     end
   end
