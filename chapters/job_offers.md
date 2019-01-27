@@ -800,4 +800,165 @@ end
 I'll leave it to you to write the specs this class.
 
 
-## Enable
+## Enable markdown rendering job description
+
+
+[Markdown](https://en.wikipedia.org/wiki/Markdown "Markdown") is a markup language which can be used to create HTML out
+of simple constructs.
+
+
+```
+# My Job Offers
+
+
+- [Best Padrino Job in Berlin](http://job-vacancy.com/)
+
+**These are my best** *offers*
+```
+
+
+will be translated into the following HTML version:
+
+
+```html
+<h1>My Job Offers</h1>
+<ul>
+  <li><a href="http://job-vacancy.com/">Best Padrino Job in Berlin</a></li>
+</ul>
+<p><strong>These are my best</strong> <em>offers</em></p>
+```
+
+
+Let's add the `enable_markdown` property to our `JobOffer` model and set this value to `false` as a default value:
+
+
+```sh
+$padrino-gen migration AddEnableMarkdownToJobOffers enable_markdown:boolean
+   apply  orms/activerecord
+  create  db/migrate/008_add_enable_markdown_to_job_offers.rb
+```
+
+
+Here is the migration:
+
+
+```ruby
+# db/migrate/008_add_enable_markdown_to_job_offers.rb
+
+class AddEnableMarkdownToJobOffers < ActiveRecord::Migration[5.1]
+  def self.up
+    change_table :job_offers do |t|
+      t.boolean :enable_markdown, default: false
+    end
+  end
+
+  def self.down
+    change_table :job_offers do |t|
+      t.remove :enable_markdown
+    end
+  end
+end
+```
+
+
+Run the migration. Now add the following snippets in the `new.erb` and `edit.erb` template:
+
+
+```erb
+<div class="field">
+  <label class="checkbox">
+    <%= f.check_box :enable_markdown, :class => 'checkbox' %> \
+      Enable Markdown rendering
+  </label>
+</div>
+```
+
+
+In order to use the markdown rendering we need a suitable tool for it. We use the [redcarped gem](https://github.com/vmg/redcarpet "redcarped gem") for this job. Let's add this to our `Gemfile`:
+
+
+```ruby
+gem 'redcarpet', '3.4.0'
+```
+
+
+and run `bundle install`. Let's create the specs for our new helper:
+
+
+```ruby
+require 'spec_helper'
+
+RSpec.describe JobVacancy::App::MarkdownHelper do
+  let(:user) { User.new }
+  let(:markdown_helper) { Class.new.extend JobVacancy::App::SessionsHelper}
+
+  subject { markdown_helper }
+
+  describe "#markdown" do
+    it 'renders html' do
+      expected_result = "<h1>Hallo</h1>\n"
+      text_to_render = "# Hallo"
+      expect(subject.markdown(text_to_render)).to eq expected_result
+    end
+  end
+end
+```
+
+
+And the implementation:
+
+
+```ruby
+# app/helpers/markdown_helper.rb
+
+module JobVacancy
+  class App
+    module MarkdownHelper
+      def markdown(text)
+        options = {
+          filter_html:     true,
+          hard_wrap:       true,
+          link_attributes: { rel: 'nofollow', target: "_blank" },
+          space_after_headers: false,
+          fenced_code_blocks: true
+        }
+
+        extensions = {
+          autolink:           true,
+          superscript:        true,
+          disable_indented_code_blocks: true
+        }
+
+        renderer = Redcarpet::Render::HTML.new(options)
+        markdown = Redcarpet::Markdown.new(renderer, extensions)
+
+        markdown.render(text).html_safe
+      end
+    end
+
+    helpers MarkdownHelper
+  end
+end
+```
+
+
+And make use of the new helper method:
+
+
+```erb
+<%# app/views/job_offers/job.erb %>
+
+<h1><%= @job_offer.title %></h1>
+
+<div class="content">
+  <% if @job_offer.enable_markdown %>
+    <%= markdown(@job_offer.description) %>
+  <% else %>
+    <%= @job_offer.description %>
+  <% end %>
+</div>
+
+<%= link_to 'Get to job overview', url(:job_offers, :index), :class => 'button is-link' %>
+```
+
+
