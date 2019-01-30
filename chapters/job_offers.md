@@ -915,7 +915,7 @@ Let's add the `enable_markdown` property to our `JobOffer` model and set this va
 
 
 ```sh
-$padrino-gen migration AddEnableMarkdownToJobOffers enable_markdown:boolean
+$ padrino-gen migration AddEnableMarkdownToJobOffers enable_markdown:boolean
    apply  orms/activerecord
   create  db/migrate/008_add_enable_markdown_to_job_offers.rb
 ```
@@ -1040,7 +1040,41 @@ And make use of the new helper method:
   <% end %>
 </div>
 
-<%= link_to 'Get to job overview', url(:job_offers, :index), :class => 'button is-link' %>
+<%= link_to 'Get to job overview', url(:job_offers, :index), \
+  :class => 'button is-link' %>
 ```
 
+
+## Add the is_published option
+
+When a user creates a new job offer, we don't want that the currently written job is automatically visible by all users.
+Let's add a `is_published` property:
+
+
+```sh
+$ padrino-gen migration AddIsPublishedToJobOffers is_published:boolean
+   apply  orms/activerecord
+  create  db/migrate/009_add_is_published_to_job_offers.rb
+```
+
+
+after that, please change the value in the migration from `:joboffers` to `:job_offers` and add the `default: false` property.
+Now run the migration.
+
+
+Now adjust the `app/views/job_offers/edit.erb` and `app/views/job_offers/new.erb` with:
+
+
+```erb
+<div class="field">
+  <label class="checkbox">
+    <%= f.check_box :is_published, :class => 'checkbox' %>
+  </label>
+</div>
+```
+
+
+Until now, the `get :index` action grabs all available jobs. But we only need the ones which has the `is_published`
+value set to true. We can do that with `JobOffer.where("is_published = ?", true)`. You don't need to adjust the test,
+because we only test if the page can be rendered (even if there are jobs or no jobs).
 
