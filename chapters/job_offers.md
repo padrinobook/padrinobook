@@ -972,7 +972,7 @@ require 'spec_helper'
 
 RSpec.describe JobVacancy::App::MarkdownHelper do
   let(:user) { User.new }
-  let(:markdown_helper) { Class.new.extend JobVacancy::App::SessionsHelper}
+  let(:markdown_helper) { Class.new.extend JobVacancy::App::MarkdownHelper}
 
   subject { markdown_helper }
 
@@ -1077,4 +1077,7 @@ Now adjust the `app/views/job_offers/edit.erb` and `app/views/job_offers/new.erb
 Until now, the `get :index` action grabs all available jobs. But we only need the ones which has the `is_published`
 value set to true. We can do that with `JobOffer.where("is_published = ?", true)`. You don't need to adjust the test,
 because we only test if the page can be rendered (even if there are jobs or no jobs).
+
+
+## Attachment
 
