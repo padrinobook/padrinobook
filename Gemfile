@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-gem 'softcover', '~> 1.4.6'
+gem 'softcover', '1.5.4'
 

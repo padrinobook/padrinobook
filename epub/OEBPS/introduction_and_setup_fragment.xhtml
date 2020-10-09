@@ -31,7 +31,26 @@
 </li></ul>
 <p>When you are starting a new project in Padrino only a few files are created and, when your taking a closer look at them, you will see what each part of the code does.<span class="intersentencespace"></span> Having less files means less code and that is easier to maintain.<span class="intersentencespace"></span> Less code means that your application will run faster.</p>
 <p>With the ability to manage different applications, for example: for your blog, your image gallery, or your payment cycle; by separating your business logic, you can share data models, session information and the admin interface between them without duplicating code.</p>
-<p><a href="https://speakerdeck.com/daddye/padrino-framework-0-dot-11-and-1-dot-0" rel="noopener">Remember</a>: “<strong>Be tiny.<span class="intersentencespace"></span> Be fast.<span class="intersentencespace"></span> Be a Padrino</strong>”</p>
+<p><a href="https://speakerdeck.com/daddye/padrino-framework-0-dot-11-and-1-dot-0" rel="noopener">Remember</a>: “<strong>Be tiny.<span class="intersentencespace"></span> Be fast.<span class="intersentencespace"></span> Be a Padrino.</strong>”<span class="intersentencespace"></span></p>
+</div>
+<div id="uid5" class="subsection"><h3><a href="introduction_and_setup_fragment.xhtml#uid5" class="heading hyperref"><span class="number">1.1.2 </span>Pages using Padrino</a></h3>
+<p class="noindent">Here is a rough list of pages using Padrino:</p>
+<ul>
+<li><a href="http://www.cokecce.com" rel="noopener">Coca Cola Enterprises</a> - Coca Cola’s European bottling arm
+</li>
+<li><a href="http://maptia.com/" rel="noopener">Maptia</a> - A beautiful way to tell stories about places.<span class="intersentencespace"></span>
+</li>
+<li><a href="http://brainfeed.org/" rel="noopener">Brainfeed</a> - Back-end for iPad app that presents educational videos for kids.<span class="intersentencespace"></span>
+</li>
+<li><a href="http://martianoids.com" rel="noopener">martianoids.com</a> - System administration company at Spain.<span class="intersentencespace"></span>
+</li>
+<li><a href="http://www.hrpartner.io/" rel="noopener">HRPartner</a> - The go-to cloud HR software for small &amp; medium-sized businesses.<span class="intersentencespace"></span>
+</li>
+<li><a href="http://www.tokyo-project.com/" rel="noopener">tokyo-project</a> - A photo gallery showcasing pictures of Tokyo
+</li>
+<li><a href="http://www.hofstudios.com/" rel="noopener">HOF Studios Website</a> - HOF Studios specializes in game development for PC and mobile platforms.<span class="intersentencespace"></span>
+</li></ul>
+<p>Even more open-source application, web libraries as well as other pages can be found on <a href="http://padrinorb.com/guides/introduction/examples/" rel="noopener">padrinorb page</a>.</p>
 </div></div><div id="cid3" class="section"><h2><a href="introduction_and_setup_fragment.xhtml#cid3" class="heading hyperref"><span class="number">1.2 </span>Tools and Knowledge</a></h2>
 <p class="noindent">I won’t tell you which operating system you should use - there is an interesting discussion on <a href="https://news.ycombinator.com/item?id=3786674" rel="noopener">hackernews</a>.<span class="intersentencespace"></span> I’ll leave it free for the reader of this book which to use, because you are reading this book to learn Padrino.</p>
 <p>To actually see a running padrino app, you need a web browser of your choice.<span class="intersentencespace"></span> For writing the application, you can either use an Integrated Development Environment (IDE) or with a plain text editor.</p>
@@ -57,49 +76,49 @@
 </li></ul>
 <p>All tools have their strengths and weaknesses.<span class="intersentencespace"></span> Try to find the software that works best for you.<span class="intersentencespace"></span> The main goal is that
 you comfortable because you will spend a lot of time with it.</p>
-<div id="uid13" class="subsection"><h3><a href="introduction_and_setup_fragment.xhtml#uid13" class="heading hyperref"><span class="number">1.2.1 </span>Installing Ruby With rbenv</a></h3>
+<div id="uid21" class="subsection"><h3><a href="introduction_and_setup_fragment.xhtml#uid21" class="heading hyperref"><span class="number">1.2.1 </span>Installing Ruby With rbenv</a></h3>
 <p class="noindent">Instead of using the build-in software package for Ruby of your operating system, we will use
 <a href="https://github.com/sstephenson/rbenv" rel="noopener">rbenv</a> which lets you switch between multiple versions of Ruby.</p>
 <p>First, we need to use <a href="https://git-scm.org" rel="noopener">git</a> to get the current version of rbenv:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> <span class="nv">$HOME</span>
-<span class="nv">$ </span>git clone git://github.com/sstephenson/rbenv.git .rbenv
+<div class="code"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> <span class="nv">$HOME</span>
+$ git clone git://github.com/sstephenson/rbenv.git .rbenv
 </pre></div></div>
 <p>In case you shouldn’t want to use git, you can also download the latest version as a zip file from
 <a href="https://github.com" rel="noopener">GitHub</a>.</p>
 <p>You need to add the directory that contains rbenv to your <code>$PATH</code> environment variable.<span class="intersentencespace"></span> If you are on Mac, you have to
 replace <code>.bashrc</code> with <code>.bash_profile</code> in all of the following commands):</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/bin:$PATH"'</span> &gt;&gt; ~/.bashrc
+<div class="code"><div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/bin:$PATH"'</span> &gt;&gt; ~/.bashrc
 </pre></div></div>
 <p>To enable auto completion for <code>rbenv</code> commands, we need to perform the following command:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'eval "$(rbenv init -)"'</span> &gt;&gt; ~/.bashrc
+<div class="code"><div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="s1">'eval "$(rbenv init -)"'</span> &gt;&gt; ~/.bashrc
 </pre></div></div>
 <p>Next, we need to restart our shell to enable the last changes:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">exec</span> <span class="nv">$SHELL</span>
+<div class="code"><div class="highlight"><pre><span></span>$ <span class="nb">exec</span> <span class="nv">$SHELL</span>
 </pre></div></div>
 <p>Basically, there are two ways to install different versions of Ruby: You can compile Ruby on your
 own and try to manage the versions and gems on your own, or you use a tool that helps you.</p>
 <p><strong>ruby-build</strong></p>
 <p>Because we don’t want to download and compile different Ruby versions on our own, we will use the
 <a href="https://github.com/sstephenson/ruby-build" rel="noopener">ruby-build</a> plugin for rbenv:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span>mkdir ~/.rbenv/plugins
-<span class="nv">$ </span><span class="nb">cd</span> ~/.rbenv/plugins
-<span class="nv">$ </span>git clone git://github.com/sstephenson/ruby-build.git
+<div class="code"><div class="highlight"><pre><span></span>$ mkdir ~/.rbenv/plugins
+$ <span class="nb">cd</span> ~/.rbenv/plugins
+$ git clone git://github.com/sstephenson/ruby-build.git
 </pre></div></div>
 <p>If you now run <code>rbenv install</code> you can see all the different Ruby version you can install and use for different Ruby
 projects.<span class="intersentencespace"></span> We are going to install <code>ruby 2.4.1</code>:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span>rbenv install 2.4.1
+<div class="code"><div class="highlight"><pre><span></span>$ rbenv install <span class="m">2</span>.4.1
 </pre></div></div>
 <p>This command will take a couple of minutes, so it’s best to grab a Raider, which is now known as
 <a href="https://en.wikipedia.org/wiki/Twix" rel="noopener">Twix</a>.<span class="intersentencespace"></span> After everything runs fine, you have to run <code>rbenv rehash</code> to rebuild
 the internal rbenv libraries.<span class="intersentencespace"></span> The last step is to make Ruby 2.4.1 the current executable on your machine:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span>rbenv global 2.4.1
+<div class="code"><div class="highlight"><pre><span></span>$ rbenv global <span class="m">2</span>.4.1
 </pre></div></div>
 <p>Check that the correct executable is active by exexuting <code>ruby -v</code>.<span class="intersentencespace"></span> The output should look like:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span>2.4.1 <span class="o">(</span><span class="nb">set </span>by /home/.rbenv/versions<span class="o">)</span>
+<div class="code"><div class="highlight"><pre><span></span>$ <span class="m">2</span>.4.1 <span class="o">(</span><span class="nb">set</span> by /home/.rbenv/versions<span class="o">)</span>
 </pre></div></div>
 <p>Now you are a ready to hack on with Padrino!</p>
 </div>
-<div id="uid14" class="subsection"><h3><a href="introduction_and_setup_fragment.xhtml#uid14" class="heading hyperref"><span class="number">1.2.2 </span>Ruby Knowledge</a></h3>
+<div id="uid22" class="subsection"><h3><a href="introduction_and_setup_fragment.xhtml#uid22" class="heading hyperref"><span class="number">1.2.2 </span>Ruby Knowledge</a></h3>
 <p class="noindent">For any non-Ruby people, I strongly advise you to check out one of these books and learn the basics of Ruby before
 continuing here.</p>
 <ul>
@@ -118,10 +137,10 @@ Padrino-specific coding techniques and how to get most parts under test.</p>
 <p>It is possible that you know this section from several tutorials, which makes you even more comfortable with your first program.</p>
 <p>Now, get your hands dirty and start coding.</p>
 <p>First of all we need to install the <a href="https://rubygems.org/gems/padrino" rel="noopener">padrino gem</a>.<span class="intersentencespace"></span> We are using the last stable version of Padrino (during the release of this book it is version <a href="https://rubygems.org/gems/padrino/versions/0.14.0.1" rel="noopener">0.14.0.1</a>).<span class="intersentencespace"></span> Execute this command.</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span>gem install padrino
+<div class="code"><div class="highlight"><pre><span></span>$ gem install padrino
 </pre></div></div>
 <p>This will install all necessary dependencies and gets you ready to start.<span class="intersentencespace"></span> Now we will generate a fresh new Padrino project:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span>padrino generate project hello-padrino
+<div class="code"><div class="highlight"><pre><span></span>$ padrino generate project hello-padrino
 </pre></div></div>
 <p>Let’s go through each part of this command:</p>
 <ul>
@@ -132,7 +151,7 @@ Padrino-specific coding techniques and how to get most parts under test.</p>
 <li><code>hello-padrino</code>: The name of the new app, which is also the directory name.<span class="intersentencespace"></span>
 </li></ul>
 <p>The console output should look like the following:</p>
-<div class="code"><div class="highlight"><pre>  create
+<div class="code"><div class="highlight"><pre><span></span>  create
   create  .gitignore
   create  config.ru
   create  config/apps.rb
@@ -157,7 +176,7 @@ Padrino-specific coding techniques and how to get most parts under test.</p>
   create  log
   create  log/.keep
 skipping  orm component...
-skipping  <span class="nb">test </span>component...
+skipping  <span class="nb">test</span> component...
 skipping  mock component...
 skipping  script component...
 skipping  renderer component...
@@ -169,22 +188,22 @@ identical  .components
 <span class="o">=================================================================</span>
 hello-padrino is ready <span class="k">for</span> development!
 <span class="o">=================================================================</span>
-<span class="nv">$ </span><span class="nb">cd</span> ./hello-padrino
-<span class="nv">$ bundle</span>
+$ <span class="nb">cd</span> ./hello-padrino
+$ bundle --binstubs
 <span class="o">=================================================================</span>
 </pre></div></div>
 <p>The last line in the console output tells you the next steps you have to perform.<span class="intersentencespace"></span> Before we start coding our app, we need some sort of package management for Ruby gems.</p>
 <p>Ruby has a nice package manager called <a href="https://bundler.io/" rel="noopener">bundler</a> which installs all necessary gems in the versions you would like to have for your project.<span class="intersentencespace"></span> Other developers know now how to work with your project even after years.<span class="intersentencespace"></span> The <a href="https://bundler.io/gemfile.html#gemfiles" rel="noopener">Gemfile</a> declares the gems that you want to install.<span class="intersentencespace"></span> Bundler takes the content of the Gemfile and will install every package declared in this file.</p>
 <p>To install <a href="https://rubygems.org/gems/bundler/versions/1.14.6" rel="noopener">bundler 1.14.6</a>, execute the following command and check the console output:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span>gem install bundler
+<div class="code"><div class="highlight"><pre><span></span>$ gem install bundler
 </pre></div></div>
 <p>Now we have everything we need to run the <code>bundle</code> command and install our dependencies:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>hello-padrino
-<span class="nv">$ </span>bundle
+<div class="code"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> hello-padrino
+$ bundle
   Fetching gem metadata from https://rubygems.org/.........
 </pre></div></div>
 <p>Let’s open the file <code>app/app.rb</code> (think of it as the root controller of your app) and insert the following code before the last <code>end</code>:</p>
-<div class="code"><div class="highlight"><pre><span class="c1"># app/app.rb</span>
+<div class="code"><div class="highlight"><pre><span></span><span class="c1"># app/app.rb</span>
 
 <span class="k">module</span> <span class="nn">HelloWorld</span>
   <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Application</span>
@@ -197,14 +216,14 @@ hello-padrino is ready <span class="k">for</span> development!
 <span class="k">end</span>
 </pre></div></div>
 <p>Now run the app with:</p>
-<div class="code"><div class="highlight"><pre><span class="nv">$ </span>bundle <span class="nb">exec </span>padrino start
+<div class="code"><div class="highlight"><pre><span></span>$ bundle <span class="nb">exec</span> padrino start
 </pre></div></div>
 <p>Instead of writing <code>start</code>, we can also use the <code>s</code> alias.<span class="intersentencespace"></span> Now, fire up your browser with the URL <a href="http://localhost:3000" rel="noopener">http://localhost:3000</a> and see the <code>Hello World</code> Greeting being printed.</p>
 <p>Congratulations, you’ve built your first Padrino app!</p>
-<div id="uid21" class="subsection"><h3><a href="introduction_and_setup_fragment.xhtml#uid21" class="heading hyperref"><span class="number">1.3.1 </span>Directory Structure of Padrino</a></h3>
+<div id="uid29" class="subsection"><h3><a href="introduction_and_setup_fragment.xhtml#uid29" class="heading hyperref"><span class="number">1.3.1 </span>Directory Structure of Padrino</a></h3>
 <p class="noindent">Navigating through the various parts of a project is essential.<span class="intersentencespace"></span> Thus we will go through the basic file structure of the
 <em>hello-padrino</em> project.<span class="intersentencespace"></span> The app consists of the following parts:</p>
-<div class="code"><div class="highlight"><pre><span class="p">|</span>-- app
+<div class="code"><div class="highlight"><pre><span></span><span class="p">|</span>-- app
 <span class="p">|</span>   <span class="p">|</span>-- app.rb
 <span class="p">|</span>   <span class="p">|</span>-- controllers
 <span class="p">|</span>   <span class="p">|</span>-- helpers
@@ -216,6 +235,8 @@ hello-padrino is ready <span class="k">for</span> development!
 <span class="p">|</span>   <span class="p">|</span>-- boot.rb
 <span class="p">|</span>   <span class="sb">`</span>-- database.rb
 <span class="p">|</span>-- config.ru
+<span class="p">|</span>-- exe
+<span class="p">|</span>   <span class="p">|</span>-- hello-padrino
 <span class="p">|</span>-- Gemfile
 <span class="p">|</span>-- Gemfile.lock
 <span class="p">|</span>-- public
@@ -228,12 +249,6 @@ hello-padrino is ready <span class="k">for</span> development!
 </pre></div></div>
 <p>We will go through each part.</p>
 <ul>
-<li><strong>Gemfile</strong>: The place where you declare all the necessary <em>gems</em> for your project.<span class="intersentencespace"></span> Bundle takes the content of this
-file and installs all the dependencies.<span class="intersentencespace"></span>
-</li>
-<li><strong>Gemfile.lock</strong>: This is a file generated by Bundler after you run <code>bundle install</code> within your project.<span class="intersentencespace"></span> It is a
-listing of all the installed gems and their versions.<span class="intersentencespace"></span>
-</li>
 <li><strong>app</strong>: Contains the “executable” files of your project, along with the controllers, helpers, and views of your app.
 <ul>
 <li><strong>app.rb</strong>: The primary configuration file of your application.<span class="intersentencespace"></span> Here you can enable or disable various options like
@@ -247,6 +262,10 @@ by following the <code>DRY</code> (Don’t Repeat Yourself) principle.<span clas
 </li>
 <li><strong>views</strong>: Contains the templates that are filled with model data and rendered by a controller.<span class="intersentencespace"></span>
 </li></ul>
+</li>
+<li><strong>bin</strong>: contains the installed executables files installed by bundler.<span class="intersentencespace"></span> They are used to prepare the environment for
+your app to run the exact defines executables in this bin folder.<span class="intersentencespace"></span> This ensure that no other version then the generates is
+used when your app is deployed and run in production.<span class="intersentencespace"></span>
 </li>
 <li><strong>config</strong>: General settings for the app, including hooks (explained later) that should be performed before or after
 the app is loaded, setting the environment (e.g.<span class="intersentencespace"></span> production, development, test) and mounting other apps within the
@@ -264,17 +283,28 @@ error logging, enable internationalization and localization, load any prerequisi
 <li><strong>config.ru</strong>: Contains the complete configuration options of the app, such as which port the app listens to, whenever
 it uses other Padrino apps as middleware and more.<span class="intersentencespace"></span> This file will be used when Padrino is started from the command line.<span class="intersentencespace"></span>
 </li>
+<li><strong>exe</strong>: contains the executable script to start the app.<span class="intersentencespace"></span>
+</li>
+<li><strong>Gemfile</strong>: The place where you declare all the necessary <em>gems</em> for your project.<span class="intersentencespace"></span> Bundle takes the content of this
+file and installs all the dependencies.<span class="intersentencespace"></span>
+</li>
+<li><strong>Gemfile.lock</strong>: This is a file generated by Bundler after you run <code>bundle install</code> within your project.<span class="intersentencespace"></span> It is a
+listing of all the installed gems and their versions.<span class="intersentencespace"></span>
+</li>
 <li><strong>public</strong>: Directory where you put static resources like images directory, JavaScript files, and style sheets.<span class="intersentencespace"></span> You can
 use for your asset packaging sinatra-assetpack or sprockets.<span class="intersentencespace"></span>
+</li>
+<li><strong>Rakefile</strong>: Is the file to manage build automation tasks.<span class="intersentencespace"></span> For example will print the rake task <code>rake routes</code> all the
+defined routes in your padrino application
 </li>
 <li><strong>tmp</strong>: This directory holds temporary files for intermediate processing like cache, tests, local mails, etc.<span class="intersentencespace"></span>
 </li></ul>
 </div></div><div id="cid5" class="section"><h2><a href="introduction_and_setup_fragment.xhtml#cid5" class="heading hyperref"><span class="number">1.4 </span>Conclusion</a></h2>
 <p class="noindent">We have covered a lot of stuff in this chapter: installing the Padrino gem, finding the right tools to manage different Ruby versions, and creating our first Padrino app.<span class="intersentencespace"></span> Now it is time to jump into a real project!</p>
 </div><div id="cha-1_footnotes">
-  <ol class="footnotes">
-    <li id="cha-1_footnote-1">You can also use <code>padrino g</code> or <code>padrino-gen</code> for the <code>generate</code> command, which will be used in the rest of this book <a class="arrow" href="#cha-1_footnote-ref-1">↑</a></li>
-  </ol>
+  <div class="footnotes">
+    <div id="cha-1_footnote-1" class="footnote"><a class="footnote-link" href="#cha-1_footnote-ref-1">1.</a> You can also use <code>padrino g</code> or <code>padrino-gen</code> for the <code>generate</code> command, which will be used in the rest of this book</div>
+  </div>
 </div>
         </body>
         </html>
