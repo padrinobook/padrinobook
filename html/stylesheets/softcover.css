@@ -162,6 +162,12 @@ body #book {
   margin-top: -0.4em;
 }
 
+#book .code .highlight .linenos {
+  color: #666;
+  font-weight: normal;
+}
+
+/* Include `.lineno` for backward-compatibility with Pygments 1. */
 #book .code .highlight .lineno {
   color: #666;
   font-weight: normal;
@@ -307,6 +313,7 @@ body #book {
 #book .footnotes {
   border-top: 1px solid black;
   margin-top: 5em;
+  padding-top: 1em;
   font-size: 90%;
 }
 
@@ -320,20 +327,12 @@ body #book {
   margin-right: 0px;
 }
 
+#book .footnote a {
+  text-decoration: underline;
+}
+
 #book sup.footnote a:visited {
   color: #002f72;
-}
-
-#book ol.footnotes a.arrow {
-  text-decoration: none !important;
-}
-
-#book ol.footnotes.nonumbers li {
-  list-style-type: none;
-}
-
-#book ul.footnotes.nonumbers li {
-  list-style-type: none;
 }
 
 #book .footnotes .header {
@@ -344,11 +343,11 @@ body #book {
   font-weight: bold;
 }
 
-#book a.arrow {
-  text-decoration: none !important;
+#book .footnote {
+  margin-bottom: 0.4em;
 }
 
-#book a:visited.arrow {
+#book a:visited.footnote-link {
   color: #002f72;
 }
 
@@ -441,7 +440,7 @@ body #book {
   color: red;
 }
 
-#book .sc {
+#book .smallcaps {
   font-variant: small-caps;
 }
 

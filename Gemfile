@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.1'
+ruby '2.7.2'
 
-gem 'softcover', '1.4.3'
+gem 'softcover', '1.7.3'
 
