@@ -243,7 +243,7 @@ Let's see what is going on with the `<%= yield %>` line. At first you may ask wh
 [bulma](https://bulma.io/ "bulma") is an open source CSS framework based on Flexbox. It is designed to be 100%
 responsive for mobile devices.
 
-Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes "Padrino recipes") help you saving time by not reinventing the wheel. Thanks to [@wikimatze](https://twitter.com/wikimatze "@wikimatze"), we use his [bootstrap-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bootstrap_plugin.rb "bootstrap plugin") by executing:
+Padrino itself also provides built-in templates for common tasks done on web app. These [padrino-recipes](https://github.com/padrino/padrino-recipes "Padrino recipes") help you saving time by not reinventing the wheel. Thanks to [@wikimatze](https://twitter.com/wikimatze "@wikimatze"), we use his [bulma-plugin](https://github.com/padrino/padrino-recipes/blob/master/plugins/bulma_plugin.rb "bulma plugin") by executing:
 
 
 ```sh
@@ -274,146 +274,8 @@ Next we need to include the style sheet in our app template for the whole app:
 ```
 
 
-The `stylesheet_link_tag` points to the *bootstrap.min.css* in you app *public/stylesheets* directory and will automatically create a link to this stylesheet. You can also use `javascript_include_tag` which does the same as `stylesheet_link_tag` just for JavaScript files.
-
-
-### Using Sprockets to Manage the Asset Pipeline
-
-[Sprockets](https://github.com/rails/sprockets "Sprockets") is a way to manage serving your assets like CSS, and JavaScript compiling all the different files in one summarized file for each type.
-
-
-To implement Sprockets in Padrino there the following strategies:
-
-
-- [rake-pipeline](https://github.com/livingsocial/rake-pipeline "rake-pipeline"): Define filters that transforms directory trees.
-- [grunt](https://gruntjs.com "grunt"): Set a task to compile and manage assets in JavaScript.
-- [sinatra-asset-pipeline](https://github.com/kalasjocke/sinatra-asset-pipeline "sinatra-asset-pipeline"): Let's you define you assets transparently in Sinatra.
-- [sprocket-helpers](https://github.com/petebrowne/sprockets-helpers "sprocket-helpers"): Asset path helpers for Sprockets 2.0 applications
-- [padrino-sprockets](https://github.com/nightsailer/padrino-sprockets "padrino-sprockets"): Integrate sprockets with Padrino in the Rails way.
-
-
-We are using the **padrino-sprockets** gem. Let's add it to our Gemfile (don't forget to run `bundle install`):
-
-
-```ruby
-# Gemfile
-
-gem 'padrino-sprockets', :require => ['padrino/sprockets'],
-  :git => 'git://github.com/nightsailer/padrino-sprockets.git'
-```
-
-Next we need to move all our assets from the public folder in the assets folder:
-
-
-```sh
-$ mkdir -p job-vacancy/app/assets
-$ cd job-vacancy/public
-$ mv images ../app/assets
-$ mv javascripts ../app/assets
-$ mv stylesheets ../app/assets
-```
-
-
-Now we have to register Padrino-Sprockets in this application:
-
-
-```ruby
-# app/app.rb
-
-module JobVacancy
-  class App < Padrino::Application
-    ...
-    register Padrino::Sprockets
-    sprockets
-    ...
-  end
-end
-```
-
-
-Next we need create an application.css file and add the following to determine the order of the loaded CSS files in `app/assets/stylesheets/application.css`:
-
-
-```javascript
-/* app/assets/stylesheets/application.css */
-
-/*
- * This is a manifest file that'll automatically include all the stylesheets ...
- * ...
- *
- *= require_self
- *= require bulma
- *= require site
-*/
-```
-
-
-This file serves as a manifest file and the `require_self` directive indicates that any CSS in the file should be delivered in the given order to the browser.
-
-First we are loading the `bulma` css, and then our customized `site` CSS. This is helpful if you want to check the order of the loaded CSS as a comment above your application without ever have to look into the source of it. The file
-
-
-Next let's have a look into our JavaScript file `app/assets/javascript/application.js`:
-
-
-```javascript
-/* app/assets/javascript/application.js */
-
-// This is a manifest file that'll be compiled into including all the files ...
-// ...
-//
-//= require_tree .
-```
-
-
-The interesting thing here is the `require_tree .` option. This option (note the Unix dot operator) tells Sprockets to include all JavaScript files in the same assets folder, including subfolders, should be combined into a single file for delivery to the browser. Keep mind if your website is complex and large and use `require_self` directive to determine exactly which JS files are served to the browser.
-
-
-Now, we can clean up the include statements in our application template:
-
-
-```erb
-<%# app/views/layouts/application.erb %>
-
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-  <title>Job Vacancy - find the best jobs</title>
-  <%= stylesheet_link_tag '/assets/application' %>
-  <%= javascript_include_tag '/assets/application' %>
-</head>
-```
-
-
-Now we want to enable compression for our CSS and JavaScript files. For CSS compression Padrino Sprockets is using [YUI compressor](https://github.com/sstephenson/ruby-yui-compressor "YUI compressor") and for JS compression the [Uglifier](https://github.com/lautis/uglifier "Uglifier"). We need to add these these Gems in our `Gemfiles`:
-
-
-```ruby
-# Gemfile
-...
-gem 'padrino-sprockets', :require => 'padrino/sprockets',
-  :git => 'git://github.com/nightsailer/padrino-sprockets.git'
-gem 'uglifier', '~> 4.1'
-gem 'yui-compressor', '~> 0.12'
-...
-```
-
-
-And finally we need to enable minifying in our production environment:
-
-
-```ruby
-# app/app.rb
-
-module JobVacancy
-  class App < Padrino::Application
-    ...
-    register Padrino::Sprockets
-    sprockets :minify => (Padrino.env == :production)
-    ...
-  end
-end
-```
+The `stylesheet_link_tag` points to files in your app *public/stylesheets* directory and will automatically creates a link to the given stylesheets.
+You can also use `javascript_include_tag` which does the same as `stylesheet_link_tag` just for JavaScript files.
 
 
 ### Navigation
@@ -428,8 +290,8 @@ Next we want to create the top-navigation for our app. We already implemented th
 <html lang="en-US">
   <head>
     <title>Job Vacancy - find the best jobs</title>
-    <%= stylesheet_link_tag '/assets/application' %>
-    <%= javascript_include_tag '/assets/application' %>
+    <%= stylesheet_link_tag 'bulma.css', 'site.css' %>
+    <%= javascript_include_tag 'jquery.js', 'burger_navigation' %>
 </head>
 <body>
   <nav class="navbar">
@@ -479,7 +341,7 @@ Now that the we provide links to other parts of the app, lets add some sugar-can
 
 
 ```css
-/* app/assets/stylesheets/site.css */
+/* public/stylesheets/site.css */
 body {
   font: 18.5px Palatino, 'Palatino Linotype', Helvetica, Arial, Verdana,
     sans-serif;
@@ -502,11 +364,11 @@ h1 {
 I will not explain anything at this point about CSS. If you still don't know how to use it, please go through [w3c school css](https://www.w3schools.com/css/default.asp "w3c school css") tutorial. Since we are using the asset pipeline, we don't need to register our new CSS file in `views/application.erb` - now you will understand why we did this.
 
 
-Since [bulma is designed to be full responsive](https://bulma.io/documentation/overview/responsiveness/ "bulma is designed to be full responsive")we want to have our navigation also available on mobile devices. For that reason we will add the following JavaScript code:
+Since [bulma is designed to be full responsive](https://bulma.io/documentation/overview/responsiveness/ "bulma is designed to be full responsive") we want to have our navigation also available on mobile devices. For that reason we will add the following JavaScript code:
 
 
 ```javascript
-// app/assets/javascripts/burger_navigation.js
+// public/javascripts/burger_navigation.js
 document.addEventListener('DOMContentLoaded', function () {
   // Get all "navbar-burger" elements
   var $navbarBurgers = Array.prototype.slice.\

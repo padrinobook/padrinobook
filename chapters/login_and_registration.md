@@ -951,7 +951,7 @@ end
 ```
 
 
-Now we want to add a PDF which explains the main business needs to our page. For this purpose we will save the `welcome.pdf` into the `/app/assets/pdf` folder.
+Now we want to add a PDF which explains the main business needs to our page. For this purpose we will save the `welcome.pdf` into the `public/pdfs` folder.
 
 To attach assets (images, PDF, video) into our mail we can make use of the [add_file](https://github.com/mikel/mail/blob/master/lib/mail/message.rb#L1755 "add_file method of the mailer gem") method. It takes a filename and the content as hash elements as arguments.
 
@@ -960,14 +960,15 @@ To attach assets (images, PDF, video) into our mail we can make use of the [add_
 # app/mailers/registration.rb
 ...
 
+WELCOME_PDF = "#{Padrino.root}/public/pdfs/welcome.pdf".freeze
+
 email :registration_email do |name, email|
   from 'admin@job-vacancy.de'
-  to email
   subject 'Welcome!'
+  to email
   locals name: name, email: email
   render 'registration/registration_email'
-  add_file filename: 'welcome.pdf', content:
-    File.read("#{Padrino.root}/app/assets/pdf/welcome.pdf")
+  add_file filename: 'welcome.pdf', content: File.read(WELCOME_PDF)
 end
 ```
 
@@ -1015,10 +1016,7 @@ Content-ID: <517020874ba76_70f748e80108301@mg.mail>
 JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0Zp
 bHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nDPQM1Qo5ypUMABCM0MjBXNL
 ...
-# You don't want to read four pages of strange characters ...
-...
-
-----==_mimepart_517020874676e_70f748e8010829d8--
+# Four pages of encoded MIME message attachment ...
 ```
 
 
