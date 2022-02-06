@@ -162,6 +162,12 @@ body #book {
   margin-top: -0.4em;
 }
 
+#book .code .highlight .linenos {
+  color: #666;
+  font-weight: normal;
+}
+
+/* Include `.lineno` for backward-compatibility with Pygments 1. */
 #book .code .highlight .lineno {
   color: #666;
   font-weight: normal;
@@ -434,7 +440,7 @@ body #book {
   color: red;
 }
 
-#book .sc {
+#book .smallcaps {
   font-variant: small-caps;
 }
 
