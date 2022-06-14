@@ -12,7 +12,8 @@ It is possible that you know this section from several tutorials, which makes yo
 Now, get your hands dirty and start coding.
 
 
-First of all we need to install the [padrino gem](https://rubygems.org/gems/padrino "Padrino"). We are using the last stable version of Padrino (during the release of this book it is version [0.14.0.1](https://rubygems.org/gems/padrino/versions/0.14.0.1 "Padrino 0.14.0.1")). Execute this command.
+First of all we need to install the [padrino gem](https://rubygems.org/gems/padrino "Padrino"). We are using the last stable version of Padrino (during the release of this book it is version [0.15.1](
+https://rubygems.org/gems/padrino/versions/0.15.1 "Padrino 0.15.1")). Execute this command.
 
 
 ```sh
@@ -88,14 +89,33 @@ $ bundle --binstubs
 The last line in the console output tells you the next steps you have to perform. Before we start coding our app, we need some sort of package management for Ruby gems.
 
 
-Ruby has a nice package manager called [bundler](https://bundler.io/ "Bundler") which installs all necessary gems in the versions you would like to have for your project. Other developers know now how to work with your project even after years. The [Gemfile](https://bundler.io/gemfile.html#gemfiles "Gemfile") declares the gems that you want to install. Bundler takes the content of the Gemfile and will install every package declared in this file.
+Ruby has a package manager called [bundler](https://bundler.io/ "Bundler") which installs all necessary gems in the versions you would like to have for your project. Other developers know now how to work with your project even after years. The [Gemfile](https://bundler.io/gemfile.html#gemfiles "Gemfile") declares the gems that you want to install. Bundler takes the content of the Gemfile and will install every package declared in this file.
 
 
-To install [bundler 1.14.6](https://rubygems.org/gems/bundler/versions/1.14.6 "Bundler 1.14.6"), execute the following command and check the console output:
+To install [bundler 2.3.15](https://rubygems.org/gems/bundler/versions/2.3.15 "Bundler 2.3.15"), execute the following command and check the console output:
 
 
 ```sh
 $ gem install bundler
+```
+
+
+Before we install the dependencies we need to enable the [thin webserver](https://rubygems.org/gems/thin "thin webserver")
+
+
+```sh
+# Gemfile
+source 'https://rubygems.org'
+
+# Padrino supports Ruby version 2.2.2 and later
+ruby '3.1.2'
+
+# Distribute your app as a gem
+# gemspec
+
+# Server requirements
+gem 'thin' # or mongrel
+...
 ```
 
 
@@ -115,13 +135,17 @@ Let's open the file `app/app.rb` (think of it as the root controller of your app
 ```ruby
 # app/app.rb
 
-module HelloWorld
+module HelloPadrino
   class App < Padrino::Application
+    register Padrino::Mailer
+    register Padrino::Helpers
+    enable :sessions
 
     get "/" do
       "Hello Padrino!"
     end
 
+    ...
   end
 end
 ```
@@ -135,7 +159,7 @@ $ bundle exec padrino start
 ```
 
 
-Instead of writing `start`, we can also use the `s` alias. Now, fire up your browser with the URL <http://localhost:3000> and see the `Hello World` Greeting being printed.
+Instead of writing `start`, we can also use the `s` alias. Now, fire up your browser with the URL <http://localhost:3000> and see the `Hello Padrino` greeting being printed.
 
 
 Congratulations, you've built your first Padrino app!
