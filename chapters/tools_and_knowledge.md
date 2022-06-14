@@ -28,91 +28,78 @@ All tools have their strengths and weaknesses. Try to find the software that wor
 you comfortable because you will spend a lot of time with it.
 
 
-### Installing Ruby With rbenv
+### Installing Ruby with RVM
+
+
 
 Instead of using the build-in software package for Ruby of your operating system, we will use
-[rbenv](https://github.com/sstephenson/rbenv "rbenv") which lets you switch between multiple versions of Ruby.
+[rvm](https://rvm.io/rvm/install "rvm"). RVM stands for *Ruby version manager* which let you switch between
+multiple versions of Ruby.
 
 
 First, we need to use [git](https://git-scm.org "git") to get the current version of rbenv:
 
 
 ```sh
-$ cd $HOME
-$ git clone git://github.com/sstephenson/rbenv.git .rbenv
+#!/bin/bash
+# https://rvm.io/rvm/install#installation
+curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles
+source ~/.rvm/scripts/rvm
 ```
 
 
-In case you shouldn't want to use git, you can also download the latest version as a zip file from
-[GitHub](https://github.com "GitHub").
-
-
-You need to add the directory that contains rbenv to your `$PATH` environment variable.  If you are on Mac, you have to
-replace `.bashrc` with `.bash_profile` in all of the following commands):
+To check if everything is setup, please verify
 
 
 ```sh
-$ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+$ rvm --version
+rvm 1.29.12 (latest) by Michal Papis, Piotr Kuczynski, Wayne E. Seguin
+[https://rvm.io]
 ```
 
 
-To enable auto completion for `rbenv` commands, we need to perform the following command:
+If you have another operating system then just checkout the
+[installation instructions](https://rvm.io/rvm/install "installation instructions").
+
+
+Now we can use RVM to install the lastest ruby version:
 
 
 ```sh
-$ echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+$ rvm install ruby-3.1.2
+Searching for binary rubies, this might take some time.
+Found remote file https://rubies.travis-ci.org/ubuntu/20.04/x86_64/ruby-3.1.2.tar.bz2
+Checking requirements for ubuntu.
+Requirements installation successful.
+ruby-3.1.2 - #configure
+ruby-3.1.2 - #download
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+100 30.0M  100 30.0M    0     0  3514k      0  0:00:08  0:00:08 --:--:-- 4820k
+No checksum for downloaded archive, recording checksum in user configuration.
+ruby-3.1.2 - #validate archive
+ruby-3.1.2 - #extract
+ruby-3.1.2 - #validate binary
+ruby-3.1.2 - #setup
+ruby-3.1.2 - #gemset created /home/wm/.rvm/gems/ruby-3.1.2@global
+ruby-3.1.2 - #importing gemset /home/wm/.rvm/gemsets/global.gems..........
+ruby-3.1.2 - #generating global wrappers........
+ruby-3.1.2 - #gemset created /home/wm/.rvm/gems/ruby-3.1.2
+ruby-3.1.2 - #importing gemsetfile /home/wm/.rvm/gemsets/default.gems evaluated
+to empty gem list
+ruby-3.1.2 - #generating default wrappers........
 ```
 
 
-Next, we need to restart our shell to enable the last changes:
-
-
-```sh
-$ exec $SHELL
-```
-
-
-Basically, there are two ways to install different versions of Ruby: You can compile Ruby on your
-own and try to manage the versions and gems on your own, or you use a tool that helps you.
-
-
-**ruby-build**
-
-Because we don't want to download and compile different Ruby versions on our own, we will use the
-[ruby-build](https://github.com/sstephenson/ruby-build "ruby-build") plugin for rbenv:
-
-
-```sh
-$ mkdir ~/.rbenv/plugins
-$ cd ~/.rbenv/plugins
-$ git clone git://github.com/sstephenson/ruby-build.git
-```
-
-
-If you now run `rbenv install` you can see all the different Ruby version you can install and use for different Ruby
-projects. We are going to install `ruby 2.4.1`:
-
-
-```sh
-$ rbenv install 2.4.1
-```
-
-
-This command will take a couple of minutes, so it's best to grab a Raider, which is now known as
-[Twix](https://en.wikipedia.org/wiki/Twix "Twix").  After everything runs fine, you have to run `rbenv rehash` to rebuild
-the internal rbenv libraries. The last step is to make Ruby 2.4.1 the current executable on your machine:
-
-
-```sh
-$ rbenv global 2.4.1
-```
+To get an overview of other available ruby version you can run `$ rvm list known`
 
 
 Check that the correct executable is active by exexuting `ruby -v`. The output should look like:
 
 
 ```sh
-$ 2.4.1 (set by /home/.rbenv/versions)
+ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [x86_64-linux]
 ```
 
 
