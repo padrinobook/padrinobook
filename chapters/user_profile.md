@@ -150,7 +150,7 @@ describe "PUT /users/:id" do
   describe "link to /edit" do
     it 'if user has valid account changes' do
       test_user = double(User, id: user.id)
-      expect(test_user).to receive(:update_attributes)
+      expect(test_user).to receive(:update)
         .with(put_user)
         .and_return(true)
       expect(User).to receive(:find_by_id)
@@ -172,7 +172,7 @@ describe "PUT /users/:id" do
         }
 
       test_user = double(User, id: user.id)
-      expect(test_user).to receive(:update_attributes)
+      expect(test_user).to receive(:update)
         .with(put_user)
         .and_return(false)
       expect(User).to receive(:find_by_id).and_return(test_user, test_user)
@@ -192,7 +192,7 @@ end
 We are using [test doubles](https://relishapp.com/rspec/rspec-mocks/v/3-6/docs/basics/test-doubles "test doubles")
 is a simplified object which takes the place of another object in a spec. A test double is a plain Ruby object which is
 the first step to define some fake methods for it. Since we don't want to hit the a database, we can mock the
-`update_attributes` method and can return what we need for our tests.
+`update` method and can return what we need for our tests.
 
 
 And the implementation:
@@ -205,7 +205,7 @@ put :update, :map => '/users/:id' do
   @user = User.find_by_id(params[:id])
 
   route = url(:users, :edit, :id => @user.id)
-  if @user.update_attributes(params[:user])
+  if @user.update(params[:user])
     redirect route, flash[:notice] = 'You have updated your profile.'
   else
     redirect route, flash[:error] = 'Your profile was not updated.'
@@ -214,7 +214,7 @@ end
 ```
 
 
-Please note that the [update_attributes](http://www.rubydoc.info/gems/activerecord/ActiveRecord%2FPersistence:update "update_attributes") method is making a [valid?](http://www.rubydoc.info/gems/activerecord/ActiveRecord%2FValidations:valid%3F  "valid?") method before the changes are saved.
+Please note that the [update](http://www.rubydoc.info/gems/activerecord/ActiveRecord%2FPersistence:update "update") method is making a [valid?](http://www.rubydoc.info/gems/activerecord/ActiveRecord%2FValidations:valid%3F "valid?") method before the changes are saved.
 
 
 Making the `put :update ` action pass in the view is a little bit tricky: The HTTP specification only understands `GET` and `POST` in the `<form>` method attribute. How can we solve this? We need to use a hidden form with the `put` method:
@@ -1118,7 +1118,7 @@ JobVacancy::App.controllers :password_forget do
       render 'edit'
     elsif @user && Time.now.utc >=
       (@user.password_reset_sent_date.to_datetime + (1.0 / 24.0))
-      @user.update_attributes(
+      @user.update(
         { password_reset_token: 0, password_reset_sent_date: 0 })
       redirect url(:sessions, :new), flash[:error] =
         'Password reset token has expired.'
@@ -1174,7 +1174,7 @@ describe "GET /password_forget/:token/edit" do
       expect(User).to receive(:find_by_password_reset_token)
         .with('1')
         .and_return(user)
-      expect(user).to receive(:update_attributes)
+      expect(user).to receive(:update)
         .with({ password_reset_token: 0, password_reset_sent_date: 0 })
 
       get '/password_forget/1/edit'
@@ -1252,8 +1252,8 @@ JobVacancy::App.controllers :password_forget do
   post :update, :map => "/password-reset/:token" do
     @user = User.find_by_password_reset_token(params[:token])
 
-    if @user.update_attributes(params[:user])
-      @user.update_attributes({:password_reset_token => 0,
+    if @user.update(params[:user])
+      @user.update({:password_reset_token => 0,
         :password_reset_sent_date => 0})
       redirect url(:sessions, :new), flash[:notice] = "Password has been reseted.
         Please login with your new password."
@@ -1277,7 +1277,7 @@ describe "POST /password_forget/:token" do
       expect(User).to receive(:find_by_password_reset_token)
         .with('1')
         .and_return(user)
-      expect(user).to receive(:update_attributes).exactly(2).times.and_return(true)
+      expect(user).to receive(:update).exactly(2).times.and_return(true)
       post '/password_forget/1'
       expect(last_response).to be_redirect
       expect(last_response.body).to include 'Password has been reseted.
@@ -1290,7 +1290,7 @@ describe "POST /password_forget/:token" do
       expect(User).to receive(:find_by_password_reset_token)
         .with('1')
         .and_return(user)
-      expect(user).to receive(:update_attributes)
+      expect(user).to receive(:update)
         .and_return(false)
       post '/password_forget/1'
       expect(last_response).to be_ok
